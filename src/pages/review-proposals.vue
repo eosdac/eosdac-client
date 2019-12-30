@@ -1,0 +1,206 @@
+<template>
+  <q-page class="text-text2 q-pa-md">
+    <div class="row relative-position justify-start q-mb-md">
+      <h4 class="q-display-1 q-my-none">
+        Review Proposals <span v-if="total">({{ total }})</span>
+      </h4>
+    </div>
+
+    <q-tabs align="justify" v-model="active_tab">
+      <q-tab name="open" label="open" />
+      <q-tab name="executed" label="executed" />
+      <q-tab name="cancelled" label="cancelled" />
+      <q-tab name="expired" label="expired" />
+    </q-tabs>
+
+    <div
+      class="row bg-bg1 q-pa-md q-mb-md shadow-4 round-borders justify-between"
+    >
+      <!--<q-search
+        color="primary"
+        v-model="filter"
+        :placeholder="$t('vote_custodians.search')"
+        style="visibility:hidden"
+      />-->
+      <div class="row inline items-center q-mt-sm" style="font-size:12px;">
+        <span>{{ $t("vote_custodians.rows_per_page") }}:</span>
+        <q-select
+          class="q-ml-sm"
+          style="width:45px;"
+          hide-underline
+          v-model="pagination.items_per_page"
+          :options="[
+            { label: '1', value: 1 },
+            { label: '4', value: 4 },
+            { label: '8', value: 8 },
+            { label: '16', value: 16 },
+            { label: '24', value: 24 },
+            { label: '48', value: 48 }
+          ]"
+        />
+        <q-pagination
+          color="primary"
+          v-show="true"
+          v-model="pagination.page"
+          :min="1"
+          :max="pagination.max"
+          :max-pages="6"
+          direction-links
+          size="12px"
+        />
+      </div>
+    </div>
+
+    <div v-if="proposals && proposals.length">
+      <Msigproposal
+        v-for="(msig, index) in proposals"
+        :key="index"
+        :msig="msig"
+      />
+    </div>
+    <div
+      v-else
+      class="text-text2 bg-bg1 bg-logo q-pa-md round-borders shadow-4 capitalize"
+    >
+      <span v-if="msigs_loading" class="row items-center">
+        <q-spinner-pie class="on-left" color="primary-light" />Loading
+      </span>
+      <span v-else>No proposals available</span>
+    </div>
+
+    <div
+      class="row bg-bg1 q-pa-md q-my-md shadow-4 round-borders justify-between"
+      v-if="true"
+    >
+<!--      <q-search-->
+<!--        :dark="getIsDark"-->
+<!--        color="primary"-->
+<!--        v-model="filter"-->
+<!--        :placeholder="$t('vote_custodians.search')"-->
+<!--        style="visibility:hidden"-->
+<!--      />-->
+      <div class="row inline items-center q-mt-sm" style="font-size:12px;">
+        <span>{{ $t("vote_custodians.rows_per_page") }}:</span>
+        <q-select
+          class="q-ml-sm"
+          style="width:45px;"
+          hide-underline
+          v-model="pagination.items_per_page"
+          :options="[
+            { label: '1', value: 1 },
+            { label: '4', value: 4 },
+            { label: '8', value: 8 },
+            { label: '16', value: 16 },
+            { label: '24', value: 24 },
+            { label: '48', value: 48 }
+          ]"
+        />
+        <q-pagination
+          color="primary"
+          v-show="true"
+          v-model="pagination.page"
+          :min="1"
+          :max="pagination.max"
+          :max-pages="6"
+          direction-links
+        />
+      </div>
+    </div>
+  </q-page>
+</template>
+
+<script>
+import Msigproposal from 'components/ui/msig-proposal'
+
+import { mapGetters } from 'vuex'
+
+export default {
+  name: 'ReviewMsigs',
+  components: {
+    Msigproposal
+  },
+
+  data () {
+    return {
+      proposals: [],
+      createmsig_modal: false,
+      active_tab: '',
+      total: false,
+      pagination: {
+        page: 1,
+        max: 1,
+        items_per_page: 8
+      },
+      filter: '',
+      msigs_loading: false
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      getIsDark: 'ui/getIsDark',
+      getIsCustodian: 'user/getIsCustodian'
+    })
+  },
+
+  created () {
+    this.active_tab = 'open'
+    this.managePagination()
+    // this.$root.$on('reloadproposals', this.getProposalsWithDelay)
+  },
+
+  methods: {
+    managePagination () {
+      // map tab to number for making the request
+      const map = { open: 1, executed: 2, cancelled: 0, expired: 3 }
+      // calculate skip
+      let skip = (this.pagination.page - 1) * this.pagination.items_per_page
+      const status = map[this.active_tab]
+      console.log(`status = ${status}, active tab = ${this.active_tab}`)
+      // this.getProposals({find: find, skip: skip, limit: this.pagination.items_per_page});
+      this.getProposals({
+        status,
+        limit: this.pagination.items_per_page,
+        skip: skip
+      })
+    },
+
+    async getProposals (query) {
+      this.msigs_loading = true
+      this.proposals = []
+      let p = await this.$store.dispatch('dac/fetchMsigProposals', query)
+      console.log('msigs', p)
+      if (p) {
+        this.total = p.count
+        this.pagination.max = Math.ceil(
+          p.count / this.pagination.items_per_page
+        )
+        this.proposals = p.results
+      }
+      this.msigs_loading = false
+    }
+  },
+
+  watch: {
+    active_tab: function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        // double check the tab has been changed
+
+        if (this.pagination.page === 1) {
+          this.managePagination()
+        } else {
+          this.pagination.page = 1 // this will trigger the watcher below
+        }
+      }
+    },
+
+    'pagination.items_per_page': function (newVal, oldVal) {
+      this.managePagination()
+    },
+
+    'pagination.page': function (newVal, oldVal) {
+      this.managePagination()
+    }
+  }
+}
+</script>
