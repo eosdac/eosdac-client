@@ -117,7 +117,6 @@ export async function fetchTokenStats ({ commit, dispatch, state }) {
   const api = await dispatch('global/getDacApi', false, { root: true })
   let stats = await api.getTokenStats()
   if (stats) {
-    debugger
     commit('setTokenStats', stats)
     console.log('stats', stats)
     return stats
