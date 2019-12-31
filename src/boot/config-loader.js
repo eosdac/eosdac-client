@@ -25,7 +25,7 @@ function styledConsoleLog () {
 }
 
 class ConfigLoader {
-  constructor (networkname) {
+  constructor () {
     this.configFile = network
     this.icon = iconmap
     this.theme = theme
@@ -41,12 +41,15 @@ class ConfigLoader {
     switch (configquery) {
       case 'network':
         return this.configFile.network
+      case 'eosioendpoints':
+        const network = this.configFile.network
+        return [`${network.protocol}://${network.host}:${network.port}`]
       case 'theme_images':
         return this.theme.images
       case 'dacname':
         return this.configFile.dacName
       case 'dacid':
-        return this.configFile.dacId.toLowerCase() || ''
+        return this.configFile.dacId
       case 'defaultnode':
         return this.configFile.api.default_eos_node
       case 'tokencontract':
@@ -105,34 +108,13 @@ class ConfigLoader {
   setConfig (conf) {
     this.configFile = conf
   }
-
-  disableConsoleLog () {
-    if (this.consoleLogBackup === undefined) {
-      // alert('cl disabled')
-      // this.consoleLogBackup = window.console.log
-      // window['console']['log'] = function () {}
-    }
-  }
-
-  enableConsoleLog () {
-    if (this.consoleLogBackup) {
-      // alert('cl enable')
-      // window['console']['log'] = this.consoleLogBackup
-      // this.consoleLogBackup = undefined
-    }
-  }
 }
 
 export default ({ Vue, store }) => {
   let config = new ConfigLoader()
 
-  if (
-    store.getters['user/getSettingByName']('debug_console_log') &&
-    !store.getters['user/getSettingByName']('debug_console_log').value
-  ) {
-    config.disableConsoleLog()
-  }
   store.commit('global/setNode', config.get('defaultnode'))
   store.commit('global/setNetwork', config.get('network'))
+
   Vue.prototype.$configFile = config
 }
