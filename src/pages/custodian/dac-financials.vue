@@ -19,17 +19,18 @@
       </div>
     </div>
 
-    <div class="row q-gutter-lg">
+    <div class="row q-col-gutter-md q-mt-md">
       <div class="col-xs-12 col-lg-6">
         <q-card>
           <q-card-section class="bg-primary">
-            <div class="text-h6">
-              <q-icon
-                    :name="$configFile.icon.dactoken"
-                    size="24px"
-            />
-              {{ $t("dac_financials.propose_transfer") }}
-            </div>
+            <q-item>
+              <q-item-section avatar>
+                <q-icon :name="$configFile.icon.dactoken" />
+              </q-item-section>
+              <q-item-section class="text-h6">
+                {{ $t("dac_financials.propose_transfer") }}
+              </q-item-section>
+            </q-item>
           </q-card-section>
           <q-card-section>
             <div class="bg-bg1 round-borders shadow-4 overflow-hidden">
@@ -53,180 +54,180 @@
       </div>
 
       <div class="col-xs-12 col-lg-6">
-        <div class="bg-bg1 round-borders shadow-4 overflow-hidden bg-logo">
-          <div
-            class="bg-primary q-pa-sm row justify-between items-center"
-            style="height:50px"
-          >
-            <q-icon
-              :name="$configFile.icon.dactoken"
-              size="24px"
-            />
-            <span>{{
-              `${$t("dac_financials.trx_que")} (${trx_qeue.length})`
-            }}</span>
-            <q-btn flat round dense icon="more_vert" :disable="!getIsCustodian">
-              <q-popover
-                class="bg-dark text-text1"
-                style="width:150px"
-                v-if="getIsCustodian"
-              >
-                <q-list highlight>
-                  <q-item class="cursor-pointer q-body-1 ">
-                    <q-item-main>
-                      <label
-                        style="display:block"
-                        for="myInput"
-                        class="cursor-pointer full-width"
+        <q-card>
+          <q-card-section class="bg-primary">
+            <q-item>
+              <q-item-section avatar>
+                <q-icon :name="$configFile.icon.dactoken" />
+              </q-item-section>
+              <q-item-section class="text-h6">
+                {{ $t("dac_financials.trx_que") }}
+              </q-item-section>
+              <q-item-section side>
+                <q-btn flat round dense icon="more_vert" :disable="!getIsCustodian">
+                  <q-popup-proxy v-if="getIsCustodian">
+                    <q-list highlight>
+                      <q-item class="cursor-pointer q-body-1 ">
+                        <q-item-section>
+                          <label
+                                  for="myInput"
+                                  class="cursor-pointer full-width"
+                          >
+                            {{ $t("dac_financials.import_file") }}
+                          </label>
+                          <input
+                                  id="myInput"
+                                  type="file"
+                                  style="display:none"
+                                  ref="inputFile"
+                                  accept=".json,application/json"
+                                  @input="handleFileInput"
+                          />
+                        </q-item-section>
+                      </q-item>
+                      <q-item
+                              class="cursor-pointer q-body-1"
+                              v-close-overlay
+                              @click.native="downloadReport"
                       >
-                        {{ $t("dac_financials.import_file") }}
-                      </label>
-                      <input
-                        id="myInput"
-                        type="file"
-                        style="display:none"
-                        ref="inputFile"
-                        accept=".json,application/json"
-                        @input="handleFileInput"
-                      />
-                    </q-item-main>
-                  </q-item>
-                  <q-item
-                    class="cursor-pointer q-body-1"
-                    v-close-overlay
-                    @click.native="downloadReport"
-                  >
-                    <q-item-main>{{ $t("dac_financials.export") }}</q-item-main>
-                  </q-item>
-                  <q-item
-                    class="cursor-pointer q-body-1"
-                    v-close-overlay
-                    @click.native="clearQueue"
-                  >
-                    <q-item-main>{{ $t("dac_financials.clear") }}</q-item-main>
-                  </q-item>
-                  <q-item
-                    v-if="trx_qeue.length > 1"
-                    class="cursor-pointer q-body-1"
-                    v-close-overlay
-                    @click.native="proposeAll"
-                  >
-                    <q-item-main>{{ $t("dac_financials.exec") }}</q-item-main>
-                  </q-item>
-                </q-list>
-              </q-popover>
-            </q-btn>
-          </div>
-          <div class="relative-position">
-            <div class="cust_only_overlay" v-if="!getIsCustodian">
-              <q-icon name="lock" class="q-mr-xs text-text2" />
-              {{ $t("dac_financials.cust_only") }}
-            </div>
-
-            <q-scroll-area
-              style="height: 380px; padding-bottom:8px"
-              :thumb-style="getThumbStyle()"
-              :delay="1500"
-            >
-              <q-list dense no-border separator highlight>
-                <div
-                  v-if="trx_qeue.length == 0"
-                  class="text-weight-thin text-center q-body-1 q-mt-md"
-                >
-                  {{ $t("dac_financials.empty_queue") }}
+                        <q-item-section>{{ $t("dac_financials.export") }}</q-item-section>
+                      </q-item>
+                      <q-item
+                              class="cursor-pointer q-body-1"
+                              v-close-overlay
+                              @click.native="clearQueue"
+                      >
+                        <q-item-section>{{ $t("dac_financials.clear") }}</q-item-section>
+                      </q-item>
+                      <q-item
+                              v-if="trx_qeue.length > 1"
+                              class="cursor-pointer q-body-1"
+                              v-close-overlay
+                              @click.native="proposeAll"
+                      >
+                        <q-item-section>{{ $t("dac_financials.exec") }}</q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-popup-proxy>
+                </q-btn>
+              </q-item-section>
+            </q-item>
+          </q-card-section>
+          <q-card-section>
+            <div class="bg-bg1 round-borders shadow-4 overflow-hidden bg-logo">
+              <div class="relative-position">
+                <div class="cust_only_overlay" v-if="!getIsCustodian">
+                  <q-icon name="lock" class="q-mr-xs text-text2" />
+                  {{ $t("dac_financials.cust_only") }}
                 </div>
-                <q-item
-                  v-for="(trx, i) in trx_qeue"
-                  :key="`trx${i}`"
-                  class="animate-fade"
+
+                <q-scroll-area
+                        style="height: 380px; padding-bottom:8px"
+                        :thumb-style="getThumbStyle()"
+                        :delay="1500"
                 >
-                  <q-item-side left>
-                    <q-btn
-                      v-if="trx.status == 0"
-                      icon="close"
-                      flat
-                      dense
-                      color="negative"
-                      @click="removeFromQueue(i)"
-                    />
-                    <q-spinner v-if="trx.status == 1" color="primary" />
-                    <q-btn
-                      v-if="trx.status == 2"
-                      icon="check"
-                      flat
-                      dense
-                      color="positive"
-                    />
-                    <q-btn
-                      v-if="trx.status == 3"
-                      icon="edit"
-                      flat
-                      dense
-                      color="text1"
-                    />
-                  </q-item-side>
-                  <q-item-main>
-                    <q-item-tile label>{{ trx.title }}</q-item-tile>
-                    <q-item-tile sublabel class="q-body-1 q-py-xs">
-                      <span>{{ trx.from }}</span>
-                      <span class="text-weight-thin"> > </span>
-                      <span>{{ trx.to }}</span>
-                      <q-chip
-                        dense
-                        color="dark"
-                        class="text-weight-thin on-right q-caption text-text1"
-                      >
-                        <span>{{ `${trx.asset.amount}` }}</span>
-                        <span class="text-weight-bold">
+                  <q-list dense no-border separator highlight>
+                    <div
+                            v-if="trx_qeue.length === 0"
+                            class="text-weight-thin text-center q-body-1 q-mt-md"
+                    >
+                      {{ $t("dac_financials.empty_queue") }}
+                    </div>
+                    <q-item
+                            v-for="(trx, i) in trx_qeue"
+                            :key="`trx${i}`"
+                            class="animate-fade"
+                    >
+                      <q-item-section side>
+                        <q-btn
+                                v-if="trx.status === 0"
+                                icon="close"
+                                flat
+                                dense
+                                color="negative"
+                                @click="removeFromQueue(i)"
+                        />
+                        <q-spinner v-if="trx.status === 1" color="primary" />
+                        <q-btn
+                                v-if="trx.status === 2"
+                                icon="check"
+                                flat
+                                dense
+                                color="positive"
+                        />
+                        <q-btn
+                                v-if="trx.status === 3"
+                                icon="edit"
+                                flat
+                                dense
+                                color="text1"
+                        />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label>{{ trx.title }}</q-item-label>
+                        <q-item-label caption>
+                          <span>{{ trx.from }}</span>
+                          <span class="text-weight-thin"> > </span>
+                          <span>{{ trx.to }}</span>
+                          <q-chip
+                                  dense
+                                  color="dark"
+                                  class="text-weight-thin on-right q-caption text-text1"
+                          >
+                            <span>{{ `${trx.asset.amount}` }}</span>
+                            <span class="text-weight-bold">
                           {{ trx.asset.symbol }}
                         </span>
-                      </q-chip>
-                    </q-item-tile>
-                  </q-item-main>
-                  <q-item-side right>
-                    <q-btn
-                      v-if="trx.status == 0 || trx.status == 3"
-                      :label="$t('dac_financials.edit')"
-                      size="sm"
-                      dense
-                      flat
-                      color="info"
-                      class="q-mr-xs"
-                      @click="editQueueItem(i)"
-                      :disabled="trx.status == 3"
-                      :loading="trx.status == 3"
-                    />
-                    <q-btn
-                      v-if="trx.status == 0 || trx.status == 3"
-                      :label="$t('dac_financials.send')"
-                      size="sm"
-                      flat
-                      dense
-                      color="positive"
-                      @click="proposeTransfer(i)"
-                      :disabled="trx.status == 3"
-                    />
-                    <q-btn
-                      v-if="trx.status == 2"
-                      :label="$t('dac_financials.view')"
-                      size="sm"
-                      flat
-                      dense
-                      color="positive"
-                      @click="viewTrx(trx.trx_id)"
-                    />
-                    <span class="animate-pop" v-if="trx.status == 1">
+                          </q-chip>
+                        </q-item-label>
+                      </q-item-section>
+                      <q-item-section side>
+                        <q-btn
+                                v-if="trx.status === 0 || trx.status === 3"
+                                :label="$t('dac_financials.edit')"
+                                size="sm"
+                                dense
+                                flat
+                                color="info"
+                                class="q-mr-xs"
+                                @click="editQueueItem(i)"
+                                :disabled="trx.status === 3"
+                                :loading="trx.status === 3"
+                        />
+                        <q-btn
+                                v-if="trx.status === 0 || trx.status === 3"
+                                :label="$t('dac_financials.send')"
+                                size="sm"
+                                flat
+                                dense
+                                color="positive"
+                                @click="proposeTransfer(i)"
+                                :disabled="trx.status === 3"
+                        />
+                        <q-btn
+                                v-if="trx.status === 2"
+                                :label="$t('dac_financials.view')"
+                                size="sm"
+                                flat
+                                dense
+                                color="positive"
+                                @click="viewTrx(trx.trx_id)"
+                        />
+                        <span class="animate-pop" v-if="trx.status === 1">
                       <q-spinner color="primary-light" />
                       <span class="q-caption text-text2 q-ml-sm">{{
                         $t("dac_financials.signing")
                       }}</span>
                     </span>
-                  </q-item-side>
-                </q-item>
-              </q-list>
-            </q-scroll-area>
-          </div>
-        </div>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-scroll-area>
+              </div>
+            </div>
+          </q-card-section>
+        </q-card>
+
       </div>
       <!-- end trx qeue -->
 
@@ -328,10 +329,10 @@ export default {
       console.log(file)
       // this.filename = file.name;
       // this.filesize = `${(file.size / 1024).toFixed(2)}KB`;
-      let content = await new Promise((resolve, reject) => {
+      let content = await new Promise((resolve) => {
         var fr = new FileReader()
         fr.onload = function (result) {
-          return resolve(fr.result)
+          return resolve(result)
         }
         fr.readAsText(file, `utf8`)
       })
