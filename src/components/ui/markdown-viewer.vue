@@ -152,12 +152,14 @@ export default {
     }
   },
   mounted () {
-    this.editor = new SimpleMDE({ element: this.$refs['editor_replace'], forceSync: true, promptURLs: true })
-    this.editor.codemirror.on('change', () => {
-      // console.log(this.editor.value())
-      this.editText = this.editor.value()
-      this.$emit('update', this.editText)
-    })
+    if (this.edit) {
+      this.editor = new SimpleMDE({ element: this.$refs['editor_replace'], forceSync: true, promptURLs: true })
+      this.editor.codemirror.on('change', () => {
+        // console.log(this.editor.value())
+        this.editText = this.editor.value()
+        this.$emit('update', this.editText)
+      })
+    }
   },
   watch: {
     edit (val) {
