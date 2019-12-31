@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 export default {
   name: 'asset-input',
   props: {
@@ -43,11 +42,7 @@ export default {
       value: { quantity: '0.0000', symbol: 'EOS', precision: 4, contract: 'eosio.token' }
     }
   },
-  computed: {
-    ...mapGetters({
-      getAccount: 'user/getAccount'
-    })
-  },
+  computed: {},
   methods: {
     updateValueQuantity (val) {
       // console.log(`updateValueQuantity`, val)
