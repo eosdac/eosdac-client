@@ -133,7 +133,7 @@
                   v-if="trx_qeue.length == 0"
                   class="text-weight-thin text-center q-body-1 q-mt-md"
                 >
-                  {{ $t("dac_financials.empty_qeue") }}
+                  {{ $t("dac_financials.empty_queue") }}
                 </div>
                 <q-item
                   v-for="(trx, i) in trx_qeue"

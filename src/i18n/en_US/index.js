@@ -105,16 +105,16 @@ export default {
   'dac_financials': {
     'clear': 'Clear All',
     'edit': 'edit',
-    'empty_qeue': 'No transactions in the qeue',
+    'empty_queue': 'No transactions in the queue',
     'exec': 'Exec All',
-    'export': 'Export Qeue',
+    'export': 'Export Queue',
     'import_file': 'Import File',
     'propose_transfer': 'Propose Transfer',
     'propose_transfer_help': 'Fill in the form to propose a transfer from one of the DAC accounts. The transfers will be submitted to the blockchain as multisignature proposals. The custodians need to vote before the transfer can be executed.',
     'cust_only': 'custodians only',
     'send': 'send',
     'signing': 'signing',
-    'trx_que': 'Trx Qeue',
+    'trx_que': 'Trx Queue',
     'view': 'view'
   },
   'default': {
