@@ -22,13 +22,13 @@
         :placeholder="$t('vote_custodians.search')"
         style="visibility:hidden"
       />-->
-      <div class="row inline items-center q-mt-sm" style="font-size:12px;">
+      <div class="row inline items-center q-mt-sm">
         <span>{{ $t("vote_custodians.rows_per_page") }}:</span>
         <q-select
           class="q-ml-sm"
-          style="width:45px;"
           hide-underline
           v-model="pagination.items_per_page"
+          emit-value
           :options="[
             { label: '1', value: 1 },
             { label: '4', value: 4 },
@@ -40,13 +40,9 @@
         />
         <q-pagination
           color="primary"
-          v-show="true"
           v-model="pagination.page"
           :min="1"
           :max="pagination.max"
-          :max-pages="6"
-          direction-links
-          size="12px"
         />
       </div>
     </div>
@@ -86,6 +82,7 @@
           style="width:45px;"
           hide-underline
           v-model="pagination.items_per_page"
+          emit-value
           :options="[
             { label: '1', value: 1 },
             { label: '4', value: 4 },

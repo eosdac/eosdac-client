@@ -43,6 +43,7 @@
                   style="width:45px;"
                   hide-underline
                   v-model="pagination.items_per_page"
+                  emit-value
                   :options="[
                     { label: '4', value: 4 },
                     { label: '8', value: 8 },
@@ -99,6 +100,7 @@
                   style="width:45px;"
                   hide-underline
                   v-model="pagination.items_per_page"
+                  emit-value
                   :options="[
                     { label: '4', value: 4 },
                     { label: '8', value: 8 },
@@ -169,7 +171,7 @@
                         >
                             <q-item-section avatar>
                                 <q-item-label>
-                                    <profile-pic :accountname="cand.candidate_name" scale="0.6" />
+                                    <profile-pic :accountname="cand.candidate_name" :scale="0.6" />
                                 </q-item-label>
                             </q-item-section>
                             <q-item-section>
@@ -198,8 +200,6 @@
         </div>
       </div>
       <!-- end row -->
-
-      <q-scroll-observable @scroll="userHasScrolled" />
 
       <q-dialog
         v-model="voting_disabled_modal"
@@ -305,17 +305,11 @@ export default {
       } else {
         filtered = this.custodians
       }
-      /* this.pagination.max = Math.ceil(
-        filtered.length / this.pagination.items_per_page
-      ) */
 
       filtered = filtered.slice(
         (this.pagination.page - 1) * this.pagination.items_per_page,
         this.pagination.page * this.pagination.items_per_page
       )
-
-      // let candidates_on_page = filtered.map(c => c.candidate_name);
-      // this.addProfiles(filtered, candidates_on_page);
 
       return filtered
     }
@@ -326,6 +320,10 @@ export default {
   },
 
   methods: {
+    async recalcPagination () {
+      console.log(`recalc : ${this.custodians.length} / ${this.pagination.items_per_page}`)
+      this.pagination.max = Math.ceil(this.custodians.length / this.pagination.items_per_page)
+    },
     async getAllCandidates () {
       if (this.getCandidates) {
         this.custodians = this.getCandidates
@@ -336,6 +334,7 @@ export default {
         )
         this.loading = false
       }
+      this.recalcPagination(this.custodians)
 
       await this.getMemberVotes()
     },
@@ -456,16 +455,6 @@ export default {
         this.votesdidchange = false
         console.log(`${this.getAccountName} has not voted.`)
       }
-    },
-
-    userHasScrolled (scroll) {
-      const votebox = document.getElementById('votebox')
-      if (scroll.position < 477 || window.innerWidth < 1200) {
-        votebox.style.top = '0px'
-        return false
-      }
-      // console.log(`votebox: ${offset(votebox).top} scroll: ${scroll.position}`);
-      votebox.style.top = scroll.position - 315 + 'px'
     }
   },
   watch: {
@@ -475,6 +464,10 @@ export default {
         sc.selected = false
       })
       this.getMemberVotes()
+    },
+    'pagination.items_per_page' () {
+      console.log('change')
+      this.recalcPagination()
     }
   }
 }

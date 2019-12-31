@@ -41,6 +41,7 @@
           style="width:45px;"
           hide-underline
           v-model="pagination.items_per_page"
+          emit-value
           :options="[
             { label: '1', value: 1 },
             { label: '4', value: 4 },
