@@ -387,7 +387,7 @@ export default {
 
       let actions = [
         {
-          account: this.$configFile.get('custodiancontract'),
+          account: this.$dir.getAccount(this.$dir.ACCOUNT_CUSTODIAN),
           name: 'votecuste',
           data: {
             voter: this.getAccountName,

@@ -109,6 +109,7 @@ export default {
     },
     async handleCatDelegation (catId, delegatee) {
       let actions = []
+      const authAccount = this.$dir.getAccount(this.$dir.ACCOUNT_AUTH)
 
       let delegate = {
         account: this.$configFile.get('wpcontract'),
@@ -116,7 +117,7 @@ export default {
         authorization: [
           { actor: this.getAccountName, permission: this.getAuth },
           {
-            actor: this.$configFile.get('authaccount'),
+            actor: authAccount,
             permission: 'one'
           }
         ],
@@ -133,7 +134,7 @@ export default {
         authorization: [
           { actor: this.getAccountName, permission: this.getAuth },
           {
-            actor: this.$configFile.get('authaccount'),
+            actor: authAccount,
             permission: 'one'
           }
         ],

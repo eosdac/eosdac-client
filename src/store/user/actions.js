@@ -352,13 +352,15 @@ export async function proposeMsig (
   let PERM = rootGetters['dac/getAuthAccountPermLevel']
 
   console.log(payload.actions[0])
+  const authAccount = this._vm.$dir.getAccount(this._vm.$dir.ACCOUNT_AUTH)
+  const dacMsigContract = this._vm.$dir.getAccount(this._vm.$dir.ACCOUNT_MSIGS)
 
   let proposed = {
-    account: this._vm.$configFile.get('dacmsigcontract'),
+    account: dacMsigContract,
     name: 'proposede',
     authorization: [
       { actor: state.accountName, permission: getters['getAuth'] },
-      { actor: this._vm.$configFile.get('authaccount'), permission: PERM }
+      { actor: authAccount, permission: PERM }
     ],
     data: {
       proposer: state.accountName,

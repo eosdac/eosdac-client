@@ -117,6 +117,7 @@ export default {
       }
     },
     async updateConfig () {
+      const authAccount = this.$dir.getAccount(this._vm.$dir.ACCOUNT_AUTH)
       let actionName =
         this.contract === 'dacproposals' ? 'updateconfig' : 'updateconfige'
       let data =
@@ -138,7 +139,7 @@ export default {
         // },
         authorization: [
           {
-            actor: this.$configFile.get('authaccount'),
+            actor: authAccount,
             permission: 'active'
           }
         ]

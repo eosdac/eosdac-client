@@ -62,8 +62,7 @@ export default {
     } */
   },
 
-  async mounted () {
-    // const theme = { is_dark: true }
+  async created () {
     this.$store.dispatch('ui/loadTheme', { theme, q: this.$q })
 
     let test = await this.$store.dispatch('global/testEndpoint', false)
@@ -78,12 +77,12 @@ export default {
       })
     }
     this.loading = true
+
     this.$store.dispatch('dac/initRoutine', this)
 
     // this.$root.$emit('helloc');
     await this.$store.dispatch('global/connectScatter')
     this.loading = false
-    // this.checkVersionChange()
   },
 
   meta () {

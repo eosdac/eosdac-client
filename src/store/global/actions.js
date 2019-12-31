@@ -146,7 +146,7 @@ export async function getDacApi ({ state, commit }, rebuild = false) {
 
   const api = this._vm.$eosApi
 
-  commit('setDacApi', new DacApi(api, this._vm.$configFile))
+  commit('setDacApi', new DacApi(api, this._vm.$configFile, this._vm.$dir))
   return state.eosApi
 }
 

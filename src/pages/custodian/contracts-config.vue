@@ -5,9 +5,8 @@
       style="min-height:200px"
     >
       <q-select
-        class="q-mb-md"
-        stack-label="Select contract"
-        color="primary-light"
+        label="Select contract"
+        color="primary"
         dark
         v-model="selected_contract"
         :options="getContractOptions()"
@@ -28,24 +27,27 @@ export default {
   },
   data () {
     return {
-      selected_contract: this.$configFile.get('custodiancontract')
+      selected_contract: this.$dir.getAccount(this.$dir.ACCOUNT_CUSTODIAN)
     }
   },
   computed: {
     ...mapGetters({
-      // getDacApi: 'global/getDacApi'
+      getDacDirectory: 'global/getDacDirectory',
+      getDacApi: 'global/getDacApi'
     })
   },
   methods: {
     getContractOptions () {
       let contracts = [
-        this.$configFile.get('custodiancontract')
+        this.$dir.getAccount(this.$dir.ACCOUNT_CUSTODIAN)
         // this.$configFile.get("wpcontract")
       ]
       return contracts.map(c => {
         return { value: c, label: c }
       })
     }
+  },
+  async mounted () {
   }
 }
 </script>

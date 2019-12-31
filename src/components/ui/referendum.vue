@@ -94,7 +94,7 @@ export default {
 
   data () {
     return {
-      referendumcontract: this.$configFile.get('referendumcontract'),
+      referendumcontract: this.$dir.getAccount(this.$dir.ACCOUNT_REFERENDUM),
       proposer: this.data.proposer || '',
       title: this.data.title || '',
       content: this.data.content || '',

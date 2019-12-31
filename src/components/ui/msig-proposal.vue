@@ -239,7 +239,7 @@ export default {
   data () {
     return {
       systemmsig: this.$configFile.get('systemmsigcontract'),
-      dacmsig: this.$configFile.get('dacmsigcontract'),
+      dacmsig: this.$dir.getAccount(this.$dir.ACCOUNT_MSIGS),
       provided_approvals: null,
       requested_approvals: null,
 
@@ -387,6 +387,7 @@ export default {
 
     // approve a proposal via msig relay {"proposer":0,"proposal_name":0,"level":0}
     async approveProposal (proposer, proposalName) {
+      const authAccount = this.$dir.getAccount(this.$dir.ACCOUNT_AUTH)
       let actions = [
         {
           account: this.systemmsig,
@@ -403,7 +404,7 @@ export default {
           authorization: [
             { actor: this.getAccountName, permission: this.getAuth },
             {
-              actor: this.$configFile.get('authaccount'),
+              actor: authAccount,
               permission: 'one'
             }
           ],
@@ -425,6 +426,7 @@ export default {
 
     // unapprove a proposal via msig relay {"proposer":0,"proposal_name":0,"level":0}
     async unapproveProposal (proposer, proposalName) {
+      const authAccount = this.$dir.getAccount(this.$dir.ACCOUNT_AUTH)
       let actions = [
         {
           account: this.systemmsig,
@@ -441,7 +443,7 @@ export default {
           authorization: [
             { actor: this.getAccountName, permission: this.getAuth },
             {
-              actor: this.$configFile.get('authaccount'),
+              actor: authAccount,
               permission: 'one'
             }
           ],
@@ -462,6 +464,7 @@ export default {
     },
     // execute a proposal via msig relay {"proposer":0,"proposal_name":0,"executer":0}
     async executeProposal (proposer, proposalName) {
+      const authAccount = this.$dir.getAccount(this.$dir.ACCOUNT_AUTH)
       let actions = [
         {
           account: this.systemmsig,
@@ -478,7 +481,7 @@ export default {
           authorization: [
             { actor: this.getAccountName, permission: this.getAuth },
             {
-              actor: this.$configFile.get('authaccount'),
+              actor: authAccount,
               permission: 'one'
             }
           ],
@@ -500,6 +503,7 @@ export default {
 
     // cancel a proposal via msig relay {"proposer":0,"proposal_name":0,"canceler":0}
     async cancelProposal (proposer, proposalName) {
+      const authAccount = this.$dir.getAccount(this.$dir.ACCOUNT_AUTH)
       let actions = [
         {
           account: this.systemmsig,
@@ -516,7 +520,7 @@ export default {
           authorization: [
             { actor: this.getAccountName, permission: this.getAuth },
             {
-              actor: this.$configFile.get('authaccount'),
+              actor: authAccount,
               permission: this.getAuthAccountPermLevel // can be one or admin depending of the logged in user
             }
           ],
@@ -613,17 +617,3 @@ export default {
   }
 }
 </script>
-<!--
-<style lang="stylus">
-@import '~variables'
-
-.proposal_approved{
-  border:2px solid $positive;
-  transition : border 400ms ease;
-}
-
-.proposal_unapproved{
-  border:2px solid transparent;
-  transition : border 400ms ease;
-}
-</style>-->

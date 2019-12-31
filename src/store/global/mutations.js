@@ -9,6 +9,11 @@ export function setDacApi (state, payload) {
   state.eosApi = payload
 }
 
+export function setDacDirectory (state, payload) {
+  console.log(`setting dac directory`)
+  state.dacDirectory = payload
+}
+
 export function setEosScatter (state, payload) {
   state.eosScatter = payload
 }

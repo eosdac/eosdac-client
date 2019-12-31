@@ -511,6 +511,7 @@ export default {
     },
     async delegatevote (delegatee) {
       console.log(delegatee)
+      const authAccount = this.$dir.getAccount(this.$dir.ACCOUNT_AUTH)
       let actions = [
         {
           account: this.$configFile.get('wpcontract'),
@@ -519,7 +520,7 @@ export default {
           authorization: [
             { actor: this.getAccountName, permission: this.getAuth },
             {
-              actor: this.$configFile.get('authaccount'),
+              actor: authAccount,
               permission: 'one'
             }
           ],
@@ -565,6 +566,7 @@ export default {
     },
 
     async voteprop (votetype) {
+      const authAccount = this.$dir.getAccount(this.$dir.ACCOUNT_AUTH)
       const map = {
         voteApprove: 1,
         voteDeny: 2,
@@ -579,7 +581,7 @@ export default {
           authorization: [
             { actor: this.getAccountName, permission: this.getAuth },
             {
-              actor: this.$configFile.get('authaccount'),
+              actor: authAccount,
               permission: 'one'
             }
           ],
@@ -615,6 +617,7 @@ export default {
       }
     },
     async cancelProp () {
+      const authAccount = this.$dir.getAccount(this.$dir.ACCOUNT_AUTH)
       let actions = [
         {
           account: this.$configFile.get('wpcontract'),
@@ -622,7 +625,7 @@ export default {
           authorization: [
             { actor: this.getAccountName, permission: this.getAuth },
             {
-              actor: this.$configFile.get('authaccount'),
+              actor: authAccount,
               permission: 'one'
             }
           ],
@@ -695,7 +698,7 @@ export default {
           }
         },
         {
-          account: this.$configFile.get('escrowcontract'),
+          account: this.$dir.getAccount(this.$dir.ACCOUNT_ESCROW),
           name: 'approve',
 
           data: {

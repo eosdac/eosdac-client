@@ -401,7 +401,7 @@ export default {
       }
 
       let registeraction = {
-        account: this.$configFile.get('custodiancontract'),
+        account: this.$dir.getAccount(this.$dir.ACCOUNT_CUSTODIAN),
         name: 'nominatecane',
         data: {
           cand: this.getAccountName,
@@ -430,7 +430,7 @@ export default {
     async unregisterAsCandidate () {
       let actions = [
         {
-          account: this.$configFile.get('custodiancontract'),
+          account: this.$dir.getAccount(this.$dir.ACCOUNT_CUSTODIAN),
           name: 'withdrawcane',
           data: {
             cand: this.getAccountName,

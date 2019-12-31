@@ -2,18 +2,20 @@ const { TextDecoder, TextEncoder } = require('text-encoding')
 const { Serialize } = require('@jafri/eosjs2')
 
 export class DacApi {
-  constructor (eosApi, config) {
+  constructor (eosApi, config, dacDirectory) {
     this.eosapi = eosApi
     this.eos = eosApi.rpc
     // this.config = config.configFile;
     this.configobj = config
+    this.dir = dacDirectory
   }
 
   async getAccount (accountname) {
-    return this.eos
-      .get_account(accountname)
-      .then(x => x)
-      .catch(e => false)
+    try {
+      return await this.eos.get_account(accountname)
+    } catch (e) {
+      return false
+    }
   }
 
   async getBalance (
@@ -143,15 +145,15 @@ export class DacApi {
     let table = ''
     if (payload === 'custodian') {
       table = 'config2'
-      contract = this.configobj.get('custodiancontract')
+      contract = this.dir.getAccount(this.dir.ACCOUNT_CUSTODIAN)
       scope = this.configobj.get('dacid')
     } else if (payload === 'wp') {
       table = 'config'
-      contract = this.configobj.get('wpcontract')
+      contract = this.dir.getAccount(this.dir.ACCOUNT_PROPOSALS)
       scope = this.configobj.get('dacid')
     } else if (payload === 'referendum') {
       table = 'config'
-      contract = this.configobj.get('referendumcontract')
+      contract = this.dir.getAccount(this.dir.ACCOUNT_REFERENDUM)
       scope = this.configobj.get('dacid')
     }
     let res = await this.eos
@@ -333,7 +335,7 @@ export class DacApi {
   async getWps (payload) {
     let wps = await this.eos.get_table_rows({
       json: true,
-      code: this.configobj.get('wpcontract'),
+      code: this.dir.getAccount(this.dir.ACCOUNT_PROPOSALS),
       scope: payload.dac_scope,
       table: 'proposals',
       // lower_bound : payload.account,
@@ -353,7 +355,7 @@ export class DacApi {
     let res = await this.eos
       .get_table_rows({
         json: true,
-        code: this.configobj.get('custodiancontract'),
+        code: this.dir.getAccount(this.dir.ACCOUNT_CUSTODIAN),
         scope: this.configobj.get('dacid'),
         table: 'state',
         limit: 1
@@ -375,7 +377,7 @@ export class DacApi {
   async getCatDelegations (accountname) {
     let catvotes = await this.eos.get_table_rows({
       json: true,
-      code: this.configobj.get('wpcontract'),
+      code: this.dir.getAccount(this.dir.ACCOUNT_PROPOSALS),
       scope: this.configobj.get('dacid'),
       table: 'propvotes',
       lower_bound: accountname,

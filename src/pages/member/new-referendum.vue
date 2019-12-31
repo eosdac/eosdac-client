@@ -103,7 +103,7 @@ export default {
       }
       let actions = [
         {
-          account: this.$configFile.get('referendumcontract'),
+          account: this.$dir.getAccount(this.$dir.ACCOUNT_REFERENDUM),
           name: 'propose',
           data
         }

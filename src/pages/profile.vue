@@ -336,7 +336,7 @@ export default {
 
       let actions = [
         {
-          account: this.$configFile.get('custodiancontract'),
+          account: this.$dir.getAccount(this.$dir.ACCOUNT_CUSTODIAN),
           name: 'stprofile',
           data: {
             cand: this.getAccountName,
@@ -409,50 +409,3 @@ export default {
   }
 }
 </script>
-
-<!--
-<style lang="stylus">
-@import '~variables';
-
-.profile_header_bottom_row {
-  margin-left: 170px;
-  margin-right: 16px;
-  background: none;
-}
-
-.profile_header_top_row {
-  margin-left: 154px;
-  background: none;
-}
-
-.profile_image_inner_wrap {
-  overflow: hidden;
-  position: relative;
-}
-
-.profile_image_border{
-  border: 2px solid var(--q-color-text2);
-}
-
-.profile_image_outer_wrap {
-  position: absolute;
-  z-index: 1;
-  height: 140px;
-  width: 140px;
-  top: 70px;
-  transition: all 0.2s ease-in-out;
-}
-
-.profile_header_bottom_row .q-if-control {
-  display: none !important;
-}
-
-.hack_center {
-  position: absolute;
-  top: -9999px;
-  bottom: -9999px;
-  left: -9999px;
-  right: -9999px;
-  margin: auto;
-}
-</style>-->

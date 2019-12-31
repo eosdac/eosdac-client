@@ -6,5 +6,6 @@ export default {
   chainId: null,
   scatter: null,
   eosApi: false,
+  dacDirectory: null,
   eosScatter: false
 }

@@ -156,7 +156,7 @@ export default {
     async claimpay (id) {
       let actions = [
         {
-          account: this.$configFile.get('custodiancontract'),
+          account: this.$dir.getAccount(this.$dir.ACCOUNT_CUSTODIAN),
           name: 'claimpaye',
           data: {
             payid: id,
@@ -175,7 +175,7 @@ export default {
     async rejectpay (id) {
       let actions = [
         {
-          account: this.$configFile.get('custodiancontract'),
+          account: this.$dir.getAccount(this.$dir.ACCOUNT_CUSTODIAN),
           name: 'rejectcuspay',
           data: {
             payid: id,
@@ -192,7 +192,7 @@ export default {
     },
 
     async claimAll () {
-      const contract = this.$configFile.get('custodiancontract')
+      const contract = this.$dir.getAccount(this.$dir.ACCOUNT_CUSTODIAN)
       let actions = this.pendingpay.slice(0, 10).map(pp => {
         return {
           account: contract,
@@ -221,7 +221,7 @@ export default {
 
       let actions = [
         {
-          account: this.$configFile.get('custodiancontract'),
+          account: this.$dir.getAccount(this.$dir.ACCOUNT_CUSTODIAN),
           name: 'updatereqpae',
           data: {
             cand: this.getAccountName,
