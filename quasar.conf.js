@@ -10,6 +10,7 @@ module.exports = function (ctx) {
       'i18n',
       'axios',
       'config-loader',
+      'eosapi',
       'profile-cache',
       'markdown-editor',
       'vuelidate',
