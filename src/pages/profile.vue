@@ -341,7 +341,7 @@ export default {
           data: {
             cand: this.getAccountName,
             profile: JSON.stringify(this.form),
-            dac_id: this.$configFile.get('dacid')
+            dac_id: this.$dir.dacId
           }
         }
       ]

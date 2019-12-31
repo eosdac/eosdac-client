@@ -392,7 +392,7 @@ export default {
           data: {
             voter: this.getAccountName,
             newvotes: votes,
-            dac_id: this.$configFile.get('dacid')
+            dac_id: this.$dir.dacId
           }
         }
       ]

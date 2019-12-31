@@ -98,7 +98,7 @@ export default {
         voting_type: this.voting_type.value,
         title: this.title,
         content: this.content,
-        dac_id: this.$configFile.get('dacid'),
+        dac_id: this.$dir.dacId,
         acts: this.actions
       }
       let actions = [

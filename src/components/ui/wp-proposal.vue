@@ -528,7 +528,7 @@ export default {
             custodian: this.getAccountName,
             proposal_id: Number(this.wp.id),
             delegatee_custodian: delegatee.new,
-            dac_id: this.$configFile.get('dacid')
+            dac_id: this.$dir.dacId
           }
         }
       ]
@@ -589,7 +589,7 @@ export default {
             custodian: this.getAccountName,
             proposal_id: Number(this.wp.id),
             vote: map[votetype],
-            dac_id: this.$configFile.get('dacid')
+            dac_id: this.$dir.dacId
           }
         }
       ]
@@ -631,7 +631,7 @@ export default {
           ],
           data: {
             proposal_id: Number(this.wp.id),
-            dac_id: this.$configFile.get('dacid')
+            dac_id: this.$dir.dacId
           }
         }
       ]
@@ -652,7 +652,7 @@ export default {
           // authorization: [ {actor: this.getAccountName, permission: 'active'}],
           data: {
             proposal_id: Number(this.wp.id),
-            dac_id: this.$configFile.get('dacid')
+            dac_id: this.$dir.dacId
           }
         }
       ]
@@ -672,7 +672,7 @@ export default {
           // authorization: [ {actor: this.getAccountName, permission: 'active'}],
           data: {
             proposal_id: Number(this.wp.id),
-            dac_id: this.$configFile.get('dacid')
+            dac_id: this.$dir.dacId
           }
         }
       ]
@@ -694,7 +694,7 @@ export default {
           data: {
             arbitrator: this.getAccountName,
             proposal_id: Number(this.wp.id),
-            dac_id: this.$configFile.get('dacid')
+            dac_id: this.$dir.dacId
           }
         },
         {
@@ -724,7 +724,7 @@ export default {
           // authorization: [ {actor: this.getAccountName, permission: 'active'}],
           data: {
             proposal_id: Number(this.wp.id),
-            dac_id: this.$configFile.get('dacid')
+            dac_id: this.$dir.dacId
           }
         }
       ]

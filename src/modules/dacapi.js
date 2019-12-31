@@ -20,7 +20,7 @@ export class DacApi {
 
   async getBalance (
     accountname,
-    contract = this.configobj.get('tokencontract'),
+    contract = this.dir.symbol.contract,
     symbol = this.configobj.get('dactokensymbol')
   ) {
     return this.eos
@@ -39,7 +39,7 @@ export class DacApi {
     accountname,
     code = this.configobj.get('tokencontract'),
     symbol = this.configobj.get('dactokensymbol'),
-    scope = this.configobj.get('dacid')
+    scope = this.dir.dacId
   ) {
     return this.eos
       .get_table_rows({
@@ -65,8 +65,8 @@ export class DacApi {
     let res = await this.eos
       .get_table_rows({
         json: true,
-        code: this.configobj.get('tokencontract'),
-        scope: this.configobj.get('dacid'),
+        code: this.dir.symbol.contract,
+        scope: this.dir.dacId,
         lower_bound: accountname,
         table: 'members',
         limit: 1
@@ -84,14 +84,15 @@ export class DacApi {
     let res = await this.eos
       .get_table_rows({
         json: true,
-        code: this.configobj.get('tokencontract'),
-        scope: this.configobj.get('dacid'),
+        code: this.dir.symbol.contract,
+        scope: this.dir.dacId,
         table: 'memberterms',
         limit: -1
       })
       .catch(e => false)
 
     if (res) {
+      console.log('terms', res)
       return res
       // memberterms = memberterms.rows.sort(function(a, b) {
       //     return a.version - b.version;
@@ -102,10 +103,11 @@ export class DacApi {
   }
 
   async getTokenStats () {
+    const [, sym] = this.dir.symbol.symbol.split(',')
     let res = await this.eos.get_table_rows({
       json: true,
-      code: this.configobj.get('tokencontract'),
-      scope: this.configobj.get('dactokensymbol'),
+      code: this.dir.symbol.contract,
+      scope: sym,
       table: 'stat',
       limit: 1
     })
@@ -146,15 +148,15 @@ export class DacApi {
     if (payload === 'custodian') {
       table = 'config2'
       contract = this.dir.getAccount(this.dir.ACCOUNT_CUSTODIAN)
-      scope = this.configobj.get('dacid')
+      scope = this.dir.dacId
     } else if (payload === 'wp') {
       table = 'config'
       contract = this.dir.getAccount(this.dir.ACCOUNT_PROPOSALS)
-      scope = this.configobj.get('dacid')
+      scope = this.dir.dacId
     } else if (payload === 'referendum') {
       table = 'config'
       contract = this.dir.getAccount(this.dir.ACCOUNT_REFERENDUM)
-      scope = this.configobj.get('dacid')
+      scope = this.dir.dacId
     }
     let res = await this.eos
       .get_table_rows({
@@ -175,8 +177,8 @@ export class DacApi {
     let res = await this.eos
       .get_table_rows({
         json: true,
-        code: this.configobj.get('custodiancontract'),
-        scope: this.configobj.get('dacid'),
+        code: this.dir.getAccount(this.dir.ACCOUNT_CUSTODIAN),
+        scope: this.dir.dacId,
         lower_bound: accountname,
         table: 'votes',
         limit: 1
@@ -194,8 +196,8 @@ export class DacApi {
     let res = await this.eos
       .get_table_rows({
         json: true,
-        code: this.configobj.get('custodiancontract'),
-        scope: this.configobj.get('dacid'),
+        code: this.dir.getAccount(this.dir.ACCOUNT_CUSTODIAN),
+        scope: this.dir.dacId,
         table: 'custodians',
         limit: number_custodians_config
       })
@@ -217,8 +219,8 @@ export class DacApi {
     let res = await this.eos
       .get_table_rows({
         json: true,
-        code: this.configobj.get('custodiancontract'),
-        scope: this.configobj.get('dacid'),
+        code: this.dir.getAccount(this.dir.ACCOUNT_CUSTODIAN),
+        scope: this.dir.dacId,
         lower_bound: accountname,
         table: 'candidates',
         limit: 1
@@ -236,8 +238,8 @@ export class DacApi {
     let res = await this.eos
       .get_table_rows({
         json: true,
-        code: this.configobj.get('custodiancontract'),
-        scope: this.configobj.get('dacid'),
+        code: this.dir.getAccount(this.dir.ACCOUNT_CUSTODIAN),
+        scope: this.dir.dacId,
         table: 'candidates',
         limit: -1
       })
@@ -254,8 +256,8 @@ export class DacApi {
     let res = await this.eos
       .get_table_rows({
         json: true,
-        code: this.configobj.get('custodiancontract'),
-        scope: this.configobj.get('custodiancontract'),
+        code: this.dir.getAccount(this.dir.ACCOUNT_CUSTODIAN),
+        scope: this.dir.dacId,
         table: 'candperms',
         limit: -1
       })
@@ -311,8 +313,8 @@ export class DacApi {
   async getPendingPay2 (accountname) {
     let pendingpays = await this.eos.get_table_rows({
       json: true,
-      code: this.configobj.get('custodiancontract'),
-      scope: this.configobj.get('dacid'),
+      code: this.dir.getAccount(this.dir.ACCOUNT_CUSTODIAN),
+      scope: this.dir.dacId,
       table: 'pendingpay2',
       lower_bound: accountname,
       upper_bound: accountname,
@@ -356,7 +358,7 @@ export class DacApi {
       .get_table_rows({
         json: true,
         code: this.dir.getAccount(this.dir.ACCOUNT_CUSTODIAN),
-        scope: this.configobj.get('dacid'),
+        scope: this.dir.dacId,
         table: 'state',
         limit: 1
       })
@@ -378,7 +380,7 @@ export class DacApi {
     let catvotes = await this.eos.get_table_rows({
       json: true,
       code: this.dir.getAccount(this.dir.ACCOUNT_PROPOSALS),
-      scope: this.configobj.get('dacid'),
+      scope: this.dir.dacId,
       table: 'propvotes',
       lower_bound: accountname,
       upper_bound: accountname,

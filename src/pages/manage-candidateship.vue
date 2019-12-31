@@ -406,7 +406,7 @@ export default {
         data: {
           cand: this.getAccountName,
           requestedpay: this.verifyAndGetRequestedPay,
-          dac_id: this.$configFile.get('dacid')
+          dac_id: this.$dir.dacId
         }
       }
 
@@ -434,7 +434,7 @@ export default {
           name: 'withdrawcane',
           data: {
             cand: this.getAccountName,
-            dac_id: this.$configFile.get('dacid')
+            dac_id: this.$dir.dacId
           }
         }
       ]

@@ -365,7 +365,7 @@ export async function proposeMsig (
     data: {
       proposer: state.accountName,
       proposal_name: proposalName,
-      dac_id: this._vm.$configFile.get('dacid'),
+      dac_id: this._vm.$dir.dacId,
       metadata: JSON.stringify({
         title: payload.title || `Execute ${payload.actions.length} action(s) ${payload.actions[0].account}:${payload.actions[0].name}`,
         description: payload.description || ''

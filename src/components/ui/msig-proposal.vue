@@ -412,7 +412,7 @@ export default {
             proposer: proposer,
             proposal_name: proposalName,
             approver: this.getAccountName,
-            dac_id: this.$configFile.get('dacid')
+            dac_id: this.$dir.dacId
           }
         }
       ]
@@ -451,7 +451,7 @@ export default {
             proposer: proposer,
             proposal_name: proposalName,
             unapprover: this.getAccountName,
-            dac_id: this.$configFile.get('dacid')
+            dac_id: this.$dir.dacId
           }
         }
       ]
@@ -489,7 +489,7 @@ export default {
             proposer: proposer,
             proposal_name: proposalName,
             executer: this.getAccountName,
-            dac_id: this.$configFile.get('dacid')
+            dac_id: this.$dir.dacId
           }
         }
       ]
@@ -528,7 +528,7 @@ export default {
             proposer: proposer,
             proposal_name: proposalName,
             canceler: this.getAccountName,
-            dac_id: this.$configFile.get('dacid')
+            dac_id: this.$dir.dacId
           }
         }
       ]

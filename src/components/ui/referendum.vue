@@ -123,7 +123,7 @@ export default {
             voter: this.getAccountName,
             referendum_id: this.data.id,
             vote,
-            dac_id: this.$configFile.get('dacid')
+            dac_id: this.$dir.dacId
           }
         }
       ]

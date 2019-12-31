@@ -283,7 +283,7 @@ export default {
         data: {
           terms: this.new_constitution_url,
           hash: this.md5_constitution,
-          dac_id: this.$configFile.get('dacid')
+          dac_id: this.$dir.dacId
         },
         authorization: [
           {

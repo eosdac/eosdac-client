@@ -172,7 +172,7 @@ export async function fetchCustodianPermissions ({
 export async function fetchWorkerProposals (obj, payload = {}) {
   let url = this._vm.$configFile.get('dacapi')
   const header = {
-    'X-DAC-Name': this._vm.$configFile.get('dacid')
+    'X-DAC-Name': this._vm.$dir.dacId
   }
   return this._vm
     .$axios({
@@ -194,7 +194,7 @@ export async function fetchWorkerProposals (obj, payload = {}) {
 export async function fetchWorkerProposalsInbox (obj, payload = {}) {
   let url = this._vm.$configFile.get('dacapi')
   const header = {
-    'X-DAC-Name': this._vm.$configFile.get('dacid')
+    'X-DAC-Name': this._vm.$dir.dacId
   }
   return this._vm
     .$axios({
@@ -223,7 +223,7 @@ export async function fetchMsigProposals (obj, payload = {}) {
   call = this._vm.$axios.CancelToken.source()
   let url = this._vm.$configFile.get('dacapi')
   const header = {
-    'X-DAC-Name': this._vm.$configFile.get('dacid')
+    'X-DAC-Name': this._vm.$dir.dacId
   }
   return this._vm
     .$axios({
@@ -250,7 +250,7 @@ export async function fetchReferendums (obj, payload = {}) {
   call = this._vm.$axios.CancelToken.source()
   let url = this._vm.$configFile.get('dacapi')
   const header = {
-    'X-DAC-Name': this._vm.$configFile.get('dacid')
+    'X-DAC-Name': this._vm.$dir.dacId
   }
   return this._vm
     .$axios({
@@ -281,7 +281,7 @@ export async function fetchTokenTimeLine (obj, payload = {}) {
   // {account: 'piecesnbitss', contract:'kasdactokens', symbol:'KASDAC', start_block:10000000, end_block:17000000}
   let url = this._vm.$configFile.get('dacapi')
   const header = {
-    'X-DAC-Name': this._vm.$configFile.get('dacid')
+    'X-DAC-Name': this._vm.$dir.dacId
   }
   return this._vm
     .$axios({
@@ -303,7 +303,7 @@ export async function fetchTokenTimeLine (obj, payload = {}) {
 export async function fetchDACTokenTransfers (obj, payload = {}) {
   let url = this._vm.$configFile.get('dacapi')
   const header = {
-    'X-DAC-Name': this._vm.$configFile.get('dacid')
+    'X-DAC-Name': this._vm.$dir.dacId
   }
   return this._vm
     .$axios({
@@ -325,7 +325,7 @@ export async function fetchDACTokenTransfers (obj, payload = {}) {
 export async function fetchMemberCounts (obj, payload = {}) {
   let url = this._vm.$configFile.get('dacapi')
   const header = {
-    'X-DAC-Name': this._vm.$configFile.get('dacid')
+    'X-DAC-Name': this._vm.$dir.dacId
   }
   return this._vm
     .$axios({
@@ -347,7 +347,7 @@ export async function fetchMemberCounts (obj, payload = {}) {
 export async function fetchVotesTimeline (obj, payload = {}) {
   let url = this._vm.$configFile.get('dacapi')
   const header = {
-    'X-DAC-Name': this._vm.$configFile.get('dacid')
+    'X-DAC-Name': this._vm.$dir.dacId
   }
   return this._vm
     .$axios({

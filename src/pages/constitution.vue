@@ -193,7 +193,7 @@ export default {
           data: {
             sender: this.getAccountName,
             agreedterms: this.md5_constitution,
-            dac_id: this.$configFile.get('dacid')
+            dac_id: this.$dir.dacId
           }
         }
       ]
@@ -216,7 +216,7 @@ export default {
           name: 'memberunrege',
           data: {
             sender: this.getAccountName,
-            dac_id: this.$configFile.get('dacid')
+            dac_id: this.$dir.dacId
           }
         }
       ]

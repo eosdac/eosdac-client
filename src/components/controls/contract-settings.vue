@@ -124,11 +124,11 @@ export default {
         this.contract === 'dacproposals'
           ? {
             new_config: this.parseConfig(),
-            dac_id: this.$configFile.get('dacid')
+            dac_id: this.$dir.dacId
           }
           : {
             newconfig: this.parseConfig(),
-            dac_id: this.$configFile.get('dacid')
+            dac_id: this.$dir.dacId
           }
 
       let action = {
