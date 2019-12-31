@@ -50,7 +50,7 @@
 
     <!--<menu-extension />-->
 
-    <q-item clickable to="/settings">
+    <!-- <q-item clickable to="/settings">
       <q-item-section avatar>
         <q-icon :name="$configFile.icon.settings" />
       </q-item-section>
@@ -59,7 +59,7 @@
       </q-item-section>
     </q-item>
 
-    <!-- <q-item v-if="getSettingByName('debug_dev_tools').value" clickable to="/dashboard">
+    <q-item v-if="getSettingByName('debug_dev_tools').value" clickable to="/dashboard">
       <q-item-section avatar>
         <q-icon :name="$configFile.icon.dev" />
       </q-item-section>
