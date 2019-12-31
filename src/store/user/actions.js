@@ -384,7 +384,8 @@ function parseError (err) {
   let message = '', parsed = ''
   if (typeof err === 'string') {
     message = err
-  } else {
+  } else if (err && err.error) {
+    // console.log(err)
     message = err.error.details[0].message
   }
 
