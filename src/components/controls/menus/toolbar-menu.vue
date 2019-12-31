@@ -94,23 +94,19 @@
       content-class="round-borders"
     >
       <q-list link class="text-text1 round-borders">
-        <q-list-header class="text-text2" style="min-width:300px">
-          <span class="q-caption">{{ getAuthString }}</span>
-        </q-list-header>
+        <q-item-section class="text-center text-h6 q-pa-sm">
+          {{ getAuthString }}
+        </q-item-section>
         <q-item>
-          <q-item-section
-            v-if="getMemberStatus == 'member'"
-            :icon="$configFile.icon.check"
-            color="positive"
-          />
-          <q-item-section
-            v-if="getMemberStatus == 'pending'"
-            :icon="$configFile.icon.pending_sand"
-            color="warning"
-          />
+          <q-item-section v-if="getMemberStatus === 'member'" avatar >
+            <q-icon :name="$configFile.icon.check" color="positive" />
+          </q-item-section>
+          <q-item-section v-if="getMemberStatus === 'pending'">
+            <q-icon :name="$configFile.icon.pending_sand" color="warning" />
+          </q-item-section>
 
           <q-item-section>
-            <q-item-label header>{{
+            <q-item-label>{{
               $t("menu.member_status")
             }}</q-item-label>
             <q-item-label caption v-if="getMemberStatus">{{
@@ -128,7 +124,7 @@
           <!-- <q-item-side right icon="info" color="amber" /> -->
         </q-item>
 
-        <q-separator inset />
+        <q-separator inset="item" />
 
         <q-item
           clickable
@@ -148,7 +144,7 @@
             <q-item-section>{{$t('default.logout')}}</q-item-section>
         </q-item>
 
-        <q-separator inset />
+        <q-separator inset="item" />
 
         <q-item v-close-overlay to="/settings">
             <q-item-section avatar>
@@ -172,10 +168,10 @@
 </template>
 
 <script>
-import profilePic from 'components/ui/profile-pic'
-// import zzzSleep from "components/ui/zzz-sleep";
-import xspan from 'components/ui/xspan'
 import { mapGetters } from 'vuex'
+import profilePic from 'components/ui/profile-pic'
+import xspan from 'components/ui/xspan'
+
 export default {
   name: 'ToolbarMenu',
   components: {
@@ -201,24 +197,3 @@ export default {
   }
 }
 </script>
-
-<!--<style lang="stylus">
- @import '~variables'
-
-#login_button  .q-focusable:focus .q-focus-helper,
-#login_button .q-hoverable:hover .q-focus-helper {
-  background: inherit;
-  opacity: 0;
-}
-#login_button .q-hoverable:active .q-focus-helper {
-  background: inherit;
-  opacity: 0;
-}
-#login_button .q-focus-helper {
-  opacity: 0;
-  transition: unset;
-}
-.grey_scale{
-  filter: grayscale(80%);
-}
-</style>-->
