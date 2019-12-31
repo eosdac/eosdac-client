@@ -7,7 +7,6 @@
 
 <script>
 // import { Notify } from 'quasar'
-import NodeSelector from './modules/nodeselector.js'
 import theme from './extensions/branding/theme'
 
 export default {
@@ -70,10 +69,13 @@ export default {
     let test = await this.$store.dispatch('global/testEndpoint', false)
 
     if (test === false) {
-      const NS = new NodeSelector(this.$configFile.get('bpnodeapi'))
-      let fastest = await NS.getFastestNode()
-      // console.log(fastest)
-      this.$store.commit('global/setNode', fastest.node)
+      this.$notify({
+        message: `Failed to connect to network`,
+        detail: `Please reload later`,
+        timeout: 4000,
+        type: 'error',
+        position: 'bottom-right'
+      })
     }
     this.loading = true
     this.$store.dispatch('dac/initRoutine', this)
