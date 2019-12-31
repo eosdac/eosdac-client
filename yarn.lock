@@ -838,6 +838,16 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
+"@jafri/eosjs2@^20.0.1-e34c16e.179":
+  version "20.0.1-e34c16e.179"
+  resolved "https://registry.yarnpkg.com/@jafri/eosjs2/-/eosjs2-20.0.1-e34c16e.179.tgz#0ea7289d214f7b799b41055a071bdedcb9700471"
+  integrity sha512-tVfl1lLLhj850F8daCJZ81xBXbL+2yJ90grgjPEcPrhhL6Vb/sepzQ4yBJn+6FcXMiwJwwbQwB+xk9KKcQMi4Q==
+  dependencies:
+    babel-runtime "6.26.0"
+    bs58 "^4.0.1"
+    ripemd-ts "0.0.1"
+    text-encoding "0.7.0"
+
 "@jimp/bmp@^0.6.8":
   version "0.6.8"
   resolved "https://registry.yarnpkg.com/@jimp/bmp/-/bmp-0.6.8.tgz#8abbfd9e26ba17a47fab311059ea9f7dd82005b6"
@@ -9647,6 +9657,11 @@ rimraf@2.6.3:
   integrity sha512-mwqeW5XsA2qAejG46gYdENaxXjx9onRNCfn7L0duuP4hCuTIi/QO7PDK07KJfp1d+izWPrzEJDcSqBa0OZQriA==
   dependencies:
     glob "^7.1.3"
+
+ripemd-ts@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/ripemd-ts/-/ripemd-ts-0.0.1.tgz#da14454f8e149dfc62239cd6dd2defe373e4dc7b"
+  integrity sha512-DVx3aasP1ipmZmiL7ECBRMRLV3FEvtCRPpNcnyM2OlNcdKG2D/4TK6bQTpUDgPOJ2WwCZ0MMASPI7QweFBzYrw==
 
 ripemd160@^2.0.0, ripemd160@^2.0.1:
   version "2.0.2"
