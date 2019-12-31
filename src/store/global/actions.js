@@ -3,9 +3,9 @@ import ScatterEOS from '@scatterjs/eosjs2'
 import ScatterLynx from '@scatterjs/lynx'
 
 import { Notify } from 'quasar'
-import axios from 'axios'
+// import axios from 'axios'
 
-import { Api, JsonRpc } from 'eosjs'
+import { Api, JsonRpc } from '@jafri/eosjs2'
 const { TextDecoder, TextEncoder } = require('text-encoding')
 import { DacApi } from '../../modules/dacapi.js'
 
@@ -39,14 +39,12 @@ export async function connectScatter (
 
         commit('user/setAccountName', false, { root: true })
 
-        if (rootGetters['user/getSettingByName']('notify_error_msg').value) {
-          Notify.create({
-            message: `Signature provider not found`,
-            timeout: 2000,
-            type: 'negative',
-            position: 'bottom-right'
-          })
-        }
+        Notify.create({
+          message: `Signature provider not found`,
+          timeout: 2000,
+          type: 'negative',
+          position: 'bottom-right'
+        })
 
         return
       }
@@ -77,14 +75,12 @@ export async function connectScatter (
           root: true
         })
 
-        if (rootGetters['user/getSettingByName']('notify_info_msg').value) {
-          Notify.create({
-            message: `Welcome back ${state.scatter.identity.accounts[0].name}`,
-            timeout: 2000,
-            type: 'info',
-            position: 'bottom-right'
-          })
-        }
+        Notify.create({
+          message: `Welcome back ${state.scatter.identity.accounts[0].name}`,
+          timeout: 2000,
+          type: 'info',
+          position: 'bottom-right'
+        })
       } else {
         // scatter connected but not logged in
         console.log('please log in.')
@@ -99,14 +95,12 @@ export async function login ({ state, dispatch, rootGetters, commit }) {
   console.log('request login')
   if (state.scatter === null) {
     console.log('scatter not found, trying to connect scatter')
-    if (rootGetters['user/getSettingByName']('notify_info_msg').value) {
-      Notify.create({
-        message: `Trying to connect to signature provider`,
-        timeout: 1500,
-        type: 'info',
-        position: 'bottom-right'
-      })
-    }
+    Notify.create({
+      message: `Trying to connect to signature provider`,
+      timeout: 1500,
+      type: 'info',
+      position: 'bottom-right'
+    })
     await dispatch('connectScatter', true)
     return
   }
@@ -118,14 +112,12 @@ export async function login ({ state, dispatch, rootGetters, commit }) {
   if (account && account.accounts[0]) {
     dispatch('user/loggedInRoutine', account, { root: true })
 
-    if (rootGetters['user/getSettingByName']('notify_info_msg').value) {
-      Notify.create({
-        message: `Welcome ${account.accounts[0].name}`,
-        timeout: 2000,
-        type: 'info',
-        position: 'bottom-right'
-      })
-    }
+    Notify.create({
+      message: `Welcome ${account.accounts[0].name}`,
+      timeout: 2000,
+      type: 'info',
+      position: 'bottom-right'
+    })
   }
 }
 
@@ -152,16 +144,8 @@ export async function getDacApi ({ state, commit }, rebuild = false) {
     return state.eosApi
   }
 
-  console.log('build and store eos api')
-  let n = Network.fromJson(
-    state.network
-  )
-  let rpc = new JsonRpc(n.fullhost())
-  let api = await new Api({
-    rpc,
-    textDecoder: new TextDecoder(),
-    textEncoder: new TextEncoder()
-  })
+  const api = this._vm.$eosApi
+
   commit('setDacApi', new DacApi(api, this._vm.$configFile))
   return state.eosApi
 }
@@ -171,12 +155,12 @@ export async function getEosScatter ({ state, commit }, rebuild = false) {
     // console.log('got scatter api from store');
     return state.eosScatter
   }
-  console.log('build and store scatter api', state.network)
+  console.log('build and store scatter api', this._vm.$configFile.get('network'))
   let network = Network.fromJson(
-    state.network
+    this._vm.$configFile.get('network')
   )
-  let rpc = new JsonRpc(network.fullhost())
-  let eos = state.scatter.eos(network, Api, { rpc, beta3: true })
+  const rpc = this._vm.$eosApi.rpc
+  let eos = state.scatter.eos(network, Api, { rpc })
   commit('setEosScatter', [eos])
   return [eos]
 }
@@ -193,32 +177,10 @@ export async function loadConfig ({ Vue, state, commit }, payload) {
 }
 
 export async function testEndpoint ({ state, commit }, endpointurl = false) {
-  console.log(state)
-  if (!endpointurl) {
-    endpointurl = `${Network.fromJson(state.network).fullhost()}/v1/chain/get_info`
+  try {
+    const res = await this._vm.$eosApi.rpc.get_info()
+    return res
+  } catch (e) {
+    return false
   }
-  let timeout = 3000
-  console.log('testing', endpointurl)
-  let res = await axios({
-    method: 'GET',
-    url: `${endpointurl}`,
-    timeout: timeout,
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-    .then(res => {
-      console.log(res.data)
-      commit('setNodeInfo', res.data)
-      return res.data
-    })
-    .catch(error => {
-      if (error.code === 'ECONNABORTED') {
-        console.log(`Slow endpoint. No response received after ${timeout}ms`)
-      } else {
-        console.log(`bad endpoint: ${endpointurl}`)
-      }
-      return false
-    })
-  return res
 }
