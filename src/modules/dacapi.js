@@ -1,5 +1,5 @@
 const { TextDecoder, TextEncoder } = require('text-encoding')
-const { Serialize } = require('eosjs')
+const { Serialize } = require('@jafri/eosjs2')
 
 export class DacApi {
   constructor (eosApi, config) {
