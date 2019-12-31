@@ -5,26 +5,27 @@
       :key="key"
       class="col-xs-12 col-sm-6 col-md-4 col-lg-3 animate-fade"
     >
-      <div class="bg-bg2 q-pa-md round-borders">
-        <q-item-tile class="row items-center justify-between no-wrap">
-          <div class="text-text2">
+      <q-item class="bg-bg2 q-pa-md round-borders">
+          <!-- <div class="text-text2">
             {{ $t(`conf_cust_contr.${config_item.name}_title`) }}
           </div>
-          <!-- <help-btn
+          <help-btn
             :content="$t(`conf_cust_contr.${config_item.name}_desc`)"
             :title="$t(`conf_cust_contr.${config_item.name}_title`)"
             color="text1"
             size="sm"
           /> -->
-        </q-item-tile>
+        <q-item-section>
+          <q-input
+                  class="q-mb-sm"
+                  v-model="config_item.value"
+                  :placeholder="config_item.type"
+                  color="primary"
+                  :label="$t(`conf_cust_contr.${config_item.name}_title`)"
+          />
+        </q-item-section>
 
-        <q-input
-          class="q-mb-sm"
-          v-model="config_item.value"
-          :placeholder="config_item.type"
-          color="primary-light"
-        />
-      </div>
+      </q-item>
     </div>
     <div class="col-xs-12 row justify-end" v-if="contract_config.length">
       <q-btn
