@@ -35,6 +35,28 @@ class DacDirectory {
     return this.dacData.refs[refType]
   }
 
+  set symbol (symbol) {
+    throw new Error('Cannot set symbol')
+  }
+  set active (active) {
+    throw new Error('Cannot set active')
+  }
+  set title (title) {
+    throw new Error('Cannot set title')
+  }
+
+  get symbol () {
+    return this.dacData.symbol
+  }
+
+  get state () {
+    return this.dacData.dac_state
+  }
+
+  get title () {
+    return this.dacData.title
+  }
+
   async reload () {
     const res = await this.api.rpc.get_table_rows({ code: this.directoryAccount, scope: this.directoryAccount, table: 'dacs', lower_bound: this.dacId, upper_bound: this.dacId })
 
