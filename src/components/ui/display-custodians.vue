@@ -2,9 +2,6 @@
   <div>
     <div v-if="getCustodianState.met_initial_votes_threshold === 1">
       <div class="row items-center justify-between ">
-        <div class="q-headline">
-          {{ $t("vote_custodians.custodian_board") }}
-        </div>
         <q-chip color="dark" dense v-if="new_period_millisleft > 0">
           <div class="row items-center">
             <div class="text-text1 q-mr-sm q-caption">New election in</div>
@@ -33,17 +30,15 @@
                 :key="`cust_${i}`"
                 @mouseover="showing = true"
         >
+          <profile-pic
+                :accountname="custodian.cust_name"
+                :scale="1"
+                size="xl"
+                :show_role="true"
+        />
             <q-chip size="md">
-              <profile-pic
-                      :accountname="custodian.cust_name"
-                      :scale="1"
-                      size="xl"
-                      :show_role="true"
-              />
-              <q-item clickable
-                      class="q-body-1 a2 q-mt-xs"
-                      :to="{ path: '/profile/' + custodian.cust_name }"
-              >
+
+              <q-item clickable :to="{ path: '/profile/' + custodian.cust_name }" >
                 {{ custodian.cust_name }}
               </q-item>
             </q-chip>
