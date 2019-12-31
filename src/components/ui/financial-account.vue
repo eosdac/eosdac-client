@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+// import { mapGetters } from 'vuex'
 import balanceTimeline from 'components/ui/balance-timeline'
 // import helpBtn from 'components/controls/help-btn'
 import xspan from 'components/ui/xspan'
@@ -89,9 +89,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      getIsDark: 'ui/getIsDark'
-    })
   },
   methods: {
     async setTokens () {

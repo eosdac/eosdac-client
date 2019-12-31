@@ -207,7 +207,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getIsDark: 'ui/getIsDark',
       getMemberTerms: 'dac/getMemberTerms',
       getLatestMemberTerm: 'dac/getLatestMemberTerm',
       getAccountName: 'user/getAccountName',

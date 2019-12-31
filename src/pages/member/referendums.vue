@@ -29,7 +29,6 @@ export default {
   computed: {
     ...mapGetters({
       getAccountName: 'user/getAccountName',
-      getIsDark: 'ui/getIsDark',
       getSettingByName: 'user/getSettingByName',
       getReferendums: 'dac/getReferendums'
     })

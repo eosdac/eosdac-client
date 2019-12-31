@@ -239,7 +239,6 @@ export default {
   computed: {
     ...mapGetters({
       getDacApi: 'global/getDacApi',
-      getIsDark: 'ui/getIsDark',
       getAccountName: 'user/getAccountName',
       getAccount: 'user/getAccount'
     }),

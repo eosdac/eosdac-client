@@ -30,7 +30,7 @@
         </div>
         <div class="col-xs-12 col-lg-6">
 
-          <asset-input :allowed="allowed_currencies" label="Pay Amount" :data="wp_data" />
+          <asset-input :allowed="allowed_currencies" label="Pay Amount" v-model="wp_data.pay_amount" />
 
         </div>
         <div class="col-xs-12 col-lg-6">
@@ -77,7 +77,7 @@ import { mapGetters } from 'vuex'
 import MarkdownViewer from 'components/ui/markdown-viewer'
 import AssetInput from 'components/ui/asset-input'
 // import helpBtn from 'components/controls/help-btn'
-import { required, minValue } from 'vuelidate/lib/validators'
+import { required } from 'vuelidate/lib/validators'
 import { isEosName } from '../../modules/validators.js'
 
 export default {
@@ -94,18 +94,20 @@ export default {
       allowed_currencies: [
         {
           symbol: this.$configFile.get('systemtokensymbol'),
-          contract: this.$configFile.get('systemtokencontract')
+          contract: this.$configFile.get('systemtokencontract'),
+          precision: 4
         },
         {
           symbol: this.$configFile.get('dactokensymbol'),
-          contract: this.$configFile.get('tokencontract')
+          contract: this.$configFile.get('tokencontract'),
+          precision: 4
         }
       ],
       wp_data: {
         title: '',
         summary: '',
         arbitrator: '',
-        pay_amount: '',
+        pay_amount: null,
         category: '',
         symbol: this.$configFile.get('systemtokensymbol')
       }
@@ -114,7 +116,6 @@ export default {
   computed: {
     ...mapGetters({
       getAccountName: 'user/getAccountName',
-      getIsDark: 'ui/getIsDark',
       getSettingByName: 'user/getSettingByName',
       getWpCategories: 'dac/getWpCategories'
     }),
@@ -136,13 +137,9 @@ export default {
         this.$q.notify('Please review fields again.')
         return
       }
-      let extendedAsset = {
-        quantity: `${Number(this.wp_data.pay_amount).toFixed(4)} ${
-          this.wp_data.symbol
-        }`,
-        contract: this.allowed_currencies.find(
-          ac => ac.symbol === this.wp_data.symbol
-        ).contract
+      const extendedAsset = {
+        quantity: `${this.wp_data.pay_amount.quantity} ${this.wp_data.pay_amount.symbol}`,
+        contract: this.wp_data.pay_amount.contract
       }
       let actions = [
         {
@@ -176,8 +173,7 @@ export default {
       arbitrator: { required, isEosName },
       title: { required },
       pay_amount: {
-        required,
-        minValue: minValue(0)
+        required
       },
       category: { required }
     }

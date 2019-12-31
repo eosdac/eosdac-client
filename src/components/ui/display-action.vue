@@ -86,7 +86,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getIsDark: 'ui/getIsDark'
     }),
     getaction () {
       return this.action

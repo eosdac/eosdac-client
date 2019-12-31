@@ -69,7 +69,6 @@
       v-if="true"
     >
 <!--      <q-search-->
-<!--        :dark="getIsDark"-->
 <!--        color="primary"-->
 <!--        v-model="filter"-->
 <!--        :placeholder="$t('vote_custodians.search')"-->
@@ -135,7 +134,6 @@ export default {
 
   computed: {
     ...mapGetters({
-      getIsDark: 'ui/getIsDark',
       getIsCustodian: 'user/getIsCustodian'
     })
   },

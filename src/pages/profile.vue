@@ -256,8 +256,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      getAccountName: 'user/getAccountName',
-      getIsDark: 'ui/getIsDark'
+      getAccountName: 'user/getAccountName'
     }),
     setImgSrc () {
       let image = this.$profiles.default_avatar // default image

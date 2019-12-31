@@ -29,7 +29,7 @@
             <MarkdownViewer
                     :tags="[]"
                     :text="msig.description"
-                    maxlen="140"
+                    :maxlen="140"
             />
           </q-item-label>
         </q-item-section>

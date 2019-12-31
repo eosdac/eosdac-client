@@ -63,7 +63,6 @@ export default {
   computed: {
     ...mapGetters({
       getSettings: 'user/getSettings',
-      getIsDark: 'ui/getIsDark',
       getSettingByName: 'user/getSettingByName',
       getLocal_storage_version: 'global/getLocal_storage_version',
       getDapp_version: 'global/getDapp_version'

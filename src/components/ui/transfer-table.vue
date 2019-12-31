@@ -128,7 +128,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getIsDark: 'ui/getIsDark'
     })
   },
   methods: {

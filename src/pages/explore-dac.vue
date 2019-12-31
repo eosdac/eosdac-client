@@ -46,8 +46,7 @@ export default {
   computed: {
     ...mapGetters({
       getCustodians: 'dac/getCustodians',
-      getAccountName: 'user/getAccountName',
-      getIsDark: 'ui/getIsDark'
+      getAccountName: 'user/getAccountName'
     }),
     getCustNames () {
       if (this.getCustodians) {

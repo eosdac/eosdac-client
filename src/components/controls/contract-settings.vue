@@ -69,7 +69,6 @@ export default {
     ...mapGetters({
       getCustodianConfig: 'dac/getCustodianConfig',
       getWpConfig: 'dac/getWpConfig',
-      getIsDark: 'ui/getIsDark',
       getDacApi: 'global/getDacApi'
     })
   },

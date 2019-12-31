@@ -67,7 +67,6 @@ export default {
     ...mapGetters({
       getCustodians: 'dac/getCustodians',
       getAccountName: 'user/getAccountName',
-      getIsDark: 'ui/getIsDark',
       getAuth: 'user/getAuth',
       getCatDelegations: 'user/getCatDelegations'
     }),

@@ -278,7 +278,6 @@ export default {
       getTokenBalance: 'user/getDacBalance',
       getCandidates: 'dac/getCandidates',
       getDacVotes: 'user/getDacVotes',
-      getIsDark: 'ui/getIsDark',
       getCustodianConfig: 'dac/getCustodianConfig',
       getCustodianState: 'dac/getCustodianState'
       // getMemberRoles: 'account/getMemberRoles'

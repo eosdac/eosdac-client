@@ -168,7 +168,6 @@ export default {
     ...mapGetters({
       getWpConfig: 'dac/getWpConfig',
       getIsCustodian: 'user/getIsCustodian',
-      getIsDark: 'ui/getIsDark',
       getAccountName: 'user/getAccountName'
     })
   },

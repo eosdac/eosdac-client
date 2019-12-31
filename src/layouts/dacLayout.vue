@@ -80,7 +80,6 @@ export default {
   computed: {
     ...mapGetters({
       getAccountName: 'user/getAccountName',
-      getIsDark: 'ui/getIsDark',
       getIsloaded: 'dac/getIsLoaded',
       getSettingByName: 'user/getSettingByName'
     })

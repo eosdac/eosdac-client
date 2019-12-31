@@ -174,7 +174,7 @@
                                   color="dark"
                                   class="text-weight-thin on-right q-caption text-text1"
                           >
-                            <span>{{ `${trx.asset.amount}` }}</span>
+                            <span>{{ `${trx.asset.quantity}` }}</span>
                             <span class="text-weight-bold">
                           {{ trx.asset.symbol }}
                         </span>
@@ -214,7 +214,7 @@
                                 @click="viewTrx(trx.trx_id)"
                         />
                         <span class="animate-pop" v-if="trx.status === 1">
-                      <q-spinner color="primary-light" />
+                      <q-spinner color="primary" />
                       <span class="q-caption text-text2 q-ml-sm">{{
                         $t("dac_financials.signing")
                       }}</span>
@@ -269,7 +269,7 @@ import financialAccount from 'components/ui/financial-account'
 import msigTransfer from 'components/controls/msig-transfer'
 // import { saveAs } from 'file-saver'
 // import custodianPayments from "components/controls/custodian-payments";
-import { colors, openURL } from 'quasar'
+import { colors, openURL, Notify } from 'quasar'
 export default {
   name: 'dacFinancials',
   components: {
@@ -289,7 +289,6 @@ export default {
 
   computed: {
     ...mapGetters({
-      getIsDark: 'ui/getIsDark',
       getMsigTransferQeue: 'user/getMsigTransferQeue',
       getIsCustodian: 'user/getIsCustodian'
     })
@@ -364,18 +363,19 @@ export default {
       )
       if (fromPermissions) return fromPermissions.permissions
 
-      let accountPermissions = (await this.$store.dispatch(
-        'dac/fetchAccount',
-        {
-          accountname: accountname
+      try {
+        const res = await this.$store.dispatch('dac/fetchAccount', { accountname })
+        const accountPermissions = res.permissions
+
+        if (accountPermissions) {
+          this.permissions_map.push({
+            account: accountname,
+            permissions: accountPermissions
+          })
+          return accountPermissions
         }
-      )).permissions
-      if (accountPermissions) {
-        this.permissions_map.push({
-          account: accountname,
-          permissions: accountPermissions
-        })
-        return accountPermissions
+      } catch (e) {
+        throw new Error(`Failed to get account ${accountname}`)
       }
     },
 
@@ -397,7 +397,17 @@ export default {
       trxData.status = 1
 
       let permission = 'active' // default to active
-      let fromPermissions = await this.getPermissions(trxData.from)
+      let fromPermissions
+      try {
+        fromPermissions = await this.getPermissions(trxData.from)
+      } catch (e) {
+        Notify.create({
+          message: `Could not get account for ${trxData.from}`,
+          timeout: 2000,
+          type: 'negative',
+          position: 'bottom-right'
+        })
+      }
 
       if (fromPermissions) {
         const hasXfer = !!fromPermissions.find(fp => fp.perm_name === 'xfer')
@@ -410,12 +420,7 @@ export default {
         data: {
           from: trxData.from,
           to: trxData.to,
-          quantity:
-            parseFloat(trxData.asset.amount).toFixed(
-              trxData.asset.precision
-            ) +
-            ' ' +
-            trxData.asset.symbol,
+          quantity: `${trxData.asset.quantity} ${trxData.asset.symbol}`,
           memo: trxData.memo.trim()
         },
         authorization: [
@@ -447,7 +452,7 @@ export default {
       return {
         right: '0px',
         borderRadius: '0px',
-        background: colors.getBrand('primary-light'),
+        background: colors.getBrand('primary'),
         width: '5px',
         opacity: 1
       }
