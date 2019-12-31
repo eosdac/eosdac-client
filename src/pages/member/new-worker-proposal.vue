@@ -12,11 +12,11 @@
             <q-input
                     :error="$v.wp_data.title.$error"
                     error-label="A title is required"
-              type="text"
-              label="Title"
-              color="primary"
-              v-model="wp_data.title"
-            />
+                    type="text"
+                    label="Title"
+                    color="primary"
+                    v-model="wp_data.title"
+                  />
         </div>
         <div class="col-xs-12 col-lg-4">
             <q-select
@@ -61,22 +61,13 @@
       </div>
     </div>
 
-    <!--<debug-data
-      :data="[
-        {
-          wp_data: wp_data
-        }
-      ]"
-    />-->
   </q-page>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-// import debugData from 'components/ui/debug-data'
 import MarkdownViewer from 'components/ui/markdown-viewer'
 import AssetInput from 'components/ui/asset-input'
-// import helpBtn from 'components/controls/help-btn'
 import { required } from 'vuelidate/lib/validators'
 import { isEosName } from '../../modules/validators.js'
 
@@ -84,12 +75,12 @@ export default {
   name: 'newWorkerProposal',
 
   components: {
-    // helpBtn,
     MarkdownViewer,
     AssetInput
-    // debugData
   },
   data () {
+    const [dacPrecision, dacSym] = this.$dir.symbol.symbol.split(',')
+
     return {
       allowed_currencies: [
         {
@@ -98,9 +89,9 @@ export default {
           precision: 4
         },
         {
-          symbol: this.$configFile.get('dactokensymbol'),
-          contract: this.$configFile.get('tokencontract'),
-          precision: 4
+          symbol: dacSym,
+          contract: this.$dir.symbol.contract,
+          precision: parseInt(dacPrecision)
         }
       ],
       wp_data: {
@@ -143,7 +134,7 @@ export default {
       }
       let actions = [
         {
-          account: this.$configFile.get('wpcontract'),
+          account: this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS),
           name: 'createprop',
           data: {
             proposer: this.getAccountName,
