@@ -25,7 +25,7 @@
 <script>
 import { mapGetters } from 'vuex'
 const { TextDecoder, TextEncoder } = require('text-encoding')
-const { Serialize } = require('eosjs')
+const { Serialize } = require('@jafri/eosjs2')
 
 export default {
   name: 'fileInput',

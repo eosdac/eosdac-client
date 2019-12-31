@@ -166,7 +166,7 @@ import authDisplay from 'components/ui/auth-display'
 const prettyHtml = require('json-pretty-html').default
 import { mapGetters } from 'vuex'
 const { TextDecoder, TextEncoder } = require('text-encoding')
-const { Serialize } = require('eosjs')
+const { Serialize } = require('@jafri/eosjs2')
 const numberTypes = [
   'uint8',
   'int8',
