@@ -127,11 +127,11 @@
                 <xspan :value="md5_constitution" />
               </div>
               <div
-                class="markdown-body animate-fade q-pa-md"
+                class="markdown-body animate-fade q-pa-md inline-doc"
                 v-html="parsed_constitution"
-              />
+              ></div>
             </div>
-            <div v-if="!isloading && parsed_constitution == ''">
+            <div v-if="!isloading && parsed_constitution === ''">
               No constitution loaded
             </div>
             <div v-if="isloading" class="animate-fade">loading...</div>
