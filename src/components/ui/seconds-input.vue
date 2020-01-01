@@ -35,7 +35,7 @@ export default {
   props: {
     allowed: {
       type: Array,
-      default: () => ['minutes', 'hours', 'days', 'years']
+      default: () => ['seconds', 'minutes', 'hours', 'days', 'years']
     },
     label: {
       type: String,
