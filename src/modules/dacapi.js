@@ -157,6 +157,10 @@ export class DacApi {
       table = 'config'
       contract = this.dir.getAccount(this.dir.ACCOUNT_REFERENDUM)
       scope = this.dir.dacId
+    } else if (payload === 'token') {
+      table = 'stakeconfig'
+      contract = this.dir.symbol.contract
+      scope = this.dir.dacId
     }
     let res = await this.eos
       .get_table_rows({

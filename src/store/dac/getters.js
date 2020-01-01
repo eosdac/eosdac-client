@@ -51,6 +51,18 @@ export function getCustodianConfig (state) {
   return state.custodianConfig
 }
 
+export function getWpConfig (state) {
+  return state.wpConfig
+}
+
+export function getTokenConfig (state) {
+  return state.tokenConfig
+}
+
+export function getReferendumConfig (state) {
+  return state.referendumConfig
+}
+
 export function getEnableCustPayments (state) {
   if (
     state.custodianConfig.requested_pay_max === null ||
@@ -79,10 +91,6 @@ export function getCustStakeConfig (state) {
 
 export function getTokenStats (state) {
   return state.tokenStats
-}
-
-export function getWpConfig (state) {
-  return state.wpConfig
 }
 
 export function getCandidates (state) {

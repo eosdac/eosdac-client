@@ -51,5 +51,20 @@ export default {
     claim_approval_threshold_percent: null,
     escrow_expiry: null
   },
+
+  tokenConfig: {
+    enabled: null,
+    min_stake_time: null,
+    max_stake_time: null
+  },
+
+  referendumConfig: {
+    fee: null,
+    pass: null,
+    quorum_token: null,
+    quorum_account: null,
+    allow_per_account_voting: null
+  },
+
   wpCategories: require('../../extensions/statics/config/wp_categories.json')
 }

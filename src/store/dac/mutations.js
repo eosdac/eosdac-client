@@ -35,6 +35,14 @@ export function setWpConfig (state, payload) {
   state.wpConfig = payload
 }
 
+export function setTokenConfig (state, payload) {
+  state.tokenConfig = payload
+}
+
+export function setReferendumConfig (state, payload) {
+  state.referendumConfig = payload
+}
+
 export function setCandidates (state, payload) {
   state.candidates = payload
 }

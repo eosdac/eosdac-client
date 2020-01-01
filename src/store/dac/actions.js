@@ -2,7 +2,7 @@ export async function initRoutine ({ state, commit, dispatch }, vm) {
   commit('setIsLoaded', false)
   const api = await dispatch('global/getDacApi', false, { root: true })
 
-  let custodianconfig = await api.getContractConfig('custodian')
+  const custodianconfig = await api.getContractConfig('custodian')
   console.log('custodian config', custodianconfig)
   // requests to get dac info, doesn't require user to be logged in
   let requests = [
@@ -11,7 +11,7 @@ export async function initRoutine ({ state, commit, dispatch }, vm) {
     api.getTokenStats()
   ]
 
-  let [memberterms, custodians, tokenstats] = await Promise.all(requests)
+  const [memberterms, custodians, tokenstats] = await Promise.all(requests)
   commit('setMemberTerms', memberterms)
   commit('setTokenStats', tokenstats)
   commit('setCustodians', custodians)
@@ -27,9 +27,7 @@ export async function initRoutine ({ state, commit, dispatch }, vm) {
 export async function fetchCustodians ({ state, commit, dispatch }) {
   const api = await dispatch('global/getDacApi', false, { root: true })
 
-  let requests = [api.getCustodians()]
-
-  let [custodians] = await Promise.all(requests)
+  const custodians = await api.getCustodians()
   console.log('custodians', custodians)
   if (custodians) {
     commit('setCustodians', custodians)
@@ -50,9 +48,8 @@ export async function fetchActiveCandidates ({ state, commit, dispatch }) {
     return []
   }
 
-  candidates.sort(function (a, b) {
-    let t = b.total_votes - a.total_votes
-    return t
+  candidates.sort((a, b) => {
+    return b.total_votes - a.total_votes
   })
 
   candidates = candidates.map((c, i) => {
@@ -61,10 +58,10 @@ export async function fetchActiveCandidates ({ state, commit, dispatch }) {
     return c
   })
 
-  let candidateNames = candidates.map(c => c.candidate_name)
-  let profiles = await this._vm.$profiles.getProfiles(candidateNames)
+  const candidateNames = candidates.map(c => c.candidate_name)
+  const profiles = await this._vm.$profiles.getProfiles(candidateNames)
   candidates.forEach(c => {
-    let candProfile = profiles.find(p => p.account === c.candidate_name)
+    const candProfile = profiles.find(p => p.account === c.candidate_name)
     if (candProfile) {
       c.profile = candProfile.profile
     } else {
@@ -79,7 +76,7 @@ export async function fetchActiveCandidates ({ state, commit, dispatch }) {
 export async function fetchDacAdmins ({ commit, dispatch }) {
   const api = await dispatch('global/getDacApi', false, { root: true })
   const authAccount = this._vm.$dir.getAccount(this._vm.$dir.ACCOUNT_AUTH)
-  let res = await api.getAccount(authAccount)
+  const res = await api.getAccount(authAccount)
   if (res && res.permissions) {
     let admins = res.permissions.find(p => p.perm_name === 'admin')
     if (!admins) return
@@ -94,7 +91,7 @@ export async function fetchDacAdmins ({ commit, dispatch }) {
 
 export async function fetchAccount ({ commit, dispatch }, payload) {
   const api = await dispatch('global/getDacApi', false, { root: true })
-  let res = await api.getAccount(payload.accountname)
+  const res = await api.getAccount(payload.accountname)
   if (res && res.account_name) {
     return res
   }
@@ -102,14 +99,14 @@ export async function fetchAccount ({ commit, dispatch }, payload) {
 
 export async function fetchApprovalsFromProposal ({ dispatch }, payload) {
   const api = await dispatch('global/getDacApi', false, { root: true })
-  let res = await api.getApprovalsFromProposal(payload)
+  const res = await api.getApprovalsFromProposal(payload)
   return res
 }
 
 export async function fetchControlledAccounts ({ dispatch }) {
   const api = await dispatch('global/getDacApi', false, { root: true })
   const authAccount = this._vm.$dir.getAccount(this._vm.$dir.ACCOUNT_AUTH)
-  let ctrl = await api.getControlledAccounts(
+  const ctrl = await api.getControlledAccounts(
     authAccount
   )
   console.log(ctrl)
@@ -117,7 +114,7 @@ export async function fetchControlledAccounts ({ dispatch }) {
 
 export async function fetchTokenStats ({ commit, dispatch, state }) {
   const api = await dispatch('global/getDacApi', false, { root: true })
-  let stats = await api.getTokenStats()
+  const stats = await api.getTokenStats()
   if (stats) {
     commit('setTokenStats', stats)
     console.log('stats', stats)
@@ -127,7 +124,7 @@ export async function fetchTokenStats ({ commit, dispatch, state }) {
 
 export async function fetchCustodianContractState ({ commit, dispatch, state }) {
   const api = await dispatch('global/getDacApi', false, { root: true })
-  let xstate = await api.getCustodianContractState()
+  const xstate = await api.getCustodianContractState()
   if (xstate) {
     console.log('custodianState', xstate)
     commit('setCustodianState', xstate)
@@ -137,9 +134,27 @@ export async function fetchCustodianContractState ({ commit, dispatch, state }) 
 
 export async function fetchWpConfig ({ commit, dispatch, state }) {
   const api = await dispatch('global/getDacApi', false, { root: true })
-  let conf = await api.getContractConfig('wp')
+  const conf = await api.getContractConfig('wp')
   if (conf) {
     commit('setWpConfig', conf)
+  }
+}
+
+export async function fetchTokenConfig ({ commit, dispatch, state }) {
+  const api = await dispatch('global/getDacApi', false, { root: true })
+  const conf = await api.getContractConfig('token')
+  if (conf) {
+    console.log(`Token config`, conf)
+    commit('setTokenConfig', conf)
+  }
+}
+
+export async function fetchReferendumConfig ({ commit, dispatch, state }) {
+  const api = await dispatch('global/getDacApi', false, { root: true })
+  const conf = await api.getContractConfig('referendum')
+  if (conf) {
+    console.log(`Referendum config`, conf)
+    commit('setReferendumConfig', conf)
   }
 }
 
@@ -268,13 +283,6 @@ export async function fetchReferendums (obj, payload = {}) {
       console.log('could not load referendums from api')
       // return [];
     })
-}
-
-export async function fetchReferendumConfig ({ dispatch }, payload = {}) {
-  const api = await dispatch('global/getDacApi', false, { root: true })
-  const referendumConfig = await api.getContractConfig('referendum')
-  console.log(referendumConfig)
-  return referendumConfig
 }
 
 export async function fetchTokenTimeLine (obj, payload = {}) {
