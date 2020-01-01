@@ -25,10 +25,9 @@
                   <q-icon :name="$configFile.icon.constitution" />
                 </q-item-section>
 
-                <q-item-section>{{$t("default.constitution")}}</q-item-section>
-
                 <q-item-section>
-                  version <xspan :value="getLatestMemberTerm.version"></xspan>
+                    <q-item-label>{{$t("default.constitution")}}</q-item-label>
+                    <q-item-label caption>version {{getLatestMemberTerm.version}}</q-item-label>
                 </q-item-section>
             </q-item>
 
@@ -37,10 +36,9 @@
                   <q-icon :name="$configFile.icon.check" />
                 </q-item-section>
 
-                <q-item-section>{{$t("constitution.hash")}}</q-item-section>
-
                 <q-item-section>
-                  <xspan :value="getLatestMemberTerm.hash"></xspan>
+                    <q-item-label>{{$t("constitution.hash")}}</q-item-label>
+                    <q-item-label caption><pre class="q-ma-none">{{getLatestMemberTerm.hash}}</pre></q-item-label>
                 </q-item-section>
             </q-item>
 
@@ -49,12 +47,11 @@
                   <q-icon :name="$configFile.icon.link" />
                 </q-item-section>
 
-                <q-item-section>{{$t("constitution.direct_link")}}</q-item-section>
-
                 <q-item-section>
-                  <span><a target="_blank" :href="getLatestMemberTerm.terms">{{
-                      getLatestMemberTerm.terms
-                    }}</a></span>
+                    <q-item-label>{{$t("constitution.direct_link")}}</q-item-label>
+                    <q-item-label caption>
+                        <a target="_blank" :href="getLatestMemberTerm.terms">{{getLatestMemberTerm.terms}}</a>
+                    </q-item-label>
                 </q-item-section>
 
             </q-item>
@@ -96,27 +93,16 @@
 
     <q-scroll-observable @scroll="userHasScrolled" />
 
-    <!--<debug-data
-      :data="[
-        {
-          getMemberTerms: getMemberTerms,
-          getAgreedTermsVersion: getAgreedTermsVersion
-        }
-      ]"
-    />-->
   </q-page>
 </template>
 
 <script>
 const CryptoJS = require('crypto-js')
 import marked from 'marked'
-import xspan from 'components/ui/xspan'
-// import debugData from 'components/ui/debug-data'
 
 import { mapGetters } from 'vuex'
 export default {
   components: {
-    xspan
   },
   data () {
     return {
