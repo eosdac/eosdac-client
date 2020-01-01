@@ -62,7 +62,7 @@
           <!-- {{tokenConfig}} -->
           <q-card>
             <q-card-section>
-              <q-toggle :false-value="0" :true-value="1" v-model="tokenConfig.enabled" label="Enable Staking" />
+              <q-toggle v-model="tokenConfig.enabled" label="Enable Staking" />
               <seconds-input v-model="tokenConfig.min_stake_time" label="Minimum Stake Time" />
               <seconds-input v-model="tokenConfig.max_stake_time" label="Maximum Stake Time" />
             </q-card-section>
@@ -337,7 +337,8 @@ export default {
           }
         ]
       }
-      action.data = { config: this.tokenConfig, token_symbol: this.$dir.symbol }
+      // this.tokenConfig.enabled = !!this.tokenConfig.enabled
+      action.data = { config: this.tokenConfig, token_symbol: this.$dir.symbol.symbol }
 
       const res = await this.$store.dispatch('user/proposeMsig', {
         actions: [action],
@@ -393,13 +394,14 @@ export default {
     }
   },
   watch: {
-    selectedTab: function (tabName) {
+    selectedTab: async function (tabName) {
       switch (tabName) {
         case 'proposals':
           this.fetchWpConfig()
           break
         case 'token':
-          this.fetchTokenConfig()
+          await this.fetchTokenConfig()
+          this.tokenConfig.enabled = !!this.tokenConfig.enabled
           break
         case 'referendum':
           this.fetchReferendumConfig()
