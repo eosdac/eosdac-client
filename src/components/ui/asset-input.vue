@@ -36,8 +36,7 @@ export default {
       default: () => ''
     },
     value: {
-      type: Object,
-      default: () => { return { quantity: '0.0000' } }
+      type: Object
     }
   },
   data () {
@@ -59,7 +58,14 @@ export default {
   methods: {
     updateValueQuantity (val) {
       // console.log(`updateValueQuantity`, val)
-      const symbol = this.$refs.symbol_input.value.value
+      let symbolOpt = this.$refs.symbol_input.value
+      let symbol
+      if (typeof symbolOpt === 'string') {
+        symbolOpt = this.$refs.symbol_input.options.filter(o => o.label === this.$refs.symbol_input.value)[0]
+      }
+      symbol = symbolOpt.value
+
+      console.log(symbolOpt)
       let quantity = parseFloat(val)
 
       this.updateValue(quantity, symbol)
@@ -72,7 +78,7 @@ export default {
       this.updateValue(quantity, symbol)
     },
     updateValue (quantity, symbol) {
-      // console.log(`updateValue`, quantity, symbol)
+      console.log(`updateValue`, quantity, symbol)
       if (!symbol) {
         return
       }
