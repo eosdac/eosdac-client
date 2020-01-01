@@ -2,10 +2,17 @@
   <q-page class="q-pa-md full-width">
     <div class="row q-col-gutter-md full-width">
       <q-card class="col-sm-6">
-        <q-card-section class="bg-secondary text-white">
-          <div class="text-h6">
-            <q-icon :name="$configFile.icon.dactoken" />
-            Pending Payments ({{ pendingpay.length }})</div>
+
+        <q-card-section class="bg-primary q-pa-xs">
+          <q-item>
+            <q-item-section avatar>
+              <q-icon :name="$configFile.icon.dactoken" />
+            </q-item-section>
+            <q-item-section class="text-h6">
+              Pending Payments ({{ pendingpay.length }})
+            </q-item-section>
+          </q-item>
+
         </q-card-section>
 
         <q-card-section v-if="pendingpay.length > 1">
@@ -21,23 +28,19 @@
       </q-card>
 
       <q-card class="col-sm-6">
-        <q-card-section class="bg-secondary text-white">
-          <div class="text-h6">
-            <q-icon :name="$configFile.icon.systemtoken" />
-            Update Requested Pay</div>
-          <!-- <help-btn
-            :content="
-              $t('manage_candidateship.pay_description', {
-                requested_pay: $helper.assetToLocaleNumber(
-                  getCustodianConfig.requested_pay_max.quantity
-                )
-              })
-            "
-            title="Update Requested Pay"
-            color="text1"
-            size="sm"
-          /> -->
+
+        <q-card-section class="bg-primary q-pa-xs">
+          <q-item>
+            <q-item-section avatar>
+              <q-icon :name="$configFile.icon.systemtoken" />
+            </q-item-section>
+            <q-item-section class="text-h6">
+              Update Requested Pay
+            </q-item-section>
+          </q-item>
+
         </q-card-section>
+
         <q-card-section>
           <div class="q-pa-md">
             <span>Your current pay amount is set to {{ getIsCandidate.requestedpay }}</span>
@@ -87,7 +90,7 @@ import { mapGetters } from 'vuex'
 // import debugData from 'components/ui/debug-data'
 // import helpBtn from 'components/controls/help-btn'
 // import countdown from '@chenfengyuan/vue-countdown'
-import { required, between } from 'vuelidate/lib/validators'
+import { required } from 'vuelidate/lib/validators'
 export default {
   name: 'MyPayments',
   components: {
@@ -252,13 +255,13 @@ export default {
   validations () {
     return {
       new_requested_pay: {
-        required,
+        required/* ,
         between: between(
           0.0,
           this.$helper.assetToNumber(
             this.getCustodianConfig.requested_pay_max.quantity
           )
-        )
+        ) */
       }
     }
   }
