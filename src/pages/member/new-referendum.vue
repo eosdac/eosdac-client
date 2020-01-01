@@ -29,7 +29,7 @@
         ]"
                   :edit="true"
                   value=" "
-                  :text="description"
+                  :text="content"
                   v-on:update="updateText"
           />
         </template>
@@ -94,6 +94,7 @@ export default {
     async submitReferendum () {
       const data = {
         proposer: this.getAccountName,
+        referendum_id: this.$helper.randomName(),
         type: this.type.value,
         voting_type: this.voting_type.value,
         title: this.title,
