@@ -1,5 +1,5 @@
 <template>
-      <div class="row gutter-sm">
+      <div class="row q-col-gutter-xs">
         <div class="col-xs-12">
           <q-input
                   v-model="form.title"
@@ -103,10 +103,8 @@ export default {
         from: '',
         to: '',
         asset: {
-          symbol: 'EOS',
-          precision: 4,
           contract: 'eosio.token',
-          amount: ''
+          quantity: '0.0000 EOS'
         },
         memo: '',
         title: '',
@@ -157,10 +155,8 @@ export default {
         from: '',
         to: '',
         asset: {
-          symbol: 'EOS',
-          precision: 4,
           contract: 'eosio.token',
-          amount: ''
+          amount: '0.0000 EOS'
         },
         memo: '',
         title: '',
