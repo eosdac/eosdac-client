@@ -259,15 +259,15 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-  import financialAccount from 'components/ui/financial-account'
-  // import helpBtn from 'components/controls/help-btn'
-  import msigTransfer from 'components/controls/msig-transfer'
-  // import { saveAs } from 'file-saver'
-  // import custodianPayments from "components/controls/custodian-payments";
-  import { colors, Notify, openURL } from 'quasar'
+import { mapGetters } from 'vuex'
+import financialAccount from 'components/ui/financial-account'
+// import helpBtn from 'components/controls/help-btn'
+import msigTransfer from 'components/controls/msig-transfer'
+// import { saveAs } from 'file-saver'
+// import custodianPayments from "components/controls/custodian-payments";
+import { colors, Notify, openURL } from 'quasar'
 
-  export default {
+export default {
   name: 'dacFinancials',
   components: {
     msigTransfer,
