@@ -14,6 +14,17 @@ class DacDirectory {
     this.ACCOUNT_EXTERNAL = 254
     this.ACCOUNT_OTHER = 255
 
+    this.REF_HOMEPAGE = 0
+    this.REF_LOGO_URL = 1
+    this.REF_DESCRIPTION = 2
+    this.REF_LOGO_NOTEXT_URL = 3
+    this.REF_BACKGROUND_URL = 4
+    this.REF_COLORS = 5
+    this.REF_CLIENT_EXTENSION = 6
+    this.REF_FAVICON_URL = 7
+    this.REF_DAC_CURRENCY_URL = 8
+    this.REF_SYSTEM_CURRENCY_URL = 9
+
     this.dacId = config.get('dacid')
     this.directoryAccount = config.get('dacdirectory')
     this.api = api
