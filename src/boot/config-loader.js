@@ -65,7 +65,7 @@ class ConfigLoader {
       case 'custodiancontract':
         return this.configFile.contracts.custodian.name
       case 'systemtokensymbol':
-        return this.configFile.contracts.system_token.symbol
+        return this.configFile.system_token.symbol
       case 'systemtokendecimals':
         return this.configFile.system_token.precision
       case 'systemtokencontract':
