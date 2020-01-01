@@ -33,7 +33,6 @@
             </q-item>
           </q-card-section>
           <q-card-section>
-            <div class="bg-bg1 round-borders shadow-4 overflow-hidden">
               <div class="relative-position">
                 <div class="cust_only_overlay" v-if="!getIsCustodian">
                   <q-icon name="lock" class="q-mr-xs text-text2" />
@@ -47,7 +46,6 @@
                   />
                 </div>
               </div>
-            </div>
           </q-card-section>
         </q-card>
 
@@ -114,7 +112,6 @@
             </q-item>
           </q-card-section>
           <q-card-section>
-            <div class="bg-bg1 round-borders shadow-4 overflow-hidden bg-logo">
               <div class="relative-position">
                 <div class="cust_only_overlay" v-if="!getIsCustodian">
                   <q-icon name="lock" class="q-mr-xs text-text2" />
@@ -224,7 +221,6 @@
                   </q-list>
                 </q-scroll-area>
               </div>
-            </div>
           </q-card-section>
         </q-card>
 
@@ -263,14 +259,15 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import financialAccount from 'components/ui/financial-account'
-// import helpBtn from 'components/controls/help-btn'
-import msigTransfer from 'components/controls/msig-transfer'
-// import { saveAs } from 'file-saver'
-// import custodianPayments from "components/controls/custodian-payments";
-import { colors, openURL, Notify } from 'quasar'
-export default {
+  import { mapGetters } from 'vuex'
+  import financialAccount from 'components/ui/financial-account'
+  // import helpBtn from 'components/controls/help-btn'
+  import msigTransfer from 'components/controls/msig-transfer'
+  // import { saveAs } from 'file-saver'
+  // import custodianPayments from "components/controls/custodian-payments";
+  import { colors, Notify, openURL } from 'quasar'
+
+  export default {
   name: 'dacFinancials',
   components: {
     msigTransfer,
