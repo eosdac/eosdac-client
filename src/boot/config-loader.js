@@ -72,8 +72,6 @@ class ConfigLoader {
         return this.configFile.system_token.contract
       case 'systemmsigcontract':
         return this.configFile.contracts.system_msig.name
-      case 'botcontract':
-        return this.configFile.contracts.bot.name
       case 'explorer':
         return this.configFile.external.explorer.replace(/\/+$/, '')
       case 'external':
