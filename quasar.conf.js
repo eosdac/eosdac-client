@@ -11,6 +11,7 @@ module.exports = function (ctx) {
       'axios',
       'config-loader',
       'eosapi',
+      'dacdirectory',
       'profile-cache',
       'markdown-editor',
       'vuelidate',
