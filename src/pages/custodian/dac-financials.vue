@@ -22,7 +22,7 @@
     <div class="row q-col-gutter-md q-mt-md">
       <div class="col-xs-12 col-lg-6">
         <q-card>
-          <q-card-section class="bg-primary">
+          <q-card-section class="bg-primary q-pa-xs">
             <q-item>
               <q-item-section avatar>
                 <q-icon :name="$configFile.icon.dactoken" />
@@ -55,7 +55,7 @@
 
       <div class="col-xs-12 col-lg-6">
         <q-card>
-          <q-card-section class="bg-primary">
+          <q-card-section class="bg-primary q-pa-xs">
             <q-item>
               <q-item-section avatar>
                 <q-icon :name="$configFile.icon.dactoken" />

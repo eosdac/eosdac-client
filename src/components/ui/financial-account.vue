@@ -1,10 +1,8 @@
 <template>
   <div>
     <q-card>
-      <q-card-section class="bg-primary">
-        <div
-                class="q-pa-sm row justify-between items-center bg-primary "
-        >
+      <q-card-section class="bg-primary q-pa-xs">
+        <div class="q-pa-sm row justify-between items-center">
           <q-select
                   v-if="tokens"
                   :disable="tokens.length < 2"
