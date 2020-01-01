@@ -43,24 +43,24 @@
         <q-tab-panel name="proposals">
           <div class="text-h5">Proposals</div>
           <!-- {{wpConfig}} -->
-          <q-card>
+          <q-card v-if="referendumConfig.fee !== null">
             <q-card-section>
               <q-input type="number" v-model="wpConfig.proposal_threshold" label="Proposal Threshold" />
               <q-input type="number" v-model="wpConfig.finalize_threshold" label="Finalize Threshold" />
               <seconds-input v-model="wpConfig.escrow_expiry" label="Escrow Expiry" />
               <seconds-input v-model="wpConfig.approval_expiry" label="Approval Expiry" />
             </q-card-section>
-          </q-card>
-          <q-card-actions align="right">
+            <q-card-actions align="right">
               <q-btn color="positive" label="Propose Changes" @click="saveWpConfig" />
             </q-card-actions>
+          </q-card>
         </q-tab-panel>
 
         <q-tab-panel name="token">
           <div class="text-h5">Token Config</div>
 
           <!-- {{tokenConfig}} -->
-          <q-card>
+          <q-card v-if="tokenConfig.min_stake_time !== null">
             <q-card-section>
               <q-toggle v-model="tokenConfig.enabled" label="Enable Staking" />
               <seconds-input v-model="tokenConfig.min_stake_time" label="Minimum Stake Time" />
@@ -76,7 +76,7 @@
         <q-tab-panel name="referendum">
           <div class="text-h5">Referendum</div>
           <!-- {{referendumConfig}} -->
-          <q-card>
+          <q-card v-if="referendumConfig.fee !== null">
             <q-card-section>
               <referendum-config-group v-model="referendumConfig.fee" type="asset" :allowed="[dacToken, systemToken]" label="Fees" />
               <referendum-config-group v-model="referendumConfig.pass" type="number" label="Pass rate" />
@@ -93,9 +93,8 @@
 
         <q-tab-panel name="brand">
           <div class="text-h5">Branding</div>
-          <div v-if="brandData">
 <!--            <div>{{brandData}}</div>-->
-            <q-card>
+            <q-card v-if="brandData">
               <q-card-section>
                 <q-toggle v-model="brandData.is_dark" label="Dark Theme" />
               </q-card-section>
@@ -199,8 +198,6 @@
               <q-btn color="positive" label="Propose Changes" @click="saveBrand" />
             </q-card-actions>
             </q-card>
-
-          </div>
 
         </q-tab-panel>
       </q-tab-panels>
