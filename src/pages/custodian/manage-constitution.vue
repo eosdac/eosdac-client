@@ -48,15 +48,17 @@
                   :key="`mt${i}`"
                   class="animate-fade"
                 >
-                  <q-item-side left :icon="$configFile.icon.constitution" />
-                  <q-item-main>
-                    <q-item-tile label>
+                  <q-item-section side>
+                    <q-icon :name="$configFile.icon.constitution" />
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label>
                       <div class="overflow-hidden">
                         <span>Version {{ mt.version }} </span>
                         <span class="q-caption text-text2">{{ mt.hash }}</span>
                       </div>
-                    </q-item-tile>
-                    <q-item-tile sublabel>
+                    </q-item-label>
+                    <q-item-label caption>
                       <div
                         style="white-space: nowrap;"
                         class=" overflow-hidden"
@@ -68,9 +70,9 @@
                           >{{ mt.terms }}</a
                         >
                       </div>
-                    </q-item-tile>
-                  </q-item-main>
-                  <q-item-side right style="min-width:65px">
+                    </q-item-label>
+                  </q-item-section>
+                  <q-item-section side style="min-width:65px">
                     <q-btn
                       v-if="mt.hash != md5_constitution"
                       color="info"
@@ -87,7 +89,7 @@
                       color="positive"
                       class="animate-fade"
                     />
-                  </q-item-side>
+                  </q-item-section>
                 </q-item>
               </q-list>
             </q-scroll-area>
