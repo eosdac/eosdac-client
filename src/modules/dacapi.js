@@ -37,28 +37,33 @@ export class DacApi {
 
   async getStaked (
     accountname,
-    code = this.configobj.get('tokencontract'),
-    symbol = this.configobj.get('dactokensymbol'),
+    code,
+    symbol,
     scope = this.dir.dacId
   ) {
-    return this.eos
-      .get_table_rows({
+    try {
+      const res = await this.eos.get_table_rows({
         code,
         scope,
         table: 'stakes',
         lower_bound: accountname,
         upper_bound: accountname
       })
-      .then(res => {
-        if (res.rows.length) {
-          let [qty] = res.rows[0].stake.split(' ')
-          // alert(`qty = ${qty}`);
-          return parseFloat(qty)
-        } else {
-          return 0
+
+      console.log(`stakes`, res)
+
+      if (res.rows.length) {
+        let [qty] = res.rows[0].stake.split(' ')
+        // alert(`qty = ${qty}`);
+        qty = parseFloat(qty)
+        if (isNaN(qty)) {
+          qty = 0
         }
-      })
-      .catch(e => false)
+        return qty
+      }
+    } catch (e) {}
+
+    return 0
   }
 
   async getAgreedTermsVersion (accountname) {
