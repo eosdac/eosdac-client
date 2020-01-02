@@ -70,7 +70,7 @@
             :thumb-style="{
               right: '-13px',
               borderRadius: '2px',
-              background: $primary,
+              backgroundColor: 'var(--q-color-primary)',
               width: '10px',
               opacity: 0.8
             }"
