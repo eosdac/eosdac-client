@@ -372,11 +372,6 @@ export default {
 
     // cast votes
     async voteForCandidates () {
-      if (!this.$configFile.configFile.contracts.custodian.enable_voting) {
-        this.votesdidchange = false
-        this.voting_disabled_modal = true
-        return false
-      }
       if (!this.votesdidchange) {
         return false
       }
