@@ -45,8 +45,6 @@ class ConfigLoader {
         return this.configFile.endpoints
       case 'theme_images':
         return this.theme.images
-      case 'dacname':
-        return this.configFile.dacName
       case 'dacdirectory':
         return this.configFile.accounts.directory
       case 'dacid':
@@ -71,10 +69,6 @@ class ConfigLoader {
         return this.configFile.external
       case 'dacapi':
         return this.configFile.api.dac_api.replace(/\/+$/, '')
-      case 'wpcontract':
-        return this.configFile.contracts.wpproposal.name
-      case 'referendumcontract':
-        return this.configFile.contracts.referendum.name
       case 'financialaccounts':
         return this.configFile.financial_page_graphs
       default:
