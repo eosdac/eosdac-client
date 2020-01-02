@@ -283,10 +283,10 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-  import ProfilePic from '../components/ui/profile-pic'
+import { mapGetters } from 'vuex'
+import ProfilePic from '../components/ui/profile-pic'
 
-  export default {
+export default {
   name: 'RegisterCandidate',
   components: {
     ProfilePic
