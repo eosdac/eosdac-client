@@ -17,7 +17,7 @@
       </div>
 
       <div
-        class="row q-mb-md bg-bg2 q-pa-md q-mt-md round-borders"
+        class="row q-mb-md bg-bg2 q-pa-md q-mt-md rounded-borders"
       >
         <draggable
           v-model="actions"
@@ -48,7 +48,7 @@
         <div name="tab-msig">
           <div class="row gutter-sm q-pa-md">
             <div class="col-xs-12 col-md-6">
-              <div class="q-pa-md round-borders full-height">
+              <div class="q-pa-md rounded-borders full-height">
                 <span class="text-text2">{{$t('transactionbuilder.add_title_description')}}</span>
                 <q-input
                         :label="$t('transactionbuilder.title')"
@@ -80,7 +80,7 @@
               </div>
             </div>
             <div class="col-xs-12 col-md-6">
-              <div class="q-pa-md round-borders">
+              <div class="q-pa-md rounded-borders">
                 <div class="q-pa-sm">{{$t('transactionbuilder.set_expiry')}}</div>
 
                 <q-date v-model="msig_expiration" :options="verifyDates" />

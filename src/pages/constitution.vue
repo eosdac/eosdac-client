@@ -17,7 +17,7 @@
         <div>
           <div
             id="registerbox"
-            class="bg-logo q-pa-md round-borders shadow-4 relative-position"
+            class="bg-logo q-pa-md rounded-borders shadow-4 relative-position"
             style="overflow:hidden"
           >
             <q-item>

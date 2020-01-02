@@ -5,7 +5,7 @@
       v-html="convertedAndSanitizedHtml"
       class="markdown-body q-body-ow"
     ></div>
-    <div v-else class="relative-position bg-bg2 round-borders">
+    <div v-else class="relative-position bg-bg2 rounded-borders">
       <q-field :label="label" stack-label>
         <template v-slot:control>
           <div class="self-center full-width no-outline" tabindex="0">

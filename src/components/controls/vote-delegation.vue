@@ -5,7 +5,7 @@
     </div> -->
     <!-- {{ getCatDelegations }} -->
     <div
-      class="relative-position bg-bg1 bg-logo q-pa-md round-borders shadow-4"
+      class="relative-position bg-bg1 bg-logo q-pa-md rounded-borders shadow-4"
     >
       <div class="row gutter-sm ">
         <div
@@ -14,7 +14,7 @@
           :key="`wpcat${i}`"
         >
           <q-item
-            class=" bg-bg2 q-pa-md round-borders full-height animate-pop "
+            class=" bg-bg2 q-pa-md rounded-borders full-height animate-pop "
           >
             <q-item-main>
               <q-icon
@@ -112,7 +112,7 @@ export default {
       const authAccount = this.$dir.getAccount(this.$dir.ACCOUNT_AUTH)
 
       let delegate = {
-        account: this.$configFile.get('wpcontract'),
+        account: this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS),
         name: 'delegatecat',
         authorization: [
           { actor: this.getAccountName, permission: this.getAuth },
@@ -129,7 +129,7 @@ export default {
         }
       }
       let undelegate = {
-        account: this.$configFile.get('wpcontract'),
+        account: this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS),
         name: 'undelegateca',
         authorization: [
           { actor: this.getAccountName, permission: this.getAuth },

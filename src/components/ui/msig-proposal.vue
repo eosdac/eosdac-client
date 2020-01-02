@@ -166,7 +166,7 @@
           <div class="row justify-start q-mt-sm">
             <!-- <pre>{{provided_approvals}}</pre> -->
             <div
-              class="row items-center relative-position bg-bg1 round-borders q-pr-md q-ma-sm"
+              class="row items-center relative-position bg-bg1 rounded-borders q-pr-md q-ma-sm"
               v-for="(c, i) in provided_approvals"
               :key="i + 'p'"
             >
@@ -192,7 +192,7 @@
             </div>
 
             <div
-              class="row items-center relative-position bg-bg1 round-borders q-pr-md q-ma-sm"
+              class="row items-center relative-position bg-bg1 rounded-borders q-pr-md q-ma-sm"
               v-for="(c, i) in requested_approvals"
               :key="i + 'r'"
             >

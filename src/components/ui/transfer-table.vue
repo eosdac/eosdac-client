@@ -1,5 +1,5 @@
 <template>
-  <div class="round-borders shadow-4 col-md-12">
+  <div class="rounded-borders shadow-4 col-md-12">
     <q-table
       ref="table"
       color="primary-light"

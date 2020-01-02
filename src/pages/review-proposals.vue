@@ -14,7 +14,7 @@
     </q-tabs>
 
     <div
-      class="row bg-bg1 q-pa-md q-mb-md shadow-4 round-borders justify-between"
+      class="row bg-bg1 q-pa-md q-mb-md shadow-4 rounded-borders justify-between"
     >
       <!--<q-search
         color="primary"
@@ -56,7 +56,7 @@
     </div>
     <div
       v-else
-      class="text-text2 bg-bg1 bg-logo q-pa-md round-borders shadow-4 capitalize"
+      class="text-text2 bg-bg1 bg-logo q-pa-md rounded-borders shadow-4 capitalize"
     >
       <span v-if="msigs_loading" class="row items-center">
         <q-spinner-pie class="on-left" color="primary-light" />Loading
@@ -65,7 +65,7 @@
     </div>
 
     <div
-      class="row bg-bg1 q-pa-md q-my-md shadow-4 round-borders justify-between"
+      class="row bg-bg1 q-pa-md q-my-md shadow-4 rounded-borders justify-between"
       v-if="true"
     >
 <!--      <q-search-->

@@ -120,9 +120,9 @@ export default {
           contract: this.$configFile.get('systemtokencontract')
         },
         {
-          symbol: this.$configFile.get('dactokensymbol'),
-          precision: 4,
-          contract: this.$configFile.get('tokencontract')
+          symbol: this.$dir.symbolCode,
+          precision: this.$dir.symbolPrecision,
+          contract: this.$dir.symbol.contract
         }
       ]
     }

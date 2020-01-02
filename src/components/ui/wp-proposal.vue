@@ -78,7 +78,7 @@
       </div>
 
       <q-scroll-area
-        class="q-mt-sm round-borders text-weight-light text-text2"
+        class="q-mt-sm rounded-borders text-weight-light text-text2"
         :style="scroll_area_style"
         color="primary"
         :thumb-style="{
@@ -242,7 +242,7 @@
           <div class="q-pa-md" v-if="wp.status !== 5 && wp.status !== 100">
             <div class="row justify-start q-mt-sm">
               <div
-                      class="row items-center relative-position bg-bg1 round-borders q-pr-md q-ma-sm"
+                      class="row items-center relative-position bg-bg1 rounded-borders q-pr-md q-ma-sm"
                       v-for="(vote, i) in getVotes.filter(
                 v => v.vote === 1 || v.vote === 3
               )"
@@ -274,7 +274,7 @@
               </div>
 
               <div
-                      class="row items-center relative-position bg-bg1 round-borders q-pr-md q-ma-sm"
+                      class="row items-center relative-position bg-bg1 rounded-borders q-pr-md q-ma-sm"
                       v-for="(vote, i) in getVotes.filter(
                 v => v.vote === 2 || v.vote === 4
               )"

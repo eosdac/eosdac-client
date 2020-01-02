@@ -93,9 +93,9 @@
       class="animate-fade"
       :label="getAccountName"
       content-style="margin-top:15px;"
-      content-class="round-borders"
+      content-class="rounded-borders"
     >
-      <q-list link class="text-text1 round-borders">
+      <q-list link class="text-text1 rounded-borders">
         <q-item-section class="text-center text-h6 q-pa-sm">
           {{ getAuthString }}
         </q-item-section>

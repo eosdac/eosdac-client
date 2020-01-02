@@ -121,7 +121,7 @@
         </div>
 
         <div class="col-xs-12 animate-scale">
-          <div class="q-pa-md round-borders bg-bg1 shadow-4">
+          <div class="q-pa-md rounded-borders bg-bg1 shadow-4">
             <div v-if="parsed_constitution != ''">
               <div class="row q-pb-md justify-end">
                 <xspan :value="md5_constitution" />
@@ -241,7 +241,7 @@ export default {
     async updateConstitution () {
       if (this.new_constitution_url === '' || this.md5_constitution === '') { return }
       let action = {
-        account: this.$configFile.get('tokencontract'),
+        account: this.$dir.symbol.contract,
         name: 'newmemtermse', // xxxxx
         data: {
           terms: this.new_constitution_url,
@@ -250,7 +250,7 @@ export default {
         },
         authorization: [
           {
-            actor: this.$configFile.get('tokencontract'),
+            actor: this.$dir.symbol.contract,
             permission: 'active'
           }
         ]

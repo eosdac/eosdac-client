@@ -5,7 +5,7 @@
       enter-active-class="animated flipInX"
       leave-active-class="animated flipOutX"
     >
-      <div appear class="q-pa-sm round-borders q-ma-xs">
+      <div appear class="q-pa-sm rounded-borders q-ma-xs">
         <q-btn
           v-if="viewable"
           size="sm"

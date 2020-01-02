@@ -59,7 +59,7 @@
 
     <div
       v-if="data_fields.length"
-      class=" animate-fade bg-bg2 q-pa-md q-mt-md round-borders"
+      class=" animate-fade bg-bg2 q-pa-md q-mt-md rounded-borders"
     >
       <div class="row justify-between items-center q-mb-md">
           <q-breadcrumbs separator=" > ">

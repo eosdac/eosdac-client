@@ -5,7 +5,7 @@
       <!-- <period-timer style="transform: scale(0.5)" /> -->
       <!-- {{ oldvotes }} -->
 
-      <div class="shadow-4 round-borders q-pa-md q-mb-md">
+      <div class="shadow-4 rounded-borders q-pa-md q-mb-md">
         <display-custodians />
       </div>
 
@@ -26,7 +26,7 @@
 
             <div
               v-if="!loading"
-              class="row bg-bg1 q-pa-md q-mb-md shadow-4 round-borders justify-between animate-fade"
+              class="row bg-bg1 q-pa-md q-mb-md shadow-4 rounded-borders justify-between animate-fade"
             >
 <!--              <q-search-->
 <!--                color="primary-light"-->
@@ -65,7 +65,7 @@
               </div>
             </div>
             <div
-              class="q-pa-md q-mb-md round-borders shadow-4 bg-bg1 text-text2"
+              class="q-pa-md q-mb-md rounded-borders shadow-4 bg-bg1 text-text2"
               v-if="!custodians.length"
             >
               No candidates
@@ -83,7 +83,7 @@
 
             <div
               v-if="!loading"
-              class="row bg-bg1 q-pa-md q-mb-md shadow-4 round-borders justify-between animate-fade"
+              class="row bg-bg1 q-pa-md q-mb-md shadow-4 rounded-borders justify-between animate-fade"
             >
 <!--              <q-search-->
 <!--                color="primary-light"-->
@@ -206,7 +206,7 @@
         minimized
         :content-css="{ width: '50%' }"
       >
-        <div class="bg-dark round-borders q-pa-md">
+        <div class="bg-dark rounded-borders q-pa-md">
           <div style="overflow: auto;">
             <q-btn
               round

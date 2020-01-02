@@ -3,7 +3,7 @@
     <div
       v-for="(a, i) in getAllAuth"
       :key="`auth${i}`"
-      class="round-borders q-body-1 q-pa-sm q-ma-xs bg-bg1 row items-center animate-pop"
+      class="rounded-borders q-body-1 q-pa-sm q-ma-xs bg-bg1 row items-center animate-pop"
     >
       <q-icon name="mdi-shield-account" class=" text-text2" size="16px" />
       <div class="q-caption q-mx-sm">{{ `${a.actor}@${a.permission}` }}</div>

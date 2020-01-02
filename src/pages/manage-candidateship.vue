@@ -5,7 +5,7 @@
       <div
         v-if="getIsCandidate && getIsCandidate.is_active"
       >
-      <div class="row bg-logo bg-bg2 q-pa-md round-borders shadow-4 relative-position overflow-hidden">
+      <div class="row bg-logo bg-bg2 q-pa-md rounded-borders shadow-4 relative-position overflow-hidden">
         <!-- <div class="" style="bottom:-50%;right:-80%;"></div> -->
         <q-item class="no-padding">
           <q-item-section side>
@@ -62,7 +62,7 @@
                   <q-icon name="icon-dac-balance" />
                 </q-item-section>
 
-                <q-item-section>{{$t(`manage_candidateship.locked_tokens`)}}</q-item-section>
+                <q-item-section>{{$t(`manage_candidateship.current_stake`)}}</q-item-section>
 
                 <q-item-section no-wrap>
                   <div class="row">
@@ -83,7 +83,7 @@
           </q-item>
         </div>
       </div>
-      <div class="row justify-end">
+      <div class="row justify-end q-pt-md">
         <q-btn
                 class="animate-pop"
                 color="negative"
@@ -95,7 +95,7 @@
       <!-- end already a candidate -->
 
       <!-- Not a candidate REGISTER -->
-      <div v-else class="bg-bg1 bg-logo q-pa-md round-borders shadow-4">
+      <div v-else class="bg-bg1 bg-logo q-pa-md rounded-borders shadow-4">
         <q-item class="no-padding q-mb-md">
           <q-item-section avatar>
             <profile-pic :accountname="getAccountName" :scale="2.0" style="width:80px;height:80px" />
@@ -210,7 +210,7 @@
             !getIsCandidate.is_active &&
             getStakedDacBalance
         "
-        class=" bg-bg1 q-pa-md round-borders shadow-4 q-mt-md"
+        class=" bg-bg1 q-pa-md rounded-borders shadow-4 q-mt-md"
       >
         <span
           >{{ $t("manage_candidateship.unstake_description")
