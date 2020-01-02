@@ -54,12 +54,6 @@ class ConfigLoader {
         return this.configFile.dacId
       case 'defaultnode':
         return this.configFile.api.default_eos_node
-      case 'tokencontract':
-        return this.configFile.dac_token.contract
-      case 'tokendecimals':
-        return this.configFile.dac_token.precision
-      case 'dactokensymbol':
-        return this.configFile.dac_token.symbol
       case 'marketapi':
         return this.configFile.contracts.token.market_api
       case 'custodiancontract':
