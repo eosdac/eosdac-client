@@ -4,7 +4,7 @@
     <q-tabs color="primary">
       <q-tab
         default
-        :label="`Token (${$configFile.get('dactokensymbol')})`"
+        :label="`Token (${$dir.symbolCode})`"
         name="token"
         slot="title"
       />
