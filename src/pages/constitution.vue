@@ -174,7 +174,7 @@ export default {
     async signConstitution () {
       let actions = [
         {
-          account: this.$configFile.get('tokencontract'),
+          account: this.$dir.symbol.contract,
           name: 'memberrege',
           data: {
             sender: this.getAccountName,
@@ -198,7 +198,7 @@ export default {
     async unRegister () {
       let actions = [
         {
-          account: this.$configFile.get('tokencontract'),
+          account: this.$dir.symbol.contract,
           name: 'memberunrege',
           data: {
             sender: this.getAccountName,
