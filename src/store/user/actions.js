@@ -18,7 +18,7 @@ export async function loggedOutRoutine ({ commit }) {
 }
 
 export async function loggedInRoutine ({ state, commit, dispatch }, account) {
-  let accountname = account.accounts[0].name
+  const accountname = account.accounts[0].name
   commit('setAccount', account.accounts[0])
   commit('setAccountName', accountname)
   commit('setIsLoaded', false)
@@ -33,14 +33,14 @@ export async function loggedInRoutine ({ state, commit, dispatch }, account) {
   const api = await dispatch('global/getDacApi', false, { root: true })
 
   // requests for setting up the logged in user
-  let requests = [
+  const requests = [
     api.getBalance(accountname),
     api.getStaked(accountname),
     api.getAgreedTermsVersion(accountname),
     api.isCandidate(accountname)
   ]
   console.log(JSON.stringify(await api.getAccount(accountname)))
-  let [balance, staked, termsversion, isCandidate] = await Promise.all(requests)
+  const [balance, staked, termsversion, isCandidate] = await Promise.all(requests)
   console.log('is canddate:', isCandidate)
   commit('setDacBalance', balance)
   commit('setStakedDacBalance', staked)
@@ -314,6 +314,7 @@ export async function proposeMsig (
       root: true
     })
   }
+  console.log(`requested permissions`, requested)
   // msig trx template
   let msigTrxTemplate = {
     expiration: payload.expiration || expiration,
@@ -332,6 +333,7 @@ export async function proposeMsig (
   // serialize action data and add to template
   for (let i = 0; i < payload.actions.length; i++) {
     let action = payload.actions[i]
+    console.log(payload.actions[i])
     let hexdata = await api.serializeActionData(action)
     action.data = hexdata
     msigTrxTemplate.actions.push(action)
@@ -351,7 +353,6 @@ export async function proposeMsig (
   // handle the correct permission for the "proposed" action
   let PERM = rootGetters['dac/getAuthAccountPermLevel']
 
-  console.log(payload.actions[0])
   const authAccount = this._vm.$dir.getAccount(this._vm.$dir.ACCOUNT_AUTH)
   const dacMsigContract = this._vm.$dir.getAccount(this._vm.$dir.ACCOUNT_MSIGS)
 
