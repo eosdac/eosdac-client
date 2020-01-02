@@ -43,7 +43,7 @@
         <q-tab-panel name="proposals">
           <div class="text-h5">Proposals</div>
           <!-- {{wpConfig}} -->
-          <q-card v-if="referendumConfig.fee !== null">
+          <q-card v-if="wpConfigLoaded">
             <q-card-section>
               <q-input type="number" v-model="wpConfig.proposal_threshold" label="Proposal Threshold" />
               <q-input type="number" v-model="wpConfig.finalize_threshold" label="Finalize Threshold" />
@@ -60,7 +60,7 @@
           <div class="text-h5">Token Config</div>
 
           <!-- {{tokenConfig}} -->
-          <q-card v-if="tokenConfig.min_stake_time !== null">
+          <q-card v-if="tokenConfigLoaded">
             <q-card-section>
               <q-toggle v-model="tokenConfig.enabled" label="Enable Staking" />
               <seconds-input v-model="tokenConfig.min_stake_time" label="Minimum Stake Time" />
@@ -76,7 +76,10 @@
         <q-tab-panel name="referendum">
           <div class="text-h5">Referendum</div>
           <!-- {{referendumConfig}} -->
-          <q-card v-if="referendumConfig.fee !== null">
+          <q-card v-if="!referendumEnabled">
+            <q-card-section>Referendums are not enabled, please enable manually by setting dacdirectory account type REFERENDUM ({{$dir.ACCOUNT_REFERENDUM}})</q-card-section>
+          </q-card>
+          <q-card v-if="referendumConfigLoaded && referendumEnabled">
             <q-card-section>
               <referendum-config-group v-model="referendumConfig.fee" type="asset" :allowed="[dacToken, systemToken]" label="Fees" />
               <referendum-config-group v-model="referendumConfig.pass" type="number" label="Pass rate" />
@@ -93,111 +96,119 @@
 
         <q-tab-panel name="brand">
           <div class="text-h5">Branding</div>
+          <div class="row" v-if="brandData">
+            <div class="col-md-6">
+              <q-card>
+                <q-card-section>
+                  <q-input v-model="brandData.dacName" label="DAC Name" />
+                </q-card-section>
+
+                <q-card-section>
+                  <q-input v-model="brandData.extension" label="Client Extension" />
+                </q-card-section>
+              </q-card>
+            </div>
+            <div class="col-md-6">
+              <q-card>
+                <q-card-section>
+                  <q-toggle v-model="brandData.is_dark" label="Dark Theme" />
+                </q-card-section>
+                <q-card-section>
+                  <q-item>
+                    <q-item-section side>
+                      <q-btn push color="primary" label="">
+                        <q-popup-proxy>
+                          <q-color v-model="brandData.colors.primary" />
+                        </q-popup-proxy>
+                      </q-btn>
+                    </q-item-section>
+                    <q-item-section>Primary {{brandData.colors.primary}}</q-item-section>
+                  </q-item>
+                  <q-item>
+                    <q-item-section side>
+                      <q-btn push color="secondary" label="">
+                        <q-popup-proxy>
+                          <q-color v-model="brandData.colors.secondary" />
+                        </q-popup-proxy>
+                      </q-btn>
+                    </q-item-section>
+                    <q-item-section>Secondary {{brandData.colors.secondary}}</q-item-section>
+                  </q-item>
+
+                  <q-item>
+                    <q-item-section side>
+                      <q-btn push color="info" label="">
+                        <q-popup-proxy>
+                          <q-color v-model="brandData.colors.info" />
+                        </q-popup-proxy>
+                      </q-btn>
+                    </q-item-section>
+                    <q-item-section>Info {{brandData.colors.info}}</q-item-section>
+                  </q-item>
+
+                  <q-item>
+                    <q-item-section side>
+                      <q-btn push color="positive" label="">
+                        <q-popup-proxy>
+                          <q-color v-model="brandData.colors.positive" />
+                        </q-popup-proxy>
+                      </q-btn>
+                    </q-item-section>
+                    <q-item-section>Positive {{brandData.colors.positive}}</q-item-section>
+                  </q-item>
+
+                  <q-item>
+                    <q-item-section side>
+                      <q-btn push color="negative" label="">
+                        <q-popup-proxy>
+                          <q-color v-model="brandData.colors.negative" />
+                        </q-popup-proxy>
+                      </q-btn>
+                    </q-item-section>
+                    <q-item-section>Negative {{brandData.colors.negative}}</q-item-section>
+                  </q-item>
+
+                  <q-item>
+                    <q-item-section side>
+                      <q-btn push color="warning" label="">
+                        <q-popup-proxy>
+                          <q-color v-model="brandData.colors.warning" />
+                        </q-popup-proxy>
+                      </q-btn>
+                    </q-item-section>
+                    <q-item-section>Warning {{brandData.colors.warning}}</q-item-section>
+                  </q-item>
+
+                  <q-item>
+                    <q-item-section side>
+                      <q-btn push color="bg1" label="">
+                        <q-popup-proxy>
+                          <q-color v-model="brandData.colors.bg1" />
+                        </q-popup-proxy>
+                      </q-btn>
+                    </q-item-section>
+                    <q-item-section>Background 1 {{brandData.colors.bg1}}</q-item-section>
+                  </q-item>
+
+                  <q-item>
+                    <q-item-section side>
+                      <q-btn push color="bg2" label="">
+                        <q-popup-proxy>
+                          <q-color v-model="brandData.colors.bg2" />
+                        </q-popup-proxy>
+                      </q-btn>
+                    </q-item-section>
+                    <q-item-section>Background 2 {{brandData.colors.bg2}}</q-item-section>
+                  </q-item>
+                </q-card-section>
+
+                <q-card-actions align="right">
+                  <q-btn color="positive" label="Propose Changes" @click="saveBrand" />
+                </q-card-actions>
+              </q-card>
+            </div>
+          </div>
 <!--            <div>{{brandData}}</div>-->
-            <q-card v-if="brandData">
-              <q-card-section>
-                <q-toggle v-model="brandData.is_dark" label="Dark Theme" />
-              </q-card-section>
-              <q-card-section>
-                <q-item>
-                  <q-item-section side>
-                    <q-btn push color="primary" label="">
-                      <q-popup-proxy>
-                        <q-color v-model="brandData.colors.primary" />
-                      </q-popup-proxy>
-                    </q-btn>
-                  </q-item-section>
-                  <q-item-section>Primary {{brandData.colors.primary}}</q-item-section>
-                </q-item>
-                <q-item>
-                  <q-item-section side>
-                    <q-btn push color="secondary" label="">
-                      <q-popup-proxy>
-                        <q-color v-model="brandData.colors.secondary" />
-                      </q-popup-proxy>
-                    </q-btn>
-                  </q-item-section>
-                  <q-item-section>Secondary {{brandData.colors.secondary}}</q-item-section>
-                </q-item>
-
-                <q-item>
-                  <q-item-section side>
-                    <q-btn push color="info" label="">
-                      <q-popup-proxy>
-                        <q-color v-model="brandData.colors.info" />
-                      </q-popup-proxy>
-                    </q-btn>
-                  </q-item-section>
-                  <q-item-section>Info {{brandData.colors.info}}</q-item-section>
-                </q-item>
-
-                <q-item>
-                  <q-item-section side>
-                    <q-btn push color="positive" label="">
-                      <q-popup-proxy>
-                        <q-color v-model="brandData.colors.positive" />
-                      </q-popup-proxy>
-                    </q-btn>
-                  </q-item-section>
-                  <q-item-section>Positive {{brandData.colors.positive}}</q-item-section>
-                </q-item>
-
-                <q-item>
-                  <q-item-section side>
-                    <q-btn push color="negative" label="">
-                      <q-popup-proxy>
-                        <q-color v-model="brandData.colors.negative" />
-                      </q-popup-proxy>
-                    </q-btn>
-                  </q-item-section>
-                  <q-item-section>Negative {{brandData.colors.negative}}</q-item-section>
-                </q-item>
-
-                <q-item>
-                  <q-item-section side>
-                    <q-btn push color="warning" label="">
-                      <q-popup-proxy>
-                        <q-color v-model="brandData.colors.warning" />
-                      </q-popup-proxy>
-                    </q-btn>
-                  </q-item-section>
-                  <q-item-section>Warning {{brandData.colors.warning}}</q-item-section>
-                </q-item>
-
-                <q-item>
-                  <q-item-section side>
-                    <q-btn push color="bg1" label="">
-                      <q-popup-proxy>
-                        <q-color v-model="brandData.colors.bg1" />
-                      </q-popup-proxy>
-                    </q-btn>
-                  </q-item-section>
-                  <q-item-section>Background 1 {{brandData.colors.bg1}}</q-item-section>
-                </q-item>
-
-                <q-item>
-                  <q-item-section side>
-                    <q-btn push color="bg2" label="">
-                      <q-popup-proxy>
-                        <q-color v-model="brandData.colors.bg2" />
-                      </q-popup-proxy>
-                    </q-btn>
-                  </q-item-section>
-                  <q-item-section>Background 2 {{brandData.colors.bg2}}</q-item-section>
-                </q-item>
-              </q-card-section>
-              <q-card-section>
-                <q-input v-model="brandData.dacName" label="DAC Name" />
-              </q-card-section>
-
-              <q-card-section>
-                <q-input v-model="brandData.extension" label="Client Extension" />
-              </q-card-section>
-
-              <q-card-actions align="right">
-              <q-btn color="positive" label="Propose Changes" @click="saveBrand" />
-            </q-card-actions>
-            </q-card>
 
         </q-tab-panel>
       </q-tab-panels>
@@ -232,7 +243,11 @@ export default {
       selectedTab: 'general',
       dacToken: { symbol, precision, contract: this.$dir.symbol.contract, value: 0 },
       systemToken: { symbol: 'EOS', precision: 4, contract: 'eosio.token', value: 0 },
-      brandData: null
+      brandData: null,
+      tokenConfigLoaded: false,
+      referendumConfigLoaded: false,
+      referendumEnabled: false,
+      wpConfigLoaded: false
     }
   },
   computed: {
@@ -395,13 +410,17 @@ export default {
       switch (tabName) {
         case 'proposals':
           this.fetchWpConfig()
+          this.wpConfigLoaded = true
           break
         case 'token':
           await this.fetchTokenConfig()
           this.tokenConfig.enabled = !!this.tokenConfig.enabled
+          this.tokenConfigLoaded = true
           break
         case 'referendum':
-          this.fetchReferendumConfig()
+          await this.fetchReferendumConfig()
+          this.referendumConfigLoaded = true
+          this.referendumEnabled = !!this.$dir.getAccount(this.$dir.ACCOUNT_REFERENDUM)
           break
         case 'brand':
           this.loadBrand()
@@ -419,6 +438,12 @@ export default {
     },
     'brandData.colors.bg2': function (newData) {
       colors.setBrand('bg2', newData)
+    },
+    'brandData.colors.text1': function (newData) {
+      colors.setBrand('text1', newData)
+    },
+    'brandData.colors.text2': function (newData) {
+      colors.setBrand('text2', newData)
     },
     'brandData.colors.positive': function (newData) {
       colors.setBrand('positive', newData)
