@@ -9,25 +9,27 @@
             <q-icon :name="$configFile.icon.dactoken" />
           </q-item-section>
             <q-item-section>
-                <q-item-label>{{
-                  $t("default.your_token_balance", {
-                  tokenName: $configFile.get("dactokensymbol")
-                  })
-                  }}
-                </q-item-label>
-                <q-item-label><xspan
+                <q-item-label>{{ $t("default.your_token_balance", {tokenName: $dir.symbolCode}) }}</q-item-label>
+                <q-item-label caption><xspan
                         :value="
                   $helper.toLocaleNumber(
                     getDacBalance,
-                    $configFile.get('tokendecimals')
+                    $dir.symbolPrecision
                   )
                 "
-                /></q-item-label>
+                />
+                <q-icon
+                  :name="$configFile.icon.liquid"
+                  color="text2"
+                  style="margin-left:3px"
+                  title="Liquid Balance"
+                />
+                </q-item-label>
               <q-item-label caption><xspan
                       :value="
                   $helper.toLocaleNumber(
                     getStakedDacBalance,
-                    $configFile.get('tokendecimals')
+                    $dir.symbolPrecision
                   )
                 " /> staked</q-item-label>
             </q-item-section>
