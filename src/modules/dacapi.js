@@ -37,8 +37,8 @@ export class DacApi {
 
   async getStaked (
     accountname,
-    code,
-    symbol,
+    code = this.dir.symbol.contract,
+    symbol = this.dir.symbolCode,
     scope = this.dir.dacId
   ) {
     try {
