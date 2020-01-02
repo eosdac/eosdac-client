@@ -514,7 +514,7 @@ export default {
       const authAccount = this.$dir.getAccount(this.$dir.ACCOUNT_AUTH)
       let actions = [
         {
-          account: this.$configFile.get('wpcontract'),
+          account: this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS),
           name: 'delegatevote',
           // todo get permission from account instead hardcoding it
           authorization: [
@@ -576,7 +576,7 @@ export default {
 
       let actions = [
         {
-          account: this.$configFile.get('wpcontract'),
+          account: this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS),
           name: 'voteprop',
           authorization: [
             { actor: this.getAccountName, permission: this.getAuth },
@@ -620,7 +620,7 @@ export default {
       const authAccount = this.$dir.getAccount(this.$dir.ACCOUNT_AUTH)
       let actions = [
         {
-          account: this.$configFile.get('wpcontract'),
+          account: this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS),
           name: 'cancel',
           authorization: [
             { actor: this.getAccountName, permission: this.getAuth },
@@ -647,7 +647,7 @@ export default {
     async startWork () {
       let actions = [
         {
-          account: this.$configFile.get('wpcontract'),
+          account: this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS),
           name: 'startwork',
           // authorization: [ {actor: this.getAccountName, permission: 'active'}],
           data: {
@@ -667,7 +667,7 @@ export default {
     async completeWork () {
       let actions = [
         {
-          account: this.$configFile.get('wpcontract'),
+          account: this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS),
           name: 'completework',
           // authorization: [ {actor: this.getAccountName, permission: 'active'}],
           data: {
@@ -689,7 +689,7 @@ export default {
     async arbApprove () {
       let actions = [
         {
-          account: this.$configFile.get('wpcontract'),
+          account: this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS),
           name: 'arbapprove',
           data: {
             arbitrator: this.getAccountName,
@@ -719,7 +719,7 @@ export default {
     async finalize () {
       let actions = [
         {
-          account: this.$configFile.get('wpcontract'),
+          account: this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS),
           name: 'finalize',
           // authorization: [ {actor: this.getAccountName, permission: 'active'}],
           data: {
