@@ -43,7 +43,11 @@ class Helper {
     let [quantity, symbol] = asset.split(' ')
     return `${this.toLocaleNumber(parseFloat(quantity))} ${symbol}`
   }
-
+  assetSymbolToLocaleNumber (quantity, symbol) {
+    let [precision, code] = symbol.split(',')
+    const qtyFloat = parseFloat(quantity, parseInt(precision))
+    return `${this.toLocaleNumber(qtyFloat)} ${code}`
+  }
   assetToNumber (asset) {
     if (asset) {
       return parseFloat(asset.split(' ')[0])
