@@ -32,7 +32,7 @@ export async function connectScatter (
   console.log(network)
   commit('setChainId', network.chainId)
   ScatterJS.scatter
-    .connect(this._vm.$configFile.get('dacname'), { network })
+    .connect(this._vm.$dir.title, { network })
     .then(async connected => {
       if (!connected) {
         console.error('Could not connect to Scatter.')
