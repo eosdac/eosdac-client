@@ -27,7 +27,7 @@
 
       <div class="row justify-end">
         <q-btn
-          color="primary-light"
+          color="primary"
           to="/constitution"
           icon="receipt"
           :label="$t('default.sign_the_constitution')"
@@ -112,8 +112,7 @@ export default {
 }
 </script>
 
-<!--<style lang="stylus">
-@import '~variables'
+<style lang="stylus">
 
 .request_signature_msg{
   border-bottom: 4px solid var(--q-color-info);
@@ -129,4 +128,3 @@ export default {
   padding-left:320px !important;
 }
 </style>
--->
