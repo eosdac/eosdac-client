@@ -60,6 +60,16 @@ class DacDirectory {
     return this.dacData.symbol
   }
 
+  get symbolCode () {
+    const [, code] = this.dacData.symbol.symbol.split(',')
+    return code
+  }
+
+  get symbolPrecision () {
+    const [precisionStr] = this.dacData.symbol.symbol.split(',')
+    return parseInt(precisionStr)
+  }
+
   get state () {
     return this.dacData.dac_state
   }
