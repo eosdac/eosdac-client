@@ -154,7 +154,7 @@ export default {
   'manage_candidateship': {
     'amount_to_stake_placeholder': 'amount to stake {token_symbol}',
     'candidate': 'Candidate',
-    'locked_tokens': 'Staked Tokens',
+    'current_stake': 'Staked Tokens',
     'page_description_active_custodian': 'You are currently active as an {dacname} custodian board member.',
     'page_description_registered': 'Thank you for registering as a candidate to serve on the {dacname} custodian board. As part of your candidacy registration, some of your tokens have been staked. Click the \'+\' button to increase your stake.',
     'page_description_unregistered': 'This page is for registering as a candidate for a position on the custodian board. This position comes with responsibiliies outlined in the {dacname} Constitution. Please, do not register as a candidate unless you fully understand and can meet the responsibilites of an {dacname} custodian board member. Please review section 5 of the constitution carefully before registering.',
