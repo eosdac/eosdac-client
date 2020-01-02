@@ -21,7 +21,7 @@ export class DacApi {
   async getBalance (
     accountname,
     contract = this.dir.symbol.contract,
-    symbol = this.configobj.get('dactokensymbol')
+    symbol = this.dir.symbolCode
   ) {
     return this.eos
       .get_currency_balance(contract, accountname, symbol)
@@ -116,7 +116,7 @@ export class DacApi {
       table: 'stat',
       limit: 1
     })
-    console.log(res.rows[0])
+    // console.log(res.rows[0])
 
     const [amount, symbol] = res.rows[0].max_supply.split(' ')
     const [, decs] = amount.split('.')
