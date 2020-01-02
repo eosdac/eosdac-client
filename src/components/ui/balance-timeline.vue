@@ -1,10 +1,9 @@
 <template>
-  <div>
     <q-card class="balance-timeline-card">
-      <q-card-section>
-        <div v-if="description != ''" class="text-text2 q-my-md">
+      <q-card-section v-if="description != ''" class="text-text2 q-my-md">
           {{ description }}
-        </div>
+      </q-card-section>
+      <q-card-section>
         <line-chart
                 ref="linechart"
                 :chartData="chartData"
@@ -14,7 +13,6 @@
         />
       </q-card-section>
     </q-card>
-  </div>
 </template>
 
 <script>
@@ -115,7 +113,7 @@ export default {
               ticks: {
                 display: true,
                 beginAtZero: true,
-                fontColor: colors.getBrand('text2')
+                fontColor: colors.getBrand('text1')
               }
             }
           ]
@@ -158,11 +156,13 @@ export default {
   },
   methods: {
     async init () {
+      console.log(`init`)
       let { head_block_num: headBlockNum, head_block_time: headBlockTime } =
         this.getNodeInfo || (await this.$store.dispatch('global/testEndpoint'))
       this.refblock = headBlockNum
       this.refdate = new Date(headBlockTime)
       if (this.account && this.contract && this.symbol) {
+        console.log(`getting timeline`)
         this.getTokenTimeLine({
           account: this.account,
           contract: this.contract,
@@ -170,6 +170,8 @@ export default {
           start_block: 0,
           end_block: this.end_block
         })
+      } else {
+        console.log(`account: ${this.account} contract: ${this.contract}, symbol: ${this.symbol}`)
       }
     },
     getGradient (colorstylvar) {
@@ -225,6 +227,10 @@ export default {
       this.init()
     },
     symbol: function () {
+      this.init()
+    },
+    contract: function () {
+      console.log(`Contract changed`)
       this.init()
     }
   }

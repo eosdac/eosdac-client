@@ -2,18 +2,19 @@
   <div>
     <q-card>
       <q-card-section class="bg-primary q-pa-none">
-        <div class="row justify-between items-center q-pr-md">
+        <div class="row justify-between items-center q-px-md">
           <q-select
                   v-if="tokens"
                   :disable="tokens.length < 2"
-                  class="no-padding q-ml-xs animate-fade"
                   borderless
-                  filter
+                  emit-value
                   autofocus-filter
+                  map-options
                   v-model="selected_token"
                   color="primary"
                   placeholder="token"
                   :options="tokens"
+                  option-value="value"
                   @input="handleTokenSelection"
           />
           <span class="text-h6">{{ accountname }}</span>
@@ -28,11 +29,10 @@
 
       <q-card-section>
           <!-- {{ selected_token }} -->
-          <div class="q-pa-md relative-position">
+          <div class="q-pa-none relative-position">
             <xspan
                     class="q-caption absolute-right q-mr-md q-mt-sm text-text2"
                     :value="balance"
-                    style="display:block; height:20px; overflow:hidden"
             />
 
             <balance-timeline
@@ -91,7 +91,7 @@ export default {
   methods: {
     async setTokens () {
       if (!this.accountname) return
-      let tokens = {}
+      let tokens = []
       try {
         tokens = await this.$axios.get(
           `${this.$configFile.get(
@@ -105,12 +105,8 @@ export default {
       if (tokens.data && tokens.data.results) {
         tokens = tokens.data.results.map(t => {
           return {
-            image: t.logo || '',
-            value: t,
-            label: t.symbol,
-            sublabel: t.contract,
-            stamp: `${t.precision}`,
-            rightTextColor: 'blue'
+            value: { contract: t.contract, symbol: t.symbol },
+            label: t.symbol
           }
         })
         this.tokens = tokens
@@ -124,11 +120,10 @@ export default {
         })
       }
 
-      this.selected_token = this.tokens.find(
-        t =>
-          t.value.symbol === this.default_symbol &&
-          t.value.contract === this.default_contract
-      ).value
+      this.selected_token = {
+        contract: this.default_contract,
+        symbol: this.default_symbol
+      }
     },
     handleTokenSelection (v) {
       this.balance = null
