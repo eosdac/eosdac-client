@@ -41,9 +41,8 @@ class ConfigLoader {
     switch (configquery) {
       case 'network':
         return this.configFile.network
-      case 'eosioendpoints':
-        const network = this.configFile.network
-        return [`${network.protocol}://${network.host}:${network.port}`]
+      case 'endpoints':
+        return this.configFile.endpoints
       case 'theme_images':
         return this.theme.images
       case 'dacname':
@@ -91,7 +90,18 @@ class ConfigLoader {
 export default ({ Vue, store }) => {
   let config = new ConfigLoader()
   store.commit('global/setNode', config.get('defaultnode'))
-  store.commit('global/setNetwork', config.get('network'))
+
+  const endpoints = config.get('endpoints')
+  const u = new URL(endpoints[0])
+  const protocol = u.protocol.substring(0, u.protocol.indexOf(':'))
+  let port = u.port
+  if (!port) {
+    port = (protocol === 'http') ? 80 : 443
+  }
+
+  const network = { ...config.get('network'), host: u.host, protocol, port }
+  console.log('setting network', network)
+  store.commit('global/setNetwork', network)
 
   Vue.prototype.$configFile = config
 }
