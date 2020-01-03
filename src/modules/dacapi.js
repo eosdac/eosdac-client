@@ -1,5 +1,6 @@
 const { TextDecoder, TextEncoder } = require('text-encoding')
 const { Serialize } = require('@jafri/eosjs2')
+import axios from 'axios'
 
 export class DacApi {
   constructor (eosApi, config, dacDirectory) {
@@ -279,26 +280,6 @@ export class DacApi {
     }
   }
 
-  async getApprovalsFromProposal (payload) {
-    try {
-      let approvals = (
-        await this.eos.get_table_rows({
-          code: this.configobj.get('systemmsigcontract'),
-          json: true,
-          limit: 1,
-          lower_bound: payload.proposal_name,
-          scope: payload.proposer,
-          table: 'approvals'
-        })
-      ).rows[0]
-
-      return approvals
-    } catch (e) {
-      console.log(e)
-      return []
-    }
-  }
-
   async getPendingPay2 (accountname) {
     if (!accountname) {
       return []
@@ -329,22 +310,26 @@ export class DacApi {
   }
 
   async getWps (payload) {
-    let wps = await this.eos.get_table_rows({
-      json: true,
-      code: this.dir.getAccount(this.dir.ACCOUNT_PROPOSALS),
-      scope: payload.dac_scope,
-      table: 'proposals',
-      // lower_bound : payload.account,
-      // upper_bound : accountname,
-      // index_position : 2,
-      // key_type : 'name',
-      limit: -1
-    })
-    if (!wps.rows || !wps.rows.length) {
-      return []
-    } else {
-      return wps.rows
+    let url = this.configobj.get('dacapi')
+    const header = {
+      'X-DAC-Name': this.dir.dacId
     }
+    const wps = axios({
+      method: 'get',
+      url: `${url}/proposals`,
+      params: payload,
+      headers: header
+    })
+      .then(r => {
+        // console.log(r.data)
+        return r.data
+      })
+      .catch(e => {
+        console.log('could not load worker proposals from api')
+        return []
+      })
+
+    return wps
   }
 
   async getCustodianContractState () {
@@ -363,11 +348,6 @@ export class DacApi {
     } else {
       return false
     }
-  }
-
-  async getCurrencyStats (contract, symbol) {
-    let res = await this.eos.get_currency_stats(contract, symbol)
-    return res
   }
 
   async getCatDelegations (accountname) {
