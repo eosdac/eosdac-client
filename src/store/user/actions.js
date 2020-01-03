@@ -130,19 +130,13 @@ export async function fetchPendingPay (
   accountname = false
 ) {
   const accountN = accountname || state.accountName
+  // console.log(`fetchPendingPay getting pay for ${accountN}, ${accountname} || ${state.accountName}`)
   const api = await dispatch('global/getDacApi', false, { root: true })
 
-  let requests = [api.getPendingPay(accountN), api.getPendingPay2(accountN)]
-  let [pay1, pay2] = await Promise.all(requests)
+  const pay = await api.getPendingPay2(accountN)
 
-  pay2 = pay2.map(p2 => {
-    p2.quantity = p2.quantity.quantity
-    return p2
-  })
-
-  let res = [...pay1, ...pay2]
-  console.log(res)
-  return res
+  // console.log('fetchPendingPay', pay, accountN)
+  return pay
 }
 
 export async function fetchCatDelegations (
