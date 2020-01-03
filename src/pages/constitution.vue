@@ -61,7 +61,7 @@
               <div v-if="needSignature" class="text-negative q-caption q-my-sm">
                 {{
                   $t("constitution.not_signed_message", {
-                    dacname: $configFile.get("dacname")
+                    dacname: $dir.title
                   })
                 }}
               </div>

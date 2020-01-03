@@ -35,41 +35,41 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 
 export default {
   // name: 'ComponentName',
   components: {},
-  data() {
+  data () {
     return {
-      membercounts: "",
-      market_data: ""
-    };
+      membercounts: '',
+      market_data: ''
+    }
   },
   computed: {
     ...mapGetters({
-      getCustodians: "dac/getCustodians",
-      getAccountName: "user/getAccountName",
-      getIsDark: "ui/getIsDark"
+      getCustodians: 'dac/getCustodians',
+      getAccountName: 'user/getAccountName',
+      getIsDark: 'ui/getIsDark'
     }),
-    getCustNames() {
+    getCustNames () {
       if (this.getCustodians) {
         return this.getCustodians.map(c => {
-          return c.cust_name;
-        });
+          return c.cust_name
+        })
       } else {
-        return [];
+        return []
       }
     }
   },
-  async mounted() {
-    this.membercounts = await this.$store.dispatch("dac/fetchMemberCounts");
-    this.market_data = await this.$store.dispatch("dac/fetchTokenMarketData");
+  async mounted () {
+    this.membercounts = await this.$store.dispatch('dac/fetchMemberCounts')
+    this.market_data = await this.$store.dispatch('dac/fetchTokenMarketData')
     // this.price_history = await this.$store.dispatch(
     //   "dac/fetchTokenHistoryPrice"
     // );
   }
-};
+}
 </script>
 
 <style></style>

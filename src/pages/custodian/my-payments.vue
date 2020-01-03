@@ -56,7 +56,7 @@
                         v-model="new_requested_pay"
                         @input="$v.new_requested_pay.$touch()"
                         :error="$v.new_requested_pay.$error"
-                        :stack-label="$t('manage_candidateship.requestedpay')"
+                        :label="$t('manage_candidateship.requestedpay')"
                         :placeholder="
                     $t(
                       'manage_candidateship.requested_custodian_pay_placeholder',
@@ -244,7 +244,7 @@ export default {
 
     async getClaimPay () {
       this.loading = true
-      this.pendingpay = await this.$store.dispatch('user/fetchPendingPay')
+      this.pendingpay = await this.$store.dispatch('user/fetchPendingPay', this.getAccountName)
       this.loading = false
     }
   },

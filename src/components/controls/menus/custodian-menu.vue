@@ -58,7 +58,7 @@
         <q-item-section avatar>
           <q-icon :name="$configFile.icon.dactoken" />
         </q-item-section>
-        <q-item-section>{{$t('menu.dac_activity', { dacname: $configFile.get('dacname') })}}</q-item-section>
+        <q-item-section>{{$t('menu.dac_activity', { dacname: $dir.title })}}</q-item-section>
       </template>
 
       <q-item class="q-pl-lg animate-fade" clickable to="/review-proposals">

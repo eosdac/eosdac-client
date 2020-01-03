@@ -19,7 +19,7 @@
             <p>
               {{
                 $t("vote_custodians.description_main", {
-                  dacname: $configFile.get("dacname")
+                  dacname: $dir.title
                 })
               }}
             </p>
@@ -133,7 +133,7 @@
               {{
                 $t("vote_custodians.description_side", {
                   maxvotes: getMaxVotes,
-                  dacname: $configFile.get("dacname")
+                  dacname: $dir.title
                 })
               }}
             </p>
