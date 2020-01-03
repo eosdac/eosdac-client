@@ -1,26 +1,24 @@
 <template>
   <q-page>
     <!--  -->
-    <q-tabs color="primary">
+    <q-tabs color="primary" v-model="selectedTab">
       <q-tab
         default
         :label="`Token (${$dir.symbolCode})`"
         name="token"
-        v-model="selectedTab"
       />
       <!--<q-tab label="Members" name="members" slot="title" />-->
       <q-tab label="Votes" name="votes" />
     </q-tabs>
 
-    <q-tab-panels v-model="selectedTab" animated>
+    <q-tab-panels v-model="selectedTab">
       <!-- Targets -->
-      <q-tab-pane name="token">
+      <q-tab-panel name="token">
         <!--<token-statistics class="q-mb-md" />-->
         <transfer-table />
-      </q-tab-pane>
+      </q-tab-panel>
       <!--<q-tab-pane name="members">coming soon...</q-tab-pane>-->
-      <q-tab-pane name="votes">
-        VOTES
+      <q-tab-panel name="votes">
         <vote-timeline
                 class="q-mt-sm bg-bg1 q-pa-md"
                 :responsive="true"
@@ -28,7 +26,7 @@
                 :accounts="getCustNames"
                 :legend="true"
         />
-      </q-tab-pane>
+      </q-tab-panel>
     </q-tab-panels>
   </q-page>
 </template>
@@ -46,7 +44,9 @@ export default {
     // voteTimeline
   },
   data () {
-    return {}
+    return {
+      selectedTab: 'token'
+    }
   },
   computed: {
     ...mapGetters({
