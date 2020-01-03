@@ -320,7 +320,11 @@ export class DacApi {
   }
 
   async getPendingPay2 (accountname) {
-    let pendingpays = await this.eos.get_table_rows({
+    if (!accountname) {
+      return []
+    }
+
+    const pendingpays = await this.eos.get_table_rows({
       json: true,
       code: this.dir.getAccount(this.dir.ACCOUNT_CUSTODIAN),
       scope: this.dir.dacId,
@@ -328,9 +332,10 @@ export class DacApi {
       lower_bound: accountname,
       upper_bound: accountname,
       index_position: 2,
-      key_type: 'name',
-      limit: -1
+      key_type: 'i64',
+      limit: 1
     })
+
     if (!pendingpays.rows.length) {
       return []
     } else {
