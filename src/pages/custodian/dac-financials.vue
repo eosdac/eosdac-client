@@ -361,7 +361,7 @@ export default {
       if (fromPermissions) return fromPermissions.permissions
 
       try {
-        const res = await this.$store.dispatch('dac/fetchAccount', { accountname })
+        const res = await this.$eosApi.get_account(accountname)
         const accountPermissions = res.permissions
 
         if (accountPermissions) {
