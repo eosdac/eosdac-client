@@ -49,12 +49,8 @@ class ConfigLoader {
         return this.configFile.accounts.directory
       case 'dacid':
         return this.configFile.dacId
-      case 'defaultnode':
-        return this.configFile.api.default_eos_node
-      case 'marketapi':
-        return this.configFile.contracts.token.market_api
-      case 'custodiancontract':
-        return this.configFile.contracts.custodian.name
+      case 'pricefeed':
+        return this.configFile.pricefeed
       case 'systemtokensymbol':
         return this.configFile.system_token.symbol
       case 'systemtokendecimals':
