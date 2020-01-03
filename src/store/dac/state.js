@@ -4,6 +4,7 @@ export default {
   memberTerms: null,
   custodians: null,
   candidates: null,
+  workerProposals: null,
   custodianPermissions: null,
   dacAdmins: [],
   custodianConfig: {

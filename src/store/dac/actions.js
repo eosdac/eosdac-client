@@ -89,20 +89,6 @@ export async function fetchDacAdmins ({ commit, dispatch }) {
   }
 }
 
-export async function fetchAccount ({ commit, dispatch }, payload) {
-  const api = await dispatch('global/getDacApi', false, { root: true })
-  const res = await api.getAccount(payload.accountname)
-  if (res && res.account_name) {
-    return res
-  }
-}
-
-export async function fetchApprovalsFromProposal ({ dispatch }, payload) {
-  const api = await dispatch('global/getDacApi', false, { root: true })
-  const res = await api.getApprovalsFromProposal(payload)
-  return res
-}
-
 export async function fetchControlledAccounts ({ dispatch }) {
   const api = await dispatch('global/getDacApi', false, { root: true })
   const authAccount = this._vm.$dir.getAccount(this._vm.$dir.ACCOUNT_AUTH)
@@ -184,26 +170,11 @@ export async function fetchCustodianPermissions ({
   return requested
 }
 
-export async function fetchWorkerProposals (obj, payload = {}) {
-  let url = this._vm.$configFile.get('dacapi')
-  const header = {
-    'X-DAC-Name': this._vm.$dir.dacId
-  }
-  return this._vm
-    .$axios({
-      method: 'get',
-      url: `${url}/proposals`,
-      params: payload,
-      headers: header
-    })
-    .then(r => {
-      // console.log(r.data)
-      return r.data
-    })
-    .catch(e => {
-      console.log('could not load worker proposals from api')
-      return []
-    })
+export async function fetchWorkerProposals ({ commit, dispatch }, payload = {}) {
+  const api = await dispatch('global/getDacApi', false, { root: true })
+  const wps = api.getWps()
+  commit('setWorkerProposals', wps)
+  return wps
 }
 
 export async function fetchWorkerProposalsInbox (obj, payload = {}) {
@@ -375,18 +346,16 @@ export async function fetchVotesTimeline (obj, payload = {}) {
 }
 
 export async function fetchTokenMarketData (obj, payload = {}) {
-  let url = this._vm.$configFile.get('marketapi')
-  console.log('marketdata', url)
-  if (url) {
-    let market = await this._vm.$axios
-      .get(url)
-      .then(m => m.data.market_data)
-      .catch(e => false)
-    console.log(market)
-    return market
-  } else {
-    return false
+  const pricefeed = this._vm.$configFile.get('pricefeed')
+  if (pricefeed.newdex.endpoint) {
+    try {
+      const market = await this._vm.$axios.get(`${pricefeed.newdex.endpoint}?symbol=${pricefeed.newdex.symbol}`)
+      return market.data.data
+    } catch (e) {
+      console.error('pricefeed error', e)
+    }
   }
+  return false
 }
 
 export async function fetchTokenHistoryPrice (obj, payload = {}) {

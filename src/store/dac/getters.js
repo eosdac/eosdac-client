@@ -47,6 +47,10 @@ export function getCustodians (state) {
   return state.custodians
 }
 
+export function getWorkerProposals (state) {
+  return state.workerProposals
+}
+
 export function getCustodianConfig (state) {
   return state.custodianConfig
 }

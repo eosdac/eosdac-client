@@ -43,6 +43,10 @@ export function setReferendumConfig (state, payload) {
   state.referendumConfig = payload
 }
 
+export function setWorkerProposals (state, payload) {
+  state.workerProposals = payload
+}
+
 export function setCandidates (state, payload) {
   state.candidates = payload
 }
