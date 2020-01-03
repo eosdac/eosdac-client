@@ -299,26 +299,6 @@ export class DacApi {
     }
   }
 
-  async getPendingPay (accountname) {
-    let pendingpays = await this.eos.get_table_rows({
-      json: true,
-      code: this.dir.getAccount(this.dir.ACCOUNT_CUSTODIAN),
-      scope: this.dir.getAccount(this.dir.ACCOUNT_CUSTODIAN),
-      // scope: this.configobj.get("dacid"),
-      table: 'pendingpay',
-      lower_bound: accountname,
-      upper_bound: accountname,
-      index_position: 2,
-      key_type: 'name',
-      limit: -1
-    })
-    if (!pendingpays.rows.length) {
-      return []
-    } else {
-      return pendingpays.rows
-    }
-  }
-
   async getPendingPay2 (accountname) {
     if (!accountname) {
       return []
