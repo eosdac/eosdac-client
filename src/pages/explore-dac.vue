@@ -14,7 +14,7 @@
     <q-tab-panels v-model="selectedTab">
       <!-- Targets -->
       <q-tab-panel name="token">
-        <!--<token-statistics class="q-mb-md" />-->
+        <token-statistics class="q-mb-md" />
         <transfer-table />
       </q-tab-panel>
       <!--<q-tab-pane name="members">coming soon...</q-tab-pane>-->
@@ -34,14 +34,14 @@
 <script>
 import { mapGetters } from 'vuex'
 import transferTable from 'components/ui/transfer-table'
-// import tokenStatistics from "components/ui/token-statistics";
-// import voteTimeline from "components/ui/vote-timeline";
+import tokenStatistics from 'components/ui/token-statistics'
+import voteTimeline from 'components/ui/vote-timeline'
 export default {
   name: 'explore-dac',
   components: {
-    transferTable
-    // tokenStatistics,
-    // voteTimeline
+    transferTable,
+    tokenStatistics,
+    voteTimeline
   },
   data () {
     return {
