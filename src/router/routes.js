@@ -1,5 +1,12 @@
 
-let routes = [
+let routesExtension
+try {
+  routesExtension = require('../extensions/router/routes').default
+} catch (e) {
+  routesExtension = []
+}
+
+const routes = [
   {
     path: '/',
     component: () => import('layouts/dacLayout.vue'),
@@ -109,6 +116,25 @@ let routes = [
     ]
   }
 ]
+
+routesExtension.forEach(re => {
+  let existingPath = routes.find(r => r.path.trim() === re.path.trim())
+  if (existingPath) {
+    re.children.forEach(rep => {
+      let i = existingPath.children.findIndex(
+        ep => ep.path.trim() === rep.path.trim()
+      )
+      if (i === -1) {
+        existingPath.children.push(rep)
+      } else {
+        existingPath.children[i] = rep
+      }
+    })
+  } else {
+    routes.push(re)
+  }
+})
+console.log(routes)
 
 // Always leave this as last one
 if (process.env.MODE !== 'ssr') {
