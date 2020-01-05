@@ -103,7 +103,6 @@
           <span v-if="msig.status === 1">
                 <q-btn
                         v-if="!isApproved"
-                        :disabled="disable_approve"
                         color="positive"
                         label="Approve"
                         @click="approveProposal(msig.proposer, msig.proposal_name)"
