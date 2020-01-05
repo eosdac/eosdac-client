@@ -88,7 +88,7 @@ export default {
   meta () {
     return {
       title: this.$t('meta.title', {
-        dacName: this.$configFile.get('dacname')
+        dacName: this.$dir.title
       }),
       noscript: {
         default: this.$t('meta.noscript')
