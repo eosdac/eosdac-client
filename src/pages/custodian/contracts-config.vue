@@ -375,7 +375,7 @@ export default {
           ],
           data: {
             dac_id: this.$dir.dacId,
-            value: JSON.stringify(colorsData),
+            value: colorsData,
             type: this.$dir.REF_COLORS
           }
         },
