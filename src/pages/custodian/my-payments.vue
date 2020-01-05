@@ -1,63 +1,70 @@
 <template>
   <q-page class="q-pa-md full-width">
-    <div class="row q-col-gutter-md full-width">
-      <q-card class="col-sm-6">
+    <div class="row q-col-gutter-md">
+      <div class="col-sm-6">
+        <q-card>
 
-        <q-card-section class="bg-primary q-pa-xs">
-          <q-item>
-            <q-item-section avatar>
-              <q-icon :name="$configFile.icon.dactoken" />
-            </q-item-section>
-            <q-item-section class="text-h6">
-              Pending Payments ({{ pendingpay.length }})
-            </q-item-section>
-          </q-item>
-
-        </q-card-section>
-
-        <q-card-section v-if="pendingpay.length > 1">
-          <div class="q-pa-md">
-            <span class="text-bold">Total {{ totalPayAmount }}</span>
-          </div>
-        </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn color="positive" label="claim" @click="claimAll" />
-        </q-card-actions>
-
-      </q-card>
-
-      <q-card class="col-sm-6">
-
-        <q-card-section class="bg-primary q-pa-xs">
-          <q-item>
-            <q-item-section avatar>
-              <q-icon :name="$configFile.icon.systemtoken" />
-            </q-item-section>
-            <q-item-section class="text-h6">
-              Update Requested Pay
-            </q-item-section>
-          </q-item>
-
-        </q-card-section>
-
-        <q-card-section>
-          <div class="q-pa-md">
-            <span>Your current pay amount is set to {{ getIsCandidate.requestedpay }}</span>
-            <q-item class="q-pl-none">
+          <q-card-section class="bg-primary q-pa-xs">
+            <q-item>
               <q-item-section avatar>
-                <q-icon name="icon-type-2"/>
+                <q-icon :name="$configFile.icon.dactoken" />
               </q-item-section>
+              <q-item-section class="text-h6">
+                Pending Payments ({{ pendingpay.length }})
+              </q-item-section>
+            </q-item>
 
-              <q-item-section>
-                <q-input
-                        color="primary"
-                        type="number"
-                        v-model="new_requested_pay"
-                        @input="$v.new_requested_pay.$touch()"
-                        :error="$v.new_requested_pay.$error"
-                        :label="$t('manage_candidateship.requestedpay')"
-                        :placeholder="
+          </q-card-section>
+
+          <q-card-section v-if="pendingpay.length > 1">
+            <div class="q-pa-md">
+              <span class="text-bold">Total {{ totalPayAmount }}</span>
+            </div>
+          </q-card-section>
+          <q-card-section v-else>
+            <div class="q-pa-md">
+              No payments due
+            </div>
+          </q-card-section>
+
+          <q-card-actions align="right" v-if="pendingpay.length > 1">
+            <q-btn color="positive" label="claim" @click="claimAll" />
+          </q-card-actions>
+
+        </q-card>
+      </div>
+      <div class="col-sm-6">
+        <q-card>
+
+          <q-card-section class="bg-primary q-pa-xs">
+            <q-item>
+              <q-item-section avatar>
+                <q-icon :name="$configFile.icon.systemtoken" />
+              </q-item-section>
+              <q-item-section class="text-h6">
+                Update Requested Pay
+              </q-item-section>
+            </q-item>
+
+          </q-card-section>
+
+          <q-card-section>
+            <div class="q-pa-md">
+              <span>Your current pay amount is set to {{ getIsCandidate.requestedpay }}</span>
+              <q-item class="q-pl-none">
+                <q-item-section avatar>
+                  <q-icon name="icon-type-2"/>
+                </q-item-section>
+
+                <q-item-section>
+                  <q-input
+                          color="primary"
+                          type="number"
+                          v-model="new_requested_pay"
+                          @input="$v.new_requested_pay.$touch()"
+                          :error="$v.new_requested_pay.$error"
+                          :label="$t('manage_candidateship.requestedpay')"
+                          :placeholder="
                     $t(
                       'manage_candidateship.requested_custodian_pay_placeholder',
                       {
@@ -65,20 +72,22 @@
                       }
                     )
                   "
-                />
-              </q-item-section>
-            </q-item>
-          </div>
-        </q-card-section>
+                  />
+                </q-item-section>
+              </q-item>
+            </div>
+          </q-card-section>
 
-        <q-card-actions align="right">
-          <q-btn
-                  :label="$t('default.update')"
-                  @click="updateRequestedPay"
-                  color="positive"
-          />
-        </q-card-actions>
-      </q-card>
+          <q-card-actions align="right">
+            <q-btn
+                    :label="$t('default.update')"
+                    @click="updateRequestedPay"
+                    color="positive"
+            />
+          </q-card-actions>
+        </q-card>
+      </div>
+
     </div>
 
     <!-- <debug-data :data="[{ pendingpay: pendingpay }]" /> -->
