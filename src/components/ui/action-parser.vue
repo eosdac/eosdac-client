@@ -1,15 +1,28 @@
 <template>
   <div>
-    <div class="row bg-bg2 items-center">
-      <display-action :action="actions[activeSlide]" viewable />
-      <span class="q-pa-sm">
+    <div class="row bg-bg2 items-center" v-for="(action, key) in actions" v-bind:key="key">
+      <q-item>
+        <q-item-section avatar>
+          <display-action :action="action" viewable />
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-breadcrumbs separator=">" active-color="text1" inlist="">
+          <q-breadcrumbs-el :label="action.account" />
+          <q-breadcrumbs-el :label="action.name" />
+        </q-breadcrumbs>
+      </q-item>
+      <q-item>
+        <span class="q-pa-sm">
         <span class="on-left">Authorization</span>
         <span class="text-text2">{{
-          actions[activeSlide].authorization
+          action.authorization
             .map(a => a.actor + "@" + a.permission)
             .join(", ")
         }}</span>
       </span>
+      </q-item>
+
     </div>
     <!-- <q-carousel
       class="text-text1 bg-bg2 "
@@ -31,21 +44,6 @@
     </q-carousel> -->
 
     <!-- controls -->
-    <div v-if="actions.length > 1" class="bg-bg1 q-pt-sm">
-      <q-btn
-        color="primary"
-        @click="prevAction()"
-        icon="arrow_left"
-        size="sm"
-      />
-      <span class="q-mx-sm">{{ activeSlide + 1 }}/{{ actions.length }}</span>
-      <q-btn
-        color="primary"
-        @click="nextAction()"
-        icon="arrow_right"
-        size="sm"
-      />
-    </div>
   </div>
 </template>
 
