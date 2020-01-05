@@ -9,11 +9,12 @@
           <q-tab name="token">Token</q-tab>
           <q-tab name="referendum">Referendum</q-tab>
           <q-tab name="brand">Colors &amp; Brand</q-tab>
+          <q-tab name="features">Features</q-tab>
         </q-tabs>
       </div>
       <q-tab-panels class="col-lg-10" v-model="selectedTab">
         <q-tab-panel name="general">
-          <div class="text-h5">Voting &amp; Custodian Config</div>
+          <div class="text-h5 q-mb-md">Voting &amp; Custodian Config</div>
           <!-- {{custodianConfig}} -->
           <q-card>
             <q-card-section>
@@ -41,7 +42,7 @@
         </q-tab-panel>
 
         <q-tab-panel name="proposals">
-          <div class="text-h5">Proposals</div>
+          <div class="text-h5 q-mb-md">Proposals</div>
           <!-- {{wpConfig}} -->
           <q-card v-if="wpConfigLoaded">
             <q-card-section>
@@ -57,7 +58,7 @@
         </q-tab-panel>
 
         <q-tab-panel name="token">
-          <div class="text-h5">Token Config</div>
+          <div class="text-h5 q-mb-md">Token Config</div>
 
           <!-- {{tokenConfig}} -->
           <q-card v-if="tokenConfigLoaded">
@@ -74,7 +75,7 @@
         </q-tab-panel>
 
         <q-tab-panel name="referendum">
-          <div class="text-h5">Referendum</div>
+          <div class="text-h5 q-mb-md">Referendum</div>
           <!-- {{referendumConfig}} -->
           <q-card v-if="!referendumEnabled">
             <q-card-section>Referendums are not enabled, please enable manually by setting dacdirectory account type REFERENDUM ({{$dir.ACCOUNT_REFERENDUM}})</q-card-section>
@@ -95,8 +96,8 @@
         </q-tab-panel>
 
         <q-tab-panel name="brand">
-          <div class="text-h5">Branding</div>
-          <div class="row" v-if="brandData">
+          <div class="text-h5 q-mb-md">Branding</div>
+          <div class="row q-col-gutter-md" v-if="brandData">
             <div class="col-md-6">
               <q-card>
                 <q-card-section>
@@ -211,6 +212,34 @@
 <!--            <div>{{brandData}}</div>-->
 
         </q-tab-panel>
+        <q-tab-panel name="features">
+          <div class="text-h5 q-mb-md">Features</div>
+          <q-card>
+            <q-card-section>
+              <div class="row">
+                <div class="col-xs-4">Referendums</div>
+                <div class="col-xs-4">
+                  <q-toggle v-model="referendumEnabled" />
+                </div>
+                <div class="col-xs-4">
+                  <q-input v-model="referendumAccount" v-if="referendumEnabled" label="Referendum contract name" />
+                </div>
+              </div>
+            </q-card-section>
+            <q-card-section>
+              <div class="row">
+                <div class="col-xs-4">Worker Proposals</div>
+                <div class="col-xs-4">
+                  <q-toggle v-model="wpEnabled" />
+                </div>
+                <div class="col-xs-4">
+                  <q-input v-model="wpAccount" v-if="wpEnabled" label="Worker proposals contract name" />
+                </div>
+              </div>
+            </q-card-section>
+          </q-card>
+
+        </q-tab-panel>
       </q-tab-panels>
     </div>
 
@@ -247,7 +276,10 @@ export default {
       tokenConfigLoaded: false,
       referendumConfigLoaded: false,
       referendumEnabled: false,
-      wpConfigLoaded: false
+      wpConfigLoaded: false,
+      wpEnabled: false,
+      wpAccount: '',
+      referendumAccount: ''
     }
   },
   computed: {
@@ -411,6 +443,7 @@ export default {
         case 'proposals':
           this.fetchWpConfig()
           this.wpConfigLoaded = true
+          this.wpEnabled = !!this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS)
           break
         case 'token':
           await this.fetchTokenConfig()
@@ -424,6 +457,12 @@ export default {
           break
         case 'brand':
           this.loadBrand()
+          break
+        case 'features':
+          this.wpAccount = this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS)
+          this.referendumAccount = this.$dir.getAccount(this.$dir.ACCOUNT_REFERENDUM)
+          this.wpEnabled = !!this.wpAccount
+          this.referendumEnabled = !!this.referendumAccount
           break
       }
     },
