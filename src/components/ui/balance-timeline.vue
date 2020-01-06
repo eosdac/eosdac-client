@@ -1,9 +1,9 @@
 <template>
-    <q-card class="balance-timeline-card">
-      <q-card-section v-if="description != ''" class="text-text2 q-my-md">
+    <div class="balance-timeline-card">
+      <div v-if="description != ''" class="text-text2 q-my-md">
           {{ description }}
-      </q-card-section>
-      <q-card-section>
+      </div>
+      <div>
         <line-chart
                 ref="linechart"
                 :chartData="chartData"
@@ -11,8 +11,8 @@
                 :width="width"
                 :height="height"
         />
-      </q-card-section>
-    </q-card>
+      </div>
+    </div>
 </template>
 
 <script>
