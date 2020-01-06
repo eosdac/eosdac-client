@@ -270,7 +270,8 @@
                   type="number"
                   color="primary-light"
                   v-model="increase_stake_amount"
-                  stack-label="Extra Stake"
+                  label="Extra Stake"
+                  stack-label
                   placeholder="enter amount"
           />
         </q-card-section>

@@ -91,8 +91,9 @@
                           class="full-width "
                           color="primary-light"
                           v-model="new_constitution_url"
-                          stack-label="Constitution URL"
+                          label="Constitution URL"
                           placeholder="Input URL to Constitution"
+                          stack-label
                           @input="urlChanged"
                   />
                   <div>
