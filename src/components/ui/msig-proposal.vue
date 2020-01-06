@@ -45,11 +45,7 @@
           <div @click="approvals_modal = true" class="cursor-pointer">
             <div class="q-caption text-text2">Received Approvals:</div>
             <div class="text-text1 q-title">
-            <span
-                    v-if="provided_approvals"
-                    class="text-primary-light cursor-pointer animate-fade"
-            >{{ provided_approvals.length }}</span
-            >
+              <span v-if="provided_approvals" class="text-primary-light cursor-pointer animate-fade">{{ provided_approvals.length }}</span>
               <span class="">/{{ msig.threshold }}</span>
             </div>
           </div>
@@ -85,9 +81,6 @@
           <router-link :to="{ path: '/profile/' + msig.proposer }">{{
             msig.proposer
             }}</router-link>
-        </q-card-section>
-        <q-card-section>
-          Actions: <span class="text-text2">{{ msig.trx.actions.length }}</span>
         </q-card-section>
 
         <q-card-section>
