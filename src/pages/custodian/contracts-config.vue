@@ -270,8 +270,13 @@ export default {
       referendumContract: this.$dir.getAccount(this.$dir.ACCOUNT_REFERENDUM),
       tokenContract: contract,
       selectedTab: 'general',
-      dacToken: { symbol, precision, contract: this.$dir.symbol.contract, value: 0 },
-      systemToken: { symbol: 'EOS', precision: 4, contract: 'eosio.token', value: 0 },
+      dacToken: { symbol, precision, contract, value: 0 },
+      systemToken: {
+        symbol: this.$configFile.get('systemtokensymbol'),
+        precision: this.$configFile.get('systemtokendecimals'),
+        contract: this.$configFile.get('systemtokencontract'),
+        value: 0
+      },
       brandData: null,
       tokenConfigLoaded: false,
       referendumConfigLoaded: false,
