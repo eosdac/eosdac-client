@@ -2,7 +2,7 @@
 <template>
   <q-layout view="hHh lpR fFf">
 
-    <q-header elevated class="bg-primary q-pa-md">
+    <q-header elevated class="bg-bg2 q-pa-md">
       <q-toolbar>
         <q-btn dense flat round icon="menu" />
 
