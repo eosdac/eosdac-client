@@ -13,9 +13,7 @@
                 <div class="q-caption text-weight-light text-text2">
                   <span v-if="props.days">{{ props.days }} days, </span>
                   <span v-if="props.hours">{{ props.hours }} hours, </span>
-                  <span v-if="props.minutes"
-                    >{{ props.minutes }} minutes,
-                  </span>
+                  <span v-if="props.minutes">{{ props.minutes }} minutes,</span>
                   <span>{{ props.seconds }} seconds</span>
                 </div>
               </template>
@@ -48,8 +46,24 @@
       <div v-else class="q-py-md">
         {{ $t("vote_custodians.no_custodians") }}
       </div>
+
     </div>
 
+    <div v-if="getCustodianState.met_initial_votes_threshold === 0">
+      <div class="q-headline q-mb-md">
+        <span>DAC Locked</span>
+        <span class="text-text2 q-title on-right">{{ getVotingProgress.toFixed(2) }}% of
+        {{ getCustodianConfig.initial_vote_quorum_percent }}%</span>
+      </div>
+      <q-linear-progress
+              animate
+              stripe
+              class="round-borders"
+              style="height:20px"
+              color="positive"
+              :value="getVotingProgress"
+      />
+    </div>
   </div>
 </template>
 
