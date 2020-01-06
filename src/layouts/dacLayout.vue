@@ -4,7 +4,21 @@
 
     <q-header elevated class="bg-bg2 q-pa-md">
       <q-toolbar>
-        <q-btn dense flat round icon="menu" />
+<!--        <q-btn dense flat round icon="menu" />-->
+
+        <q-btn
+                size="md"
+                flat
+                dense
+                round
+                class="q-mr-sm"
+                style="margin-top:-4px"
+                @click="leftDrawerOpen = !leftDrawerOpen"
+                :aria-label="$t('default.menu')"
+        >
+          <q-icon color="text1" v-if="leftDrawerOpen" name="close" />
+          <q-icon color="text1" v-else name="menu" />
+        </q-btn>
 
         <q-toolbar-title>
           <span>
@@ -28,7 +42,12 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer show-if-above v-model="left" side="left" bordered>
+    <q-drawer show-if-above side="left" bordered
+              v-model="leftDrawerOpen"
+              @show="handleDrawerEvent(true)"
+              @hide="handleDrawerEvent(false)"
+              content-class="bg-bg1 relative-position overflow-hidden"
+              ref="leftdrawer">
       <!-- drawer content -->
 
       <main-menu />
@@ -74,7 +93,8 @@ export default {
   },
   data () {
     return {
-      loading: false
+      loading: false,
+      leftDrawerOpen: true
     }
   },
   computed: {
@@ -86,11 +106,15 @@ export default {
   },
 
   methods: {
-    openURL
+    openURL,
+    handleDrawerEvent (e) {
+      console.log(`handleDrawerEvent ${e}`)
+      this.$store.commit('ui/setDrawerIsOpen', e)
+    }
   },
 
   async mounted () {
-    // this.$store.commit('ui/setDrawerIsOpen', true)
+    this.$store.commit('ui/setDrawerIsOpen', true)
   },
 
   watch: {}
