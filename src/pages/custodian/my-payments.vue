@@ -50,29 +50,15 @@
 
           <q-card-section>
             <div class="q-pa-md">
-              <span>Your current pay amount is set to {{ getIsCandidate.requestedpay }}</span>
+              <div>Your current pay amount is set to {{ getIsCandidate.requestedpay }}</div>
+              <div class="text-negative" v-if="requestedPayInvalid"><strong>Your current requested pay is invalid, you MUST update it before proceeding</strong></div>
               <q-item class="q-pl-none">
                 <q-item-section avatar>
                   <q-icon name="icon-type-2"/>
                 </q-item-section>
 
                 <q-item-section>
-                  <q-input
-                          color="primary"
-                          type="number"
-                          v-model="new_requested_pay"
-                          @input="$v.new_requested_pay.$touch()"
-                          :error="$v.new_requested_pay.$error"
-                          :label="$t('manage_candidateship.requestedpay')"
-                          :placeholder="
-                    $t(
-                      'manage_candidateship.requested_custodian_pay_placeholder',
-                      {
-                        system_token: $configFile.get('systemtokensymbol')
-                      }
-                    )
-                  "
-                  />
+                  <asset-input :allowed="allowed" v-model="newRequestedPay" />
                 </q-item-section>
               </q-item>
             </div>
@@ -96,23 +82,25 @@
 
 <script>
 import { mapGetters } from 'vuex'
-// import debugData from 'components/ui/debug-data'
-// import helpBtn from 'components/controls/help-btn'
-// import countdown from '@chenfengyuan/vue-countdown'
 import { required } from 'vuelidate/lib/validators'
+import AssetInput from '../../components/ui/asset-input'
 export default {
   name: 'MyPayments',
   components: {
-    // debugData,
-    // helpBtn,
-    // countdown
+    AssetInput
   },
   data () {
+    const [precisionStr, symbol] = this.$dir.symbol.symbol.split(',')
+    const precision = parseInt(precisionStr)
+
     return {
       loading: false,
       loadingText: '',
       pendingpay: [],
-      new_requested_pay: ''
+      newRequestedPay: null,
+      requestedPayInvalid: false,
+      dacToken: { symbol, precision, contract: this.$dir.symbol.contract, value: 0 },
+      allowed: []
     }
   },
   computed: {
@@ -137,18 +125,6 @@ export default {
         ' ' +
         symbol
       )
-    },
-    verifyAndGetRequestedPay () {
-      if (this.new_requested_pay >= 0) {
-        return this.$helper.numberToAsset(
-          this.new_requested_pay.toFixed(
-            this.$configFile.get('systemtokendecimals')
-          ),
-          this.$configFile.get('systemtokensymbol')
-        )
-      }
-
-      return `0.0000 ${this.$configFile.get('systemtokensymbol')}`
     }
   },
   methods: {
@@ -224,9 +200,9 @@ export default {
     },
 
     async updateRequestedPay () {
-      this.$v.new_requested_pay.$touch()
+      this.$v.newRequestedPay.$touch()
 
-      if (this.$v.new_requested_pay.$error) {
+      if (this.$v.newRequestedPay.$error) {
         alert('Requested pay amount invalid')
         return
       }
@@ -237,7 +213,7 @@ export default {
           name: 'updatereqpae',
           data: {
             cand: this.getAccountName,
-            requestedpay: this.verifyAndGetRequestedPay,
+            requestedpay: this.newRequestedPay.quantity,
             dac_id: this.$dir.dacId
           }
         }
@@ -255,15 +231,38 @@ export default {
       this.loading = true
       this.pendingpay = await this.$store.dispatch('user/fetchPendingPay', this.getAccountName)
       this.loading = false
+    },
+
+    splitAsset (asset) {
+      console.log(`Split ${asset.quantity}`, asset)
+      const [qtyStr, symbolStr] = asset.quantity.split(' ')
+      const [, precisionStr] = qtyStr.split('.')
+      return {
+        contract: asset.contract,
+        symbol: symbolStr,
+        precision: precisionStr.length,
+        quantity: 0
+      }
     }
   },
   mounted () {
     this.getClaimPay()
+    this.newRequestedPay = this.getCustodianConfig.requested_pay_max
+    this.allowed = [this.splitAsset(this.getCustodianConfig.requested_pay_max)]
+    const [, newRequestedPaySymbol] = this.newRequestedPay.quantity.split(' ')
+    const currentPay = this.getIsCandidate.requestedpay
+    const [amountStr, symbol] = currentPay.split(' ')
+    if (symbol !== newRequestedPaySymbol) {
+      console.log(`${symbol} !== ${newRequestedPaySymbol} `, amountStr)
+      this.requestedPayInvalid = true
+      this.newRequestedPay.quantity = `0.0000 ${newRequestedPaySymbol}`
+    }
+    console.log(currentPay, this.newRequestedPay)
   },
 
   validations () {
     return {
-      new_requested_pay: {
+      newRequestedPay: {
         required/* ,
         between: between(
           0.0,
