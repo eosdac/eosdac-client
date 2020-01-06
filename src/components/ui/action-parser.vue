@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="row bg-bg2 items-center" v-for="(action, key) in actions" v-bind:key="key">
+    <div class="row bg-bg1 items-center" v-for="(action, key) in actions" v-bind:key="key">
       <q-item>
         <q-item-section avatar>
           <display-action :action="action" viewable />
