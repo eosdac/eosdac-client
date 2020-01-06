@@ -91,8 +91,6 @@
       </div>
     </div>
 
-    <q-scroll-observable @scroll="userHasScrolled" />
-
   </q-page>
 </template>
 
