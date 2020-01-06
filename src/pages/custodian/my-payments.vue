@@ -124,8 +124,8 @@ export default {
 
     totalPayAmount () {
       if (!this.pendingpay.length) return 0
-      let symbol = this.pendingpay[0].quantity.split(' ')[1]
-      let total = this.pendingpay.reduce((total, p) => {
+      const symbol = this.pendingpay[0].quantity.split(' ')[1]
+      const total = this.pendingpay.reduce((total, p) => {
         return total + this.$helper.assetToNumber(p.quantity)
       }, 0)
 
@@ -158,15 +158,15 @@ export default {
           expired: true
         }
       }
-      let due = new Date(dueDate + '.000+00:00').getTime()
-      let now = new Date().getTime()
+      const due = new Date(dueDate + '.000+00:00').getTime()
+      const now = new Date().getTime()
       return {
         expired: due < now,
         milis_left: due - now
       }
     },
     async claimpay (id) {
-      let actions = [
+      const actions = [
         {
           account: this.$dir.getAccount(this.$dir.ACCOUNT_CUSTODIAN),
           name: 'claimpaye',
@@ -176,7 +176,7 @@ export default {
           }
         }
       ]
-      let result = await this.$store.dispatch('user/transact', {
+      const result = await this.$store.dispatch('user/transact', {
         actions: actions
       })
       if (result) {
@@ -185,7 +185,7 @@ export default {
     },
 
     async rejectpay (id) {
-      let actions = [
+      const actions = [
         {
           account: this.$dir.getAccount(this.$dir.ACCOUNT_CUSTODIAN),
           name: 'rejectcuspay',
@@ -195,7 +195,7 @@ export default {
           }
         }
       ]
-      let result = await this.$store.dispatch('user/transact', {
+      const result = await this.$store.dispatch('user/transact', {
         actions: actions
       })
       if (result) {
@@ -205,7 +205,7 @@ export default {
 
     async claimAll () {
       const contract = this.$dir.getAccount(this.$dir.ACCOUNT_CUSTODIAN)
-      let actions = this.pendingpay.slice(0, 10).map(pp => {
+      const actions = this.pendingpay.slice(0, 10).map(pp => {
         return {
           account: contract,
           name: 'claimpaye',
@@ -215,7 +215,7 @@ export default {
           }
         }
       })
-      let result = await this.$store.dispatch('user/transact', {
+      const result = await this.$store.dispatch('user/transact', {
         actions: actions
       })
       if (result) {
@@ -231,7 +231,7 @@ export default {
         return
       }
 
-      let actions = [
+      const actions = [
         {
           account: this.$dir.getAccount(this.$dir.ACCOUNT_CUSTODIAN),
           name: 'updatereqpae',
@@ -243,7 +243,7 @@ export default {
         }
       ]
       console.log(actions)
-      let result = await this.$store.dispatch('user/transact', {
+      const result = await this.$store.dispatch('user/transact', {
         actions: actions
       })
       if (result) {
