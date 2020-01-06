@@ -135,8 +135,7 @@
                           }" />
                 </q-item-section>
                 <q-item-section>
-                  <q-input type="number" v-model="stakeamount" :label="$t('manage_candidateship.amount_to_stake_placeholder', {token_symbol: $dir.symbolCode})" />
-
+                  <asset-input :allowed="[dacToken]" v-model="stakeamount" :label="$t('manage_candidateship.amount_to_stake_placeholder', {token_symbol: $dir.symbolCode})" />
                 </q-item-section>
               </q-item>
             </div>
@@ -159,31 +158,10 @@
                     'text-negative': !verifyAndGetRequestedPay
                   }" />
                 </q-item-section>
-                <q-item-section>
-                  <q-field
-                          borderless
-                          :label="$t(
-                            'manage_candidateship.requested_custodian_pay_placeholder',
-                            {
-                              system_token: $configFile.get('systemtokensymbol')
-                            }
-                          )"
-                          class="q-mb-sm"
-                          v-bind:class="{
-                            'text-positive': verifyAndGetRequestedPay,
-                            'text-text2': !verifyAndGetRequestedPay
-                          }"
-                  >
-                    <template v-slot:control>
-                      <div class="self-center full-width no-outline" tabindex="0">
-                        <q-input
-                                class="no-padding"
-                                type="number"
-                                v-model="requestedpay"
-                        />
-                      </div>
-                    </template>
-                  </q-field>
+                <q-item-section v-if="allowed && allowed.length">
+                  <asset-input :allowed="allowed"
+                               v-model="requestedpay"
+                               :label="$t('manage_candidateship.requested_custodian_pay_placeholder',{system_token: this.allowed[0].symbol})" />
 
                 </q-item-section>
 
@@ -214,23 +192,20 @@
       >
         <span
           >{{ $t("manage_candidateship.unstake_description")
-          }}{{ lockup_release_time_delay_days }}</span
+          }}{{ lockupReleaseTimeDelayDays }}</span
         >
 
         <div class="row justify-between q-mt-md items-center">
           <div class="q-caption q-py-sm">
-            <span class="text-positive"
-              >Your stake
-              {{$helper.assetToLocaleNumber(getStakedDacBalance + ' ' + $dir.symbol.symbol)}}</span
-            >
-            <span class="on-right"
-              >Release Date:
+            <span class="text-positive">Your stake
+              {{$helper.assetToLocaleNumber(getStakedDacBalance + ' ' + $dir.symbol.symbol)}}
+            </span>
+            <span class="on-right">Release Date:
               {{
                 new Date("2019-05-09T19:17:10").toUTCString(
                   getIsCandidate.custodian_end_time_stamp
                 )
-              }}</span
-            >
+              }}</span>
           </div>
           <q-btn
             class="animate-pop"
@@ -247,19 +222,6 @@
       Please login
     </div>
 
-    <!--<div class="q-pa-md">
-      <debug-data
-        :data="[
-          {
-            getIsCandidate: getIsCandidate,
-            getCustodianConfig: getCustodianConfig,
-            inputs: inputs,
-            lockup_release_time_delay_days: lockup_release_time_delay_days
-          }
-        ]"
-      />
-    </div>-->
-
     <q-dialog v-model="increase_stake_modal" minimized>
       <q-card>
         <q-card-section class="bg-primary">
@@ -268,7 +230,7 @@
         <q-card-section>
           <q-input
                   type="number"
-                  color="primary-light"
+                  color="primary"
                   v-model="increase_stake_amount"
                   label="Extra Stake"
                   stack-label
@@ -276,7 +238,7 @@
           />
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn label="ok" color="primary" @click="increase_stake" />
+          <q-btn label="ok" color="primary" @click="increaseStake" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -286,19 +248,26 @@
 <script>
 import { mapGetters } from 'vuex'
 import ProfilePic from '../components/ui/profile-pic'
+import AssetInput from '../components/ui/asset-input'
 
 export default {
   name: 'RegisterCandidate',
   components: {
+    AssetInput,
     ProfilePic
   },
   data () {
+    const [precisionStr, symbol] = this.$dir.symbol.symbol.split(',')
+    const precision = parseInt(precisionStr)
+
     return {
       stakeamount: null,
       requestedpay: null,
       // requested_pay_max: 0,
       increase_stake_amount: '',
-      increase_stake_modal: false
+      increase_stake_modal: false,
+      dacToken: { symbol, precision, contract: this.$dir.symbol.contract, value: 0 },
+      allowed: null
     }
   },
 
@@ -311,53 +280,29 @@ export default {
       getEnableCustPayments: 'dac/getEnableCustPayments'
     }),
 
-    lockup_release_time_delay_days () {
+    lockupReleaseTimeDelayDays () {
       if (this.getCustodianConfig.lockup_release_time_delay) {
         return this.getCustodianConfig.lockup_release_time_delay / 60 / 60 / 24
       }
       return 0
     },
+
     verifyAndGetRequestedPay () {
-      if (
-        this.requestedpay !== null &&
-                this.requestedpay >= 0 &&
-                this.requestedpay <=
-                this.assetToNumber(this.getCustodianConfig.requested_pay_max.quantity)
-      ) {
-        let requested = parseFloat(this.requestedpay)
-        if (isNaN(requested)) {
-          requested = 0
+      if (this.requestedpay !== null) {
+        const split = this.splitAsset(this.requestedpay)
+        if (split.quantity >= 0 && split.quantity <= this.$helper.assetToNumber(this.getCustodianConfig.requested_pay_max.quantity)) {
+          return `${split.quantity.toFixed(split.precision)} ${split.symbol}`
         }
-        return this.numberToAsset(
-          requested.toFixed(
-            this.$configFile.get('systemtokendecimals')
-          ),
-          this.$configFile.get('systemtokensymbol')
-        )
-      } else {
-        console.log('requested pay out of range')
-        return false
       }
+
+      return false
     },
     verifyAndGetStakeAmount () {
-      if (
-        this.stakeamount !== null &&
-                this.stakeamount + this.getStakedDacBalance >=
-                this.assetToNumber(this.getCustodianConfig.lockupasset.quantity)
-      ) {
-        let staked = parseFloat(this.stakeamount)
-        if (isNaN(staked)) {
-          staked = 0
+      if (this.stakeamount !== null) {
+        const split = this.splitAsset(this.stakeamount)
+        if (split.quantity + this.getStakedDacBalance >= this.$helper.assetToNumber(this.getCustodianConfig.lockupasset.quantity)) {
+          return `${split.quantity.toFixed(split.precision)} ${split.symbol}`
         }
-
-        return this.numberToAsset(
-          staked.toFixed(
-            this.quantityToPrecision(
-              this.getCustodianConfig.lockupasset.quantity
-            )
-          ),
-          this.$dir.symbolCode
-        )
       }
 
       return false
@@ -371,14 +316,6 @@ export default {
   },
 
   methods: {
-    numberToAsset (num, symbol) {
-      return `${num} ${symbol}`
-    },
-    assetToNumber (asset) {
-      if (asset) {
-        return parseFloat(asset.split(' ')[0])
-      }
-    },
     quantityToPrecision (quantity) {
       if (quantity) {
         let [quan] = quantity.split(' ')
@@ -454,14 +391,14 @@ export default {
       }
     },
 
-    async increase_stake () {
+    async increaseStake () {
       if (!this.increase_stake_amount) return false
       this.increase_stake_modal = false
       let increase = parseFloat(this.increase_stake_amount)
       if (isNaN(increase)) {
         increase = 0
       }
-      const quantity = this.numberToAsset(
+      const quantity = this.$helper.numberToAsset(
         increase.toFixed(
           this.quantityToPrecision(this.getCustodianConfig.lockupasset.quantity)
         ),
@@ -483,17 +420,36 @@ export default {
         this.$store.dispatch('user/fetchBalances')
       }
       this.increase_stake_amount = ''
+    },
+
+    splitAsset (asset) {
+      console.log(`Split ${asset.quantity}`, asset)
+      const [qtyStr, symbolStr] = asset.quantity.split(' ')
+      const quantity = parseFloat(qtyStr)
+      const [, precisionStr] = qtyStr.split('.')
+      return {
+        contract: asset.contract,
+        symbol: symbolStr,
+        precision: precisionStr.length,
+        quantity
+      }
     }
   },
 
-  created () {
+  mounted () {
     const stakedBalance = this.getStakedDacBalance
-    const requiredBalance = this.assetToNumber(this.getCustodianConfig.lockupasset.quantity)
+    const lockupSplit = this.splitAsset(this.getCustodianConfig.lockupasset)
+    const requiredBalance = lockupSplit.quantity
     let diff = requiredBalance - stakedBalance
     if (diff < 0) {
       diff = 0
     }
-    this.stakeamount = diff
+    this.stakeamount = { quantity: `${diff.toFixed(lockupSplit.precision)} ${lockupSplit.symbol}`, contract: lockupSplit.contract }
+    const maxPaySplit = this.splitAsset(this.getCustodianConfig.requested_pay_max)
+    const quantity = `${(0).toFixed(maxPaySplit.precision)} ${maxPaySplit.symbol}`
+    this.requestedpay = { contract: maxPaySplit.contract, quantity }
+
+    this.allowed = [maxPaySplit]
   }
 }
 </script>
