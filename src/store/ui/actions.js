@@ -20,6 +20,7 @@ export async function loadTheme ({ commit }, { theme, q }) {
   // let colorvars = Object.keys(theme.colors)
 
   // commit('setIsDark', theme.isDark)
+  console.log(`Setting dark to ${theme.is_dark}`, theme)
   q.dark.set(theme.is_dark)
 
   // for (let i = 0; i < colorvars.length; i++) {

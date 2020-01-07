@@ -182,7 +182,7 @@
 
                   <q-item>
                     <q-item-section side>
-                      <q-btn push color="bg1" label="">
+                      <q-btn push :style="`background: ${brandData.colors.bg1}`" label="">
                         <q-popup-proxy>
                           <q-color v-model="brandData.colors.bg1" />
                         </q-popup-proxy>
@@ -193,7 +193,7 @@
 
                   <q-item>
                     <q-item-section side>
-                      <q-btn push color="bg2" label="">
+                      <q-btn push :style="`background: ${brandData.colors.bg2}`" label="">
                         <q-popup-proxy>
                           <q-color v-model="brandData.colors.bg2" />
                         </q-popup-proxy>

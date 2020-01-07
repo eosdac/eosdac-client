@@ -1,5 +1,5 @@
 <template>
-  <div class="row items-center ">
+  <div class="row items-center">
       <div
         v-if="getSettingByName('toolbar_menu_items').value && getAccountName"
         class="row  justify-start gt-md q-mr-xl"
@@ -20,12 +20,11 @@
                 />
                 <q-icon
                   :name="$configFile.icon.liquid"
-                  color="text2"
                   style="margin-left:3px"
                   title="Liquid Balance"
                 />
                 </q-item-label>
-              <q-item-label caption><xspan
+              <q-item-label caption class="text-text2"><xspan
                       :value="
                   $helper.toLocaleNumber(
                     getStakedDacBalance,
@@ -46,7 +45,7 @@
                 tokenName: $configFile.get("systemtokensymbol")
               })
             }}</q-item-label>
-            <q-item-label>
+            <q-item-label class="text-text2">
               <xspan
                 :value="
                   $helper.toLocaleNumber(
@@ -57,7 +56,6 @@
               />
               <q-icon
                 :name="$configFile.icon.liquid"
-                color="text2"
                 style="margin-left:3px"
                 title="Liquid Balance"
               />

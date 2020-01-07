@@ -64,6 +64,7 @@ export default {
     'NEWMEMTERMS_TERMS_TOO_LONG': 'Member terms document url should be less than 256 characters long.',
     'NEWPERIOD_EARLY': 'New period is being called too soon. Wait until the period has completed.',
     'NEWPERIOD_EXPECTED_CAND_NOT_FOUND': 'Corrupt data: Trying to set a lockup delay on candidate leaving office.',
+    'NEWPERIOD_NOT_ENOUGH_CANDIDATES': 'Not enough candidates to unlock.',
     'NEWPERIOD_VOTER_ENGAGEMENT_LOW_ACTIVATE': 'Voter engagement is insufficient to activate the DAC.',
     'NOMINATECAND_ALREADY_REGISTERED': 'Candidate is already registered and active.',
     'NOMINATECAND_INSUFFICIENT_FUNDS_TO_STAKE': 'Insufficient funds have been staked.',
@@ -359,6 +360,12 @@ export default {
     'votes_yes': 'Yes',
     'votes_no': 'No',
     'votes_abstain': 'Abstain'
+  },
+
+  'newperiod_first': {
+    'call_new_period': 'The required number of votes have been received to unlock this DAC!',
+    'start_new_period': 'Unlock Now',
+    'dac_locked': 'The DAC is still locked but can now be unlocked'
   },
 
   'wp_categories': {

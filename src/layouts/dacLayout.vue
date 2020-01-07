@@ -2,7 +2,7 @@
 <template>
   <q-layout view="hHh lpR fFf">
 
-    <q-header elevated class="bg-bg2 q-pa-md">
+    <q-header class="q-pa-md layout-header">
       <q-toolbar>
 <!--        <q-btn dense flat round icon="menu" />-->
 
@@ -66,6 +66,7 @@
     <q-page-container>
       <request-signature />
       <router-view />
+      <trigger-newperiod />
       <transactionOverlay />
     </q-page-container>
 
@@ -80,7 +81,7 @@ import transactionOverlay from 'components/ui/transaction-overlay'
 import toolbarMenu from 'components/controls/menus/toolbar-menu'
 import mainMenu from 'components/controls/menus/main-menu'
 import requestSignature from 'components/ui/request-signature'
-// import triggerNewperiod from "components/controls/trigger-newperiod";
+import triggerNewperiod from 'components/controls/trigger-newperiod'
 
 export default {
   name: 'eosDACLayout',
@@ -88,8 +89,8 @@ export default {
     transactionOverlay,
     toolbarMenu,
     mainMenu,
-    requestSignature/*,
-    triggerNewperiod */
+    requestSignature,
+    triggerNewperiod
   },
   data () {
     return {
@@ -120,6 +121,11 @@ export default {
   watch: {}
 }
 </script>
+
+<style lang="stylus">
+.layout-header
+    border-bottom: 4px solid var(--q-color-secondary);
+</style>
 
 <!--
 <template>
