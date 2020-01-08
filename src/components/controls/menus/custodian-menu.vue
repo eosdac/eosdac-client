@@ -65,9 +65,9 @@
         <q-item-section class="text-text1 text-weight-light">{{$t('menu.view_msigs')}}</q-item-section>
       </q-item>
 
-        <q-item class="q-pl-lg animate-fade" clickable to="/review-worker-proposals">
-          <q-item-section class="text-text1 text-weight-light">{{$t('menu.vote_worker_proposals')}}</q-item-section>
-        </q-item>
+      <q-item class="q-pl-lg animate-fade" clickable to="/review-worker-proposals" v-if="wpEnabled">
+        <q-item-section class="text-text1 text-weight-light">{{$t('menu.vote_worker_proposals')}}</q-item-section>
+      </q-item>
 
       <q-item class="q-pl-lg animate-fade" clickable to="/dac-activity/financials">
         <q-item-section class="text-text1 text-weight-light">{{$t('menu.view_financials')}}</q-item-section>
@@ -97,7 +97,10 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'custodianMenu',
   data () {
-    return {}
+    return {
+      wpEnabled: false,
+      referendumEnabled: false
+    }
   },
   computed: {
     ...mapGetters({
@@ -105,6 +108,13 @@ export default {
       getIsCustodian: 'user/getIsCustodian',
       getEnableCustPayments: 'dac/getEnableCustPayments'
     })
+  },
+
+  mounted () {
+    const wpAccount = this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS)
+    const referendumAccount = this.$dir.getAccount(this.$dir.ACCOUNT_REFERENDUM)
+    this.wpEnabled = !!wpAccount
+    this.referendumEnabled = !!referendumAccount
   }
 }
 </script>
