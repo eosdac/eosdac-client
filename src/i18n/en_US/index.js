@@ -435,6 +435,16 @@ export default {
     'dac_locked': 'The DAC is still locked but can now be unlocked'
   },
 
+  'mypayments': {
+    'pending_payments': 'Pending Payments',
+    'total': 'Total',
+    'no_payments': 'No payments due',
+    'claim': 'claim',
+    'update_requested_pay': 'Update Requested Pay',
+    'your_current_pay': 'Your current pay amount is set to {currentpay}',
+    'pay_invalid': 'Your current requested pay is invalid, you MUST update it before proceeding'
+  },
+
   'contracts_config': {
     'general': 'General',
     'proposals': 'Worker Proposals',

@@ -2,33 +2,32 @@
   <q-page class="q-pa-md full-width">
     <div class="row q-col-gutter-md">
       <div class="col-sm-6">
-        <q-card>
-
+        <q-card v-if="!loading">
           <q-card-section class="bg-primary q-pa-xs">
             <q-item>
               <q-item-section avatar>
                 <q-icon :name="$configFile.icon.dactoken" />
               </q-item-section>
               <q-item-section class="text-h6">
-                Pending Payments ({{ pendingpay.length }})
+                {{$t('mypayments.pending_payments')}} ({{ pendingpay.length }})
               </q-item-section>
             </q-item>
 
           </q-card-section>
 
-          <q-card-section v-if="pendingpay.length > 1">
+          <q-card-section v-if="pendingpay.length">
             <div class="q-pa-md">
-              <span class="text-bold">Total {{ totalPayAmount }}</span>
+              <span class="text-bold">{{$t('mypayments.total')}} {{ totalPayAmount }}</span>
             </div>
           </q-card-section>
           <q-card-section v-else>
             <div class="q-pa-md">
-              No payments due
+              {{$t('mypayments.no_payments')}}
             </div>
           </q-card-section>
 
-          <q-card-actions align="right" v-if="pendingpay.length > 1">
-            <q-btn color="positive" label="claim" @click="claimAll" />
+          <q-card-actions align="right" v-if="pendingpay.length">
+            <q-btn color="positive" :label="$t('mypayments.claim')" @click="claimAll" />
           </q-card-actions>
 
         </q-card>
@@ -42,7 +41,7 @@
                 <q-icon :name="$configFile.icon.systemtoken" />
               </q-item-section>
               <q-item-section class="text-h6">
-                Update Requested Pay
+                {{$t('mypayments.update_requested_pay')}}
               </q-item-section>
             </q-item>
 
@@ -50,8 +49,8 @@
 
           <q-card-section>
             <div class="q-pa-md">
-              <div>Your current pay amount is set to {{ getIsCandidate.requestedpay }}</div>
-              <div class="text-negative" v-if="requestedPayInvalid"><strong>Your current requested pay is invalid, you MUST update it before proceeding</strong></div>
+              <div>{{$t('mypayments.your_current_pay', { currentpay: getIsCandidate.requestedpay })}}</div>
+              <div class="text-negative" v-if="requestedPayInvalid"><strong>{{$t('mypayments.pay_invalid')}}</strong></div>
               <q-item class="q-pl-none">
                 <q-item-section avatar>
                   <q-icon name="icon-type-2"/>
@@ -76,7 +75,6 @@
 
     </div>
 
-    <!-- <debug-data :data="[{ pendingpay: pendingpay }]" /> -->
   </q-page>
 </template>
 
@@ -112,9 +110,9 @@ export default {
 
     totalPayAmount () {
       if (!this.pendingpay.length) return 0
-      const symbol = this.pendingpay[0].quantity.split(' ')[1]
+      const symbol = this.pendingpay[0].quantity.quantity.split(' ')[1]
       const total = this.pendingpay.reduce((total, p) => {
-        return total + this.$helper.assetToNumber(p.quantity)
+        return total + this.$helper.assetToNumber(p.quantity.quantity)
       }, 0)
 
       return (
@@ -230,6 +228,7 @@ export default {
     async getClaimPay () {
       this.loading = true
       this.pendingpay = await this.$store.dispatch('user/fetchPendingPay', this.getAccountName)
+      console.log('pendingpay', this.pendingpay)
       this.loading = false
     },
 
