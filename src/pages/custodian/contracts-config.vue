@@ -5,9 +5,9 @@
       <div class="col-lg-2">
         <q-tabs vertical v-model="selectedTab" class="text-secondary">
           <q-tab name="general">General</q-tab>
-          <q-tab name="proposals">Worker Proposals</q-tab>
+          <q-tab name="proposals" v-if="wpEnabled">Worker Proposals</q-tab>
           <q-tab name="token">Token</q-tab>
-          <q-tab name="referendum">Referendum</q-tab>
+          <q-tab name="referendum" v-if="referendumEnabled">Referendum</q-tab>
           <q-tab name="brand">Colors &amp; Brand</q-tab>
           <q-tab name="features">Features</q-tab>
         </q-tabs>
@@ -41,7 +41,7 @@
           </q-card>
         </q-tab-panel>
 
-        <q-tab-panel name="proposals">
+        <q-tab-panel name="proposals" v-if="wpEnabled">
           <div class="text-h5 q-mb-md">Proposals</div>
           <!-- {{wpConfig}} -->
           <q-card v-if="wpConfigLoaded">
@@ -74,13 +74,10 @@
 
         </q-tab-panel>
 
-        <q-tab-panel name="referendum">
+        <q-tab-panel name="referendum" v-if="referendumEnabled">
           <div class="text-h5 q-mb-md">Referendum</div>
           <!-- {{referendumConfig}} -->
-          <q-card v-if="!referendumEnabled">
-            <q-card-section>Referendums are not enabled, please enable manually by setting dacdirectory account type REFERENDUM ({{$dir.ACCOUNT_REFERENDUM}})</q-card-section>
-          </q-card>
-          <q-card v-if="referendumConfigLoaded && referendumEnabled">
+          <q-card v-if="referendumConfigLoaded">
             <q-card-section>
               <referendum-config-group v-model="referendumConfig.fee" type="asset" :allowed="[dacToken, systemToken]" label="Fees" />
               <referendum-config-group v-model="referendumConfig.pass" type="number" label="Pass rate" />
@@ -442,6 +439,14 @@ export default {
       console.log(res)
     }
   },
+
+  mounted () {
+    this.wpAccount = this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS)
+    this.referendumAccount = this.$dir.getAccount(this.$dir.ACCOUNT_REFERENDUM)
+    this.wpEnabled = !!this.wpAccount
+    this.referendumEnabled = !!this.referendumAccount
+  },
+
   watch: {
     selectedTab: async function (tabName) {
       switch (tabName) {
@@ -464,10 +469,6 @@ export default {
           this.loadBrand()
           break
         case 'features':
-          this.wpAccount = this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS)
-          this.referendumAccount = this.$dir.getAccount(this.$dir.ACCOUNT_REFERENDUM)
-          this.wpEnabled = !!this.wpAccount
-          this.referendumEnabled = !!this.referendumAccount
           break
       }
     },
