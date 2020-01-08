@@ -1,47 +1,40 @@
 <template>
   <div v-if="getAccountName && wpcats.length">
-    <!-- <div class="bg-bg1 round-borders shadow-4 q-pa-md q-mb-md">
-      My Category Delegations
-    </div> -->
-    <!-- {{ getCatDelegations }} -->
-    <div
-      class="relative-position bg-bg1 bg-logo q-pa-md rounded-borders shadow-4"
-    >
-      <div class="row gutter-sm ">
+    <div class="relative-position q-pa-md rounded-borders shadow-4">
+      <div class="row q-col-gutter-md">
         <div
           class="col-xs-12 col-md-6 col-xl-4"
           v-for="(cat, i) in wpcats"
           :key="`wpcat${i}`"
         >
-          <q-item
-            class=" bg-bg2 q-pa-md rounded-borders full-height animate-pop "
-          >
-            <q-item-main>
-              <q-icon
-                v-if="
+          <q-item>
+            <q-item-section>
+              <q-card>
+                <q-icon
+                        v-if="
                   getAccountName &&
                     cat.delegatee &&
                     getAccountName !== cat.delegatee
                 "
-                :name="$configFile.icon.check"
-                size="24px"
-                color="positive"
-                class="q-pa-sm absolute-top-right"
-              />
-              <q-item-tile class="text-text1" label>{{
-                $t(`${cat.label}`)
-              }}</q-item-tile>
-              <div class="q-caption text-text2 q-my-xs">
-                {{ $t(`${cat.desc}`) }}
-              </div>
-              <member-select
-                itsme="UNDELEGATE"
-                @change="handleCatDelegation(cat.value, $event)"
-                v-model="cat.delegatee"
-                :accountnames="getCustNames"
-                placeholder="Select to Delegate"
-              />
-            </q-item-main>
+                        :name="$configFile.icon.check"
+                        size="24px"
+                        color="positive"
+                        class="q-pa-sm absolute-top-right"
+                />
+                <q-item-label>{{ $t(cat.label) }}</q-item-label>
+                <q-item-label caption>
+                  {{ $t(`${cat.desc}`) }}
+                </q-item-label>
+                <member-select
+                        itsme="UNDELEGATE"
+                        @change="handleCatDelegation(cat.value, $event)"
+                        v-model="cat.delegatee"
+                        :accountnames="getCustNames"
+                        placeholder="Select to Delegate"
+                />
+              </q-card>
+
+            </q-item-section>
           </q-item>
         </div>
       </div>

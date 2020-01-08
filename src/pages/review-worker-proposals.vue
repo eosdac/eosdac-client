@@ -26,7 +26,7 @@
     </q-tabs>
 
     <div
-      class="row bg-bg1 q-pa-md q-mb-md shadow-4 rounded-borders justify-between"
+      class="row q-pa-md q-mb-md shadow-4 rounded-borders justify-between"
       v-if="true"
     >
       <q-search
@@ -78,7 +78,7 @@
     </div>
     <div
       v-else
-      class="text-text2 bg-bg1 bg-logo q-pa-md rounded-borders shadow-4 capitalize"
+      class="bg-logo q-pa-md rounded-borders shadow-4 capitalize"
     >
       <span v-if="loading" class="row items-center">
         <q-spinner class="on-left" color="primary" />Loading
@@ -88,7 +88,6 @@
 
     <q-dialog maximized v-model="expanded_modal">
       <q-carousel
-        color="text2"
         height="100%"
         quick-nav
         :quick-nav-icon="$configFile.icon.dactoken"
@@ -101,8 +100,8 @@
           v-for="(wp, i) in wps"
           :key="`exp${i}`"
         >
-          <div class="full-height bg-bg2">
-            <div class=" text-text1" style="padding-top:38px; height:100%;">
+          <div class="full-height">
+            <div style="padding-top:38px; height:100%;">
               <wp-proposal
                 :wp="wp"
                 :expanded="true"
@@ -114,22 +113,15 @@
       </q-carousel>
     </q-dialog>
 
-    <q-dialog maximized v-model="delegate_modal">
-      <div
-        style="height:50px"
-        class="bg-bg1 row items-center justify-between q-px-md text-text1"
-      >
-        <span>Delegate</span>
-        <q-btn
-          icon="close"
-          @click="delegate_modal = false"
-          dense
-          class="no-shadow"
-        />
-      </div>
-      <div class="q-pa-md bg-bg2 text-text1 full-height">
-        <vote-delegation />
-      </div>
+    <q-dialog v-model="delegate_modal">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">Delegate votes</div>
+        </q-card-section>
+        <q-card-section>
+          <vote-delegation />
+        </q-card-section>
+      </q-card>
     </q-dialog>
   </q-page>
 </template>
