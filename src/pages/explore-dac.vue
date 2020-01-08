@@ -20,7 +20,7 @@
       <!--<q-tab-pane name="members">coming soon...</q-tab-pane>-->
       <q-tab-panel name="votes">
         <vote-timeline
-                class="q-mt-sm bg-bg1 q-pa-md"
+                class="q-mt-sm q-pa-md"
                 :responsive="true"
                 :height="400"
                 :accounts="getCustNames"

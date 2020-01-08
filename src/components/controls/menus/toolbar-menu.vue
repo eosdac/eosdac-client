@@ -24,7 +24,7 @@
                   title="Liquid Balance"
                 />
                 </q-item-label>
-              <q-item-label caption class="text-text2"><xspan
+              <q-item-label caption><xspan
                       :value="
                   $helper.toLocaleNumber(
                     getStakedDacBalance,
@@ -45,7 +45,7 @@
                 tokenName: $configFile.get("systemtokensymbol")
               })
             }}</q-item-label>
-            <q-item-label class="text-text2">
+            <q-item-label caption>
               <xspan
                 :value="
                   $helper.toLocaleNumber(
@@ -87,13 +87,12 @@
       id="login_button"
       v-if="getAccountName"
       flat
-      text-color="text1"
       class="animate-fade"
       :label="getAccountName"
       content-style="margin-top:15px;"
       content-class="rounded-borders"
     >
-      <q-list link class="text-text1 rounded-borders">
+      <q-list link class="rounded-borders">
         <q-item-section class="text-center text-h6 q-pa-sm">
           {{ getAuthString }}
         </q-item-section>
@@ -158,7 +157,6 @@
     <q-btn
       size="lg"
       class="no-shadow animate-fade"
-      text-color="text1"
       icon="lock"
       v-if="!getAccountName"
       :label="$t('default.login')"

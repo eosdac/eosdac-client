@@ -35,7 +35,7 @@
             </q-list>
           </q-popup-proxy>
         </q-btn>
-        <!-- <q-btn size="sm" dense  class="q-mr-xs text-text1" icon="edit" flat @click="edit_action_modal=true" title="edit action" /> -->
+        <!-- <q-btn size="sm" dense  class="q-mr-xs" icon="edit" flat @click="edit_action_modal=true" title="edit action" /> -->
 
       </div>
     </transition>

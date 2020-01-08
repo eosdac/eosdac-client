@@ -221,7 +221,7 @@
             <div class="q-pb-md q-mb-md" style="border-bottom:1px solid grey">
               {{ $t("vote_custodians.voting_disabled_title") }}
             </div>
-            <p class="text-text2">
+            <p>
               {{ $t("vote_custodians.voting_disabled_text") }}
             </p>
           </div>

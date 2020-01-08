@@ -70,7 +70,6 @@ export default {
                 color: 'rgba(0, 0, 0, 0)'
               },
               ticks: {
-                fontColor: colors.getBrand('text2')
                 // beginAtZero: false,
                 // stepSize: 15
               }
@@ -84,8 +83,7 @@ export default {
               },
               ticks: {
                 display: true,
-                beginAtZero: true,
-                fontColor: colors.getBrand('text2')
+                beginAtZero: true
               }
             }
           ]
@@ -117,10 +115,7 @@ export default {
             //   );
             // }
           },
-          backgroundColor: colors.getBrand('dark'),
           titleFontSize: 12,
-          titleFontColor: colors.getBrand('text1'),
-          bodyFontColor: colors.getBrand('text2'),
           bodyFontSize: 12,
           displayColors: true
         }
@@ -187,7 +182,6 @@ export default {
           borderColor: c[i],
           pointBackgroundColor: c[i],
           borderWidth: 1,
-          pointBorderColor: colors.getBrand('dark'),
           pointRadius: 0
         }
         chartdata.datasets.push(dataset)

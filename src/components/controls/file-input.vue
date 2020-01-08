@@ -116,7 +116,6 @@ export default {
 .fileContainer {
     overflow: hidden;
     position:relative;
-    background: var(--q-color-bg1);
     padding:8px;
     cursor: pointer !important;
     border-radius:3px;

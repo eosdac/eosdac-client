@@ -35,19 +35,19 @@
         </q-item-section>
 
         <q-item-section>
-          <span>Expiration: </span>
-          <span class="text-text2">{{
+          <q-item-label>Expiration: </q-item-label>
+          <q-item-label caption>{{
                   new Date(msig.trx.expiration).toUTCString()
-                }}</span>
+                }}</q-item-label>
         </q-item-section>
 
         <q-item-section side top>
           <div @click="approvals_modal = true" class="cursor-pointer">
-            <div class="q-caption text-text2">Received Approvals:</div>
-            <div class="text-text1 q-title">
+            <q-item-label>Received Approvals:</q-item-label>
+            <q-item-label caption>
               <span v-if="provided_approvals" class="text-primary-light cursor-pointer animate-fade">{{ provided_approvals.length }}</span>
               <span class="">/{{ msig.threshold }}</span>
-            </div>
+            </q-item-label>
           </div>
         </q-item-section>
         </template>
@@ -74,7 +74,7 @@
         </q-card-section>
 
         <q-card-section>
-          Proposal Name: <span class="text-text2">{{ msig.proposal_name }}</span>
+          Proposal Name: {{ msig.proposal_name }}
         </q-card-section>
         <q-card-section>
           Proposed by:
@@ -85,7 +85,6 @@
 
         <q-card-section>
           <Actionparser
-                  class="q-body-1"
                   @seenAllActions="disable_approve = false"
                   :actions="msig.trx.actions"
           />
@@ -162,7 +161,7 @@
                 :show_role="true"
               />
               <router-link class=" a2" :to="{ path: '/profile/' + c.actor }">
-                <div class="q-ma-none" style="smin-width:100px; overflow:hidden">
+                <div class="q-ma-none" style="min-width:100px; overflow:hidden">
                   {{ c.actor }}
                 </div>
                 <div class="q-caption">@{{ c.permission }}</div>
@@ -178,7 +177,7 @@
             </div>
 
             <div
-              class="row items-center relative-position bg-bg1 rounded-borders q-pr-md q-ma-sm"
+              class="row items-center relative-position rounded-borders q-pr-md q-ma-sm"
               v-for="(c, i) in requested_approvals"
               :key="i + 'r'"
             >
@@ -191,7 +190,7 @@
                 <div class="q-ma-none" style="min-width:100px; overflow:hidden">
                   {{ c.actor }}
                 </div>
-                <div class="q-caption text-text2">@{{ c.permission }}</div>
+                <div class="q-caption">@{{ c.permission }}</div>
               </router-link>
             </div>
             <!-- <pre>{{getmsigIsSeenCache}}</pre> -->

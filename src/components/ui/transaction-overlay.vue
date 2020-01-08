@@ -25,7 +25,7 @@
               class="animate-bounce animate-fade"
               size="50px"
             />
-            <div class=" text-text1 animate-fade" style="height:50px">
+            <div class="text-primary animate-fade" style="height:50px">
               {{ $t("transaction.loading") }}
             </div>
           </div>

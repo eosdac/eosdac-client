@@ -2,15 +2,15 @@
   <div>
     <div v-if="getCustodianState.met_initial_votes_threshold === 1">
       <div class="row items-center justify-between ">
-        <q-chip color="dark" dense v-if="new_period_millisleft > 0">
+        <q-chip dense v-if="new_period_millisleft > 0">
           <div class="row items-center">
-            <div class="text-text1 q-mr-sm q-caption">New election in</div>
+            <div class="q-mr-sm q-caption">New election in</div>
             <countdown
               v-if="new_period_millisleft"
               :time="Number(new_period_millisleft)"
             >
               <template slot-scope="props">
-                <div class="q-caption text-weight-light text-text2">
+                <div class="q-caption text-weight-light">
                   <span v-if="props.days">{{ props.days }} days, </span>
                   <span v-if="props.hours">{{ props.hours }} hours, </span>
                   <span v-if="props.minutes">{{ props.minutes }} minutes,</span>
@@ -52,7 +52,7 @@
     <div v-if="getCustodianState.met_initial_votes_threshold === 0">
       <div class="q-headline q-mb-md">
         <span>DAC Locked</span>
-        <span class="text-text2 q-title on-right">{{ getVotingProgress.toFixed(2) }}% of
+        <span class="q-title on-right">{{ getVotingProgress.toFixed(2) }}% of
         {{ getCustodianConfig.initial_vote_quorum_percent }}%</span>
       </div>
       <q-linear-progress

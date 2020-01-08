@@ -56,7 +56,7 @@
                       :time="Number(getExpiry.millisleft)"
               >
                 <template slot-scope="props">
-                  <div class="q-caption text-weight-light q-mb-xs">
+                  <div class="text-weight-light q-mb-xs">
                     <span v-if="props.days">{{ props.days }} days, </span>
                     <span v-if="props.hours">{{ props.hours }} hours, </span>
                     <span v-if="props.minutes">{{ props.minutes }} minutes, </span>
@@ -78,7 +78,7 @@
       </div>
 
       <q-scroll-area
-        class="q-mt-sm rounded-borders text-weight-light text-text2"
+        class="q-mt-sm rounded-borders text-weight-light"
         :style="scroll_area_style"
         color="primary"
         :thumb-style="{
@@ -108,8 +108,8 @@
         />
       </q-scroll-area>
 
-      <div class="row justify-between q-mt-xs items-center q-body-1">
-        <span class="text-text2 text-weight-light">ID {{ wp.id }}</span>
+      <div class="row justify-between q-mt-xs items-center">
+        <span class="text-weight-light">ID {{ wp.id }}</span>
         <a
           target="_blank"
           :href="$configFile.get('explorer') + `/transaction/${wp.trx_id}`"
@@ -225,7 +225,7 @@
     </div>
     <q-separator spaced />
 
-    <q-dialog minimized v-model="expand_votes_modal" seamless>
+    <q-dialog v-model="expand_votes_modal">
       <q-card>
         <!-- header -->
         <q-card-section>
@@ -233,16 +233,13 @@
             <div class="col">
               <div class="text-h6">Votes</div>
             </div>
-            <div class="col-auto">
-              <q-btn icon="close" @click="expand_votes_modal = false" flat dense />
-            </div>
           </div>
         </q-card-section>
         <q-card-section>
           <div class="q-pa-md" v-if="wp.status !== 5 && wp.status !== 100">
             <div class="row justify-start q-mt-sm">
               <div
-                      class="row items-center relative-position bg-bg1 rounded-borders q-pr-md q-ma-sm"
+                      class="row items-center relative-position rounded-borders q-pr-md q-ma-sm"
                       v-for="(vote, i) in getVotes.filter(
                 v => v.vote === 1 || v.vote === 3
               )"
@@ -260,7 +257,6 @@
                 </router-link>
                 <q-chip
                         v-if="vote.weight > 1"
-                        color="bg2"
                         :title="`voteweight ${vote.weight}`"
                 >{{ vote.weight }}</q-chip
                 >
@@ -274,7 +270,7 @@
               </div>
 
               <div
-                      class="row items-center relative-position bg-bg1 rounded-borders q-pr-md q-ma-sm"
+                      class="row items-center relative-position rounded-borders q-pr-md q-ma-sm"
                       v-for="(vote, i) in getVotes.filter(
                 v => v.vote === 2 || v.vote === 4
               )"
@@ -292,7 +288,6 @@
                 </router-link>
                 <q-chip
                         v-if="vote.weight > 1"
-                        color="bg2"
                         :title="`voteweight ${vote.weight}`"
                 >{{ vote.weight }}</q-chip
                 >
@@ -763,9 +758,4 @@ export default {
 </script>
 
 <style lang="stylus">
- /*@import '~variables'*/
-
-.proposal-title-line{
-  border-bottom: 1px solid var(--q-color-text2)
-}
 </style>

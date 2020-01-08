@@ -51,11 +51,11 @@
               >
               <br />
               <span>
-                <span class="text-text2">{{ $t("candidate.votes") }}:</span>
+                <span>{{ $t("candidate.votes") }}:</span>
                 {{ $helper.toLocaleNumber(data.total_votes / 10000) }}
               </span>
               <span>
-                <span class="q-pl-md text-text2">{{ $t("candidate.staked") }}:</span>
+                <span class="q-pl-md">{{ $t("candidate.staked") }}:</span>
                 {{ $helper.assetToLocaleNumber(data.locked_tokens) }}
               </span>
             </div>
@@ -77,13 +77,13 @@
           >
             <div class="q-my-md">
               BIO
-              <div class="float-right q-body-2">
-                <span class="text-text2"
+              <div class="float-right">
+                <span
                   >{{ $t("candidate.requestedpay") }}: </span
                 >{{ $helper.assetToLocaleNumber(data.requestedpay) }}
               </div>
             </div>
-            <!--<div class="text-text2 q-body-1" style="overflow:hidden; white-space: pre-wrap;" v-if="data.profile !== undefined">{{data.profile.description}}</div>-->
+            <!--<div class="q-body-1" style="overflow:hidden; white-space: pre-wrap;" v-if="data.profile !== undefined">{{data.profile.description}}</div>-->
             <MarkdownViewer
               v-if="data.profile"
               :tags="[
@@ -100,7 +100,6 @@
                 'orderedlist',
                 'unorderedlist'
               ]"
-              class="bg-dark2"
               :text="data.profile.description"
             />
           </q-scroll-area>

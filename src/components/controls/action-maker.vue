@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-bg2 q-pa-md">
+  <q-card>
     <!-- no props set = custom_mode -->
     <div v-if="account === '' && name === ''">
       <div class="row">
@@ -41,13 +41,14 @@
         </q-item>
       </div>
 
-      <div v-if="custom_mode.abi.actions" class="row q-mb-md bg-bg2 q-pa-xs">
+      <div v-if="custom_mode.abi.actions" class="row q-mb-md q-pa-xs">
         <q-btn
           size="12px"
           :icon="$configFile.icon.action"
           v-for="(action, i) in custom_mode.abi.actions"
           :label="action.name"
           :key="`a${i}`"
+          color="secondary"
           class="animate-pop q-ma-xs"
           @click="
             (custom_mode.action_name = action.name) &&
@@ -59,7 +60,7 @@
 
     <div
       v-if="data_fields.length"
-      class=" animate-fade bg-bg2 q-pa-md q-mt-md rounded-borders"
+      class=" animate-fade q-pa-md q-mt-md rounded-borders"
     >
       <div class="row justify-between items-center q-mb-md">
           <q-breadcrumbs separator=" > ">
@@ -157,7 +158,7 @@
       {{ abi_load_error }}
     </div>
 
-  </div>
+  </q-card>
 </template>
 
 <script>

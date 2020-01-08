@@ -2,7 +2,7 @@
   <q-page class="q-pa-md bg-logo">
     <div class="row gutter-sm">
       <!-- <div class="col-xs-12 col-xl-6">
-        <div  class="bg-bg1 round-borders shadow-4 relative-position overflow-hidden full-height q-pa-md " >
+        <div  class="round-borders shadow-4 relative-position overflow-hidden full-height q-pa-md " >
         Memberclient version: v{{getDapp_version}}
         Local Storage version: v{{getLocal_storage_version}}
         </div>
@@ -13,7 +13,7 @@
       <div>
         <q-item>
           <q-item-main>
-            <q-item-tile class="text-text1" label>
+            <q-item-tile label>
               {{ $t(`settings.locale_language_l`) }}
             </q-item-tile>
             <lang-selector :label="false" />

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="row bg-bg1 items-center" v-for="(action, key) in actions" v-bind:key="key">
+    <div class="row items-center" v-for="(action, key) in actions" v-bind:key="key">
       <q-item>
         <q-item-section avatar>
           <display-action :action="action" viewable />
@@ -15,7 +15,7 @@
       <q-item>
         <span class="q-pa-sm">
         <span class="on-left">Authorization</span>
-        <span class="text-text2">{{
+        <span>{{
           action.authorization
             .map(a => a.actor + "@" + a.permission)
             .join(", ")
@@ -25,7 +25,6 @@
 
     </div>
     <!-- <q-carousel
-      class="text-text1 bg-bg2 "
       v-model="activeSlide"
       @input="handleslide($event)"
     >
@@ -37,7 +36,7 @@
         >
           <div>
             <span>{{ key }}: </span
-            ><span class="text-text2">{{ action.data[key] }}</span>
+            ><span>{{ action.data[key] }}</span>
           </div>
         </div>
       </q-carousel-slide>

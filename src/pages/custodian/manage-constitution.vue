@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-md">
-    <p class="text-text2">
+    <p>
       Review the constitution history and propose constitution updates.
     </p>
     <div class="">
@@ -29,7 +29,7 @@
                       <q-item-label>
                         <div class="overflow-hidden">
                           <span>Version {{ mt.version }} </span>
-                          <span class="q-caption text-text2">{{ mt.hash }}</span>
+                          <span class="q-caption">{{ mt.hash }}</span>
                         </div>
                       </q-item-label>
                       <q-item-label caption>
@@ -89,7 +89,7 @@
                 <div class="row items-center no-wrap">
                   <q-input
                           class="full-width "
-                          color="primary-light"
+                          color="primary"
                           v-model="new_constitution_url"
                           label="Constitution URL"
                           placeholder="Input URL to Constitution"
@@ -122,20 +122,25 @@
         </div>
 
         <div class="col-xs-12 animate-scale">
-          <div class="q-pa-md rounded-borders bg-bg1 shadow-4">
+          <q-card>
+            <!-- <q-card-section>
+              <xspan :value="md5_constitution" />
+            </q-card-section> -->
+            <q-card-section>
+              <div class="inline-doc" v-html="parsed_constitution"></div>
+            </q-card-section>
+            <q-card-section v-if="!isloading && parsed_constitution === ''">
+              No constitution loaded
+            </q-card-section>
+            <q-card-section v-if="isloading" class="animate-fade">loading...</q-card-section>
+          </q-card>
+          <div class="q-pa-md rounded-borders shadow-4">
             <div v-if="parsed_constitution != ''">
               <div class="row q-pb-md justify-end">
-                <xspan :value="md5_constitution" />
+
               </div>
-              <div
-                class="markdown-body animate-fade q-pa-md inline-doc"
-                v-html="parsed_constitution"
-              ></div>
+
             </div>
-            <div v-if="!isloading && parsed_constitution === ''">
-              No constitution loaded
-            </div>
-            <div v-if="isloading" class="animate-fade">loading...</div>
           </div>
         </div>
       </div>
@@ -147,12 +152,12 @@
 const CryptoJS = require('crypto-js')
 // import helpBtn from 'components/controls/help-btn'
 import marked from 'marked'
-import xspan from 'components/ui/xspan'
+// import xspan from 'components/ui/xspan'
 
 import { mapGetters } from 'vuex'
 export default {
   components: {
-    xspan
+    // xspan
   },
   data () {
     return {

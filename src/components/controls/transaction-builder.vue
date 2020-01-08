@@ -1,9 +1,9 @@
 <template>
   <div id="transaction-builder">
-    <div class="text-text1">
+    <div>
 
       <div
-        class="row q-mb-md bg-bg2 q-pa-md q-mt-md rounded-borders"
+        class="row q-mb-md q-pa-md q-mt-md rounded-borders"
       >
         <draggable
           v-model="actions"
@@ -35,7 +35,7 @@
           <div class="row gutter-sm q-pa-md">
             <div class="col-xs-12 col-md-6">
               <div class="q-pa-md rounded-borders full-height">
-                <span class="text-text2">{{$t('transactionbuilder.add_title_description')}}</span>
+                <span>{{$t('transactionbuilder.add_title_description')}}</span>
                 <q-input
                         :label="$t('transactionbuilder.title')"
                         v-model="msig_title"

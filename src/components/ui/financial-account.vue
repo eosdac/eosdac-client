@@ -21,7 +21,6 @@
           <!-- <help-btn
             :content="description"
             :title="accountname"
-            color="text1"
             size="sm"
           /> -->
         </div>
@@ -31,7 +30,7 @@
           <!-- {{ selected_token }} -->
           <div class="q-pa-none relative-position">
             <xspan
-                    class="q-caption absolute-right q-mr-md q-mt-sm text-text2"
+                    class="absolute-right q-mr-md q-mt-sm"
                     :value="balance"
             />
 

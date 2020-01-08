@@ -1,6 +1,6 @@
 <template>
     <div class="balance-timeline-card">
-      <div v-if="description != ''" class="text-text2 q-my-md">
+      <div v-if="description != ''" class="q-my-md">
           {{ description }}
       </div>
       <div>
@@ -98,7 +98,6 @@ export default {
                 color: 'rgba(0, 0, 0, 0)'
               },
               ticks: {
-                fontColor: colors.getBrand('text2')
                 // beginAtZero: false,
                 // stepSize: 15
               }
@@ -112,8 +111,7 @@ export default {
               },
               ticks: {
                 display: true,
-                beginAtZero: true,
-                fontColor: colors.getBrand('text1')
+                beginAtZero: true
               }
             }
           ]
@@ -139,10 +137,7 @@ export default {
               return `${data['datasets'][0]['data'][tooltipItem['index']]}`
             }
           },
-          backgroundColor: colors.getBrand('dark'),
           titleFontSize: 12,
-          titleFontColor: colors.getBrand('text1'),
-          bodyFontColor: colors.getBrand('text2'),
           bodyFontSize: 12,
           displayColors: false
         }

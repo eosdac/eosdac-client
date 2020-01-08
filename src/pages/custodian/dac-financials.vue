@@ -35,7 +35,7 @@
           <q-card-section>
               <div class="relative-position">
                 <div class="cust_only_overlay" v-if="!getIsCustodian">
-                  <q-icon name="lock" class="q-mr-xs text-text2" />
+                  <q-icon name="lock" class="q-mr-xs" />
                   {{ $t("dac_financials.cust_only") }}
                 </div>
                 <div class="q-pa-md">
@@ -114,7 +114,7 @@
           <q-card-section>
               <div class="relative-position">
                 <div class="cust_only_overlay" v-if="!getIsCustodian">
-                  <q-icon name="lock" class="q-mr-xs text-text2" />
+                  <q-icon name="lock" class="q-mr-xs" />
                   {{ $t("dac_financials.cust_only") }}
                 </div>
 
@@ -157,7 +157,6 @@
                                 icon="edit"
                                 flat
                                 dense
-                                color="text1"
                         />
                       </q-item-section>
                       <q-item-section>
@@ -168,8 +167,7 @@
                           <span>{{ trx.to }}</span>
                           <q-chip
                                   dense
-                                  color="dark"
-                                  class="text-weight-thin on-right q-caption text-text1"
+                                  class="text-weight-thin on-right q-caption"
                           >
                             <span>{{ `${trx.asset.quantity}` }}</span>
                             <span class="text-weight-bold">
@@ -212,7 +210,7 @@
                         />
                         <span class="animate-pop" v-if="trx.status === 1">
                       <q-spinner color="primary" />
-                      <span class="q-caption text-text2 q-ml-sm">{{
+                      <span class="q-caption q-ml-sm">{{
                         $t("dac_financials.signing")
                       }}</span>
                     </span>
@@ -228,21 +226,19 @@
       <!-- end trx qeue -->
 
       <!-- <div class="col-xs-12 col-lg-6">
-        <div class="bg-bg1 round-borders shadow-4 overflow-hidden">
+        <div class="round-borders shadow-4 overflow-hidden">
           <div
             class="bg-primary q-pa-sm row justify-between items-center"
             style="height:50px"
           >
             <q-icon
               :name="$configFile.icon.dactoken"
-              color="text2"
               size="24px"
             />
             <span>Open Payments</span>
             <help-btn
               content="Fill in the form to propose a transfer from one of the DAC accounts. The transfers will be submitted to the blockchain as multisignature proposals. The custodians need to vote before the transfer can be executed."
               title="Propose Transfer"
-              color="text1"
               size="sm"
             />
           </div>

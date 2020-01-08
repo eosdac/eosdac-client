@@ -40,7 +40,7 @@
         >
           <q-item-main
             :label="$t('menu.vote_worker_proposals')"
-            class="text-text1 text-weight-light"
+            class="text-weight-light"
           />
         -->
         <!-- <q-item-side right>
@@ -62,18 +62,18 @@
       </template>
 
       <q-item class="q-pl-lg animate-fade" clickable to="/review-proposals">
-        <q-item-section class="text-text1 text-weight-light">{{$t('menu.view_msigs')}}</q-item-section>
+        <q-item-section class="text-weight-light">{{$t('menu.view_msigs')}}</q-item-section>
       </q-item>
 
       <q-item class="q-pl-lg animate-fade" clickable to="/review-worker-proposals" v-if="wpEnabled">
-        <q-item-section class="text-text1 text-weight-light">{{$t('menu.vote_worker_proposals')}}</q-item-section>
+        <q-item-section class="text-weight-light">{{$t('menu.vote_worker_proposals')}}</q-item-section>
       </q-item>
 
       <q-item class="q-pl-lg animate-fade" clickable to="/dac-activity/financials">
-        <q-item-section class="text-text1 text-weight-light">{{$t('menu.view_financials')}}</q-item-section>
+        <q-item-section class="text-weight-light">{{$t('menu.view_financials')}}</q-item-section>
       </q-item>
       <q-item class="q-pl-lg animate-fade" clickable to="/explore-dac">
-        <q-item-section class="text-text1 text-weight-light">{{$t('menu.explore')}}</q-item-section>
+        <q-item-section class="text-weight-light">{{$t('menu.explore')}}</q-item-section>
       </q-item>
 
       <!--
@@ -84,7 +84,7 @@
       >
         <q-item-main
           :label="$t('menu.view_worker_proposals')"
-          class="text-text1 text-weight-light"
+          class="text-weight-light"
         />
       </q-item>
       -->
