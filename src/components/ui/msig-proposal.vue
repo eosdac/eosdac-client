@@ -139,26 +139,20 @@
 
     <!-- modal for displaying approvals mobile+desktop -->
     <q-dialog minimized v-model="approvals_modal">
-      <div class="bg-dark text-text1 bg-logo">
+      <q-card>
         <!-- header -->
-        <div
-          style="height:50px"
-          class="bg-bg1 row items-center justify-between q-px-md"
-        >
-          <span
-            >Approvals
-            <span v-if="provided_approvals" class="q-caption text-weight-thin"
-              >needs {{ msig.threshold - provided_approvals.length }} more</span
-            ></span
-          >
-          <q-btn icon="close" @click="approvals_modal = false" flat dense />
-        </div>
+        <q-card-section>
+          <div class="text-h6">
+            Approvals
+          </div>
+          <div v-if="provided_approvals" class="text-weight-thin">needs {{ msig.threshold - provided_approvals.length }} more</div>
+        </q-card-section>
         <!-- content -->
-        <div class=" q-pa-md">
+        <q-card-section class="q-pa-md">
           <div class="row justify-start q-mt-sm">
             <!-- <pre>{{provided_approvals}}</pre> -->
             <div
-              class="row items-center relative-position bg-bg1 rounded-borders q-pr-md q-ma-sm"
+              class="row items-center relative-position rounded-borders q-pr-md q-ma-sm"
               v-for="(c, i) in provided_approvals"
               :key="i + 'p'"
             >
@@ -168,10 +162,10 @@
                 :show_role="true"
               />
               <router-link class=" a2" :to="{ path: '/profile/' + c.actor }">
-                <div class="q-ma-none" style="min-width:100px; overflow:hidden">
+                <div class="q-ma-none" style="smin-width:100px; overflow:hidden">
                   {{ c.actor }}
                 </div>
-                <div class="q-caption text-text2">@{{ c.permission }}</div>
+                <div class="q-caption">@{{ c.permission }}</div>
               </router-link>
 
               <q-icon
@@ -202,8 +196,8 @@
             </div>
             <!-- <pre>{{getmsigIsSeenCache}}</pre> -->
           </div>
-        </div>
-      </div>
+        </q-card-section>
+      </q-card>
     </q-dialog>
     <!-- <Transaction ref="Transaction" v-on:done="transactionCallback($event)" /> -->
   </div>
