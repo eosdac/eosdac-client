@@ -27,30 +27,8 @@
 
     <div
       class="row q-pa-md q-mb-md shadow-4 rounded-borders justify-between"
-      v-if="true"
+      v-if="pagination.max > 1"
     >
-      <q-search
-        color="primary"
-        v-model="filter"
-        :placeholder="$t('vote_custodians.search')"
-      />
-      <div class="row inline items-center q-mt-sm" style="font-size:12px;">
-        <span>{{ $t("vote_custodians.rows_per_page") }}:</span>
-        <q-select
-          class="q-ml-sm"
-          style="width:45px;"
-          hide-underline
-          v-model="pagination.items_per_page"
-          emit-value
-          :options="[
-            { label: '1', value: 1 },
-            { label: '4', value: 4 },
-            { label: '8', value: 8 },
-            { label: '16', value: 16 },
-            { label: '24', value: 24 },
-            { label: '48', value: 48 }
-          ]"
-        />
         <q-pagination
           color="primary"
           v-show="true"
@@ -60,7 +38,6 @@
           :max-pages="6"
           direction-links
         />
-      </div>
     </div>
 
     <div v-if="wps.length" class="row q-col-gutter-md">
