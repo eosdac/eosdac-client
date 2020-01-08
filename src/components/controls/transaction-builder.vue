@@ -1,20 +1,6 @@
 <template>
   <div id="transaction-builder">
     <div class="text-text1">
-      <div class="justify-between">
-
-        <q-separator />
-
-        <div class="">
-          <q-btn
-            :disabled="!actions.length"
-            color="positive"
-            class="animate-fade"
-            @click="proposeMsig"
-            :label="$t('transactionbuilder.submit_proposal')"
-          />
-        </div>
-      </div>
 
       <div
         class="row q-mb-md bg-bg2 q-pa-md q-mt-md rounded-borders"
@@ -90,6 +76,15 @@
         </div>
       </div>
     </div>
+
+      <q-btn
+              :disabled="!actions.length"
+              color="positive"
+              class="animate-fade float-right"
+              @click="proposeMsig"
+              :label="$t('transactionbuilder.submit_proposal')"
+      />
+      <div style="clear: both"></div>
 
   </div>
 </template>

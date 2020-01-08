@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-accent">
+  <div class="bg-bg2 q-pa-md">
     <!-- no props set = custom_mode -->
     <div v-if="account === '' && name === ''">
       <div class="row">
@@ -50,8 +50,8 @@
           :key="`a${i}`"
           class="animate-pop q-ma-xs"
           @click="
-            custom_mode.action_name = action.name;
-            custom_mode.action_type = action.type;
+            (custom_mode.action_name = action.name) &&
+            (custom_mode.action_type = action.type)
           "
         />
       </div>
