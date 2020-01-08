@@ -13,23 +13,23 @@
       </template>
 
         <q-item class="q-pl-lg animate-fade" clickable to="/custodian/dac-management">
-          <q-item-section class="text-text1 text-weight-light">{{$t('menu.manage_dac')}}</q-item-section>
+          <q-item-section class="text-weight-light">{{$t('menu.manage_dac')}}</q-item-section>
         </q-item>
 
         <q-item class="q-pl-lg animate-fade" clickable to="/review-proposals">
-          <q-item-section class="text-text1 text-weight-light">{{$t('menu.vote_msigs')}}</q-item-section>
+          <q-item-section class="text-weight-light">{{$t('menu.vote_msigs')}}</q-item-section>
         </q-item>
 
         <q-item class="q-pl-lg animate-fade" clickable to="/review-worker-proposals">
-          <q-item-section class="text-text1 text-weight-light">{{$t('menu.vote_worker_proposals')}}</q-item-section>
+          <q-item-section class="text-weight-light">{{$t('menu.vote_worker_proposals')}}</q-item-section>
         </q-item>
 
         <q-item v-if="getEnableCustPayments" class="q-pl-lg animate-fade" clickable to="/custodian/my-payments">
-          <q-item-section class="text-text1 text-weight-light">{{$t('menu.my_payments')}}</q-item-section>
+          <q-item-section class="text-weight-light">{{$t('menu.my_payments')}}</q-item-section>
         </q-item>
 
         <q-item class="q-pl-lg animate-fade" clickable to="/explore-dac">
-          <q-item-section class="text-text1 text-weight-light">{{$t('menu.explore')}}</q-item-section>
+          <q-item-section class="text-weight-light">{{$t('menu.explore')}}</q-item-section>
         </q-item>
 
         <!--

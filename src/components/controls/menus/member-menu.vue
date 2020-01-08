@@ -13,19 +13,19 @@
     </template>
 
     <q-item class="q-pl-lg animate-fade" clickable to="/member/new-worker-proposal" v-if="wpEnabled">
-      <q-item-section class="text-text1 text-weight-light">{{$t('menu.new_worker_proposal')}}</q-item-section>
+      <q-item-section class="text-weight-light">{{$t('menu.new_worker_proposal')}}</q-item-section>
     </q-item>
 
     <q-item class="q-pl-lg animate-fade" clickable to="/member/my-worker-proposals" v-if="wpEnabled">
-      <q-item-section class="text-text1 text-weight-light">{{$t('menu.my_worker_proposals')}}</q-item-section>
+      <q-item-section class="text-weight-light">{{$t('menu.my_worker_proposals')}}</q-item-section>
     </q-item>
 
     <q-item class="q-pl-lg animate-fade" clickable to="/member/referendums" v-if="referendumEnabled">
-      <q-item-section class="text-text1 text-weight-light">{{$t('menu.referendums')}}</q-item-section>
+      <q-item-section class="text-weight-light">{{$t('menu.referendums')}}</q-item-section>
     </q-item>
 
     <q-item class="q-pl-lg animate-fade" clickable to="/member/new-referendum" v-if="referendumEnabled">
-      <q-item-section class="text-text1 text-weight-light">{{$t('menu.new_referendum')}}</q-item-section>
+      <q-item-section class="text-weight-light">{{$t('menu.new_referendum')}}</q-item-section>
     </q-item>
 
   </q-expansion-item>
