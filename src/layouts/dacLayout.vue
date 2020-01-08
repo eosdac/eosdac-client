@@ -16,8 +16,8 @@
                 @click="leftDrawerOpen = !leftDrawerOpen"
                 :aria-label="$t('default.menu')"
         >
-          <q-icon color="text1" v-if="leftDrawerOpen" name="close" />
-          <q-icon color="text1" v-else name="menu" />
+          <q-icon v-if="leftDrawerOpen" name="close" />
+          <q-icon v-else name="menu" />
         </q-btn>
 
         <q-toolbar-title>
@@ -53,7 +53,7 @@
       <main-menu />
 
       <div
-              class="absolute-bottom text-text2 q-pa-md cursor-pointer"
+              class="absolute-bottom q-pa-md cursor-pointer"
               @click="openURL('https://eosdac.io')"
       >
         <div class="row items-center justify-end">
