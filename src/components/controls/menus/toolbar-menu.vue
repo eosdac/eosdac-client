@@ -136,22 +136,22 @@
           <q-item-section>{{ $t("menu.switch_account") }}</q-item-section>
         </q-item>
 
-        <q-item clickable v-close-overlay @click.native="$store.dispatch('global/logout')">
-            <q-item-section avatar>
-              <q-icon :name="$configFile.icon.account" color="negative" />
-            </q-item-section>
-            <q-item-section>{{$t('default.logout')}}</q-item-section>
-        </q-item>
-
-        <q-separator inset="item" />
-
         <q-item v-close-overlay to="/settings">
-            <q-item-section avatar>
-              <q-icon :name="$configFile.icon.settings" />
-            </q-item-section>
+          <q-item-section avatar>
+            <q-icon :name="$configFile.icon.settings" />
+          </q-item-section>
           <q-item-section>{{ $t("menu.settings") }}</q-item-section>
         </q-item>
       </q-list>
+
+        <q-separator inset="item" />
+
+        <q-item clickable v-close-overlay @click.native="$store.dispatch('global/logout')">
+          <q-item-section avatar>
+            <q-icon :name="$configFile.icon.account" color="negative" />
+          </q-item-section>
+          <q-item-section>{{$t('default.logout')}}</q-item-section>
+        </q-item>
     </q-btn-dropdown>
 
     <q-btn
