@@ -2,9 +2,9 @@
   <q-page class="q-pa-md">
     <!-- content -->
 
-    <div class="bg-bg1 rounded-borders shadow-4 q-pa-md bg-logo">
+    <div class="rounded-borders shadow-4 q-pa-md bg-logo">
       <div class="text-h4">Submit Worker Proposal</div>
-      <div class="q-mb-md text-text2">
+      <div class="q-mb-md">
         Please fill in the form to explain your worker proposal.
       </div>
       <div class="row q-col-gutter-md">

@@ -16,7 +16,7 @@
     </q-tabs>
 
     <div
-      class="row bg-bg1 q-pa-md q-mb-md shadow-4 rounded-borders justify-between"
+      class="row q-pa-md q-mb-md shadow-4 rounded-borders justify-between"
       v-if="true"
     >
       <q-search
@@ -41,7 +41,7 @@
           ]"
         />
         <q-pagination
-          color="primary-light"
+          color="primary"
           v-show="true"
           v-model="pagination.page"
           :min="1"
@@ -69,17 +69,16 @@
     </div>
     <div
       v-else
-      class="text-text2 bg-bg1 bg-logo q-pa-md rounded-borders shadow-4 capitalize"
+      class="bg-logo q-pa-md rounded-borders shadow-4"
     >
       <span v-if="loading" class="row items-center">
-        <q-spinner class="on-left" color="primary-light" />Loading
+        <q-spinner class="on-left" color="primary" />Loading
       </span>
       <span v-else>No proposals available</span>
     </div>
 
     <q-modal maximized v-model="expanded_modal">
       <q-carousel
-        color="text2"
         height="100%"
         quick-nav
         :quick-nav-icon="$configFile.icon.dactoken"
@@ -92,8 +91,8 @@
           v-for="(wp, i) in wps"
           :key="`exp${i}`"
         >
-          <div class="full-height bg-bg2">
-            <div class=" text-text1" style="padding-top:38px; height:100%;">
+          <div class="full-height">
+            <div style="padding-top:38px; height:100%;">
               <wp-proposal
                 :wp="wp"
                 :expanded="true"
