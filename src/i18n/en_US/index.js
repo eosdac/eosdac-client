@@ -445,6 +445,17 @@ export default {
     'pay_invalid': 'Your current requested pay is invalid, you MUST update it before proceeding'
   },
 
+  'manageconstitution': {
+    'review_constitution': 'Review the constitution history and propose constitution updates.',
+    'constitution_history': 'Constitution History',
+    'version': 'Version',
+    'new_constitution': 'New Constitution',
+    'constitution_url': 'Constitution URL',
+    'new_constitution_detected': 'New constitution detected. Please review the constitution and verify the md5 hash before updating. The constitution change will be put up for voting via msig.',
+    'no_constitution_loaded': 'No constitution loaded',
+    'loading': 'loading'
+  },
+
   'contracts_config': {
     'general': 'General',
     'proposals': 'Worker Proposals',

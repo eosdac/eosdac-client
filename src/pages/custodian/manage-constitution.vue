@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-md">
     <p>
-      Review the constitution history and propose constitution updates.
+      {{$t('manageconstitution.review_constitution')}}
     </p>
     <div class="">
       <div class="row q-col-gutter-md">
@@ -13,7 +13,7 @@
                   <q-icon :name="$configFile.icon.dactoken" />
                 </q-item-section>
                 <q-item-section class="text-h6">
-                  Constitution History
+                  {{$t('manageconstitution.constitution_history')}}
                 </q-item-section>
               </q-item>
 
@@ -28,7 +28,7 @@
                     <q-item-section>
                       <q-item-label>
                         <div class="overflow-hidden">
-                          <span>Version {{ mt.version }} </span>
+                          <span>{{$t('manageconstitution.version')}} {{ mt.version }} </span>
                           <span class="q-caption">{{ mt.hash }}</span>
                         </div>
                       </q-item-label>
@@ -78,7 +78,7 @@
                   <q-icon :name="$configFile.icon.dactoken" />
                 </q-item-section>
                 <q-item-section class="text-h6">
-                  New Constitution
+                  {{$t('manageconstitution.new_constitution')}}
                 </q-item-section>
               </q-item>
 
@@ -91,8 +91,7 @@
                           class="full-width "
                           color="primary"
                           v-model="new_constitution_url"
-                          label="Constitution URL"
-                          placeholder="Input URL to Constitution"
+                          :label="$t('manageconstitution.constitution_url')"
                           stack-label
                           @input="urlChanged"
                   />
@@ -111,9 +110,7 @@
                     <q-btn label="Update" @click="updateConstitution" color="primary" />
                   </div>
                   <div class="q-caption text-positive q-pa-sm">
-                    New constitution detected. Please review the constitution and
-                    verify the md5 hash before updating. The constitution change
-                    will be put up for voting via msig.
+                    {{$t('manageconstitution.new_constitution_detected')}}
                   </div>
                 </div>
               </div>
@@ -130,9 +127,9 @@
               <div class="inline-doc" v-html="parsed_constitution"></div>
             </q-card-section>
             <q-card-section v-if="!isloading && parsed_constitution === ''">
-              No constitution loaded
+              {{$t('manageconstitution.no_constitution_loaded')}}
             </q-card-section>
-            <q-card-section v-if="isloading" class="animate-fade">loading...</q-card-section>
+            <q-card-section v-if="isloading" class="animate-fade">{{$t('manageconstitution.loading')}}...</q-card-section>
           </q-card>
           <div class="q-pa-md rounded-borders shadow-4">
             <div v-if="parsed_constitution != ''">
