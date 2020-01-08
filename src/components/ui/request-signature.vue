@@ -4,7 +4,7 @@
     enter-active-class="animated fadeInDown"
     leave-active-class="animated fadeOutUp"
   >
-    <div
+    <q-card
       v-if="getAccountName && needSignature && time_flag && showHere"
       v-bind:class="{ 'drawer-margin': getDrawerIsOpen }"
       class="request_signature_msg q-pa-md bg-logo fixed"
@@ -34,7 +34,7 @@
         />
       </div>
       <div style="clear:both"></div>
-    </div>
+    </q-card>
   </transition>
 </template>
 
