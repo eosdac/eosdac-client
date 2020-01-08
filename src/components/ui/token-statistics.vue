@@ -9,14 +9,14 @@
                 {{ marketData.last }} {{marketData.currency}}/EOS
               </q-item-section>
               <q-item-section>
-                  <span class="text-positive text-h5" v-if="marketData.change >= 0">+{{ marketData.change * 100 }}% (24h)</span>
-                  <span class="text-negative text-h5" v-else>{{ marketData.change * 100 }}% (24h)</span>
+                  <span class="text-positive text-h5" v-if="marketData.change >= 0">+{{(marketData.change * 100).toFixed(2) }}% (24h)</span>
+                  <span class="text-negative text-h5" v-else>{{ (marketData.change * 100).toFixed(2) }}% (24h)</span>
               </q-item-section>
             </q-item>
             <q-item>
               <q-item-section>
                 <q-item-label>Volume</q-item-label>
-                <q-item-label caption>{{ marketData.amount }}</q-item-label>
+                <q-item-label caption>{{ marketData.amount.toFixed(2) }}</q-item-label>
               </q-item-section>
               <q-item-section>
                 <q-item-label>High</q-item-label>
