@@ -1,5 +1,5 @@
 <template>
-  <q-page class="text-text2 q-pa-md">
+  <q-page class="q-pa-md">
     <div class="row relative-position justify-start q-mb-md">
       <h4 class="q-display-1 q-my-none">
         Review Proposals <span v-if="total">({{ total }})</span>
@@ -14,7 +14,7 @@
     </q-tabs>
 
     <div
-      class="row bg-bg1 q-pa-md q-mb-md shadow-4 rounded-borders justify-between"
+      class="row q-pa-md q-mb-md shadow-4 rounded-borders justify-between"
     >
       <!--<q-search
         color="primary"
@@ -56,16 +56,16 @@
     </div>
     <div
       v-else
-      class="text-text2 bg-bg1 bg-logo q-pa-md rounded-borders shadow-4 capitalize"
+      class="bg-logo q-pa-md rounded-borders shadow-4 capitalize"
     >
       <span v-if="msigs_loading" class="row items-center">
-        <q-spinner-pie class="on-left" color="primary-light" />Loading
+        <q-spinner-pie class="on-left" color="primary" />Loading
       </span>
       <span v-else>No proposals available</span>
     </div>
 
     <div
-      class="row bg-bg1 q-pa-md q-my-md shadow-4 rounded-borders justify-between"
+      class="row q-pa-md q-my-md shadow-4 rounded-borders justify-between"
       v-if="true"
     >
 <!--      <q-search-->
