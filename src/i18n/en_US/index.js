@@ -334,7 +334,8 @@ export default {
     'submit_my_votes': 'SUBMIT MY VOTES',
     'voting_disabled_text': 'Voting is currently disabled. You are able to test out the graphical interface but your votes won\'t be submitted to the chain. Voting will be enabled shortly.',
     'voting_disabled_title': 'Voting Disabled',
-    'voting_progress': 'voting progress'
+    'voting_progress': 'voting progress',
+    'no_candidates': 'No candidates'
   },
   'votingprogress': {
     'activated_at': 'The DAC will be activated at 15%',

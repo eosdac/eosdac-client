@@ -14,7 +14,7 @@
         <div class="col-xs-12 col-md-9">
           <!-- <pre>{{getSelectedCand}}</pre> -->
             <div class="text-h5">
-              {{ $t("vote_custodians.candidate_list") }}- {{ custodians.length }}
+              {{ $t("vote_custodians.candidate_list") }} - {{ custodians.length }}
             </div>
             <p>
               {{
@@ -25,7 +25,7 @@
             </p>
 
             <div
-              v-if="!loading"
+              v-if="!loading && pagination.max > 1"
               class="row q-pa-md q-mb-md shadow-4 rounded-borders justify-between animate-fade"
             >
 <!--              <q-search-->
@@ -48,7 +48,7 @@
               class="q-pa-md q-mb-md rounded-borders shadow-4"
               v-if="!custodians.length"
             >
-              No candidates
+              {{ $t("vote_custodians.no_candidates") }}
             </div>
             <div v-else>
               <Candidate
@@ -62,7 +62,7 @@
             </div>
 
             <div
-              v-if="!loading"
+              v-if="!loading && pagination.max > 1"
               class="row q-pa-md q-mb-md shadow-4 rounded-borders justify-right animate-fade"
             >
 <!--              <q-search-->
@@ -190,9 +190,6 @@
     </div>
     <!-- end wrapper -->
 
-<!--    <debug-data-->
-<!--      :data="[{ getDacVotes: getDacVotes }, { getCandidates: getCandidates }]"-->
-<!--    />-->
   </q-page>
 </template>
 
@@ -200,17 +197,14 @@
 import Candidate from 'components/ui/candidate'
 import profilePic from 'components/ui/profile-pic'
 import displayCustodians from 'components/ui/display-custodians'
-// import debugData from 'components/ui/debug-data'
 
 import { Notify } from 'quasar'
-
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'Votecustodians',
   components: {
     Candidate,
-    // debugData,
     displayCustodians,
     profilePic
   },
