@@ -144,9 +144,9 @@ export default {
       if (!this.$refs.linechart || !this.$refs.linechart.$refs) {
         return
       }
-      let { r, g, b } = colors.hexToRgb(hexcolor)
+      const { r, g, b } = colors.hexToRgb(hexcolor)
       // console.log(r,g,b)
-      let gradient = this.$refs.linechart.$refs.canvas
+      const gradient = this.$refs.linechart.$refs.canvas
         .getContext('2d')
         .createLinearGradient(0, 0, 0, 450)
       gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, 0.3)`)
@@ -155,8 +155,8 @@ export default {
       return gradient
     },
     async setChartData (query) {
-      let res = await this.$store.dispatch('dac/fetchVotesTimeline', query)
-      let c = [
+      const res = await this.$store.dispatch('dac/fetchVotesTimeline', query)
+      const c = [
         '#aaec33',
         '#00a5e3',
         '#8dd7bf',
@@ -171,13 +171,13 @@ export default {
         '#6dc38e'
       ]
       if (!res || !res.results) return false
-      let chartdata = {
+      const chartdata = {
         // labels: res.results[4].votes.map(v => v.block_timestamp),
         datasets: []
       }
 
       for (let i = 0; i < res.results.length; i++) {
-        let dataset = {
+        const dataset = {
           label: `${res.results[i].candidate}`,
           data: res.results[i].votes.map(v => {
             return { x: new Date(v.block_timestamp), y: v.votes / 10000 }
