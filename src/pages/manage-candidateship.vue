@@ -254,7 +254,7 @@ import ProfilePic from '../components/ui/profile-pic'
 import AssetInput from '../components/ui/asset-input'
 
 export default {
-  name: 'RegisterCandidate',
+  name: 'ManageCandidateship',
   components: {
     AssetInput,
     ProfilePic
