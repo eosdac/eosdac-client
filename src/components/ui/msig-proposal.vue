@@ -93,7 +93,7 @@
 
         <q-card-actions align="right" v-if="!read_only">
 
-          <span v-if="msig.status === 1">
+            <q-btn-group v-if="msig.status === 1">
                 <q-btn
                         v-if="!isApproved"
                         color="positive"
@@ -119,8 +119,8 @@
                         label="execute"
                         @click="executeProposal(msig.proposer, msig.proposal_name)"
                 />
-              </span>
-          <span v-if="msig.status === 3">
+          </q-btn-group>
+          <q-btn-group v-if="msig.status === 3">
                 <q-btn
                         v-if="isCreator"
                         color="negative"
@@ -132,7 +132,7 @@
                         label="resubmit"
                         @click="resubmit(msig)"
                 />
-          </span>
+          </q-btn-group>
         </q-card-actions>
       </q-card>
     </q-expansion-item>
