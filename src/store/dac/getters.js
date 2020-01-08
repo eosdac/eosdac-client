@@ -67,6 +67,10 @@ export function getReferendumConfig (state) {
   return state.referendumConfig
 }
 
+export function getActivationStats (state) {
+  return state.activationStats
+}
+
 export function getEnableCustPayments (state) {
   if (
     state.custodianConfig.requested_pay_max === null ||

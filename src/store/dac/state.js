@@ -6,6 +6,12 @@ export default {
   candidates: null,
   workerProposals: null,
   custodianPermissions: null,
+  activationStats: {
+    votePercentage: null,
+    voteQuorum: null,
+    numCandidates: null,
+    requiredCandidates: null
+  },
   dacAdmins: [],
   custodianConfig: {
     lockupasset: null,

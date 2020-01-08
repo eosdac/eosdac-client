@@ -144,6 +144,83 @@ export async function fetchReferendumConfig ({ commit, dispatch, state }) {
   }
 }
 
+export async function fetchActivationStats ({ commit, dispatch, state }) {
+  const api = await dispatch('global/getDacApi', false, { root: true })
+  const conf = await api.getContractConfig('custodian')
+  const tokenStats = await api.getTokenStats()
+  const custodianState = await api.getCustodianContractState()
+
+  const activationStats = {
+    active: true,
+    canActivate: false,
+    votePercentage: null,
+    voteQuorum: null,
+    numCandidates: null,
+    requiredCandidates: null
+  }
+
+  if (custodianState.met_initial_votes_threshold || custodianState.lastperiodtime !== '1970-01-01T00:00:00') {
+    console.log('state', custodianState)
+    commit('setActivationStats', activationStats)
+    return
+  }
+
+  activationStats.active = false
+
+  // this.$store.dispatch("api/getTokenStats");
+  if (
+    custodianState.total_weight_of_votes !== null &&
+    tokenStats.supply !== null
+  ) {
+    let [amount] = tokenStats.supply.split(' ')
+    const totalsupply = parseFloat(amount) * Math.pow(10, tokenStats.precision)
+    const quorum =
+      totalsupply *
+      (conf.initial_vote_quorum_percent / 100)
+
+    const percentage = (custodianState.total_weight_of_votes / quorum) * 100
+    // console.log(percentage)
+    activationStats.votePercentage = percentage / 100
+    activationStats.voteQuorum = conf.initial_vote_quorum_percent
+
+    if (percentage >= 100) {
+      // check enough candidates
+      // console.log('config', conf)
+      const requiredCandidates = conf.numelected
+
+      // Calculate number of viable candidates
+      const res = await this._vm.$eosApi.rpc.get_table_rows({
+        code: this._vm.$dir.getAccount(this._vm.$dir.ACCOUNT_CUSTODIAN),
+        scope: this._vm.$dir.dacId,
+        table: 'candidates',
+        index_position: 2,
+        key_type: 'i64',
+        limit: conf.numelected * 3
+      })
+      let numCandidates = 0
+      for (let c = 0; c < res.rows.length; c++) {
+        const row = res.rows[c]
+        if (row.is_active && parseInt(row.total_votes) > 0) {
+          numCandidates++
+        }
+        if (numCandidates >= requiredCandidates) {
+          break
+        }
+      }
+
+      console.log(`numCandidates ${numCandidates} / ${requiredCandidates}`)
+      activationStats.numCandidates = numCandidates
+      activationStats.requiredCandidates = requiredCandidates
+
+      if (numCandidates >= requiredCandidates) {
+        activationStats.canActivate = true
+      }
+    }
+  }
+
+  commit('setActivationStats', activationStats)
+}
+
 export async function fetchCustodianPermissions ({
   commit,
   dispatch,

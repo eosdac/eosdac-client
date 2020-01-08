@@ -47,6 +47,10 @@ export function setWorkerProposals (state, payload) {
   state.workerProposals = payload
 }
 
+export function setActivationStats (state, payload) {
+  state.activationStats = payload
+}
+
 export function setCandidates (state, payload) {
   state.candidates = payload
 }

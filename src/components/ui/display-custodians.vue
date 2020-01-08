@@ -49,20 +49,40 @@
 
     </div>
 
-    <div v-if="getCustodianState.met_initial_votes_threshold === 0">
-      <div class="q-headline q-mb-md">
-        <span>DAC Locked</span>
-        <span class="q-title on-right">{{ getVotingProgress.toFixed(2) }}% of
-        {{ getCustodianConfig.initial_vote_quorum_percent }}%</span>
+    <div v-if="!getActivationStats.active">
+      <div class="q-mb-md">
+        <q-item>
+          <q-item-section>Voting Progress</q-item-section>
+          <q-item-section>{{ getActivationStats.votePercentage.toFixed(2) }}% of
+            {{ getActivationStats.voteQuorum }}%</q-item-section>
+          <q-item-section>
+              <q-linear-progress
+                    animate
+                    stripe
+                    class="rounded-borders"
+                    style="height:20px"
+                    color="secondary"
+                    :value="getActivationStats.votePercentage"
+            />
+          </q-item-section>
+        </q-item>
+        <q-item>
+          <q-item-section>Number Candidates Registered</q-item-section>
+          <q-item-section>{{ getActivationStats.numCandidates }} /
+            {{ getActivationStats.requiredCandidates }}</q-item-section>
+          <q-item-section>
+              <q-linear-progress
+                    animate
+                    stripe
+                    class="rounded-borders"
+                    color="secondary"
+                    style="height:20px"
+                    :value="getActivationStats.numCandidates / getActivationStats.requiredCandidates"
+            />
+          </q-item-section>
+        </q-item>
       </div>
-      <q-linear-progress
-              animate
-              stripe
-              class="round-borders"
-              style="height:20px"
-              color="positive"
-              :value="getVotingProgress"
-      />
+
     </div>
   </div>
 </template>
@@ -97,31 +117,12 @@ export default {
       tokenStats: 'dac/getTokenStats',
       getCustodians: 'dac/getCustodians',
       getCustodianState: 'dac/getCustodianState',
+      getActivationStats: 'dac/getActivationStats',
       getCustodianConfig: 'dac/getCustodianConfig'
     }),
     getVotingProgress () {
       // this.$store.dispatch("api/getTokenStats");
-      if (
-        this.getCustodianState.total_weight_of_votes !== null &&
-        this.tokenStats.supply !== null
-      ) {
-        let [amount] = this.tokenStats.supply.split(' ')
-        const totalsupply =
-          parseFloat(amount) * Math.pow(10, this.tokenStats.precision)
-        const quorum =
-          totalsupply *
-          (this.getCustodianConfig.initial_vote_quorum_percent / 100)
-
-        // return totalsupply;
-        let percentage =
-          (this.getCustodianState.total_weight_of_votes / quorum) * 100
-        if (percentage > 100) {
-          percentage = 100
-        }
-        return percentage
-      } else {
-        return 0
-      }
+      return this.getActivationStats.votePercentage
     },
     new_period_millisleft () {
       if (
@@ -170,8 +171,8 @@ export default {
     if (this.getCustodians) {
       this.setCustodians()
     }
-    if (this.getCustodianState.met_initial_votes_threshold === null) {
-      this.$store.dispatch('dac/fetchCustodianContractState')
+    if (this.getActivationStats.voteQuorum === null) {
+      await this.$store.dispatch('dac/fetchActivationStats')
     }
   },
 
