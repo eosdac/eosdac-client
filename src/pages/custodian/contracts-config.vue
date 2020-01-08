@@ -122,6 +122,7 @@
                     </q-item-section>
                     <q-item-section>Primary {{brandData.colors.primary}}</q-item-section>
                   </q-item>
+
                   <q-item>
                     <q-item-section side>
                       <q-btn push color="secondary" label="">
@@ -131,6 +132,17 @@
                       </q-btn>
                     </q-item-section>
                     <q-item-section>Secondary {{brandData.colors.secondary}}</q-item-section>
+                  </q-item>
+
+                  <q-item>
+                    <q-item-section side>
+                      <q-btn push color="accent" label="">
+                        <q-popup-proxy>
+                          <q-color v-model="brandData.colors.accent" />
+                        </q-popup-proxy>
+                      </q-btn>
+                    </q-item-section>
+                    <q-item-section>Accent {{brandData.colors.accent}}</q-item-section>
                   </q-item>
 
                   <q-item>
@@ -177,27 +189,6 @@
                     <q-item-section>Warning {{brandData.colors.warning}}</q-item-section>
                   </q-item>
 
-                  <q-item>
-                    <q-item-section side>
-                      <q-btn push :style="`background: ${brandData.colors.bg1}`" label="">
-                        <q-popup-proxy>
-                          <q-color v-model="brandData.colors.bg1" />
-                        </q-popup-proxy>
-                      </q-btn>
-                    </q-item-section>
-                    <q-item-section>Background 1 {{brandData.colors.bg1}}</q-item-section>
-                  </q-item>
-
-                  <q-item>
-                    <q-item-section side>
-                      <q-btn push :style="`background: ${brandData.colors.bg2}`" label="">
-                        <q-popup-proxy>
-                          <q-color v-model="brandData.colors.bg2" />
-                        </q-popup-proxy>
-                      </q-btn>
-                    </q-item-section>
-                    <q-item-section>Background 2 {{brandData.colors.bg2}}</q-item-section>
-                  </q-item>
                 </q-card-section>
 
                 <q-card-actions align="right">
