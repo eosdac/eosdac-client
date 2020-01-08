@@ -346,6 +346,48 @@ export default {
     'update_in': 'update in'
   },
 
+  'workerproposals': {
+    'my_delegations': 'my delegations',
+    'inbox': 'inbox',
+    'pending_approval': 'pending approval',
+    'work_in_progress': 'work in progress',
+    'pending_claim': 'Pending claim',
+    'completed': 'completed',
+    'expired': 'Expired',
+    'cancelled': 'cancelled',
+    'loading': 'Loading',
+    'no_proposals': 'No proposals available',
+    'delegate_votes': 'Delegate votes'
+  },
+
+  'workerproposal': {
+    'proposer': 'Proposer',
+    'requested_pay': 'Requested Pay',
+    'arbitrator': 'Arbitrator',
+    'submitted': 'Submitted',
+    'status': 'Status',
+    'time_left': 'Time Left',
+    'expired': 'expired',
+    'days': 'days',
+    'hours': 'hours',
+    'minutes': 'minutes',
+    'seconds': 'seconds',
+    'id': 'ID',
+    'vote_threshold': 'Vote Threshold',
+    'delegation': 'Delegation',
+    'approve': 'Approve',
+    'deny': 'Deny',
+    'approve_claim': 'Approve Claim',
+    'deny_claim': 'Deny Claim',
+    'arb_approve': 'Arbitrator approve',
+    'work_is_in_progress': 'Work is in progress',
+    'start_work': 'Start work',
+    'complete_work': 'Complete work',
+    'claim': 'Claim',
+    'cancel': 'Cancel',
+    'votes': 'Votes'
+  },
+
   'referendums': {
     'title': 'Referendums',
     'new_title': 'Propose New Referendum',

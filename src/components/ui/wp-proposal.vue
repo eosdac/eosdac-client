@@ -16,13 +16,13 @@
             <profile-pic :accountname="wp.proposer" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Proposer</q-item-label>
+            <q-item-label>{{$t('workerproposal.proposer')}}</q-item-label>
             <q-item-label caption>{{ wp.proposer }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item>
           <q-item-section>
-            <q-item-label>Requested Pay</q-item-label>
+            <q-item-label>{{$t('workerproposal.requested_pay')}}</q-item-label>
             <q-item-label caption>{{ wp.pay_amount.quantity }}</q-item-label>
           </q-item-section>
         </q-item>
@@ -31,25 +31,25 @@
             <profile-pic :accountname="wp.arbitrator" />
           </q-item-section>
           <q-item-section>
-            <q-item-label label>Arbitrator</q-item-label>
+            <q-item-label label>{{$t('workerproposal.arbitrator')}}</q-item-label>
             <q-item-label sublabel>{{ wp.arbitrator }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item v-if="expanded">
           <q-item-section>
-            <q-item-label>Submitted</q-item-label>
+            <q-item-label>{{$t('workerproposal.submitted')}}</q-item-label>
             <q-item-label caption>date</q-item-label>
           </q-item-section>
         </q-item>
         <q-item>
           <q-item-section>
-            <q-item-label>Status (dev)</q-item-label>
+            <q-item-label>{{$t('workerproposal.status')}}</q-item-label>
             <q-item-label caption>{{ wp.status }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item v-if="wp.status === 0 || wp.status === 2 || wp.status === 5">
           <q-item-section>
-            <q-item-label>Time Left</q-item-label>
+            <q-item-label>{{$t('workerproposal.time_left')}}</q-item-label>
             <q-item-label caption>
               <countdown
                       v-if="getExpiry.millisleft"
@@ -57,15 +57,15 @@
               >
                 <template slot-scope="props">
                   <div class="text-weight-light q-mb-xs">
-                    <span v-if="props.days">{{ props.days }} days, </span>
-                    <span v-if="props.hours">{{ props.hours }} hours, </span>
-                    <span v-if="props.minutes">{{ props.minutes }} minutes, </span>
-                    <span>{{ props.seconds }} seconds</span>
+                    <span v-if="props.days">{{ props.days }} {{$t('workerproposal.days')}}, </span>
+                    <span v-if="props.hours">{{ props.hours }} {{$t('workerproposal.hours')}}, </span>
+                    <span v-if="props.minutes">{{ props.minutes }} {{$t('workerproposal.minutes')}}, </span>
+                    <span>{{ props.seconds }} {{$t('workerproposal.seconds')}}</span>
                   </div>
                 </template>
               </countdown>
               <div v-else class="q-caption text-weight-light q-mb-xs text-negative">
-                expired
+                {{$t('workerproposal.expired')}}
               </div>
               <q-linear-progress
                       :value="getExpiry.percent"
@@ -109,7 +109,7 @@
       </q-scroll-area>
 
       <div class="row justify-between q-mt-xs items-center">
-        <span class="text-weight-light">ID {{ wp.id }}</span>
+        <span class="text-weight-light">{{$t('workerproposal.id')}} {{ wp.id }}</span>
         <a
           target="_blank"
           :href="$configFile.get('explorer') + `/transaction/${wp.trx_id}`"
@@ -125,7 +125,7 @@
             class="cursor-pointer no-padding"
           >
             <q-item-section>
-              <q-item-label>Vote Threshold</q-item-label>
+              <q-item-label>{{$t('workerproposal.vote_threshold')}}</q-item-label>
               <q-item-label caption>
                 {{ getVotingScore }}
               </q-item-label>
@@ -142,7 +142,7 @@
             :accountnames="getCustNames"
             placeholder="Select to Delegate"
             :underline="false"
-            label="Delegation"
+            :label="$t('workerproposal.delegation')"
             ref="directDelSelect"
           />
           <div v-if="wp.status == 0">
@@ -150,14 +150,14 @@
               v-if="getVoterStatus == 2 || getVoterStatus == 0"
               class="on-right animate-pop"
               color="positive"
-              label="Approve"
+              :label="$t('workerproposal.approve')"
               @click="voteprop('voteApprove')"
             />
             <q-btn
               v-if="getVoterStatus == 1 || getVoterStatus == 0"
               class="on-right animate-pop"
               color="negative"
-              label="Deny"
+              :label="$t('workerproposal.deny')"
               @click="voteprop('voteDeny')"
             />
           </div>
@@ -166,14 +166,14 @@
               v-if="getVoterStatus == 4 || getVoterStatus == 0"
               class="on-right animate-pop"
               color="positive"
-              label="Approve Claim"
+              :label="$t('workerproposal.approve_claim')"
               @click="voteprop('claimApprove')"
             />
             <q-btn
               v-if="getVoterStatus == 3 || getVoterStatus == 0"
               class="on-right animate-pop"
               color="negative"
-              label="Deny Claim"
+              :label="$t('workerproposal.deny_claim')"
               @click="voteprop('claimDeny')"
             />
             <q-btn
@@ -181,13 +181,13 @@
               class="on-right animate-pop"
               flat
               color="positive"
-              label="arb approve"
+              :label="$t('workerproposal.arb_approve')"
               @click="arbApprove()"
             />
           </div>
 
           <div v-else-if="wp.status == 1">
-            Work is in progress
+            {{$t('workerproposal.work_is_in_progress')}}
           </div>
         </div>
         <div v-if="getIsCreator">
@@ -195,28 +195,28 @@
             v-if="wp.status == 3"
             class="on-right animate-pop"
             color="info"
-            label="Start work"
+            :label="$t('workerproposal.start_work')"
             @click="startWork()"
           />
           <q-btn
             v-if="wp.status == 1"
             class="on-right animate-pop"
             color="info"
-            label="Complete work"
+            :label="$t('workerproposal.complete_work')"
             @click="completeWork()"
           />
           <q-btn
             v-if="wp.status == 4"
             class="on-right animate-pop"
             color="info"
-            label="claim"
+            :label="$t('workerproposal.claim')"
             @click="finalize()"
           />
           <q-btn
             class="on-right animate-pop"
             flat
             color="negative"
-            label="Cancel"
+            :label="$t('workerproposal.cancel')"
             @click="cancelProp()"
           />
         </div>
@@ -231,7 +231,7 @@
         <q-card-section>
           <div class="row items-center no-wrap">
             <div class="col">
-              <div class="text-h6">Votes</div>
+              <div class="text-h6">{{$t('workerproposal.votes')}}</div>
             </div>
           </div>
         </q-card-section>

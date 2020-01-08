@@ -3,7 +3,7 @@
     <div class="row justify-end q-mb-md">
       <q-btn
         color="primary"
-        label="my delegations"
+        :label="$t('workerproposals.my_delegations')"
         @click="delegate_modal = true"
       />
     </div>
@@ -12,17 +12,17 @@
       <q-tab
         v-if="getIsCustodian"
         name="inbox"
-        label="inbox"
+        :label="$t('workerproposals.inbox')"
       />
       <q-tab
         name="pending_approval"
-        label="pending approval"
+        :label="$t('workerproposals.pending_approval')"
       />
-      <q-tab name="work_in_progress" label="work in progress" />
-      <q-tab name="pending_claim" label="Pending claim" />
-      <q-tab name="claimed" label="completed" />
-      <q-tab name="expired" label="Expired" />
-      <q-tab name="cancelled" label="cancelled" />
+      <q-tab name="work_in_progress" :label="$t('workerproposals.work_in_progress')" />
+      <q-tab name="pending_claim" :label="$t('workerproposals.pending_claim')" />
+      <q-tab name="claimed" :label="$t('workerproposals.completed')" />
+      <q-tab name="expired" :label="$t('workerproposals.expired')" />
+      <q-tab name="cancelled" :label="$t('workerproposals.cancelled')" />
     </q-tabs>
 
     <div
@@ -58,9 +58,9 @@
       class="bg-logo q-pa-md rounded-borders shadow-4 capitalize"
     >
       <span v-if="loading" class="row items-center">
-        <q-spinner class="on-left" color="primary" />Loading
+        <q-spinner class="on-left" color="primary" />{{$t('workerproposals.loading')}}
       </span>
-      <span v-else>No proposals available</span>
+      <span v-else>{{$t('workerproposals.no_proposals')}}</span>
     </div>
 
     <q-dialog maximized v-model="expanded_modal">
@@ -93,7 +93,7 @@
     <q-dialog v-model="delegate_modal">
       <q-card>
         <q-card-section>
-          <div class="text-h6">Delegate votes</div>
+          <div class="text-h6">{{$t('workerproposals.delegate_votes')}}</div>
         </q-card-section>
         <q-card-section>
           <vote-delegation />
