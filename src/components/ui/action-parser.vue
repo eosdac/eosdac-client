@@ -7,7 +7,7 @@
         </q-item-section>
       </q-item>
       <q-item>
-        <q-breadcrumbs separator=">" active-color="text1" inlist="">
+        <q-breadcrumbs separator=">" inlist="">
           <q-breadcrumbs-el :label="action.account" />
           <q-breadcrumbs-el :label="action.name" />
         </q-breadcrumbs>
