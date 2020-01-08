@@ -235,7 +235,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { colors } from 'quasar'
 import AssetInput from '../../components/ui/asset-input'
 import SecondsInput from '../../components/ui/seconds-input'
@@ -468,6 +468,9 @@ export default {
     },
     'brandData.colors.secondary': function (newData) {
       colors.setBrand('secondary', newData)
+    },
+    'brandData.colors.accent': function (newData) {
+      colors.setBrand('accent', newData)
     },
     'brandData.colors.positive': function (newData) {
       colors.setBrand('positive', newData)
