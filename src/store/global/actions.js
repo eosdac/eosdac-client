@@ -31,7 +31,7 @@ export async function connectScatter (
   let network = state.network
   console.log(network)
   commit('setChainId', network.chainId)
-  ScatterJS.scatter
+  ScatterJS
     .connect(this._vm.$dir.title, { network })
     .then(async connected => {
       if (!connected) {
