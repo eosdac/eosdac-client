@@ -2,15 +2,15 @@
   <q-page class="q-pa-md">
     <div class="row relative-position justify-start q-mb-md">
       <h4 class="q-display-1 q-my-none">
-        Review Proposals <span v-if="total">({{ total }})</span>
+        {{$t('proposals.review_proposals')}} <span v-if="total">({{ total }})</span>
       </h4>
     </div>
 
     <q-tabs align="justify" v-model="active_tab">
-      <q-tab name="open" label="open" />
-      <q-tab name="executed" label="executed" />
-      <q-tab name="cancelled" label="cancelled" />
-      <q-tab name="expired" label="expired" />
+      <q-tab name="open" :label="$t('proposals.open')" />
+      <q-tab name="executed" :label="$t('proposals.executed')" />
+      <q-tab name="cancelled" :label="$t('proposals.cancelled')" />
+      <q-tab name="expired" :label="$t('proposals.expired')" />
     </q-tabs>
 
     <div
@@ -43,9 +43,9 @@
       class="bg-logo q-pa-md rounded-borders shadow-4 capitalize"
     >
       <span v-if="msigs_loading" class="row items-center">
-        <q-spinner-pie class="on-left" color="primary" />Loading
+        <q-spinner-pie class="on-left" color="primary" />{{$t('proposals.loading')}}
       </span>
-      <span v-else>No proposals available</span>
+      <span v-else>{{$t('proposals.no_proposals')}}</span>
     </div>
 
     <div

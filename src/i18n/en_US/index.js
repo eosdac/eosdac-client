@@ -262,6 +262,7 @@ export default {
     'profile': 'Profile',
     'profile_picture_url': 'Profile Picture Url',
     'save': 'Save',
+    'set_picture': 'Set Picture',
     'social_link': 'Social Link',
     'social_profile_link': 'Social profile link',
     'website': 'Website'
@@ -344,6 +345,29 @@ export default {
     'seconds': 'seconds',
     'threshold_met': 'Voting threshold of 15% met. eosDac is unlocked.',
     'update_in': 'update in'
+  },
+
+  'proposals': {
+    'review_proposals': 'Review Proposals',
+    'open': 'open',
+    'executed': 'executed',
+    'cancelled': 'cancelled',
+    'expired': 'expired',
+    'no_proposals': 'No proposals available',
+    'loading': 'Loading'
+  },
+
+  'proposal': {
+    'expiration': 'Expiration',
+    'received_approvals': 'Received Approvals',
+    'proposal_name': 'Proposal Name',
+    'proposed_by': 'Proposed by',
+    'approve': 'Approve',
+    'unapprove': 'Unapprove',
+    'cancel': 'cancel',
+    'execute': 'execute',
+    'resubmit': 'resubmit',
+    'approvals': 'Approvals'
   },
 
   'workerproposals': {

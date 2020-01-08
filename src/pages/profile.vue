@@ -215,8 +215,8 @@
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="Cancel" v-close-popup />
-          <q-btn flat label="Set Picture" v-close-popup />
+          <q-btn flat label="$t('profile.cancel')" v-close-popup />
+          <q-btn flat :label="$t('profile.set_picture')" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>

@@ -35,7 +35,7 @@
         </q-item-section>
 
         <q-item-section>
-          <q-item-label>Expiration: </q-item-label>
+          <q-item-label>{{$t('proposal.expiration')}}: </q-item-label>
           <q-item-label caption>{{
                   new Date(msig.trx.expiration).toUTCString()
                 }}</q-item-label>
@@ -43,7 +43,7 @@
 
         <q-item-section side top>
           <div @click="approvals_modal = true" class="cursor-pointer">
-            <q-item-label>Received Approvals:</q-item-label>
+            <q-item-label>{{$t('proposal.received_approvals')}}:</q-item-label>
             <q-item-label caption>
               <span v-if="provided_approvals" class="text-primary-light cursor-pointer animate-fade">{{ provided_approvals.length }}</span>
               <span class="">/{{ msig.threshold }}</span>
@@ -74,10 +74,10 @@
         </q-card-section>
 
         <q-card-section>
-          Proposal Name: {{ msig.proposal_name }}
+          {{$t('proposal.proposal_name')}}: {{ msig.proposal_name }}
         </q-card-section>
         <q-card-section>
-          Proposed by:
+          {{$t('proposal.proposed_by')}}:
           <router-link :to="{ path: '/profile/' + msig.proposer }">{{
             msig.proposer
             }}</router-link>
@@ -96,26 +96,26 @@
                 <q-btn
                         v-if="!isApproved"
                         color="positive"
-                        label="Approve"
+                        :label="$t('proposal.approve')"
                         @click="approveProposal(msig.proposer, msig.proposal_name)"
                 />
                 <q-btn
                         v-if="isApproved"
                         color="negative"
-                        label="Unapprove"
+                        :label="$t('proposal.unapprove')"
                         @click="unapproveProposal(msig.proposer, msig.proposal_name)"
                 />
                 <q-btn
                         v-if="isCreator"
                         color="negative"
                         flat
-                        label="cancel"
+                        :label="$t('proposal.cancel')"
                         @click="cancelProposal(msig.proposer, msig.proposal_name)"
                 />
                 <q-btn
                         v-if="isExecutable"
                         color="info"
-                        label="execute"
+                        :label="$t('proposal.execute')"
                         @click="executeProposal(msig.proposer, msig.proposal_name)"
                 />
           </q-btn-group>
@@ -123,12 +123,12 @@
                 <q-btn
                         v-if="isCreator"
                         color="negative"
-                        label="cancel"
+                        :label="$t('proposal.cancel')"
                         @click="cancelProposal(msig.proposer, msig.proposal_name)"
                 />
                 <q-btn
                         color="positive"
-                        label="resubmit"
+                        :label="$t('proposal.resubmit')"
                         @click="resubmit(msig)"
                 />
           </q-btn-group>
@@ -142,7 +142,7 @@
         <!-- header -->
         <q-card-section>
           <div class="text-h6">
-            Approvals
+            {{$t('proposal.approvals')}}
           </div>
           <div v-if="provided_approvals" class="text-weight-thin">needs {{ msig.threshold - provided_approvals.length }} more</div>
         </q-card-section>
