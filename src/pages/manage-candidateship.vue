@@ -1,101 +1,107 @@
 <template>
-  <q-page class="text-text2 ">
+  <q-page>
     <div class="q-pa-md animate-fade" v-if="getAccountName">
       <!-- is already a candidate UNREGISTER-->
       <div
         v-if="getIsCandidate && getIsCandidate.is_active"
       >
-      <div class="row bg-logo bg-bg2 q-pa-md rounded-borders shadow-4 relative-position overflow-hidden">
-        <!-- <div class="" style="bottom:-50%;right:-80%;"></div> -->
-        <q-item class="no-padding">
-          <q-item-section side>
-            <profile-pic :accountname="getAccountName" :scale="2.0" style="width:80px;height:80px" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label class="text-h5">{{$t("manage_candidateship.candidate")}}</q-item-label>
-            <q-item-label caption>
-              <div class="row items-center">
-                {{ getIsCandidate.candidate_name}}
-                <q-icon name="check" color="positive" size="lg" class="q-ml-lg" />
-              </div>
-            </q-item-label>
-          </q-item-section>
-        </q-item>
-        <div class="q-mt-md">
-          {{
-            $t("manage_candidateship.page_description_registered", {
+      <q-card v-if="getIsCandidate && getIsCandidate.is_active" class="row bg-logo q-pa-md rounded-borders shadow-4 relative-position overflow-hidden">
+        <q-card-section>
+          <q-item class="no-padding">
+            <q-item-section side>
+              <profile-pic :accountname="getAccountName" :scale="2.0" style="width:80px;height:80px" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-h5">{{$t("manage_candidateship.candidate")}}</q-item-label>
+              <q-item-label caption>
+                <div class="row items-center">
+                  {{ getIsCandidate.candidate_name}}
+                  <q-icon name="check" color="positive" size="lg" class="q-ml-lg" />
+                </div>
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item class="full-width">
+            <q-item-section>
+              {{
+              $t("manage_candidateship.page_description_registered", {
               dacname: $dir.title
-            })
-          }}
-        </div>
+              })
+              }}
+            </q-item-section>
+          </q-item>
 
-        <div class="full-width">
+          <q-spacer />
+
           <q-item v-if="getEnableCustPayments" class="full-width">
-                <q-item-section avatar>
-                  <q-icon name="icon-type-2" />
-                </q-item-section>
+            <q-item-section avatar>
+              <q-icon name="icon-type-2" />
+            </q-item-section>
 
-                <q-item-section>{{$t(`manage_candidateship.requestedpay`)}}</q-item-section>
+            <q-item-section>{{$t(`manage_candidateship.requestedpay`)}}</q-item-section>
 
-                <q-item-section style="white-space: nowrap">
-                  {{$helper.assetToLocaleNumber(getIsCandidate.requestedpay)}}
-                </q-item-section>
+            <q-item-section style="white-space: nowrap">
+              {{$helper.assetToLocaleNumber(getIsCandidate.requestedpay)}}
+            </q-item-section>
           </q-item>
 
           <q-separator spaced inset />
 
           <q-item class="full-width">
-                <q-item-section avatar>
-                  <q-icon name="how_to_vote" />
-                </q-item-section>
+            <q-item-section avatar>
+              <q-icon name="how_to_vote" />
+            </q-item-section>
 
-                <q-item-section>{{$t(`manage_candidateship.total_votes`)}}</q-item-section>
+            <q-item-section>{{$t(`manage_candidateship.total_votes`)}}</q-item-section>
 
-                <q-item-section>{{$helper.toLocaleNumber(getIsCandidate.total_votes / 10000)}}</q-item-section>
+            <q-item-section>{{$helper.toLocaleNumber(getIsCandidate.total_votes / 10000)}}</q-item-section>
 
           </q-item>
 
           <q-separator spaced inset />
 
           <q-item class="full-width">
-                <q-item-section avatar>
-                  <q-icon name="icon-dac-balance" />
-                </q-item-section>
+            <q-item-section avatar>
+              <q-icon name="icon-dac-balance" />
+            </q-item-section>
 
-                <q-item-section>{{$t(`manage_candidateship.current_stake`)}}</q-item-section>
+            <q-item-section>{{$t(`manage_candidateship.current_stake`)}}</q-item-section>
 
-                <q-item-section no-wrap>
-                  <div class="row">
-                    <div class="col-xs-6">{{$helper.assetSymbolToLocaleNumber(getStakedDacBalance, $dir.symbol.symbol)}}</div>
-                    <div class="col-xs-4 q-pl-lg">
-                      <q-btn
-                              icon="add"
-                              round
-                              size="sm"
-                              title="Increase stake"
-                              color="primary"
-                              @click="increase_stake_modal = true"
-                      />
-                    </div>
-                  </div>
-                </q-item-section>
+            <q-item-section no-wrap>
+              <div class="row">
+                <div class="col-xs-6">{{$helper.assetSymbolToLocaleNumber(getStakedDacBalance, $dir.symbol.symbol)}}</div>
+                <div class="col-xs-4 q-pl-lg">
+                  <q-btn
+                          icon="add"
+                          round
+                          size="sm"
+                          title="Increase stake"
+                          color="primary"
+                          @click="increase_stake_modal = true"
+                  />
+                </div>
+              </div>
+            </q-item-section>
 
           </q-item>
-        </div>
-      </div>
-      <div class="row justify-end q-pt-md">
-        <q-btn
-                class="animate-pop"
-                color="negative"
-                @click="unregisterAsCandidate"
-                :label="$t('manage_candidateship.unregister')"
-        />
-      </div>
+        </q-card-section>
+        <!-- <div class="" style="bottom:-50%;right:-80%;"></div> -->
+        <q-card-section class="full-width">
+          <q-card-actions align="right">
+            <q-btn
+                    class="animate-pop"
+                    color="negative"
+                    @click="unregisterAsCandidate"
+                    :label="$t('manage_candidateship.unregister')"
+            />
+          </q-card-actions>
+        </q-card-section>
+      </q-card>
       </div>
       <!-- end already a candidate -->
 
       <!-- Not a candidate REGISTER -->
-      <div v-else class="bg-bg1 bg-logo q-pa-md rounded-borders shadow-4">
+      <div v-else class="bg-logo q-pa-md rounded-borders shadow-4">
         <q-item class="no-padding q-mb-md">
           <q-item-section avatar>
             <profile-pic :accountname="getAccountName" :scale="2.0" style="width:80px;height:80px" />
@@ -188,12 +194,9 @@
             !getIsCandidate.is_active &&
             getStakedDacBalance
         "
-        class=" bg-bg1 q-pa-md rounded-borders shadow-4 q-mt-md"
+        class="q-pa-md rounded-borders shadow-4 q-mt-md"
       >
-        <span
-          >{{ $t("manage_candidateship.unstake_description")
-          }}{{ lockupReleaseTimeDelayDays }}</span
-        >
+        <span>{{ $t("manage_candidateship.unstake_description")}}{{ lockupReleaseTimeDelayDays }}</span>
 
         <div class="row justify-between q-mt-md items-center">
           <div class="q-caption q-py-sm">

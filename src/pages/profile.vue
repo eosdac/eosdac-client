@@ -87,7 +87,7 @@
 
     <div class="q-px-md">
       <div
-        class="row q-mt-md gutters-md bg-bg1 rounded-borders shadow-4"
+        class="row q-mt-md gutters-md rounded-borders shadow-4"
         style="min-height:265px"
       >
         <div class="col-md-8 col-xs-12 q-pa-md">
@@ -108,7 +108,6 @@
                 'orderedlist',
                 'unorderedlist'
               ]"
-              class="bg-bg1"
               :edit="is_edit"
               :text="form.description"
               v-on:update="updateText"
@@ -195,7 +194,7 @@
         </div>
       </div>
     </div>
-    <div v-if="form.timezone != ''" class="q-pa-md q-my-md text-text2">
+    <div v-if="form.timezone != ''" class="q-pa-md q-my-md">
       <TimeZone :offset="Number(form.timezone)" />
     </div>
 
@@ -228,17 +227,13 @@
 <script>
 import { Notify, openURL } from 'quasar'
 import SocialLinks from 'components/ui/social-links'
-// import TimeZone from 'components/ui/time-zone'
 import ProfileTemplate from '../extensions/statics/config/profile.template.json'
 import MarkdownViewer from 'components/ui/markdown-viewer'
-// import debugData from "components/ui/debug-data";
 import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    // debugData,
     SocialLinks,
-    // TimeZone,
     MarkdownViewer
   },
   data () {
