@@ -46,7 +46,7 @@
               v-model="leftDrawerOpen"
               @show="handleDrawerEvent(true)"
               @hide="handleDrawerEvent(false)"
-              content-class="bg-bg1 relative-position overflow-hidden"
+              content-class="relative-position overflow-hidden"
               ref="leftdrawer">
       <!-- drawer content -->
 
