@@ -469,18 +469,6 @@ export default {
     'brandData.colors.secondary': function (newData) {
       colors.setBrand('secondary', newData)
     },
-    'brandData.colors.bg1': function (newData) {
-      colors.setBrand('bg1', newData)
-    },
-    'brandData.colors.bg2': function (newData) {
-      colors.setBrand('bg2', newData)
-    },
-    'brandData.colors.text1': function (newData) {
-      colors.setBrand('text1', newData)
-    },
-    'brandData.colors.text2': function (newData) {
-      colors.setBrand('text2', newData)
-    },
     'brandData.colors.positive': function (newData) {
       colors.setBrand('positive', newData)
     },
