@@ -4,112 +4,112 @@
     <div class="row q-col-gutter-md">
       <div class="col-lg-2">
         <q-tabs vertical v-model="selectedTab" class="text-secondary">
-          <q-tab name="general">General</q-tab>
-          <q-tab name="proposals" v-if="wpEnabled">Worker Proposals</q-tab>
-          <q-tab name="token">Token</q-tab>
-          <q-tab name="referendum" v-if="referendumEnabled">Referendum</q-tab>
-          <q-tab name="brand">Colors &amp; Brand</q-tab>
-          <q-tab name="features">Features</q-tab>
+          <q-tab name="general">{{$t('contracts_config.general')}}</q-tab>
+          <q-tab name="proposals" v-if="wpEnabled">{{$t('contracts_config.proposals')}}</q-tab>
+          <q-tab name="token">{{$t('contracts_config.token')}}</q-tab>
+          <q-tab name="referendum" v-if="referendumEnabled">{{$t('contracts_config.referendum')}}</q-tab>
+          <q-tab name="brand">{{$t('contracts_config.brand')}}</q-tab>
+          <q-tab name="features">{{$t('contracts_config.features')}}</q-tab>
         </q-tabs>
       </div>
       <q-tab-panels class="col-lg-10" v-model="selectedTab">
         <q-tab-panel name="general">
-          <div class="text-h5 q-mb-md">Voting &amp; Custodian Config</div>
+          <div class="text-h5 q-mb-md">{{$t('contracts_config.general_title')}}</div>
           <!-- {{custodianConfig}} -->
           <q-card>
             <q-card-section>
-              <q-input type="number" v-model="custodianConfig.numelected" label="Number Elected" />
-              <q-input type="number" v-model="custodianConfig.maxvotes" label="Max Votes" />
-              <asset-input :allowed="[dacToken, systemToken]" v-model="custodianConfig.lockupasset" label="Custodian Lockup" />
-              <asset-input :allowed="[dacToken, systemToken]" v-model="custodianConfig.requested_pay_max" label="Maximum Requested Pay" />
-              <seconds-input v-model="custodianConfig.lockup_release_time_delay" label="Lockup Release Delay" />
-              <seconds-input v-model="custodianConfig.periodlength" label="Period Length" />
+              <q-input type="number" v-model="custodianConfig.numelected" :label="$t('contracts_config.general_number_elected')" />
+              <q-input type="number" v-model="custodianConfig.maxvotes" :label="$t('contracts_config.general_max_votes')" />
+              <asset-input :allowed="[dacToken, systemToken]" v-model="custodianConfig.lockupasset" :label="$t('contracts_config.general_lockup')" />
+              <asset-input :allowed="[dacToken, systemToken]" v-model="custodianConfig.requested_pay_max" :label="$t('contracts_config.general_max_req_pay')" />
+              <seconds-input v-model="custodianConfig.lockup_release_time_delay" :label="$t('contracts_config.general_lockup_release')" />
+              <seconds-input v-model="custodianConfig.periodlength" :label="$t('contracts_config.general_period_length')" />
               <div class="row">
-                <q-input type="number" v-model="custodianConfig.auth_threshold_high" label="High Threshold" />
-                <q-input type="number" v-model="custodianConfig.auth_threshold_mid" label="Medium Threshold" />
-                <q-input type="number" v-model="custodianConfig.auth_threshold_low" label="Low Threshold" />
+                <q-input type="number" v-model="custodianConfig.auth_threshold_high" :label="$t('contracts_config.general_auth_high')" />
+                <q-input type="number" v-model="custodianConfig.auth_threshold_mid" :label="$t('contracts_config.general_auth_mid')" />
+                <q-input type="number" v-model="custodianConfig.auth_threshold_low" :label="$t('contracts_config.general_auth_low')" />
               </div>
               <div class="row">
-                <q-input type="number" v-model="custodianConfig.initial_vote_quorum_percent" label="Unlock Threshold (%)" />
-                <q-input type="number" v-model="custodianConfig.vote_quorum_percent" label="Ongoing Quorum (%)" />
+                <q-input type="number" v-model="custodianConfig.initial_vote_quorum_percent" :label="$t('contracts_config.general_initial_quorum')" />
+                <q-input type="number" v-model="custodianConfig.vote_quorum_percent" :label="$t('contracts_config.general_vote_quorum')" />
               </div>
-              <q-toggle v-model="custodianConfig.should_pay_via_service_provider" label="Use Service Provider" />
+              <q-toggle v-model="custodianConfig.should_pay_via_service_provider" :label="$t('contracts_config.general_use_service')" />
             </q-card-section>
             <q-card-actions align="right">
-              <q-btn color="positive" label="Propose Changes" @click="saveCustodianConfig" />
+              <q-btn color="positive" :label="$t('contracts_config.general_propose_changes')" @click="saveCustodianConfig" />
             </q-card-actions>
           </q-card>
         </q-tab-panel>
 
         <q-tab-panel name="proposals" v-if="wpEnabled">
-          <div class="text-h5 q-mb-md">Proposals</div>
+          <div class="text-h5 q-mb-md">{{$t('contracts_config.proposals_title')}}</div>
           <!-- {{wpConfig}} -->
           <q-card v-if="wpConfigLoaded">
             <q-card-section>
-              <q-input type="number" v-model="wpConfig.proposal_threshold" label="Proposal Threshold" />
-              <q-input type="number" v-model="wpConfig.finalize_threshold" label="Finalize Threshold" />
-              <seconds-input v-model="wpConfig.escrow_expiry" label="Escrow Expiry" />
-              <seconds-input v-model="wpConfig.approval_expiry" label="Approval Expiry" />
+              <q-input type="number" v-model="wpConfig.proposal_threshold" :label="$t('contracts_config.proposals_proposal_threshold')" />
+              <q-input type="number" v-model="wpConfig.finalize_threshold" :label="$t('contracts_config.proposals_finalise_threshold')" />
+              <seconds-input v-model="wpConfig.escrow_expiry" :label="$t('contracts_config.proposals_escrow_expiry')" />
+              <seconds-input v-model="wpConfig.approval_expiry" :label="$t('contracts_config.proposals_approval_expiry')" />
             </q-card-section>
             <q-card-actions align="right">
-              <q-btn color="positive" label="Propose Changes" @click="saveWpConfig" />
+              <q-btn color="positive"  :label="$t('contracts_config.proposals_propose_changes')" @click="saveWpConfig" />
             </q-card-actions>
           </q-card>
         </q-tab-panel>
 
         <q-tab-panel name="token">
-          <div class="text-h5 q-mb-md">Token Config</div>
+          <div class="text-h5 q-mb-md">{{$t('contracts_config.token_title')}}</div>
 
           <!-- {{tokenConfig}} -->
           <q-card v-if="tokenConfigLoaded">
             <q-card-section>
-              <q-toggle v-model="tokenConfig.enabled" label="Enable Staking" />
-              <seconds-input v-model="tokenConfig.min_stake_time" label="Minimum Stake Time" />
-              <seconds-input v-model="tokenConfig.max_stake_time" label="Maximum Stake Time" />
+              <q-toggle v-model="tokenConfig.enabled" :label="$t('contracts_config.token_enable_staking')" />
+              <seconds-input v-model="tokenConfig.min_stake_time" :label="$t('contracts_config.token_min_stake_time')" />
+              <seconds-input v-model="tokenConfig.max_stake_time" :label="$t('contracts_config.token_max_stake_time')" />
             </q-card-section>
             <q-card-actions align="right">
-              <q-btn color="positive" label="Propose Changes" @click="saveTokenConfig" />
+              <q-btn color="positive" :label="$t('contracts_config.token_propose_changes')" @click="saveTokenConfig" />
             </q-card-actions>
           </q-card>
 
         </q-tab-panel>
 
         <q-tab-panel name="referendum" v-if="referendumEnabled">
-          <div class="text-h5 q-mb-md">Referendum</div>
+          <div class="text-h5 q-mb-md">{{$t('contracts_config.referendum_title')}}</div>
           <!-- {{referendumConfig}} -->
           <q-card v-if="referendumConfigLoaded">
             <q-card-section>
-              <referendum-config-group v-model="referendumConfig.fee" type="asset" :allowed="[dacToken, systemToken]" label="Fees" />
-              <referendum-config-group v-model="referendumConfig.pass" type="number" label="Pass rate" />
-              <referendum-config-group v-model="referendumConfig.quorum_token" type="number" label="Quorum (Token Votes)" />
-              <referendum-config-group v-model="referendumConfig.quorum_account" type="number" label="Quorum (Account Votes)" />
-              <referendum-config-group v-model="referendumConfig.allow_per_account_voting" type="bool" label="Allow Per-Account Voting" />
+              <referendum-config-group v-model="referendumConfig.fee" type="asset" :allowed="[dacToken, systemToken]" :label="$t('contracts_config.referendum_fees')" />
+              <referendum-config-group v-model="referendumConfig.pass" type="number" :label="$t('contracts_config.referendum_pass_rate')" />
+              <referendum-config-group v-model="referendumConfig.quorum_token" type="number" :label="$t('contracts_config.referendum_quorum_token')" />
+              <referendum-config-group v-model="referendumConfig.quorum_account" type="number" :label="$t('contracts_config.referendum_quorum_account')" />
+              <referendum-config-group v-model="referendumConfig.allow_per_account_voting" type="bool" :label="$t('contracts_config.referendum_allow_per_account')" />
             </q-card-section>
             <q-card-actions align="right">
-              <q-btn color="positive" label="Propose Changes" @click="saveReferendumConfig" />
+              <q-btn color="positive" :label="$t('contracts_config.referendum_propose_changes')" @click="saveReferendumConfig" />
             </q-card-actions>
           </q-card>
 
         </q-tab-panel>
 
         <q-tab-panel name="brand">
-          <div class="text-h5 q-mb-md">Branding</div>
+          <div class="text-h5 q-mb-md">{{$t('contracts_config.branding_title')}}</div>
           <div class="row q-col-gutter-md" v-if="brandData">
             <div class="col-md-6">
               <q-card>
                 <q-card-section>
-                  <q-input v-model="brandData.dacName" label="DAC Name" />
+                  <q-input v-model="brandData.dacName" :label="$t('contracts_config.branding_dac_name')" />
                 </q-card-section>
 
                 <q-card-section>
-                  <q-input v-model="brandData.extension" label="Client Extension" />
+                  <q-input v-model="brandData.extension" :label="$t('contracts_config.branding_extension')" />
                 </q-card-section>
               </q-card>
             </div>
             <div class="col-md-6">
               <q-card>
                 <q-card-section>
-                  <q-toggle v-model="brandData.is_dark" label="Dark Theme" />
+                  <q-toggle v-model="brandData.is_dark" :label="$t('contracts_config.branding_dark_theme')" />
                 </q-card-section>
                 <q-card-section>
                   <q-item>
@@ -120,7 +120,7 @@
                         </q-popup-proxy>
                       </q-btn>
                     </q-item-section>
-                    <q-item-section>Primary {{brandData.colors.primary}}</q-item-section>
+                    <q-item-section>{{$t('contracts_config.branding_primary')}} {{brandData.colors.primary}}</q-item-section>
                   </q-item>
 
                   <q-item>
@@ -131,7 +131,7 @@
                         </q-popup-proxy>
                       </q-btn>
                     </q-item-section>
-                    <q-item-section>Secondary {{brandData.colors.secondary}}</q-item-section>
+                    <q-item-section>{{$t('contracts_config.branding_secondary')}} {{brandData.colors.secondary}}</q-item-section>
                   </q-item>
 
                   <q-item>
@@ -142,7 +142,7 @@
                         </q-popup-proxy>
                       </q-btn>
                     </q-item-section>
-                    <q-item-section>Accent {{brandData.colors.accent}}</q-item-section>
+                    <q-item-section>{{$t('contracts_config.branding_accent')}} {{brandData.colors.accent}}</q-item-section>
                   </q-item>
 
                   <q-item>
@@ -153,7 +153,7 @@
                         </q-popup-proxy>
                       </q-btn>
                     </q-item-section>
-                    <q-item-section>Info {{brandData.colors.info}}</q-item-section>
+                    <q-item-section>{{$t('contracts_config.branding_info')}} {{brandData.colors.info}}</q-item-section>
                   </q-item>
 
                   <q-item>
@@ -164,7 +164,7 @@
                         </q-popup-proxy>
                       </q-btn>
                     </q-item-section>
-                    <q-item-section>Positive {{brandData.colors.positive}}</q-item-section>
+                    <q-item-section>{{$t('contracts_config.branding_positive')}} {{brandData.colors.positive}}</q-item-section>
                   </q-item>
 
                   <q-item>
@@ -175,7 +175,7 @@
                         </q-popup-proxy>
                       </q-btn>
                     </q-item-section>
-                    <q-item-section>Negative {{brandData.colors.negative}}</q-item-section>
+                    <q-item-section>{{$t('contracts_config.branding_negative')}} {{brandData.colors.negative}}</q-item-section>
                   </q-item>
 
                   <q-item>
@@ -186,13 +186,13 @@
                         </q-popup-proxy>
                       </q-btn>
                     </q-item-section>
-                    <q-item-section>Warning {{brandData.colors.warning}}</q-item-section>
+                    <q-item-section>{{$t('contracts_config.branding_warning')}} {{brandData.colors.warning}}</q-item-section>
                   </q-item>
 
                 </q-card-section>
 
                 <q-card-actions align="right">
-                  <q-btn color="positive" label="Propose Changes" @click="saveBrand" />
+                  <q-btn color="positive" :label="$t('contracts_config.branding_propose_changes')" @click="saveBrand" />
                 </q-card-actions>
               </q-card>
             </div>
@@ -201,27 +201,27 @@
 
         </q-tab-panel>
         <q-tab-panel name="features">
-          <div class="text-h5 q-mb-md">Features</div>
+          <div class="text-h5 q-mb-md">{{$t('contracts_config.features_title')}}</div>
           <q-card>
             <q-card-section>
               <div class="row">
-                <div class="col-xs-4">Referendums</div>
+                <div class="col-xs-4">{{$t('contracts_config.features_referendums')}}</div>
                 <div class="col-xs-4">
                   <q-toggle v-model="referendumEnabled" />
                 </div>
                 <div class="col-xs-4">
-                  <q-input v-model="referendumAccount" v-if="referendumEnabled" label="Referendum contract name" />
+                  <q-input v-model="referendumAccount" v-if="referendumEnabled" :label="$t('contracts_config.features_referendum_contract')" />
                 </div>
               </div>
             </q-card-section>
             <q-card-section>
               <div class="row">
-                <div class="col-xs-4">Worker Proposals</div>
+                <div class="col-xs-4">{{$t('contracts_config.features_wp')}}</div>
                 <div class="col-xs-4">
                   <q-toggle v-model="wpEnabled" />
                 </div>
                 <div class="col-xs-4">
-                  <q-input v-model="wpAccount" v-if="wpEnabled" label="Worker proposals contract name" />
+                  <q-input v-model="wpAccount" v-if="wpEnabled" :label="$t('contracts_config.features_wp_contract')" />
                 </div>
               </div>
             </q-card-section>
