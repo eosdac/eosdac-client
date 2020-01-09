@@ -28,16 +28,16 @@ class Helper {
   memberTypeToText (type) {
     switch (type) {
       case 0:
-        return 'Non-Member'
+        return 'non-member'
       case 1:
-        return 'Member'
+        return 'member'
       case 2:
-        return 'Candidate'
+        return 'candidate'
       case 3:
-        return 'Custodian'
+        return 'custodian'
     }
 
-    return 'Unknown'
+    return 'unknown'
   }
 
   toLocaleNumber (number, decimals = 4) {
