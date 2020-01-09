@@ -45,7 +45,7 @@
             </q-item-section>
           </q-item>
 
-          <q-separator spaced inset />
+          <q-separator spaced inset v-if="getEnableCustPayments" />
 
           <q-item class="full-width">
             <q-item-section avatar>
