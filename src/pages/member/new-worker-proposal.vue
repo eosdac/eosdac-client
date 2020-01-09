@@ -25,6 +25,7 @@
               color="primary"
               v-model="wp_data.category"
               label="Category"
+              emit-value
               :options="getWpCategoriesOptions"
             />
         </div>
@@ -128,11 +129,8 @@ export default {
         this.$q.notify('Please review fields again.')
         return
       }
-      const extendedAsset = {
-        quantity: `${this.wp_data.pay_amount.quantity} ${this.wp_data.pay_amount.symbol}`,
-        contract: this.wp_data.pay_amount.contract
-      }
-      let actions = [
+      const extendedAsset = this.wp_data.pay_amount
+      const actions = [
         {
           account: this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS),
           name: 'createprop',
@@ -149,7 +147,7 @@ export default {
           }
         }
       ]
-      let result = await this.$store.dispatch('user/transact', {
+      const result = await this.$store.dispatch('user/transact', {
         actions: actions
       })
       if (result) {
