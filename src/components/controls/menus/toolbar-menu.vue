@@ -97,28 +97,24 @@
           {{ getAuthString }}
         </q-item-section>
         <q-item>
-          <q-item-section v-if="getMemberStatus === 'member'" avatar >
+          <q-item-section avatar v-if="memberType !== 'non-member'">
             <q-icon :name="$configFile.icon.check" color="positive" />
           </q-item-section>
-          <q-item-section v-if="getMemberStatus === 'pending'">
+          <q-item-section v-else>
             <q-icon :name="$configFile.icon.pending_sand" color="warning" />
           </q-item-section>
 
           <q-item-section>
-            <q-item-label>{{
-              $t("menu.member_status")
-            }}</q-item-label>
-            <q-item-label caption v-if="getMemberStatus">{{
-              getMemberStatus
-            }}</q-item-label>
-            <q-item-label v-else caption>
+            <q-item-label v-if="memberType !== 'non-member'">{{$t("menu.member_status")}}</q-item-label>
+            <q-item-label caption v-if="memberType !== 'non-member'">{{memberType}}</q-item-label>
+            <div v-else caption>
               <q-btn
                 color="primary"
                 to="/constitution"
-                dense
+                size="md"
                 :label="$t('menu.signature_required')"
               />
-            </q-item-label>
+            </div>
           </q-item-section>
           <!-- <q-item-side right icon="info" color="amber" /> -->
         </q-item>
@@ -127,7 +123,6 @@
 
         <q-item
           clickable
-          v-close-overlay
           @click.native="$store.dispatch('global/switchAccount')"
         >
             <q-item-section avatar>
@@ -136,7 +131,7 @@
           <q-item-section>{{ $t("menu.switch_account") }}</q-item-section>
         </q-item>
 
-        <q-item v-close-overlay to="/settings">
+        <q-item to="/settings">
           <q-item-section avatar>
             <q-icon :name="$configFile.icon.settings" />
           </q-item-section>
@@ -146,7 +141,7 @@
 
         <q-separator inset="item" />
 
-        <q-item clickable v-close-overlay @click.native="$store.dispatch('global/logout')">
+        <q-item clickable @click.native="$store.dispatch('global/logout')">
           <q-item-section avatar>
             <q-icon :name="$configFile.icon.account" color="negative" />
           </q-item-section>
@@ -177,7 +172,9 @@ export default {
     profilePic
   },
   data () {
-    return {}
+    return {
+      memberType: 'non-member'
+    }
   },
 
   computed: {
@@ -192,6 +189,11 @@ export default {
       getMemberStatus: 'user/getMemberStatus',
       getSettingByName: 'user/getSettingByName'
     })
+  },
+
+  async mounted () {
+    const p = await this.$profiles.getProfiles([this.getAccountName])
+    this.memberType = this.$helper.memberTypeToText(p[0].member_type)
   }
 }
 </script>
