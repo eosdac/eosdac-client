@@ -11,9 +11,9 @@ export async function loggedOutRoutine ({ commit }) {
   commit('setProfilePicture', null)
   commit('setIsCandidate', null)
   commit('setDacVotes', null)
-  commit('global/setDacApi', null, { root: true })
-  commit('global/setScatter', null, { root: true })
-  commit('global/setEosScatter', null, { root: true })
+  // commit('global/setDacApi', null, { root: true })
+  // commit('global/setScatter', null, { root: true })
+  // commit('global/setEosScatter', null, { root: true })
   commit('dac/setCustodianPermissions', null, { root: true })
 }
 
