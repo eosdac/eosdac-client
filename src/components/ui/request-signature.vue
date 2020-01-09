@@ -7,7 +7,7 @@
     <q-card
       v-if="getAccountName && needSignature && time_flag && showHere"
       v-bind:class="{ 'drawer-margin': getDrawerIsOpen }"
-      class="request_signature_msg q-pa-md bg-logo fixed"
+      class="request_signature_msg q-pa-md bg-logo-sm fixed"
     >
       <div class="row justify-between items-center q-mb-md ">
         <div class="q-title">{{ $t("default.sign_the_constitution") }}</div>
