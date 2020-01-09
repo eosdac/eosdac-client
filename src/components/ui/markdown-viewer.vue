@@ -9,7 +9,7 @@
       <q-field :label="label" stack-label>
         <template v-slot:control>
           <div class="self-center full-width no-outline" tabindex="0">
-            <textarea ref="editor_replace"></textarea>
+            <textarea ref="editor_replace" style="display:none"></textarea>
           </div>
         </template>
       </q-field>
@@ -97,6 +97,15 @@ export default {
       tags.push('p')
       tags.push('hr')
       return tags
+    },
+
+    createEditor () {
+      this.editor = new SimpleMDE({ element: this.$refs['editor_replace'], forceSync: true, promptURLs: true })
+      this.editor.codemirror.on('change', () => {
+        // console.log(this.editor.value())
+        this.editText = this.editor.value()
+        this.$emit('update', this.editText)
+      })
     }
   },
   data () {
@@ -153,18 +162,22 @@ export default {
   },
   mounted () {
     if (this.edit) {
-      this.editor = new SimpleMDE({ element: this.$refs['editor_replace'], forceSync: true, promptURLs: true })
-      this.editor.codemirror.on('change', () => {
-        // console.log(this.editor.value())
-        this.editText = this.editor.value()
-        this.$emit('update', this.editText)
-      })
+      this.createEditor()
     }
   },
   watch: {
     edit (val) {
-      if (val) {
-        this.editor.value(val)
+      if (this.edit && !this.editor) {
+        window.setTimeout(() => {
+          this.$refs['editor_replace'].style.display = 'block'
+          this.createEditor()
+        }, 200)
+      }
+      if (val && this.editor) {
+        this.editor.value(this.editText)
+      }
+      if (!val) {
+        this.editor = null
       }
     }
   }

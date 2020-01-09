@@ -94,20 +94,6 @@
           <div class style="height:100%">
             <div class="q-title q-mb-md">{{ $t("profile.bio") }}</div>
             <MarkdownViewer
-              :tags="[
-                'h1',
-                'h2',
-                'h3',
-                'italic',
-                'bold',
-                'underline',
-                'strikethrough',
-                'subscript',
-                'superscript',
-                'anchor',
-                'orderedlist',
-                'unorderedlist'
-              ]"
               :edit="is_edit"
               :text="form.description"
               v-on:update="updateText"
