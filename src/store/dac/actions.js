@@ -250,7 +250,7 @@ export async function fetchCustodianPermissions ({
 
 export async function fetchWorkerProposals ({ commit, dispatch }, payload = {}) {
   const api = await dispatch('global/getDacApi', false, { root: true })
-  const wps = api.getWps()
+  const wps = api.getWps(payload)
   commit('setWorkerProposals', wps)
   return wps
 }
