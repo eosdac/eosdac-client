@@ -6,7 +6,7 @@
       </h4>
     </div>
 
-    <q-tabs align="justify" v-model="active_tab">
+    <q-tabs align="justify" v-model="active_tab" class="q-mb-md">
       <q-tab name="open" :label="$t('proposals.open')" />
       <q-tab name="executed" :label="$t('proposals.executed')" />
       <q-tab name="cancelled" :label="$t('proposals.cancelled')" />
@@ -14,7 +14,7 @@
     </q-tabs>
 
     <div
-      class="row q-pa-md q-mb-md shadow-4 rounded-borders justify-between"
+      class="row q-pa-md q-mx-md shadow-4 rounded-borders justify-between"
       v-if="pagination.max > 1"
     >
       <!--<q-search
@@ -31,7 +31,8 @@
         />
     </div>
 
-    <div v-if="proposals && proposals.length">
+    <div v-if="proposals && proposals.length"
+      class="bg-logo-sm q-pa-md rounded-borders shadow-4 capitalize">
       <Msigproposal
         v-for="(msig, index) in proposals"
         :key="index"
@@ -40,7 +41,7 @@
     </div>
     <div
       v-else
-      class="bg-logo q-pa-md rounded-borders shadow-4 capitalize"
+      class="bg-logo-sm q-pa-md rounded-borders shadow-4 capitalize"
     >
       <span v-if="msigs_loading" class="row items-center">
         <q-spinner-pie class="on-left" color="primary" />{{$t('proposals.loading')}}

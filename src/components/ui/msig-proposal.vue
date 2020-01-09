@@ -136,6 +136,8 @@
       </q-card>
     </q-expansion-item>
 
+    <q-separator />
+
     <!-- modal for displaying approvals mobile+desktop -->
     <q-dialog minimized v-model="approvals_modal">
       <q-card>
