@@ -63,7 +63,7 @@
           <!-- {{tokenConfig}} -->
           <q-card v-if="tokenConfigLoaded">
             <q-card-section>
-              <q-toggle v-model="tokenConfig.enabled" :label="$t('contracts_config.token_enable_staking')" />
+              <!-- <q-toggle v-model="tokenConfig.enabled" :label="$t('contracts_config.token_enable_staking')" /> -->
               <seconds-input v-model="tokenConfig.min_stake_time" :label="$t('contracts_config.token_min_stake_time')" />
               <seconds-input v-model="tokenConfig.max_stake_time" :label="$t('contracts_config.token_max_stake_time')" />
             </q-card-section>
