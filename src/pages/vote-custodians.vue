@@ -5,9 +5,7 @@
       <!-- <period-timer style="transform: scale(0.5)" /> -->
       <!-- {{ oldvotes }} -->
 
-      <div class="shadow-4 rounded-borders q-pa-md q-mb-md">
-        <display-custodians />
-      </div>
+      <display-custodians />
 
       <div class="row q-col-gutter-lg">
         <!-- first column  -->

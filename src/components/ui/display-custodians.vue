@@ -1,6 +1,7 @@
 <template>
   <div>
     <div v-if="getCustodianState.met_initial_votes_threshold === 1">
+      <div class="shadow-4 rounded-borders q-pa-md q-mb-md">
       <div class="row items-center justify-between ">
         <q-chip dense v-if="new_period_millisleft > 0">
           <div class="row items-center">
@@ -49,39 +50,51 @@
       </div>
 
     </div>
+    </div>
 
     <div v-if="!getActivationStats.active">
-      <div class="q-mb-md">
-        <q-item>
-          <q-item-section>Voting Progress</q-item-section>
-          <q-item-section>{{ getActivationStats.votePercentage.toFixed(2) }}% of
-            {{ getActivationStats.voteQuorum }}%</q-item-section>
-          <q-item-section>
-              <q-linear-progress
-                    animate
-                    stripe
-                    class="rounded-borders"
-                    style="height:20px"
-                    color="secondary"
-                    :value="getActivationStats.votePercentage"
-            />
-          </q-item-section>
-        </q-item>
-        <q-item>
-          <q-item-section>Number of Candidates with Votes</q-item-section>
-          <q-item-section>{{ getActivationStats.numCandidates }} /
-            {{ getActivationStats.requiredCandidates }}</q-item-section>
-          <q-item-section>
-              <q-linear-progress
-                    animate
-                    stripe
-                    class="rounded-borders"
-                    color="secondary"
-                    style="height:20px"
-                    :value="getActivationStats.numCandidates / getActivationStats.requiredCandidates"
-            />
-          </q-item-section>
-        </q-item>
+      <div class="shadow-4 rounded-borders q-pa-md q-mb-md bg-info">
+        <div class="text-h6">DAC Activation Progress</div>
+        <div class="row q-col-gutter-lg">
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-12">
+                <q-linear-progress
+                        animate
+                        stripe
+                        class="rounded-borders"
+                        style="height:20px"
+                        color="secondary"
+                        :value="getActivationStats.votePercentage"
+                />
+              </div>
+            </div>
+            <div class="row q-mt-sm">
+              <div class="col-6">Voting Progress</div>
+              <div class="col-6">{{ getActivationStats.votePercentage.toFixed(2) }}% of
+                {{ getActivationStats.voteQuorum }}%</div>
+              </div>
+          </div>
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-12">
+                <q-linear-progress
+                        animate
+                        stripe
+                        class="rounded-borders"
+                        color="secondary"
+                        style="height:20px"
+                        :value="getActivationStats.numCandidates / getActivationStats.requiredCandidates"
+                />
+              </div>
+            </div>
+            <div class="row q-mt-sm">
+              <div class="col-6">Number of Candidates with Votes</div>
+              <div class="col-6">{{ getActivationStats.numCandidates }} /
+                {{ getActivationStats.requiredCandidates }}</div>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
