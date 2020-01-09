@@ -166,6 +166,8 @@ export async function fetchActivationStats ({ commit, dispatch, state }) {
   }
 
   activationStats.active = false
+  const requiredCandidates = conf.numelected
+  let numCandidates = 0
 
   // this.$store.dispatch("api/getTokenStats");
   if (
@@ -186,7 +188,6 @@ export async function fetchActivationStats ({ commit, dispatch, state }) {
     if (percentage >= 100) {
       // check enough candidates
       // console.log('config', conf)
-      const requiredCandidates = conf.numelected
 
       // Calculate number of viable candidates
       const res = await this._vm.$eosApi.rpc.get_table_rows({
@@ -197,7 +198,6 @@ export async function fetchActivationStats ({ commit, dispatch, state }) {
         key_type: 'i64',
         limit: conf.numelected * 3
       })
-      let numCandidates = 0
       for (let c = 0; c < res.rows.length; c++) {
         const row = res.rows[c]
         if (row.is_active && parseInt(row.total_votes) > 0) {
@@ -209,14 +209,15 @@ export async function fetchActivationStats ({ commit, dispatch, state }) {
       }
 
       console.log(`numCandidates ${numCandidates} / ${requiredCandidates}`)
-      activationStats.numCandidates = numCandidates
-      activationStats.requiredCandidates = requiredCandidates
 
       if (numCandidates >= requiredCandidates) {
         activationStats.canActivate = true
       }
     }
   }
+
+  activationStats.numCandidates = numCandidates
+  activationStats.requiredCandidates = requiredCandidates
 
   commit('setActivationStats', activationStats)
 }
