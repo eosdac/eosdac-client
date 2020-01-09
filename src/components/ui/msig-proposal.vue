@@ -34,7 +34,7 @@
           </q-item-label>
         </q-item-section>
 
-        <q-item-section>
+        <q-item-section class="xs-hide">
           <q-item-label>{{$t('proposal.expiration')}}: </q-item-label>
           <q-item-label caption>{{
                   new Date(msig.trx.expiration).toUTCString()
@@ -43,7 +43,7 @@
 
         <q-item-section side top>
           <div @click="approvals_modal = true" class="cursor-pointer">
-            <q-item-label>{{$t('proposal.received_approvals')}}:</q-item-label>
+            <q-item-label class="xs-hide">{{$t('proposal.received_approvals')}}:</q-item-label>
             <q-item-label caption>
               <span v-if="provided_approvals" class="text-primary-light cursor-pointer animate-fade">{{ provided_approvals.length }}</span>
               <span class="">/{{ msig.threshold }}</span>
