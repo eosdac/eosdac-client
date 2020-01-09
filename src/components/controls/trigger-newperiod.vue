@@ -7,7 +7,7 @@
     <div
       v-if="show && getAccountName && !forceHide"
       v-bind:class="{ 'drawer-margin': getDrawerIsOpen }"
-      class=" trigger_new_period_msg bg-blue q-pa-md bg-logo-sm fixed"
+      class=" trigger_new_period_msg bg-info q-pa-md bg-logo-sm fixed"
     >
       <div class="row justify-between items-center q-mb-md ">
         <div class="text-h6">{{ $t("newperiod_first.call_new_period") }}</div>

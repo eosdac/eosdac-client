@@ -21,6 +21,7 @@
           </div>
         </q-chip>
       </div>
+
       <div class="row justify-between q-col-gutter-sm" v-if="custodians.length">
         <div
                 class="col-lg-2"
@@ -67,7 +68,7 @@
           </q-item-section>
         </q-item>
         <q-item>
-          <q-item-section>Number Candidates Registered</q-item-section>
+          <q-item-section>Number of Candidates with Votes</q-item-section>
           <q-item-section>{{ getActivationStats.numCandidates }} /
             {{ getActivationStats.requiredCandidates }}</q-item-section>
           <q-item-section>
@@ -125,12 +126,9 @@ export default {
       return this.getActivationStats.votePercentage
     },
     new_period_millisleft () {
-      if (
-        this.getCustodianConfig.periodlength &&
-        this.getCustodianState.lastperiodtime
-      ) {
-        // let lastperiodtime = "2019-05-14T18:42:26";
-        let lastperiodtime = this.getCustodianState.lastperiodtime
+      let lastperiodtime = this.getCustodianState.lastperiodtime
+      const periodLength = this.getCustodianConfig.periodlength
+      if (periodLength && lastperiodtime) {
         if (Number.isInteger(lastperiodtime)) {
           lastperiodtime = new Date(lastperiodtime * 1000)
         } else {
@@ -140,7 +138,7 @@ export default {
           )
         }
         let end = addToDate(lastperiodtime, {
-          seconds: this.getCustodianConfig.periodlength
+          seconds: periodLength
         })
         return (
           Date.parse(date.formatDate(end, 'YYYY-MM-DD HH:mm:ss')) -
@@ -171,6 +169,9 @@ export default {
     if (this.getCustodians) {
       this.setCustodians()
     }
+    if (this.getCustodianState.met_initial_votes_threshold === null) {
+      await this.$store.dispatch('dac/fetchCustodianContractState')
+    }
     if (this.getActivationStats.voteQuorum === null) {
       await this.$store.dispatch('dac/fetchActivationStats')
     }
@@ -185,16 +186,3 @@ export default {
   }
 }
 </script>
-<!--
-<style lang="stylus">
-@import '~variables'
-
-.loading {
-  opacity: 0;
-  transition: opacity .4s ease-out;
-}
-
-.loaded {
-  opacity: 1;
-}
-</style>-->
