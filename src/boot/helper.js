@@ -25,6 +25,21 @@ class Helper {
     return re.test(accountname)
   }
 
+  memberTypeToText (type) {
+    switch (type) {
+      case 0:
+        return 'Non-Member'
+      case 1:
+        return 'Member'
+      case 2:
+        return 'Candidate'
+      case 3:
+        return 'Custodian'
+    }
+
+    return 'Unknown'
+  }
+
   toLocaleNumber (number, decimals = 4) {
     if (!number) return number
     let test = this.store.getters['user/getSettingByName']('locale_numbers')
