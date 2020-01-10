@@ -412,6 +412,18 @@ export default {
     'votes': 'Votes'
   },
 
+  'newworkerproposal': {
+    'title': 'Submit Worker Proposal',
+    'intro': 'Please fill in the form to explain your worker proposal.',
+    'title_required': 'A title is required',
+    'proposal_title': 'Title',
+    'select_category': 'Please select a category',
+    'proposal_category': 'Category',
+    'arbitrator': 'Arbitrator',
+    'proposal_description': 'Description',
+    'submit': 'Submit Proposal'
+  },
+
   'referendums': {
     'title': 'Referendums',
     'new_title': 'Propose New Referendum',

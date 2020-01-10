@@ -3,17 +3,17 @@
     <!-- content -->
 
     <div class="rounded-borders shadow-4 q-pa-md bg-logo">
-      <div class="text-h4">Submit Worker Proposal</div>
+      <div class="text-h4">{{$t('newworkerproposal.title')}}</div>
       <div class="q-mb-md">
-        Please fill in the form to explain your worker proposal.
+        {{$t('newworkerproposal.intro')}}
       </div>
       <div class="row q-col-gutter-md">
         <div class="col-xs-12 col-lg-8">
             <q-input
                     :error="$v.wp_data.title.$error"
-                    error-label="A title is required"
+                    :error-label="$t('newworkerproposal.title_required')"
                     type="text"
-                    label="Title"
+                    :label="$t('newworkerproposal.proposal_title')"
                     color="primary"
                     v-model="wp_data.title"
                   />
@@ -21,10 +21,10 @@
         <div class="col-xs-12 col-lg-4">
             <q-select
                     :error="$v.wp_data.category.$error"
-                    error-label="Please select a category"
+                    :error-label="$t('newworkerproposal.select_category')"
               color="primary"
               v-model="wp_data.category"
-              label="Category"
+              :label="$t('newworkerproposal.proposal_category')"
               emit-value
               :options="getWpCategoriesOptions"
             />
@@ -38,13 +38,13 @@
           <q-input
                   class="full-width"
                   type="text"
-                  label="Arbitrator"
+                  :label="$t('newworkerproposal.arbitrator')"
                   color="primary"
                   v-model="wp_data.arbitrator" />
         </div>
       </div>
 
-      <div class="q-caption q-mb-xs q-mt-md">Description</div>
+      <div class="q-caption q-mb-xs q-mt-md">{{$t('newworkerproposal.proposal_description')}}</div>
       <MarkdownViewer
         :edit="true"
         value=" "
@@ -54,7 +54,7 @@
 
       <div class="row justify-end q-mt-md">
         <q-btn
-          label="submit"
+          :label="$t('newworkerproposal.submit')"
           color="primary"
           @click="submitProposal"
           class="animate-pop"
