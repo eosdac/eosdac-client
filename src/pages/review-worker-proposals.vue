@@ -30,7 +30,7 @@
       v-if="pagination.max > 1"
     >
         <q-pagination
-          color="primary"
+          color="secondary"
           v-show="true"
           v-model="pagination.page"
           :min="1"

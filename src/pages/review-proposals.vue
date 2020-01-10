@@ -24,10 +24,11 @@
         style="visibility:hidden"
       />-->
         <q-pagination
-          color="primary"
+          color="secondary"
           v-model="pagination.page"
           :min="1"
           :max="pagination.max"
+          direction-links
         />
     </div>
 
@@ -60,7 +61,7 @@
 <!--        style="visibility:hidden"-->
 <!--      />-->
         <q-pagination
-          color="primary"
+          color="secondary"
           v-show="true"
           v-model="pagination.page"
           :min="1"

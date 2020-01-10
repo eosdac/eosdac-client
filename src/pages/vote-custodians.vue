@@ -32,7 +32,7 @@
 <!--                :placeholder="$t('vote_custodians.search')"-->
 <!--              />-->
                 <q-pagination
-                  color="primary"
+                  color="secondary"
                   v-show="true"
                   v-model="pagination.page"
                   :min="1"
@@ -69,7 +69,7 @@
 <!--                :placeholder="$t('vote_custodians.search')"-->
 <!--              />-->
                 <q-pagination
-                        color="primary"
+                        color="secondary"
                         v-show="true"
                         v-model="pagination.page"
                         :min="1"
