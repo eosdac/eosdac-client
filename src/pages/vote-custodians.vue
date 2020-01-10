@@ -96,7 +96,7 @@
               }}
             </p>
 
-            <q-card id="votebox">
+            <q-card id="votebox" class="bg-logo-sm">
                 <q-card-section v-if="!votesdidchange">
                     <q-item>
                         <q-item-section avatar>
