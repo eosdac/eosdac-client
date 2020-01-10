@@ -17,40 +17,23 @@
 
     <div
       class="row q-pa-md q-mb-md shadow-4 rounded-borders justify-between"
-      v-if="true"
+      v-if="pagination.max > 1"
     >
-      <q-search
+      <!--<q-search
         color="primary"
         v-model="filter"
         :placeholder="$t('vote_custodians.search')"
+      /> -->
+      <q-pagination
+              color="secondary"
+              v-show="true"
+              v-model="pagination.page"
+              :min="1"
+              :max="pagination.max"
+              :max-pages="6"
+              direction-links
+              size="12px"
       />
-      <div class="row inline items-center q-mt-sm" style="font-size:12px;">
-        <span>{{ $t("vote_custodians.rows_per_page") }}:</span>
-        <q-select
-          class="q-ml-sm"
-          style="width:45px;"
-          hide-underline
-          v-model="pagination.items_per_page"
-          :options="[
-            { label: '1', value: 1 },
-            { label: '4', value: 4 },
-            { label: '8', value: 8 },
-            { label: '16', value: 16 },
-            { label: '24', value: 24 },
-            { label: '48', value: 48 }
-          ]"
-        />
-        <q-pagination
-          color="primary"
-          v-show="true"
-          v-model="pagination.page"
-          :min="1"
-          :max="pagination.max"
-          :max-pages="6"
-          direction-links
-          size="12px"
-        />
-      </div>
     </div>
 
     <div v-if="wps.length" class="row gutter-sm">
@@ -69,7 +52,7 @@
     </div>
     <div
       v-else
-      class="bg-logo q-pa-md rounded-borders shadow-4"
+      class="bg-logo-sm q-pa-md rounded-borders shadow-4"
     >
       <span v-if="loading" class="row items-center">
         <q-spinner class="on-left" color="primary" />Loading

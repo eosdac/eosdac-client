@@ -55,7 +55,7 @@
     </div>
     <div
       v-else
-      class="bg-logo q-pa-md rounded-borders shadow-4 capitalize"
+      class="bg-logo-sm q-pa-md rounded-borders shadow-4 capitalize"
     >
       <span v-if="loading" class="row items-center">
         <q-spinner class="on-left" color="primary" />{{$t('workerproposals.loading')}}
