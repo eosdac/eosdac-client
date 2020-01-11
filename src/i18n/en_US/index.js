@@ -130,7 +130,9 @@ export default {
     'submit': 'Submit',
     'update': 'Update',
     'you_have_not_yet_registered': 'You have not been registered as a Member yet. Please sign the constitution to use the Member Client.',
-    'your_token_balance': 'Your {tokenName} Balance'
+    'your_token_balance': 'Your {tokenName} Balance',
+    'liquid_balance': 'Liquid Balance',
+    'staked_balance': 'Staked Balance'
   },
   'four_zero_four': {
     'go_back': 'Go back',
