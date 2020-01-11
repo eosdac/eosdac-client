@@ -18,7 +18,6 @@ export default {
     'not_signed_message': 'You aren\'t a member of {dacname} until you have agreed to the constitution',
     'sign': 'sign',
     'signed_message': 'You have signed the constitution!',
-    'switch_contrast': 'Switch Contrast',
     'unsign': 'unsign'
   },
   'contract_errors': {
