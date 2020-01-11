@@ -21,7 +21,7 @@
                 <q-icon
                   :name="$configFile.icon.liquid"
                   style="margin-left:3px"
-                  title="$t('default.liquid_balance')"
+                  :title="$t('default.liquid_balance')"
                 />
                 </q-item-label>
               <q-item-label caption><xspan
