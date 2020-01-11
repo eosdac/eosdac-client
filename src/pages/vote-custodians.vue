@@ -24,7 +24,7 @@
 
             <div
               v-if="!loading && pagination.max > 1"
-              class="row q-pa-md q-mb-md shadow-4 rounded-borders justify-between animate-fade"
+              class="row q-pa-md q-mb-md"
             >
 <!--              <q-search-->
 <!--                color="primary-light"-->
@@ -61,7 +61,7 @@
 
             <div
               v-if="!loading && pagination.max > 1"
-              class="row q-pa-md q-mb-md shadow-4 rounded-borders justify-right animate-fade"
+              class="row q-pa-md q-mb-md"
             >
 <!--              <q-search-->
 <!--                color="primary-light"-->

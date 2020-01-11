@@ -26,7 +26,7 @@
     </q-tabs>
 
     <div
-      class="row q-pa-md q-mb-md shadow-4 rounded-borders justify-between"
+      class="row q-pa-md q-mb-md justify-between"
       v-if="pagination.max > 1"
     >
         <q-pagination

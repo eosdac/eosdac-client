@@ -14,7 +14,7 @@
     </q-tabs>
 
     <div
-      class="row q-pa-md q-mx-md shadow-4 rounded-borders justify-between"
+      class="row q-pa-md q-mx-md justify-between"
       v-if="pagination.max > 1"
     >
       <!--<q-search
@@ -51,7 +51,7 @@
     </div>
 
     <div
-      class="row q-pa-md q-my-md shadow-4 rounded-borders justify-between"
+      class="row q-pa-md q-my-md justify-between"
       v-if="pagination.max > 1"
     >
 <!--      <q-search-->
