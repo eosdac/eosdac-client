@@ -1,7 +1,7 @@
 import { Notify, openURL } from 'quasar'
 import { i18n } from '../../boot/i18n'
 
-export async function loggedOutRoutine ({ commit }) {
+export async function loggedOutRoutine ({ commit, dispatch }) {
   commit('setIsLoaded', false)
 
   commit('setAccount', null)
@@ -11,20 +11,15 @@ export async function loggedOutRoutine ({ commit }) {
   commit('setProfilePicture', null)
   commit('setIsCandidate', null)
   commit('setDacVotes', null)
+  dispatch('ual/logout', null, { root: true })
   // commit('global/setDacApi', null, { root: true })
-  // commit('global/setScatter', null, { root: true })
-  // commit('global/setEosScatter', null, { root: true })
   commit('dac/setCustodianPermissions', null, { root: true })
 }
 
-export async function loggedInRoutine ({ state, commit, dispatch }, account) {
-  const accountname = account.accounts[0].name
-  commit('setAccount', account.accounts[0])
+export async function loggedInRoutine ({ state, commit, dispatch }, accountname) {
+  commit('setAccount', { name: accountname, authority: 'active' })
   commit('setAccountName', accountname)
   commit('setIsLoaded', false)
-
-  // console.log(this._vm)
-  // return
 
   this._vm.$profiles.getAvatars([accountname]).then(a => {
     commit('setProfilePicture', a[0].image)
@@ -158,15 +153,15 @@ export async function transact (
     getters['getSettingByName']('trx_delay').value > 0
       ? getters['getSettingByName']('trx_delay').value
       : 0
-  let BROADCAST = true
+  // let BROADCAST = true
 
   if (payload.options) {
     if (payload.options.delay !== undefined) {
       DELAY_SEC = payload.options.delay
     }
-    if (payload.options.broadcast !== undefined) {
-      BROADCAST = payload.options.broadcast
-    }
+    // if (payload.options.broadcast !== undefined) {
+    //   BROADCAST = payload.options.broadcast
+    // }
   }
 
   let actions = payload.actions
@@ -200,13 +195,8 @@ export async function transact (
   console.log('loading scatter')
   commit('ui/setShowTransactionOverlay', 'loading', { root: true })
 
-  let account = (await rootState.global.scatter.login()).accounts[0] // same as getIdentity
-
-  if (account.name !== state.accountName) {
-    console.log('Yooo stop messing with scatter!')
-    commit('setAccount', account)
-    commit('setAccountName', account.name)
-  }
+  // let account = (await rootState.global.scatter.login()).accounts[0] // same as getIdentity
+  const account = state.account
 
   actions = actions.map(action => {
     if (!action.authorization) {
@@ -220,14 +210,11 @@ export async function transact (
   console.log(JSON.stringify(actions, null, 2))
 
   try {
-    let [eos] = await dispatch('global/getEosScatter', null, { root: true })
+    // let [eos] = await dispatch('global/getEosScatter', null, { root: true })
     setTimeout(() => {
       commit('ui/setShowTransactionOverlay', 'sign', { root: true })
     }, 1500)
-    const result = await eos.transact(
-      { delay_sec: DELAY_SEC, actions: actions },
-      { blocksBehind: 3, expireSeconds: 60, broadcast: BROADCAST }
-    )
+    const result = await dispatch('ual/transact', { delay_sec: DELAY_SEC, actions: actions }, { root: true })
     commit('ui/setShowTransactionOverlay', 'success', { root: true })
     commit('setLastTransaction', result)
 

@@ -1,12 +1,3 @@
-import ScatterJS, { Network } from '@scatterjs/core'
-import ScatterEOS from '@scatterjs/eosjs2'
-import ScatterLynx from '@scatterjs/lynx'
-
-import { Notify } from 'quasar'
-// import axios from 'axios'
-
-import { Api, JsonRpc } from '@jafri/eosjs2'
-const { TextDecoder, TextEncoder } = require('text-encoding')
 import { DacApi } from '../../modules/dacapi.js'
 
 // mobile debugging
@@ -14,123 +5,14 @@ import { DacApi } from '../../modules/dacapi.js'
 // var vConsole = new VConsole();
 // console.log(vConsole);
 
-ScatterJS.plugins(
-  new ScatterEOS(),
-  new ScatterLynx({
-    Api,
-    JsonRpc,
-    textDecoder: new TextDecoder(),
-    textEncoder: new TextEncoder()
-  })
-)
-
-export async function connectScatter (
-  { state, commit, dispatch, rootGetters },
-  triggerLogin = false
-) {
-  let network = state.network
-  console.log(network)
-  commit('setChainId', network.chainId)
-  ScatterJS
-    .connect(this._vm.$dir.title, { network })
-    .then(async connected => {
-      if (!connected) {
-        console.error('Could not connect to Scatter.')
-
-        commit('user/setAccountName', false, { root: true })
-
-        Notify.create({
-          message: `Signature provider not found`,
-          timeout: 2000,
-          type: 'negative',
-          position: 'bottom-right'
-        })
-
-        return
-      }
-
-      console.log('scatter connected')
-
-      // eoslynx doesn't support suggest network... need to handle this
-      console.log('Signature Provider', ScatterJS.wallet)
-      if (ScatterJS.wallet !== 'Lynx') {
-        let token = {
-          token: {
-            symbol: this._vm.$configFile.get('systemtokensymbol'),
-            contract: this._vm.$configFile.get('systemtokencontract')
-          }
-        }
-        let networkwithtoken = Object.assign({}, network, token)
-        await ScatterJS.scatter
-          .suggestNetwork(networkwithtoken)
-          .then(res => console.log('suggestnetwork', res, networkwithtoken))
-      }
-
-      commit('setScatter', ScatterJS.scatter)
-
-      if (ScatterJS.scatter.identity) {
-        // logged in
-        console.log('logged in')
-        dispatch('user/loggedInRoutine', state.scatter.identity, {
-          root: true
-        })
-
-        Notify.create({
-          message: `Welcome back ${state.scatter.identity.accounts[0].name}`,
-          timeout: 2000,
-          type: 'info',
-          position: 'bottom-right'
-        })
-      } else {
-        // scatter connected but not logged in
-        console.log('please log in.')
-        if (triggerLogin && state.scatter !== null) await dispatch('login')
-      }
-
-      ScatterJS = null
-    })
-}
-
 export async function login ({ state, dispatch, rootGetters, commit }) {
   console.log('request login')
-  if (state.scatter === null) {
-    console.log('scatter not found, trying to connect scatter')
-    Notify.create({
-      message: `Trying to connect to signature provider`,
-      timeout: 1500,
-      type: 'info',
-      position: 'bottom-right'
-    })
-    await dispatch('connectScatter', true)
-    return
-  }
-  let account = await state.scatter.login().catch(e => {
-    console.log(e)
-    return false
-  })
-
-  if (account && account.accounts[0]) {
-    dispatch('user/loggedInRoutine', account, { root: true })
-
-    Notify.create({
-      message: `Welcome ${account.accounts[0].name}`,
-      timeout: 2000,
-      type: 'info',
-      position: 'bottom-right'
-    })
-  }
+  await dispatch('ual/renderLoginModal', true, { root: true })
 }
 
 export async function logout ({ state, dispatch }) {
   console.log('request logout')
-  if (!state.scatter) {
-    console.log('scatter not found')
-    return
-  }
-  await state.scatter.logout().catch(e => console.log(e))
   dispatch('user/loggedOutRoutine', null, { root: true })
-
-  console.log('loggedout')
 }
 
 export async function switchAccount ({ state, dispatch }) {
@@ -148,21 +30,6 @@ export async function getDacApi ({ state, commit }, rebuild = false) {
 
   commit('setDacApi', new DacApi(api, this._vm.$configFile, this._vm.$dir))
   return state.eosApi
-}
-
-export async function getEosScatter ({ state, commit }, rebuild = false) {
-  if (state.eosScatter && !rebuild) {
-    // console.log('got scatter api from store');
-    return state.eosScatter
-  }
-  console.log('build and store scatter api', this._vm.$configFile.get('network'))
-  let network = Network.fromJson(
-    this._vm.$configFile.get('network')
-  )
-  const rpc = this._vm.$eosApi.rpc
-  let eos = state.scatter.eos(network, Api, { rpc })
-  commit('setEosScatter', [eos])
-  return [eos]
 }
 
 export async function loadConfig ({ Vue, state, commit }, payload) {

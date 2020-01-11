@@ -1,5 +1,6 @@
 <template>
   <div id="q-app">
+    <ual vi-if="appName" :appName= "appName" :chains="chains" :authenticators="authenticators"/>
     <router-view />
 <!--    <q-ajax-bar position="left" color="primary-light" size="3px" />-->
   </div>
@@ -8,16 +9,53 @@
 <script>
 // import { Notify } from 'quasar'
 import theme from './extensions/branding/theme'
+import ual from 'components/ual/ual'
+import { Scatter } from 'ual-scatter'
 
 export default {
   name: 'App',
   components: {
+    ual
   },
 
   data () {
+    const appName = this.$dir.title
+    const endpoints = this.$configFile.get('endpoints')
+    const network = this.$configFile.get('network')
+    const [protocol, hostPort] = endpoints[0].split('://')
+    const [host, portStr] = hostPort.split(':')
+    let port = parseInt(portStr)
+    if (isNaN(port)) {
+      port = (protocol === 'https') ? 443 : 80
+    }
+
+    const chains = [{
+      chainId: network.chainId,
+      rpcEndpoints: [{
+        protocol,
+        host,
+        port
+      }]
+    }]
+    const authenticators = [
+      new Scatter(chains, { appName })/* ,
+      new Ledger(chains),
+      new Lynx(chains, { appName: appName }),
+      new TokenPocket(chains),
+      new Wax(chains, { appName: appName }),
+        new EOSIOAuth(chains, { appName, protocol: 'eosio' }) */
+    ]
+
+    this.chains = chains
+    this.authenticators = authenticators
+    this.appName = appName
+
     return {
       leftDrawerOpen: true,
-      loading: true
+      loading: true,
+      appName,
+      chains,
+      authenticators
     }
   },
   methods: {
@@ -79,9 +117,9 @@ export default {
     this.loading = true
 
     this.$store.dispatch('dac/initRoutine', this)
-
     // this.$root.$emit('helloc');
-    await this.$store.dispatch('global/connectScatter')
+    // await this.$store.dispatch('global/connectScatter')
+    await this.$store.dispatch('ual/attemptAutoLogin')
     this.loading = false
   },
 

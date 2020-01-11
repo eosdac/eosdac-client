@@ -6,6 +6,7 @@ import global from './global'
 import user from './user'
 import dac from './dac'
 import ui from './ui'
+import ual from 'components/ual/store'
 
 // let storeExtension
 // try {
@@ -25,7 +26,8 @@ const store = new Vuex.Store({
     global,
     user,
     dac,
-    ui
+    ui,
+    ual
   },
   plugins: [
     // ...storeExtension.plugins,

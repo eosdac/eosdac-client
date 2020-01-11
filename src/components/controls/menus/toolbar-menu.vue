@@ -157,6 +157,14 @@
       :label="$t('default.login')"
       @click="$store.dispatch('global/login')"
     />
+    <q-btn
+      size="lg"
+      class="no-shadow animate-fade"
+      icon="lock"
+      v-if="!getAccountName"
+      :label="`${$t('default.login')} UAL`"
+      @click="$store.dispatch('ual/renderLoginModal')"
+    />
   </div>
 </template>
 
