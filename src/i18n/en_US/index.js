@@ -596,5 +596,14 @@ export default {
     'finalize_threshold_desc': '',
     'escrow_expiry_desc': '',
     'approval_expiry_desc': ''
+  },
+
+  'ual': {
+    'close': 'Close',
+    'connecting_to': 'Connecting to {name}...',
+    'no_authenticators': 'No compatible authenticators found',
+    'input_account': 'Enter your account name',
+    'back': 'back',
+    'service_unavailable': 'Service Unavailable'
   }
 }
