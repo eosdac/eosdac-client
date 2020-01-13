@@ -6,12 +6,6 @@ const WebSocket = require('websocket').w3cwebsocket
 export default {
   name: 'dacEvents',
   components: {},
-  props: {
-    dacId: {
-      type: String,
-      default: 'ccc'
-    }
-  },
   data () {
     return {
       ws: null
