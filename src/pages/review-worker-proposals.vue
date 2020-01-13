@@ -1,5 +1,7 @@
 <template>
   <q-page class="q-pa-md">
+    <dac-events @notification="onDACEvent"></dac-events>
+
     <div class="row justify-end q-mb-md">
       <q-btn
         color="primary"
@@ -105,6 +107,7 @@
 
 <script>
 import wpProposal from 'components/ui/wp-proposal'
+import dacEvents from 'components/dacevents/dac-events'
 import voteDelegation from 'components/controls/vote-delegation'
 import { mapGetters } from 'vuex'
 const stateEnum = require('../boot/wp_state_enum.js')
@@ -115,7 +118,8 @@ export default {
   name: 'ReviewWP',
   components: {
     wpProposal,
-    voteDelegation
+    voteDelegation,
+    dacEvents
   },
   data () {
     return {
@@ -141,6 +145,11 @@ export default {
     })
   },
   methods: {
+    onDACEvent (data) {
+      if (data.notify.substr(0, 3) === 'WP_') {
+        this.managePagination()
+      }
+    },
     async fetchWps (query) {
       this.loading = true
       let res = await this.$store.dispatch('dac/fetchWorkerProposals', query)
