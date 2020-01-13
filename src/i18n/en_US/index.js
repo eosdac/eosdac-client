@@ -388,7 +388,7 @@ export default {
   'workerproposal': {
     'proposer': 'Proposer',
     'requested_pay': 'Requested Pay',
-    'arbitrator': 'Arbitrator',
+    'validator': 'Validator',
     'submitted': 'Submitted',
     'status': 'Status',
     'time_left': 'Time Left',

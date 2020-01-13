@@ -1,18 +1,13 @@
 <template>
   <q-page class="q-pa-md">
-    <q-tabs class="q-mb-md topbar" @select="setActiveTab">
-      <q-tab
-        slot="title"
-        name="pending_approval"
-        label="pending approval 0"
-        default
-      />
-      <q-tab slot="title" name="approved" label="Approved 3" />
-      <q-tab slot="title" name="work_in_progress" label="work in progress 1" />
-      <q-tab slot="title" name="pending_claim" label="Pending claim 2" />
-      <q-tab slot="title" name="claimable" label="claimable 4" />
-      <q-tab slot="title" name="claimed" label="completed 101" />
-      <q-tab slot="title" name="cancelled" label="cancelled 100" />
+    <q-tabs class="q-mb-md topbar" v-model="active_tab">
+      <q-tab name="pending_approval" label="pending approval" />
+      <q-tab name="approved" label="Approved" />
+      <q-tab name="work_in_progress" label="work in progress" />
+      <q-tab name="pending_claim" label="Pending claim" />
+      <q-tab name="claimable" label="claimable" />
+      <q-tab name="claimed" label="completed" />
+      <q-tab name="cancelled" label="cancelled" />
     </q-tabs>
 
     <div
@@ -60,7 +55,7 @@
       <span v-else>No proposals available</span>
     </div>
 
-    <q-modal maximized v-model="expanded_modal">
+    <q-dialog v-model="expanded_modal">
       <q-carousel
         height="100%"
         quick-nav
@@ -85,7 +80,7 @@
           </div>
         </q-carousel-slide>
       </q-carousel>
-    </q-modal>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -105,7 +100,7 @@ export default {
       expanded_modal: false,
       expanded_modal_index: 0,
       wps: [],
-      active_tab: '',
+      active_tab: 'approved',
       pagination: {
         page: 1,
         max: 1,
@@ -123,6 +118,11 @@ export default {
   },
   methods: {
     async fetchWps (query) {
+      if (!this.getAccountName) {
+        return
+      }
+      query.proposer = this.getAccountName
+      console.log(`fetchWps`, query, this.getAccountName)
       this.loading = true
       let res = await this.$store.dispatch('dac/fetchWorkerProposals', query)
       console.log(res)
@@ -144,8 +144,7 @@ export default {
       this.fetchWps({
         status: stateEnum[this.active_tab],
         skip: skip,
-        limit: this.pagination.items_per_page,
-        proposer: this.getAccountName
+        limit: this.pagination.items_per_page
       })
     }
   },
@@ -154,6 +153,7 @@ export default {
     if (this.getWpConfig.service_account === null) {
       this.$store.dispatch('dac/fetchWpConfig')
     }
+    this.managePagination()
   },
   watch: {
     active_tab: function (newVal, oldVal) {
@@ -173,6 +173,11 @@ export default {
     },
 
     'pagination.page': function (newVal, oldVal) {
+      this.managePagination()
+    },
+
+    getAccountName: function () {
+      console.log(`fetchWps account name changed`)
       this.managePagination()
     }
   }
