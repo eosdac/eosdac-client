@@ -1,7 +1,7 @@
 <template>
   <div id="q-app">
     <ual vi-if="appName" :appName= "appName" :chains="chains" :authenticators="authenticators"/>
-    <dac-events dacId="eosdac" @notification="showNotify"></dac-events>
+    <dac-events @notification="showNotify"></dac-events>
     <router-view />
 <!--    <q-ajax-bar position="left" color="primary-light" size="3px" />-->
   </div>
