@@ -42,6 +42,10 @@ const store = new Vuex.Store({
     createPersistedState({
       key: 'user',
       paths: ['user.settings', 'user.language', 'user.msigIsSeenCache']
+    }),
+    createPersistedState({
+      key: 'ual',
+      paths: ['ual.SESSION']
     })
   ]
 })
