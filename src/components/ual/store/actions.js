@@ -45,17 +45,25 @@ export async function attemptAutoLogin ({ state, commit, dispatch }) {
     await dispatch('waitForAuthenticatorToLoad', authenticator)
     if (authenticator.initError) {
       console.log(
-        `Attempt to auto login with authenticator ${authenticatorName} failed because it's not available anymore.`
+        `Attempt to auto login with authenticator ${authenticatorName} failed.`
       )
-      commit('setSESSION', { accountName: null, authenticatorName: null })
+      window.setTimeout(async () => {
+        authenticator.reset()
+        await dispatch('attemptAutoLogin')
+
+        // commit('setSESSION', { accountName: null, authenticatorName: null })
+      }, 500)
+
       return
     }
+
     authenticator
       .login(accountName)
       .then(() => {
         commit('setSESSION', { accountName, authenticatorName })
         commit('setAccountName', accountName)
         commit('setActiveAuthenticator', authenticator)
+        dispatch('user/loggedInRoutine', accountName, { root: true })
       })
       .catch(e => {
         commit('setSESSION', { accountName: null, authenticatorName: null })

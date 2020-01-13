@@ -214,7 +214,7 @@ export default {
     this.$store.dispatch('dac/initRoutine', this)
     // this.$root.$emit('helloc');
     // await this.$store.dispatch('global/connectScatter')
-    await this.$store.dispatch('ual/attemptAutoLogin')
+    // await this.$store.dispatch('ual/attemptAutoLogin')
     this.loading = false
   },
 
