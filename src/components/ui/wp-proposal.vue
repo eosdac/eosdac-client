@@ -105,6 +105,7 @@
             'unorderedlist'
           ]"
           :text="wp.summary"
+          class="inline-doc"
         />
       </q-scroll-area>
 
