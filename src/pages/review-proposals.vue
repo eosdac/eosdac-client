@@ -1,5 +1,7 @@
 <template>
   <q-page class="q-pa-md">
+    <dac-events @notification="onDACEvent"></dac-events>
+
     <div class="row relative-position justify-start q-mb-md">
       <h4 class="q-display-1 q-my-none">
         {{$t('proposals.review_proposals')}} <span v-if="total">({{ total }})</span>
@@ -75,13 +77,15 @@
 
 <script>
 import Msigproposal from 'components/ui/msig-proposal'
+import dacEvents from 'components/dacevents/dac-events'
 
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'ReviewMsigs',
   components: {
-    Msigproposal
+    Msigproposal,
+    dacEvents
   },
 
   data () {
@@ -113,6 +117,11 @@ export default {
   },
 
   methods: {
+    onDACEvent (data) {
+      if (data.notify.substr(0, 5) === 'MSIG_') {
+        this.managePagination()
+      }
+    },
     managePagination () {
       // map tab to number for making the request
       const map = { open: 1, executed: 2, cancelled: 0, expired: 3 }
