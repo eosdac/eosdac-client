@@ -31,9 +31,8 @@ class ConfigLoader {
     this.theme = theme
 
     styledConsoleLog(
-      `<span style="color:white;background-color:hsl(268, 87%, 53%); font-size:21px; padding:5px;">Welcome To the ${this.get(
-        'dacname'
-      )} Member Client </span><span style="color:black; font-size:12px;">Pasting code in the console can be dangerous </span>`
+      `<span style="color:white;background-color:hsl(268, 87%, 53%); font-size:21px; padding:5px;">Welcome To the ${this.configFile.dacId} Member Client </span>
+<span style="color:black; font-size:12px;">Pasting code in the console can be dangerous </span>`
     )
   }
 
@@ -65,6 +64,8 @@ class ConfigLoader {
         return this.configFile.external
       case 'dacapi':
         return this.configFile.api.dac_api.replace(/\/+$/, '')
+      case 'dacws':
+        return this.configFile.api.dac_ws
       case 'financialaccounts':
         return this.configFile.financial_page_graphs
       default:
