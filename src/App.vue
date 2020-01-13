@@ -1,21 +1,24 @@
 <template>
   <div id="q-app">
     <ual vi-if="appName" :appName= "appName" :chains="chains" :authenticators="authenticators"/>
+    <dac-events dacId="eosdac" @notification="showNotify"></dac-events>
     <router-view />
 <!--    <q-ajax-bar position="left" color="primary-light" size="3px" />-->
   </div>
 </template>
 
 <script>
-// import { Notify } from 'quasar'
+import { Notify } from 'quasar'
 import theme from './extensions/branding/theme'
 import ual from 'components/ual/ual'
+import dacEvents from 'components/dacevents/dac-events'
 import { Scatter } from 'ual-scatter'
 
 export default {
   name: 'App',
   components: {
-    ual
+    ual,
+    dacEvents
   },
 
   data () {
@@ -59,6 +62,53 @@ export default {
     }
   },
   methods: {
+    async showNotify (data) {
+      console.log(`Notification`, data)
+      let msg = data.notify
+      let color = 'info'
+      let avatar = ''
+      let actor = data.actor
+      const p = await this.$profiles.getProfiles([data.actor])
+      if (p.length && p[0].profile.givenName) {
+        actor = `${p[0].profile.givenName} ${p[0].profile.familyName}`
+      }
+      const a = await this.$profiles.getAvatars([data.actor])
+      if (a.length && a[0].image) {
+        avatar = a[0].image
+      }
+
+      switch (data.notify) {
+        case 'MSIG_PROPOSED':
+          msg = `${data.msig_data.title} Proposed by ${actor}`
+          break
+        case 'MSIG_APPROVED':
+          msg = `${data.msig_data.title} Approved by ${actor}`
+          break
+        case 'MSIG_UNAPPROVED':
+          msg = `${data.msig_data.title} Unapproved by ${actor}`
+          color = 'warning'
+          break
+        case 'MSIG_CANCELLED':
+          msg = `${data.msig_data.title} Cancelled by ${actor}`
+          color = 'negative'
+          break
+        case 'MSIG_EXECUTED':
+          msg = `${data.msig_data.title} Executed by ${actor}`
+          color = 'positive'
+          break
+        case 'VOTES_CHANGED':
+          msg = `${data.msig_data.title} Executed by ${actor}`
+          color = 'positive'
+          break
+      }
+      Notify.create({
+        message: msg,
+        timeout: 5000,
+        color,
+        avatar,
+        position: 'top-right'
+      })
+    }
     /* checkVersionChange () {
       // check if localstorage needs an update
       let stored_version = this.$store.getters[
@@ -110,7 +160,7 @@ export default {
         message: `Failed to connect to network`,
         detail: `Please reload later`,
         timeout: 4000,
-        type: 'error',
+        color: 'error',
         position: 'bottom-right'
       })
     }
