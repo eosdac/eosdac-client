@@ -13,6 +13,10 @@ import theme from './extensions/branding/theme'
 import ual from 'components/ual/ual'
 import dacEvents from 'components/dacevents/dac-events'
 import { Scatter } from 'ual-scatter'
+import { Ledger } from 'ual-ledger'
+import { Lynx } from 'ual-lynx'
+import { Wax } from 'ual-wax'
+import { TokenPocket } from 'ual-token-pocket'
 
 export default {
   name: 'App',
@@ -41,13 +45,17 @@ export default {
       }]
     }]
     const authenticators = [
-      new Scatter(chains, { appName })/* ,
+      new Scatter(chains, { appName }),
       new Ledger(chains),
       new Lynx(chains, { appName: appName }),
-      new TokenPocket(chains),
+      new TokenPocket(chains)/* ,
       new Wax(chains, { appName: appName }),
         new EOSIOAuth(chains, { appName, protocol: 'eosio' }) */
     ]
+
+    if (network.blockchain === 'wax') {
+      authenticators.push(new Wax(chains, { appName: appName }))
+    }
 
     this.chains = chains
     this.authenticators = authenticators
