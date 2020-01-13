@@ -72,7 +72,7 @@ export default {
   methods: {
     async showNotify (data) {
       console.log(`Notification`, data)
-      let msg = data.notify
+      let message = data.notify
       let color = 'info'
       let avatar = ''
       let actor = data.actor
@@ -87,30 +87,67 @@ export default {
 
       switch (data.notify) {
         case 'MSIG_PROPOSED':
-          msg = `${data.msig_data.title} Proposed by ${actor}`
+          message = `${data.msig_data.title} Proposed by ${actor}`
           break
         case 'MSIG_APPROVED':
-          msg = `${data.msig_data.title} Approved by ${actor}`
+          message = `${data.msig_data.title} Approved by ${actor}`
           break
         case 'MSIG_UNAPPROVED':
-          msg = `${data.msig_data.title} Unapproved by ${actor}`
+          message = `${data.msig_data.title} Unapproved by ${actor}`
           color = 'warning'
           break
         case 'MSIG_CANCELLED':
-          msg = `${data.msig_data.title} Cancelled by ${actor}`
+          message = `${data.msig_data.title} Cancelled by ${actor}`
           color = 'negative'
           break
         case 'MSIG_EXECUTED':
-          msg = `${data.msig_data.title} Executed by ${actor}`
+          message = `${data.msig_data.title} executed by ${actor}`
           color = 'positive'
           break
         case 'VOTES_CHANGED':
-          msg = `${data.msig_data.title} Executed by ${actor}`
+          break
+        case 'WP_PROPOSED':
+          message = `${actor} created worker proposal ${data.wp_data.title}`
           color = 'positive'
           break
+        case 'WP_ARB_APPROVE':
+          message = `${data.wp_data.title} approved by arbitrator ${actor}`
+          color = 'warning'
+          break
+        case 'WP_CANCEL':
+          message = `${actor} cancelled worker proposal ${data.wp_data.title}`
+          color = 'negative'
+          break
+        case 'WP_COMMENT':
+          message = `${actor} commented on ${data.wp_data.title}`
+          break
+        case 'WP_COMPLETE_WORK':
+          message = `${actor} completed work on ${data.wp_data.title}`
+          color = 'positive'
+          break
+        case 'WP_FINALIZE':
+          message = `${actor} finalized ${data.wp_data.title}`
+          break
+        case 'WP_START_WORK':
+          message = `${actor} started work on ${data.wp_data.title}`
+          color = 'positive'
+          break
+        case 'WP_VOTED':
+          switch (data.action.data.vote) {
+            case 1:
+              message = `${actor} approved ${data.wp_data.title}`
+              color = 'positive'
+              break
+            case 2:
+              message = `${actor} disapproved ${data.wp_data.title}`
+              color = 'negative'
+              break
+          }
+          break
       }
+
       Notify.create({
-        message: msg,
+        message,
         timeout: 5000,
         color,
         avatar,
