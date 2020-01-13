@@ -31,8 +31,8 @@
             <profile-pic :accountname="wp.arbitrator" />
           </q-item-section>
           <q-item-section>
-            <q-item-label label>{{$t('workerproposal.arbitrator')}}</q-item-label>
-            <q-item-label sublabel>{{ wp.arbitrator }}</q-item-label>
+            <q-item-label label>{{$t('workerproposal.validator')}}</q-item-label>
+            <q-item-label caption>{{ wp.arbitrator }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item v-if="expanded">
