@@ -105,8 +105,8 @@
           </q-item-section>
 
           <q-item-section>
-            <q-item-label v-if="memberType !== 'non-member'">{{$t("menu.member_status")}}</q-item-label>
-            <q-item-label caption v-if="memberType !== 'non-member'">{{memberType}}</q-item-label>
+            <q-item-label v-if="memberType !== 'non-memberx'">{{$t("menu.member_status")}}</q-item-label>
+            <q-item-label caption v-if="memberType !== 'non-memberx'">{{memberType}}</q-item-label>
             <div v-else caption>
               <q-btn
                 color="primary"
@@ -191,9 +191,30 @@ export default {
     })
   },
 
+  methods: {
+    async updateMemberType () {
+      if (this.getAccountName) {
+        const p = await this.$profiles.getProfiles([this.getAccountName])
+        console.log(`mounted`, p, this.getAccountName)
+        if (p.length) {
+          console.log(p)
+          this.memberType = this.$helper.memberTypeToText(p[0].member_type)
+          return
+        }
+      }
+
+      this.memberType = 'non-member'
+    }
+  },
+
+  watch: {
+    getAccountName (accountName) {
+      console.log(`Account name changed `, accountName)
+    }
+  },
+
   async mounted () {
-    const p = await this.$profiles.getProfiles([this.getAccountName])
-    this.memberType = this.$helper.memberTypeToText(p[0].member_type)
+    this.updateMemberType()
   }
 }
 </script>
