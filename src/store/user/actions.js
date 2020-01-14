@@ -232,7 +232,7 @@ export async function transact (
           handler: () => {
             openURL(
               `${this._vm.$configFile.get('explorer')}/transaction/${
-                result.transaction_id
+                result.transactionId
               }`
             )
           }
