@@ -20,7 +20,7 @@
                 />
                 <q-icon
                   :name="$configFile.icon.liquid"
-                  style="margin-left:3px"
+                  class="q-ml-xs"
                   :title="$t('default.liquid_balance')"
                 />
                 </q-item-label>
@@ -56,7 +56,7 @@
               />
               <q-icon
                 :name="$configFile.icon.liquid"
-                style="margin-left:3px"
+                class="q-ml-xs"
                 title="Liquid Balance"
               />
             </q-item-label>
