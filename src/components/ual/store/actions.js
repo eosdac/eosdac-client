@@ -73,7 +73,7 @@ export async function attemptAutoLogin ({ state, commit, dispatch }) {
 }
 
 export async function transact ({ state, dispatch, commit }, payload) {
-  const { actions, afterTransact } = payload
+  const { actions } = payload
   commit('setSigningOverlay', { show: true, status: 0, msg: 'Waiting for Signature', isShowCloseButton: false })
   const user = state.activeAuthenticator.users[0]
   console.log(`Users`, user, state.activeAuthenticator.users)
@@ -83,15 +83,17 @@ export async function transact ({ state, dispatch, commit }, payload) {
     }
     return action
   })
+  let res = null
   try {
-    try {
-      await user.signTransaction({ actions: copiedActions }, { broadcast: true })
-      afterTransact()
-    } catch (e) {
-      afterTransact(parseUalError(e))
-    }
-  } catch {}
-  commit('setSigningOverlay', { show: false, status: 0 })
+    res = await user.signTransaction({ actions: copiedActions }, { broadcast: true })
+    // afterTransact()
+  } catch (e) {
+    const [errMsg, errCode] = parseUalError(e)
+    throw new Error(errMsg, errCode)
+  }
+  await commit('setSigningOverlay', { show: false, status: 0 })
+
+  return res
 }
 
 export function hideSigningOverlay ({ commit }, ms = 10000) {
@@ -109,7 +111,9 @@ function parseUalError (error) {
   if (error.cause) {
     cause = error.cause.reason || error.cause.message || 'Report this error to the eosDAC devs to enhance the UX'
     errorCode = error.cause.code || error.cause.errorCode
+  } else if (error.message) {
+    cause = error.message
+    errorCode = error.code
   }
-  console.log(cause)
-  return `${error}. ${cause} ${errorCode}`
+  return [cause, errorCode]
 }
