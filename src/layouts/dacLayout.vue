@@ -25,14 +25,14 @@
             <img
                     class="cursor-pointer gt-xs"
                     @click="$router.push('/')"
-                    src="../extensions/branding/images/logo/logo-main.svg"
+                    :src="logoURL"
                     style="height:48px;"
                     :title="$t('default.member_client')"
             />
             <img
                     class="cursor-pointer lt-sm"
                     @click="$router.push('/')"
-                    src="../extensions/branding/images/logo/logo-notext.svg"
+                    :src="logoNoTextURL"
                     style="height:48px;"
                     :title="$t('default.member_client')"
             />
@@ -95,7 +95,9 @@ export default {
   data () {
     return {
       loading: false,
-      leftDrawerOpen: true
+      leftDrawerOpen: true,
+      logoURL: require('../extensions/branding/images/logo/logo-main.svg'),
+      logoNoTextURL: require('../extensions/branding/images/logo/logo-notext.svg')
     }
   },
   computed: {
@@ -115,6 +117,16 @@ export default {
   },
 
   async mounted () {
+    const dirLogoURL = this.$dir.getRef(this.$dir.REF_LOGO_URL)
+    if (dirLogoURL) {
+      this.logoURL = dirLogoURL
+    }
+    const dirLogoNoTextURL = this.$dir.getRef(this.$dir.REF_LOGO_NOTEXT_URL)
+    if (dirLogoNoTextURL) {
+      this.logoNoTextURL = dirLogoNoTextURL
+    }
+
+    console.log(`logo`, this.$dir.getRef(this.$dir.REF_LOGO_URL))
     this.$store.commit('ui/setDrawerIsOpen', true)
   },
 
