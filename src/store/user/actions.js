@@ -242,14 +242,26 @@ export async function transact (
     // add a delay befor returning the transaction result. this to give nodes time to sync.
     return await new Promise(resolve => setTimeout(() => resolve(result), 500))
   } catch (e) {
-    console.log(`transaction error!`, e.type)
+    console.log(`transaction error!`, e)
     let message = 'unknown_error'
     if (e.type === 'signature_rejected') {
       message = 'transaction.signature_rejected'
       commit('ui/setShowTransactionOverlay', 'cancelled', { root: true })
     } else {
-      message = parseError(e.json)
+      if (e.json) {
+        message = parseError(e.json)
+      } else {
+        message = e.message
+      }
+
+      if (message.indexOf('ERR::') > -1) {
+        message = message.substr(message.indexOf('ERR::'))
+      }
+      const [, errI18n] = message.split('::')
+      message = i18n.t(`contract_errors.${errI18n}`)
+
       commit('ui/setShowTransactionOverlay', 'error', { root: true })
+      commit('ual/setSigningOverlay', { show: false, status: 0 }, { root: true })
     }
 
     Notify.create({
