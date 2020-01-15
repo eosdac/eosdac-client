@@ -16,7 +16,7 @@
     </q-tabs>
 
     <div
-      class="row q-pa-md q-mx-md justify-between"
+      class="row q-pa-md q-mx-md"
       v-if="pagination.max > 1"
     >
       <!--<q-search
@@ -44,7 +44,7 @@
     </div>
     <div
       v-else
-      class="bg-logo-sm q-pa-md rounded-borders shadow-4 capitalize"
+      class="bg-logo-sm q-pa-md shadow-4 rounded-borders justify-between"
     >
       <span v-if="msigs_loading" class="row items-center">
         <q-spinner-pie class="on-left" color="primary" />{{$t('proposals.loading')}}
@@ -53,7 +53,7 @@
     </div>
 
     <div
-      class="row q-pa-md q-my-md justify-between"
+      class="row q-pa-md q-my-md"
       v-if="pagination.max > 1"
     >
 <!--      <q-search-->
