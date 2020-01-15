@@ -439,11 +439,11 @@ export default {
       const colorsData = JSON.stringify({ colors: this.brandData.colors, is_dark: this.brandData.is_dark })
 
       const actions = []
-      actions.push(this.getBrandAction(this.$dir.REF_COLORS, colorsData))
       actions.push(this.getBrandAction(this.$dir.REF_CLIENT_EXTENSION, this.brandData.extension))
       actions.push(this.getBrandAction(this.$dir.REF_DESCRIPTION, this.brandData.description))
       actions.push(this.getBrandAction(this.$dir.REF_HOMEPAGE, this.brandData.homepage))
       if (!this.brandData.extension) {
+        actions.push(this.getBrandAction(this.$dir.REF_COLORS, colorsData))
         actions.push(this.getBrandAction(this.$dir.REF_LOGO_URL, this.brandData.logoUrl))
         actions.push(this.getBrandAction(this.$dir.REF_LOGO_NOTEXT_URL, this.brandData.logoNoTextUrl))
         actions.push(this.getBrandAction(this.$dir.REF_BACKGROUND_URL, this.brandData.backgroundUrl))
