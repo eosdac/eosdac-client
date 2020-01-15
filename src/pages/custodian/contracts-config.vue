@@ -102,12 +102,32 @@
                 </q-card-section>
 
                 <q-card-section>
+                  <q-input v-model="brandData.homepage" :label="$t('contracts_config.branding_homepage')" />
+                </q-card-section>
+
+                <q-card-section>
+                  <q-input type="textarea" v-model="brandData.description" :label="$t('contracts_config.branding_description')" />
+                </q-card-section>
+
+                <q-card-section v-if="!brandData.extension">
+                  <q-input v-model="brandData.logoUrl" :label="$t('contracts_config.branding_logo')" />
+                </q-card-section>
+
+                <q-card-section v-if="!brandData.extension">
+                  <q-input v-model="brandData.logoNoTextUrl" :label="$t('contracts_config.branding_logo_notext')" />
+                </q-card-section>
+
+                <q-card-section v-if="!brandData.extension">
+                  <q-input v-model="brandData.backgroundUrl" :label="$t('contracts_config.branding_background_url')" />
+                </q-card-section>
+
+                <q-card-section>
                   <q-input v-model="brandData.extension" :label="$t('contracts_config.branding_extension')" />
                 </q-card-section>
               </q-card>
             </div>
             <div class="col-md-6">
-              <q-card>
+              <q-card v-if="!brandData.extension">
                 <q-card-section>
                   <q-toggle v-model="brandData.is_dark" :label="$t('contracts_config.branding_dark_theme')" />
                 </q-card-section>
@@ -190,6 +210,13 @@
                   </q-item>
 
                 </q-card-section>
+
+                <q-card-actions align="right">
+                  <q-btn color="positive" :label="$t('contracts_config.branding_propose_changes')" @click="saveBrand" />
+                </q-card-actions>
+              </q-card>
+              <q-card v-else>
+                <q-card-section class="text-warning">{{$t('contracts_config.branding_colors_disabled')}}</q-card-section>
 
                 <q-card-actions align="right">
                   <q-btn color="positive" :label="$t('contracts_config.branding_propose_changes')" @click="saveBrand" />
@@ -292,7 +319,13 @@ export default {
     loadBrand () {
       const theme = JSON.parse(this.$dir.getRef(this.$dir.REF_COLORS))
       const extension = this.$dir.getRef(this.$dir.REF_CLIENT_EXTENSION)
-      this.brandData = { ...theme, dacName: this.$dir.title, extension }
+      const description = this.$dir.getRef(this.$dir.REF_DESCRIPTION)
+      const homepage = this.$dir.getRef(this.$dir.REF_HOMEPAGE)
+      const logoUrl = this.$dir.getRef(this.$dir.REF_LOGO_URL)
+      const logoNoTextUrl = this.$dir.getRef(this.$dir.REF_LOGO_NOTEXT_URL)
+      const backgroundUrl = this.$dir.getRef(this.$dir.REF_BACKGROUND_URL)
+
+      this.brandData = { ...theme, dacName: this.$dir.title, extension, description, homepage, logoUrl, logoNoTextUrl, backgroundUrl }
     },
     async saveCustodianConfig () {
       console.log(`Saving custodian config`, this.custodianConfig)
@@ -384,42 +417,37 @@ export default {
       })
       console.log(res)
     },
+    getBrandAction (type, value) {
+      return {
+        account: this.$configFile.get('dacdirectory'),
+        name: 'regref',
+        authorization: [
+          {
+            actor: this.$dir.getAccount(this.$dir.ACCOUNT_AUTH),
+            permission: 'active'
+          }
+        ],
+        data: {
+          dac_id: this.$dir.dacId,
+          value,
+          type
+        }
+      }
+    },
     async saveBrand () {
       console.log(`Saving branding`, this.brandData)
       const colorsData = JSON.stringify({ colors: this.brandData.colors, is_dark: this.brandData.is_dark })
 
-      const actions = [
-        {
-          account: this.$configFile.get('dacdirectory'),
-          name: 'regref',
-          authorization: [
-            {
-              actor: this.$dir.getAccount(this.$dir.ACCOUNT_AUTH),
-              permission: 'active'
-            }
-          ],
-          data: {
-            dac_id: this.$dir.dacId,
-            value: colorsData,
-            type: this.$dir.REF_COLORS
-          }
-        },
-        {
-          account: this.$configFile.get('dacdirectory'),
-          name: 'regref',
-          authorization: [
-            {
-              actor: this.$dir.getAccount(this.$dir.ACCOUNT_AUTH),
-              permission: 'active'
-            }
-          ],
-          data: {
-            dac_id: this.$dir.dacId,
-            value: this.brandData.extension,
-            type: this.$dir.REF_CLIENT_EXTENSION
-          }
-        }
-      ]
+      const actions = []
+      actions.push(this.getBrandAction(this.$dir.REF_COLORS, colorsData))
+      actions.push(this.getBrandAction(this.$dir.REF_CLIENT_EXTENSION, this.brandData.extension))
+      actions.push(this.getBrandAction(this.$dir.REF_DESCRIPTION, this.brandData.description))
+      actions.push(this.getBrandAction(this.$dir.REF_HOMEPAGE, this.brandData.homepage))
+      if (!this.brandData.extension) {
+        actions.push(this.getBrandAction(this.$dir.REF_LOGO_URL, this.brandData.logoUrl))
+        actions.push(this.getBrandAction(this.$dir.REF_LOGO_NOTEXT_URL, this.brandData.logoNoTextUrl))
+        actions.push(this.getBrandAction(this.$dir.REF_BACKGROUND_URL, this.brandData.backgroundUrl))
+      }
 
       console.log(actions)
       const res = await this.$store.dispatch('user/proposeMsig', {
@@ -428,6 +456,12 @@ export default {
         description: ''
       })
       console.log(res)
+    },
+
+    setBrand (type, color) {
+      if (!this.brandData.extension) {
+        colors.setBrand(type, color)
+      }
     }
   },
 
@@ -464,25 +498,25 @@ export default {
       }
     },
     'brandData.colors.primary': function (newData) {
-      colors.setBrand('primary', newData)
+      this.setBrand('primary', newData)
     },
     'brandData.colors.secondary': function (newData) {
-      colors.setBrand('secondary', newData)
+      this.setBrand('secondary', newData)
     },
     'brandData.colors.accent': function (newData) {
-      colors.setBrand('accent', newData)
+      this.setBrand('accent', newData)
     },
     'brandData.colors.positive': function (newData) {
-      colors.setBrand('positive', newData)
+      this.setBrand('positive', newData)
     },
     'brandData.colors.negative': function (newData) {
-      colors.setBrand('negative', newData)
+      this.setBrand('negative', newData)
     },
     'brandData.colors.info': function (newData) {
-      colors.setBrand('info', newData)
+      this.setBrand('info', newData)
     },
     'brandData.colors.warning': function (newData) {
-      colors.setBrand('warning', newData)
+      this.setBrand('warning', newData)
     },
     'brandData.is_dark': function (newData) {
       this.$q.dark.set(newData)
