@@ -268,6 +268,11 @@ export async function transact (
       message = i18n.t(`contract_errors.scatter_firewall`)
     }
 
+    // remove standard eosio prefix
+    if (message.indexOf('assertion failure with message: ') === 0) {
+      message = message.replace('assertion failure with message: ', '')
+    }
+
     if (type === 'error') {
       await commit('ui/setShowTransactionError', i18n.t(message), { root: true })
     } else if (type === 'reject') {
