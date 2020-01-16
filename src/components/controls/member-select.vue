@@ -1,8 +1,7 @@
 <template>
   <q-item class="memberselector no-padding">
-    <q-item-section side v-if="show_selected" style="height:40px">
+    <q-item-section side v-if="show_selected">
       <profile-pic
-        style="margin-top:-10px; margin-left:-8px"
         :border="false"
         :show_role="false"
         :class="{ itsmeclass: checkItsMe }"
@@ -10,24 +9,31 @@
         :scale="0.69"
       />
     </q-item-section>
+    <q-separator spaced />
     <q-item-section>
       <q-select
-        color="primary"
-        :options="getOptions"
-        :label="label"
-        :value="selected"
-      ></q-select>
+              color="primary"
+              :options="accountnames"
+              :label="label"
+              v-model="selected"
+      >
+        <template v-slot:before>
+          <q-avatar>
+            <profile-pic :accountname="selected" />
+          </q-avatar>
+        </template>
+      </q-select>
     </q-item-section>
   </q-item>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-// import profilePic from 'components/ui/profile-pic'
+import profilePic from 'components/ui/profile-pic'
 export default {
   name: 'memberSelect',
   components: {
-    // profilePic
+    profilePic
   },
   props: {
     value: String,

@@ -391,6 +391,7 @@ export default {
     'pending_approval': 'Pending Approval',
     'work_in_progress': 'Work in Progress',
     'pending_claim': 'Pending Claim',
+    'validated': 'Work Validated',
     'completed': 'Completed',
     'expired': 'Expired',
     'cancelled': 'Cancelled',
