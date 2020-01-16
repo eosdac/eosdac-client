@@ -74,7 +74,7 @@ export async function attemptAutoLogin ({ state, commit, dispatch }) {
 
 export async function transact ({ state, dispatch, commit }, payload) {
   const { actions } = payload
-  commit('setSigningOverlay', { show: true, status: 0, msg: 'Waiting for Signature', isShowCloseButton: false })
+  // commit('setSigningOverlay', { show: true, status: 0, msg: 'Waiting for Signature', isShowCloseButton: false })
   const user = state.activeAuthenticator.users[0]
   console.log(`Users`, user, state.activeAuthenticator.users)
   const copiedActions = actions.map((action, index) => {

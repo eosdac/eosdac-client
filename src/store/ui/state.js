@@ -3,5 +3,6 @@
 export default {
   enableTransactionOverlay: true,
   showTransactionOverlay: false,
+  showTransactionError: null,
   drawerIsOpen: true
 }

@@ -3,12 +3,28 @@
     <ual vi-if="appName" :appName= "appName" :chains="chains" :authenticators="authenticators"/>
     <dac-events @notification="showNotify"></dac-events>
     <router-view />
+
+    <q-dialog persistent v-model="getShowTransaction">
+      <q-card>
+        <q-card-section class="row items-center">
+          <q-avatar icon="error" color="negative" />
+          <span class="q-ml-sm">{{$t('transaction.error')}}</span>
+        </q-card-section>
+
+        <q-card-section v-html="getShowTransactionError"></q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn label="Close" color="primary" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
 <!--    <q-ajax-bar position="left" color="primary-light" size="3px" />-->
   </div>
 </template>
 
 <script>
 import { Notify } from 'quasar'
+import { mapGetters } from 'vuex'
 import theme from './extensions/branding/theme'
 import ual from 'components/ual/ual'
 import dacEvents from 'components/dacevents/dac-events'
@@ -23,6 +39,22 @@ export default {
   components: {
     ual,
     dacEvents
+  },
+
+  computed: {
+    ...mapGetters({
+      getShowTransactionError: 'ui/getShowTransactionError'
+    }),
+    getShowTransaction: {
+      set: function (newVal) {
+        if (newVal === false) {
+          this.$store.commit('ui/setShowTransactionError', null, { root: true })
+        }
+      },
+      get: function () {
+        return !!this.getShowTransactionError
+      }
+    }
   },
 
   data () {
@@ -227,8 +259,6 @@ export default {
         default: this.$t('meta.noscript')
       }
     }
-  },
-
-  watch: {}
+  }
 }
 </script>

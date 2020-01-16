@@ -242,10 +242,12 @@ export async function transact (
     // add a delay befor returning the transaction result. this to give nodes time to sync.
     return await new Promise(resolve => setTimeout(() => resolve(result), 500))
   } catch (e) {
-    console.log(`transaction error!`, e)
+    console.log(`transaction error! ${e}`, e.type)
+    let type = 'error'
     let message = 'unknown_error'
-    if (e.type === 'signature_rejected') {
+    if (e.type === 'signature_rejected' || e.message === 'User rejected the signature request') {
       message = 'transaction.signature_rejected'
+      type = 'reject'
       commit('ui/setShowTransactionOverlay', 'cancelled', { root: true })
     } else {
       if (e.json) {
@@ -256,23 +258,32 @@ export async function transact (
 
       if (message.indexOf('ERR::') > -1) {
         message = message.substr(message.indexOf('ERR::'))
+        const [, errI18n] = message.split('::')
+        message = i18n.t(`contract_errors.${errI18n}`)
       }
-      const [, errI18n] = message.split('::')
-      message = i18n.t(`contract_errors.${errI18n}`)
 
       commit('ui/setShowTransactionOverlay', 'error', { root: true })
-      commit('ual/setSigningOverlay', { show: false, status: 0 }, { root: true })
     }
 
-    Notify.create({
-      message: i18n.t('transaction.error'),
-      timeout: 7000, // in milliseconds; 0 means no timeout
-      icon: 'report_problem',
-      color: 'negative',
-      caption: i18n.t(message),
-      position: 'bottom-right', // 'top', 'left', 'bottom-left' etc.
-      closeBtn: true // or string as button message e.g. 'dismiss'
-    })
+    // Scatter specific errors
+    if (message === 'firewalled' || message === 'malicious') {
+      message = i18n.t(`contract_errors.scatter_firewall`)
+    }
+
+    if (type === 'error') {
+      await commit('ui/setShowTransactionError', i18n.t(message), { root: true })
+    } else if (type === 'reject') {
+      Notify.create({
+        message: i18n.t('transaction.rejected'),
+        timeout: 7000, // in milliseconds; 0 means no timeout
+        icon: 'report_problem',
+        color: 'warning',
+        caption: i18n.t(message),
+        position: 'bottom-right', // 'top', 'left', 'bottom-left' etc.
+        closeBtn: true // or string as button message e.g. 'dismiss'
+      })
+    }
+
     return false
   }
 }

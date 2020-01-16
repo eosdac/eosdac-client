@@ -100,7 +100,8 @@ export default {
     'VOTECUST_VOTING_IS_DISABLED': 'Voting is currently disabled.',
     'VOTEPROP_INVALID_PROPOSAL_STATE': 'Invalid proposal state to accept votes.',
     'VOTEPROP_INVALID_VOTE': 'Invalid vote for the current proposal state.',
-    'VOTEPROP_PROPOSAL_NOT_FOUND': 'Proposal not found.'
+    'VOTEPROP_PROPOSAL_NOT_FOUND': 'Proposal not found.',
+    'scatter_firewall': 'Scatter has blocked this request.  Please check Scatter under Settings > Firewall and remove eosio.msig::approve if it is there.'
   },
   'dac_financials': {
     'clear': 'Clear All',
@@ -319,6 +320,7 @@ export default {
     'please_login': 'Please Login',
     'signature_rejected': 'You have cancelled the transaction',
     'transaction': 'Transaction',
+    'rejected': 'Rejected',
     'transaction_cancelled': 'Transaction Cancelled',
     'transaction_successful': 'Transaction Successful',
     'waiting_for_signature': 'waiting for signature',

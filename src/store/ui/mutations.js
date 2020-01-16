@@ -5,6 +5,10 @@ export function setShowTransactionOverlay (state, payload) {
   // }
 }
 
+export function setShowTransactionError (state, payload) {
+  state.showTransactionError = payload
+}
+
 export function setEnableTransactionOverlay (state, payload) {
   state.enableTransactionOverlay = payload
 }
