@@ -67,7 +67,6 @@
 
         <div class="col-xs-12">
           <div class="row justify-end">
-            <q-btn color="warning" label="clear" @click="clearForm" />
             <q-btn color="primary" :label="$t('msig_transfer.form_add')" @click="processInputs" />
           </div>
         </div>
