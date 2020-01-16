@@ -75,6 +75,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { debounce } from 'quasar'
 import { required, maxLength } from 'vuelidate/lib/validators'
 import { isEosName } from '../../modules/validators.js'
 import AssetInput from '../ui/asset-input'
@@ -224,7 +225,7 @@ export default {
     }
   },
   mounted () {
-    this.setTokens()
+    this.setTokens = debounce(this.setTokens, 500)
   },
   watch: {
     'form.from': function () {
