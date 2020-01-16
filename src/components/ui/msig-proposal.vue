@@ -73,7 +73,10 @@
                     {{$t('proposal.proposal_name')}}
                   </q-item-label>
                   <q-item-label caption>
-                    {{ msig.proposal_name }}
+                    <a
+                      target="_blank"
+                      :href="$configFile.get('explorer_msig').replace('{proposer}', msig.proposer).replace('{proposal_name}', msig.proposal_name)"
+                      >{{ msig.proposal_name }}</a>
                   </q-item-label>
                 </q-item-section>
               </q-item>
