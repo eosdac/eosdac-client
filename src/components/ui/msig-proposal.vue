@@ -2,7 +2,6 @@
   <div class="proposal-container">
     <q-expansion-item
         icon-toggle
-        label="First"
         group="msigproposals"
         header-class="msigproposal_header"
         :collapse-icon="$configFile.icon.collapse"
@@ -52,47 +51,106 @@
         </q-item-section>
         </template>
 
-      <q-card>
-        <q-card-section>
-          <MarkdownViewer
-                    :tags="[
-                      'h1',
-                      'h2',
-                      'h3',
-                      'italic',
-                      'bold',
-                      'underline',
-                      'strikethrough',
-                      'subscript',
-                      'superscript',
-                      'anchor',
-                      'orderedlist',
-                      'unorderedlist'
-                    ]"
-                    :text="msig.description"
-            />
-        </q-card-section>
+      <div class="row q-pa-md q-col-gutter-md">
 
-        <q-card-section>
-          {{$t('proposal.proposal_name')}}: {{ msig.proposal_name }}
-        </q-card-section>
-        <q-card-section>
-          {{$t('proposal.proposed_by')}}:
-          <router-link :to="{ path: '/profile/' + msig.proposer }">{{
-            msig.proposer
-            }}</router-link>
-        </q-card-section>
+        <div class="col-md-8">
+          <q-card class="full-height">
+            <q-card-section>
+              <MarkdownViewer
+                      :text="msig.description"
+              />
+            </q-card-section>
+          </q-card>
 
-        <q-card-section>
-          <Actionparser
-                  @seenAllActions="disable_approve = false"
-                  :actions="msig.trx.actions"
-          />
-        </q-card-section>
+        </div>
+        <div class="col-md-4">
+          <q-card>
+            <!-- Proposal name -->
+            <q-card-section>
+              <q-item>
+                <q-item-section>
+                  <q-item-label>
+                    {{$t('proposal.proposal_name')}}
+                  </q-item-label>
+                  <q-item-label caption>
+                    {{ msig.proposal_name }}
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-card-section>
 
-        <q-card-actions align="right" v-if="!read_only">
+            <!-- Proposal transaction id -->
+            <q-card-section>
+              <q-item>
+                <q-item-section>
+                  <q-item-label>
+                    {{$t('proposal.trx')}}
+                  </q-item-label>
+                  <q-item-label caption>
+                    <a
+                      target="_blank"
+                      :href="$configFile.get('explorer_transaction').replace('{transaction_id}', msig.trxid)"
+                      >{{ $helper.truncate(msig.trxid, 20) }}</a>
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-card-section>
 
-            <q-btn-group v-if="msig.status === 1">
+            <!-- Proposed by -->
+            <q-card-section>
+              <q-item>
+                <q-item-section>
+                  <q-item-label>
+                    {{$t('proposal.proposed_by')}}
+                  </q-item-label>
+                  <q-item-label caption>
+                    <router-link :to="{ path: '/profile/' + msig.proposer }">{{msig.proposer }}</router-link>
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-card-section>
+
+            <!-- Executed by -->
+            <q-card-section v-if="msig.executer">
+              <q-item>
+                <q-item-section>
+                  <q-item-label>
+                    {{$t('proposal.executed_by')}}
+                  </q-item-label>
+                  <q-item-label caption>
+                    <router-link :to="{ path: '/profile/' + msig.executer }">{{msig.executer}}</router-link>
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-card-section>
+
+            <!-- Executed transaction id -->
+            <q-card-section v-if="msig.executed_trxid">
+              <q-item>
+                <q-item-section>
+                  <q-item-label>
+                    {{$t('proposal.executed_trx')}}
+                  </q-item-label>
+                  <q-item-label caption>
+                    <a
+                            target="_blank"
+                            :href="$configFile.get('explorer_transaction').replace('{transaction_id}', msig.executed_trxid)"
+                    >{{ $helper.truncate(msig.executed_trxid, 20) }}</a>
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-card-section>
+
+            <q-card-section class="bg-secondary">
+              <Actionparser
+                      @seenAllActions="disable_approve = false"
+                      :actions="msig.trx.actions"
+              />
+            </q-card-section>
+
+            <q-card-actions align="right" v-if="!read_only">
+
+              <q-btn-group v-if="msig.status === 1">
                 <q-btn
                         v-if="!isApproved"
                         color="positive"
@@ -118,8 +176,8 @@
                         :label="$t('proposal.execute')"
                         @click="executeProposal(msig.proposer, msig.proposal_name)"
                 />
-          </q-btn-group>
-          <q-btn-group v-if="msig.status === 3">
+              </q-btn-group>
+              <q-btn-group v-if="msig.status === 3">
                 <q-btn
                         v-if="isCreator"
                         color="negative"
@@ -131,9 +189,12 @@
                         :label="$t('proposal.resubmit')"
                         @click="resubmit(msig)"
                 />
-          </q-btn-group>
-        </q-card-actions>
-      </q-card>
+              </q-btn-group>
+            </q-card-actions>
+          </q-card>
+        </div>
+
+      </div>
     </q-expansion-item>
 
     <q-separator />

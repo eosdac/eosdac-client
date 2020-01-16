@@ -1,48 +1,27 @@
 <template>
   <div>
-    <div class="row items-center" v-for="(action, key) in actions" v-bind:key="key">
-      <q-item>
-        <q-item-section avatar>
+    <q-list separator>
+      <q-item v-for="(action, key) in actions" :key="key">
+        <q-item-section v-if="actionMetadata[key].type === 'transfer'" avatar>
+          $
+        </q-item-section>
+        <q-item-section v-else avatar class="q-pa-none">
           <display-action :action="action" viewable />
         </q-item-section>
+        <q-item-section v-if="actionMetadata[key].type === 'transfer'">
+          <q-item-label>{{$t('action.transfer')}} <b>{{action.data.quantity}} ({{action.account}})</b></q-item-label>
+          <q-item-label caption>{{action.data.from}} -> {{action.data.to}}</q-item-label>
+          <q-item-label caption>{{action.data.memo}}</q-item-label>
+        </q-item-section>
+        <q-item-section v-else>
+          <q-item-label>{{action.account}} :: {{action.name}}</q-item-label>
+          <q-item-label caption>{{$t('action.click_icon')}}</q-item-label>
+        </q-item-section>
+        <q-item-section side>
+          <q-item-label v-for="(auth, a) in action.authorization" :key="a">{{auth.actor}}@{{auth.permission}}</q-item-label>
+        </q-item-section>
       </q-item>
-      <q-item>
-        <q-breadcrumbs separator=">" inlist="">
-          <q-breadcrumbs-el :label="action.account" />
-          <q-breadcrumbs-el :label="action.name" />
-        </q-breadcrumbs>
-      </q-item>
-      <q-item>
-        <span class="q-pa-sm">
-        <span class="on-left">Authorization</span>
-        <span>{{
-          action.authorization
-            .map(a => a.actor + "@" + a.permission)
-            .join(", ")
-        }}</span>
-      </span>
-      </q-item>
-
-    </div>
-    <!-- <q-carousel
-      v-model="activeSlide"
-      @input="handleslide($event)"
-    >
-      <q-carousel-slide v-for="(action, i) in actions" :key="i + 'actionslide'">
-        <div
-          class="action_data_parser q-py-md"
-          v-for="(key, i) in Object.keys(action.data)"
-          :key="i + 'actionkey'"
-        >
-          <div>
-            <span>{{ key }}: </span
-            ><span>{{ action.data[key] }}</span>
-          </div>
-        </div>
-      </q-carousel-slide>
-    </q-carousel> -->
-
-    <!-- controls -->
+    </q-list>
   </div>
 </template>
 
@@ -57,7 +36,17 @@ export default {
   props: {
     actions: Array
   },
-  computed: {},
+  computed: {
+    actionMetadata () {
+      return this.actions.map((a) => {
+        const ret = { type: 'custom' }
+        if (a.name === 'transfer' && a.data.from && a.data.to && a.data.quantity) {
+          ret.type = 'transfer'
+        }
+        return ret
+      })
+    }
+  },
 
   data () {
     return {
@@ -67,28 +56,10 @@ export default {
   },
 
   methods: {
-    nextAction () {
-      if (this.activeSlide < this.actions.length - 1) this.activeSlide++
-    },
-    prevAction () {
-      if (this.activeSlide > 0) this.activeSlide--
-    },
     parseActionData (actiondata) {
       let values = Object.values(actiondata)
       return values
-    },
-    handleslide (e) {
-      // console.log('slide',e)
-      this.activeSlide = e
-      if (this.activeSlide === this.actions.length - 1 && !this.seenAll) {
-        this.seenAll = true
-        this.$emit('seenAllActions')
-      }
     }
-  },
-
-  mounted: function () {
-    if (this.actions.length === 1) this.$emit('seenAllActions')
   }
 }
 </script>

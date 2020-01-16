@@ -365,6 +365,9 @@ export default {
   },
 
   'proposal': {
+    'trx': 'Proposal Transaction ID',
+    'executed_by': 'Executed by',
+    'executed_trx': 'Executed Transaction ID',
     'expiration': 'Expiration',
     'received_approvals': 'Received Approvals',
     'proposal_name': 'Proposal Name',
@@ -375,6 +378,11 @@ export default {
     'execute': 'execute',
     'resubmit': 'resubmit',
     'approvals': 'Approvals'
+  },
+
+  'action': {
+    'transfer': 'Transfer',
+    'click_icon': 'Click the icon to view data'
   },
 
   'workerproposals': {
