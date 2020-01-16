@@ -605,6 +605,21 @@ export default {
     'approval_expiry_desc': ''
   },
 
+  'msig_transfer': {
+    'form_title': 'Title',
+    'form_title_error': 'Title is required and can\'t be longer than 230 chars',
+    'form_description': 'Description',
+    'form_description_error': 'Description is required and can\'t be longer than 900 chars',
+    'form_from': 'From',
+    'form_from_error': 'Select a from account',
+    'form_to': 'To',
+    'form_to_error': 'Please enter a valid accountname',
+    'form_quantity': 'Quantity',
+    'form_memo': 'Memo',
+    'form_memo_error': 'Memo can\'t be longer then 255 chars.',
+    'form_add': 'add'
+  },
+
   'ual': {
     'close': 'Close',
     'connecting_to': 'Connecting to {name}...',

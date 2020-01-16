@@ -4,9 +4,9 @@
           <q-input
                   v-model="form.title"
                   @input="$v.form.title.$touch()"
-                  label="Title"
+                  :label="$t('msig_transfer.form_title')"
                    :error="$v.form.title.$error"
-                   error-label="Title is required and can't be longer than 230 chars"
+                   :error-label="$t('msig_transfer.form_title_error')"
           />
 
         </div>
@@ -15,18 +15,19 @@
           <q-input
                   type="textarea"
                   v-model="form.description"
-                  label="Description"
+                  :label="$t('msig_transfer.form_description')"
                   :error="$v.form.description.$error"
-                  error-message="Description is required and can't be longer than 900 chars"
+                  :error-message="$t('msig_transfer.form_description_error')"
                   @input="$v.form.description.$touch()"
           />
         </div>
 
         <div class="col-xs-12 col-lg-6">
           <q-input v-model.trim="form.from" color="primary"
-                  label="From"
+                  :label="$t('msig_transfer.form_from')"
                    :error="$v.form.from.$error"
-                   error-message="Select a from account" />
+                  :error-message="$t('msig_transfer.form_from_error')"
+                    />
         </div>
 
         <div class="col-xs-12 col-lg-6">
@@ -34,15 +35,15 @@
             <q-input
                     v-model.trim="form.to"
                     @input="$v.form.to.$touch()"
-                    label="To"
+                  :label="$t('msig_transfer.form_to')"
                     :error="$v.form.to.$error"
-                    error-message="Please enter a valid accountname"
+                  :error-message="$t('msig_transfer.form_to_error')"
             />
           </div>
         </div>
 
         <div class="col-xs-12 col-lg-6">
-          <asset-input v-model="form.asset" :allowed="tokens" label="Quantity" />
+          <asset-input v-model="form.asset" :allowed="tokens" :label="$t('msig_transfer.form_quantity')" />
         </div>
 
         <div class="col-xs-12 col-lg-6">
@@ -50,9 +51,10 @@
                   v-model.trim="form.memo"
                   bottom-slots
                   class="no-padding"
-                  label="Memo"
+                  :label="$t('msig_transfer.form_memo')"
                   :error="$v.form.memo.$error"
-                  error-message="Memo can't be longer then 255 chars." />
+                  :error-message="$t('msig_transfer.form_memo_error')"
+                   />
             <!-- <q-field
                     borderless
                     label="Memo"
@@ -64,7 +66,7 @@
 
         <div class="col-xs-12">
           <div class="row justify-end">
-            <q-btn color="primary" label="add" @click="processInputs" />
+            <q-btn color="primary" :label="$t('msig_transfer.form_add')" @click="processInputs" />
           </div>
         </div>
       </div>
