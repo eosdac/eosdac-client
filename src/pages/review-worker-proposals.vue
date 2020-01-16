@@ -42,8 +42,8 @@
         />
     </div>
 
-    <div v-if="wps.length" class="row q-col-gutter-md">
-      <div class="col-xs-12 col-lg-6" v-for="(wp, i) in wps" :key="`wp${i}`">
+    <q-list separator v-if="wps.length" class="row">
+      <div class="col-12" v-for="(wp, i) in wps" :key="`wp${i}`">
         <wp-proposal
           :wp="wp"
           :array_index="i"
@@ -54,7 +54,7 @@
           @delete="wps.splice(i, 1)"
         />
       </div>
-    </div>
+    </q-list>
     <div
       v-else
       class="bg-logo-sm q-pa-md rounded-borders shadow-4 capitalize"
@@ -200,6 +200,14 @@ export default {
   created () {
     if (this.getWpConfig.service_account === null) {
       this.$store.dispatch('dac/fetchWpConfig')
+    }
+  },
+  mounted () {
+    if (this.getIsCustodian) {
+      this.active_tab = 'inbox'
+    } else {
+      this.active_tab = 'pending_approval'
+      this.managePagination()
     }
   },
   watch: {

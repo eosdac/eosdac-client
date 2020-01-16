@@ -1,5 +1,220 @@
 <template>
-  <div>
+  <div class="wp-container">
+    <q-expansion-item
+            icon-toggle
+            group="msigproposals"
+            header-class="wpproposal_header"
+            :collapse-icon="$configFile.icon.collapse"
+    >
+      <template v-slot:header>
+        <q-item-section avatar>
+          <profile-pic :accountname="wp.proposer" />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label>
+            {{ wp.title }}
+          </q-item-label>
+          <q-item-label caption><i>{{ $t(`${getCategoryNameFromId(wp.category)}`) }}</i></q-item-label>
+          <q-item-label caption>
+            <MarkdownViewer
+                    :tags="[]"
+                    :text="wp.summary.replace(/\n/g, '').replace(/#/g, '')"
+                    :maxlen="140"
+            />
+          </q-item-label>
+        </q-item-section>
+
+        <q-item-section>{{ wp.pay_amount.quantity }}</q-item-section>
+
+        <q-item-section style="max-width: 10%">
+          <q-item-label>{{$t('workerproposal.vote_threshold')}}</q-item-label>
+          <q-linear-progress :value="getVotingScore.score / getVotingScore.threshold" style="height:15px" color="positive" />
+          <q-item-label caption @click.stop="approvals_modal = true">
+            <span class="text-h6">{{ getVotingScore.score }}/{{ getVotingScore.threshold }}</span>
+          </q-item-label>
+        </q-item-section>
+      </template>
+
+      <div class="row q-pa-md q-col-gutter-md">
+
+        <div class="col-md-8">
+          <q-card class="full-height">
+            <q-card-section class="">
+              <MarkdownViewer :text="wp.summary" class="inline-doc" />
+            </q-card-section>
+          </q-card>
+
+        </div>
+        <div class="col-md-4">
+          <q-card>
+            <q-card-section>
+              <q-item>
+                <q-item-section>
+                  <q-item-label>{{$t('workerproposal.proposer')}}</q-item-label>
+                  <q-item-label caption>{{ wp.proposer }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-card-section>
+
+            <q-card-section>
+              <q-item>
+                <q-item-section>
+                  <q-item-label>{{$t('workerproposal.requested_pay')}}</q-item-label>
+                  <q-item-label caption>{{ wp.pay_amount.quantity }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-card-section>
+
+            <q-card-section>
+              <q-item>
+                <q-item-section>
+                  <q-item-label label>{{$t('workerproposal.validator')}}</q-item-label>
+                  <q-item-label caption>{{ wp.arbitrator }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-card-section>
+
+            <q-card-section>
+              <q-item>
+                <q-item-section>
+                  <q-item-label>{{$t('workerproposal.time_left')}}</q-item-label>
+                  <q-item-label caption>
+                    <countdown
+                            v-if="getExpiry.millisleft"
+                            :time="Number(getExpiry.millisleft)"
+                    >
+                      <template slot-scope="props">
+                        <div class="text-weight-light q-mb-xs">
+                          <span v-if="props.days">{{ props.days }} {{$t('workerproposal.days')}}, </span>
+                          <span v-if="props.hours">{{ props.hours }} {{$t('workerproposal.hours')}}, </span>
+                          <span v-if="props.minutes">{{ props.minutes }} {{$t('workerproposal.minutes')}}, </span>
+                          <span>{{ props.seconds }} {{$t('workerproposal.seconds')}}</span>
+                        </div>
+                      </template>
+                    </countdown>
+                    <div v-else class="q-caption text-weight-light q-mb-xs text-negative">
+                      {{$t('workerproposal.expired')}}
+                    </div>
+                    <q-linear-progress
+                            :value="getExpiry.percent"
+                            color="secondary"
+                            style="height: 4px"
+                    />
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-card-section>
+
+            <q-card-section>
+              <q-item>
+                <q-item-section>
+                  <q-item-label>{{$t('workerproposal.status')}}</q-item-label>
+                  <q-item-label caption>{{ wp.status }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-card-section>
+
+            <q-card-section>
+              <div class="q-mt-md full-width">
+                <div class="row justify-between items-center">
+
+                  <div v-if="!read_only && getAccountName" class="row">
+                    <member-select
+                            v-if="wp.status == 0 || wp.status == 2"
+                            :show_selected="false"
+                            @change="delegatevote($event)"
+                            :value="MyDirectDelegation || ''"
+                            :accountnames="getCustNames"
+                            placeholder="Select to Delegate"
+                            :underline="false"
+                            :label="$t('workerproposal.delegation')"
+                            ref="directDelSelect"
+                    />
+                    <div v-if="wp.status == 0">
+                      <q-btn
+                              v-if="getVoterStatus == 2 || getVoterStatus == 0"
+                              class="on-right animate-pop"
+                              color="positive"
+                              :label="$t('workerproposal.approve')"
+                              @click="voteprop('voteApprove')"
+                      />
+                      <q-btn
+                              v-if="getVoterStatus == 1 || getVoterStatus == 0"
+                              class="on-right animate-pop"
+                              color="negative"
+                              :label="$t('workerproposal.deny')"
+                              @click="voteprop('voteDeny')"
+                      />
+                    </div>
+                    <div v-else-if="wp.status == 2">
+                      <q-btn
+                              v-if="getVoterStatus == 4 || getVoterStatus == 0"
+                              class="on-right animate-pop"
+                              color="positive"
+                              :label="$t('workerproposal.approve_claim')"
+                              @click="voteprop('claimApprove')"
+                      />
+                      <q-btn
+                              v-if="getVoterStatus == 3 || getVoterStatus == 0"
+                              class="on-right animate-pop"
+                              color="negative"
+                              :label="$t('workerproposal.deny_claim')"
+                              @click="voteprop('claimDeny')"
+                      />
+                      <q-btn
+                              v-if="getIsArbitrator"
+                              class="on-right animate-pop"
+                              flat
+                              color="positive"
+                              :label="$t('workerproposal.arb_approve')"
+                              @click="arbApprove()"
+                      />
+                    </div>
+
+                    <div v-else-if="wp.status == 1">
+                      {{$t('workerproposal.work_is_in_progress')}}
+                    </div>
+                  </div>
+                  <div v-if="getIsCreator">
+                    <q-btn
+                            v-if="wp.status == 3"
+                            class="on-right animate-pop"
+                            color="info"
+                            :label="$t('workerproposal.start_work')"
+                            @click="startWork()"
+                    />
+                    <q-btn
+                            v-if="wp.status == 1"
+                            class="on-right animate-pop"
+                            color="info"
+                            :label="$t('workerproposal.complete_work')"
+                            @click="completeWork()"
+                    />
+                    <q-btn
+                            v-if="wp.status == 4"
+                            class="on-right animate-pop"
+                            color="info"
+                            :label="$t('workerproposal.claim')"
+                            @click="finalize()"
+                    />
+                    <q-btn
+                            class="on-right animate-pop"
+                            flat
+                            color="negative"
+                            :label="$t('workerproposal.cancel')"
+                            @click="cancelProp()"
+                    />
+                  </div>
+                </div>
+              </div>
+            </q-card-section>
+
+          </q-card>
+        </div>
+      </div>
+    </q-expansion-item>
+    <!--
     <div class="full-width">
       <div class="q-mb-md q-title relative-position">
         <div class="q-py-sm proposal-title-line">
@@ -118,117 +333,11 @@
       </div>
     </div>
 
-    <div class="q-mt-md full-width">
-      <div class="row justify-between items-center">
-        <div class="row" v-show="wp.status !== 5 && wp.status !== 100">
-          <q-item
-            @click.native="expand_votes_modal = true"
-            class="cursor-pointer no-padding"
-          >
-            <q-item-section>
-              <q-item-label>{{$t('workerproposal.vote_threshold')}}</q-item-label>
-              <q-item-label caption>
-                {{ getVotingScore }}
-              </q-item-label>
-            </q-item-section>
-          </q-item>
-        </div>
-
-        <div v-if="!read_only && getAccountName" class="row">
-          <member-select
-            v-if="wp.status == 0 || wp.status == 2"
-            :show_selected="false"
-            @change="delegatevote($event)"
-            :value="MyDirectDelegation || ''"
-            :accountnames="getCustNames"
-            placeholder="Select to Delegate"
-            :underline="false"
-            :label="$t('workerproposal.delegation')"
-            ref="directDelSelect"
-          />
-          <div v-if="wp.status == 0">
-            <q-btn
-              v-if="getVoterStatus == 2 || getVoterStatus == 0"
-              class="on-right animate-pop"
-              color="positive"
-              :label="$t('workerproposal.approve')"
-              @click="voteprop('voteApprove')"
-            />
-            <q-btn
-              v-if="getVoterStatus == 1 || getVoterStatus == 0"
-              class="on-right animate-pop"
-              color="negative"
-              :label="$t('workerproposal.deny')"
-              @click="voteprop('voteDeny')"
-            />
-          </div>
-          <div v-else-if="wp.status == 2">
-            <q-btn
-              v-if="getVoterStatus == 4 || getVoterStatus == 0"
-              class="on-right animate-pop"
-              color="positive"
-              :label="$t('workerproposal.approve_claim')"
-              @click="voteprop('claimApprove')"
-            />
-            <q-btn
-              v-if="getVoterStatus == 3 || getVoterStatus == 0"
-              class="on-right animate-pop"
-              color="negative"
-              :label="$t('workerproposal.deny_claim')"
-              @click="voteprop('claimDeny')"
-            />
-            <q-btn
-              v-if="getIsArbitrator"
-              class="on-right animate-pop"
-              flat
-              color="positive"
-              :label="$t('workerproposal.arb_approve')"
-              @click="arbApprove()"
-            />
-          </div>
-
-          <div v-else-if="wp.status == 1">
-            {{$t('workerproposal.work_is_in_progress')}}
-          </div>
-        </div>
-        <div v-if="getIsCreator">
-          <q-btn
-            v-if="wp.status == 3"
-            class="on-right animate-pop"
-            color="info"
-            :label="$t('workerproposal.start_work')"
-            @click="startWork()"
-          />
-          <q-btn
-            v-if="wp.status == 1"
-            class="on-right animate-pop"
-            color="info"
-            :label="$t('workerproposal.complete_work')"
-            @click="completeWork()"
-          />
-          <q-btn
-            v-if="wp.status == 4"
-            class="on-right animate-pop"
-            color="info"
-            :label="$t('workerproposal.claim')"
-            @click="finalize()"
-          />
-          <q-btn
-            class="on-right animate-pop"
-            flat
-            color="negative"
-            :label="$t('workerproposal.cancel')"
-            @click="cancelProp()"
-          />
-        </div>
-        <!-- <q-btn label="reload dev" @click="actionCallBack(wp.id)" /> -->
-      </div>
-    </div>
     <q-separator spaced />
 
+     -->
     <q-dialog v-model="expand_votes_modal">
       <q-card>
-        <!-- header -->
         <q-card-section>
           <div class="row items-center no-wrap">
             <div class="col">
@@ -310,17 +419,19 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import profilePic from 'components/ui/profile-pic'
+// import profilePic from 'components/ui/profile-pic'
 import MarkdownViewer from 'components/ui/markdown-viewer'
-import memberSelect from 'components/controls/member-select'
+// import memberSelect from 'components/controls/member-select'
 import wpcats from '../../extensions/statics/config/wp_categories.json'
+import ProfilePic from './profile-pic'
 import countdown from '@chenfengyuan/vue-countdown'
 
 export default {
   name: 'wpProposal',
   components: {
-    profilePic,
-    memberSelect,
+    ProfilePic,
+    // profilePic,
+    // memberSelect,
     MarkdownViewer,
     countdown
   },
@@ -482,7 +593,7 @@ export default {
           if (v.vote === 3) score.score += v.weight
         })
       }
-      return `${score.score}/${score.threshold}`
+      return score
     },
     getCustNames () {
       if (this.getCustodians) {
@@ -499,7 +610,8 @@ export default {
 
   methods: {
     getCategoryNameFromId (id) {
-      const wpc = wpcats.find(wpc => wpc.value === id)
+      console.log(`worker categories`, wpcats)
+      const wpc = wpcats.find(wpc => parseInt(wpc.value) === parseInt(id))
       if (!wpc) {
         return id
       }
