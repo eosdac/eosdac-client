@@ -346,7 +346,7 @@ export default {
     'loading': 'loading...',
     'refresh': 'Refresh',
     'seconds': 'seconds',
-    'threshold_met': 'Voting threshold of 15% met. eosDac is unlocked.',
+    'threshold_met': 'Voting threshold met. The DAC can be unlocked.',
     'update_in': 'update in'
   },
 
