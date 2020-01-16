@@ -378,6 +378,8 @@ export default {
         // only propose if not proposed yet
         if (this.trx_qeue[i].status === 0) {
           await this.proposeTransfer(i)
+        } else {
+          console.log(`already proposed`, this.trx_qeue[i])
         }
       }
       this.$store.commit('ui/setEnableTransactionOverlay', true)
@@ -435,7 +437,7 @@ export default {
         trxData.status = 2
         trxData.trx_id = res.transaction_id
         trxData.proposal_name = res.proposal_name
-        trxData.block_time = res.processed.block_time
+        trxData.block_time = res.transaction.processed.block_time
       } else {
         console.log(res)
         trxData.status = 0
