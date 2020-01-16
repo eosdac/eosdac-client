@@ -388,12 +388,12 @@ export default {
   'workerproposals': {
     'my_delegations': 'my delegations',
     'inbox': 'inbox',
-    'pending_approval': 'pending approval',
-    'work_in_progress': 'work in progress',
-    'pending_claim': 'Pending claim',
-    'completed': 'completed',
+    'pending_approval': 'Pending Approval',
+    'work_in_progress': 'Work in Progress',
+    'pending_claim': 'Pending Claim',
+    'completed': 'Completed',
     'expired': 'Expired',
-    'cancelled': 'cancelled',
+    'cancelled': 'Cancelled',
     'loading': 'Loading',
     'no_proposals': 'No proposals available',
     'delegate_votes': 'Delegate votes'
@@ -422,6 +422,7 @@ export default {
     'work_is_in_progress': 'Work is in progress',
     'start_work': 'Start work',
     'complete_work': 'Complete work',
+    'propose_transaction': 'Propose Transaction',
     'claim': 'Claim',
     'cancel': 'Cancel',
     'votes': 'Votes'

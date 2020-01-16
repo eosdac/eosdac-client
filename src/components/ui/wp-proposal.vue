@@ -48,6 +48,42 @@
         </div>
         <div class="col-md-4">
           <q-card>
+
+            <q-card-section>
+              <q-item>
+                <q-item-section>
+                  <q-item-label>{{$t('workerproposal.status')}}</q-item-label>
+                  <q-item-label caption>
+                    <div v-if="wp.status == wpEnums.PENDING_APPROVAL" class="bg-warning q-pa-sm rounded-borders text-bold">
+                      {{$t('workerproposals.pending_approval')}}
+                    </div>
+                    <div v-else-if="wp.status == wpEnums.WORK_IN_PROGRESS" class="bg-positive q-pa-sm rounded-borders text-bold">
+                      {{$t('workerproposals.work_in_progress')}}
+                    </div>
+                    <div v-else-if="wp.status == wpEnums.PENDING_CLAIM" class="bg-warning q-pa-sm rounded-borders text-bold">
+                      {{$t('workerproposals.pending_claim')}}
+                    </div>
+                    <div v-else-if="wp.status == wpEnums.APPROVED" class="bg-positive q-pa-sm rounded-borders text-bold">
+                      {{$t('workerproposals.approved')}}
+                    </div>
+                    <div v-else-if="wp.status == wpEnums.VALIDATED" class="bg-positive q-pa-sm rounded-borders text-bold">
+                      {{$t('workerproposals.validated')}}
+                    </div>
+                    <div v-else-if="wp.status == wpEnums.COMPLETED" class="bg-positive q-pa-sm rounded-borders text-bold">
+                      {{$t('workerproposals.completed')}}
+                    </div>
+                    <div v-else-if="wp.status == wpEnums.EXPIRED" class="bg-negative q-pa-sm rounded-borders text-bold">
+                      {{$t('workerproposals.expired')}}
+                    </div>
+                    <div v-else-if="wp.status == wpEnums.CANCELLED" class="bg-negative q-pa-sm rounded-borders text-bold">
+                      {{$t('workerproposals.cancelled')}}
+                    </div>
+                    <div v-else>{{wp.status}}</div>
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-card-section>
+
             <q-card-section>
               <q-item>
                 <q-item-section>
@@ -116,12 +152,33 @@
             </q-card-section>
 
             <q-card-section>
+              <q-item>
+                <q-item-section>
+                  <q-item-label>{{$t('workerproposal.propose_transaction')}}</q-item-label>
+                  <q-item-label caption><a
+                          target="_blank"
+                          :href="$configFile.get('explorer_transaction').replace('{transaction_id}', wp.trx_id)"
+                  >{{ $helper.truncate(wp.trx_id, 20) }}</a></q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-card-section>
+
+            <q-card-section>
+              <q-item>
+                <q-item-section>
+                  <q-item-label>{{$t('workerproposal.id')}}</q-item-label>
+                  <q-item-label caption>{{ wp.id }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-card-section>
+
+            <q-card-section>
               <div class="q-mt-md full-width">
                 <div class="row justify-between items-center">
 
                   <div v-if="!read_only && getAccountName" class="row">
                     <member-select
-                            v-if="wp.status == 0 || wp.status == 2"
+                            v-if="wp.status == wpEnums.PENDING_APPROVAL || wp.status == wpEnums.PENDING_CLAIM"
                             :show_selected="false"
                             @change="delegatevote($event)"
                             :value="MyDirectDelegation || ''"
@@ -131,7 +188,7 @@
                             :label="$t('workerproposal.delegation')"
                             ref="directDelSelect"
                     />
-                    <div v-if="wp.status == 0">
+                    <div v-if="wp.status == wpEnums.PENDING_APPROVAL">
                       <q-btn
                               v-if="getVoterStatus == 2 || getVoterStatus == 0"
                               class="on-right animate-pop"
@@ -147,7 +204,7 @@
                               @click="voteprop('voteDeny')"
                       />
                     </div>
-                    <div v-else-if="wp.status == 2">
+                    <div v-else-if="wp.status == wpEnums.PENDING_CLAIM">
                       <q-btn
                               v-if="getVoterStatus == 4 || getVoterStatus == 0"
                               class="on-right animate-pop"
@@ -172,27 +229,24 @@
                       />
                     </div>
 
-                    <div v-else-if="wp.status == 1">
-                      {{$t('workerproposal.work_is_in_progress')}}
-                    </div>
                   </div>
                   <div v-if="getIsCreator">
                     <q-btn
-                            v-if="wp.status == 3"
+                            v-if="wp.status == wpEnums.APPROVED"
                             class="on-right animate-pop"
                             color="info"
                             :label="$t('workerproposal.start_work')"
                             @click="startWork()"
                     />
                     <q-btn
-                            v-if="wp.status == 1"
+                            v-if="wp.status == wpEnums.WORK_IN_PROGRESS"
                             class="on-right animate-pop"
                             color="info"
                             :label="$t('workerproposal.complete_work')"
                             @click="completeWork()"
                     />
                     <q-btn
-                            v-if="wp.status == 4"
+                            v-if="wp.status == wpEnums.VALIDATED"
                             class="on-right animate-pop"
                             color="info"
                             :label="$t('workerproposal.claim')"
@@ -425,6 +479,7 @@ import MarkdownViewer from 'components/ui/markdown-viewer'
 import wpcats from '../../extensions/statics/config/wp_categories.json'
 import ProfilePic from './profile-pic'
 import countdown from '@chenfengyuan/vue-countdown'
+import wpEnums from '../../modules/wp-enums'
 
 export default {
   name: 'wpProposal',
@@ -452,7 +507,8 @@ export default {
   data () {
     return {
       wp_expiration: 100,
-      expand_votes_modal: false
+      expand_votes_modal: false,
+      wpEnums
     }
   },
   computed: {
