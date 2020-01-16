@@ -1,8 +1,7 @@
 <template>
   <q-page class="q-pa-md">
     <p>
-      The following EOS accounts represent value flow over time within the DAC
-      and can be useful for budgeting and decision making.
+      {{$t('dac_financials.intro')}}
     </p>
 
     <div class="row q-col-gutter-md">
@@ -16,6 +15,13 @@
                 :default_contract="account.contract"
                 :default_symbol="account.symbol"
         />
+      </div>
+
+      <div v-if="financialaccounts.length <= 1" class="col-lg-9">
+        <div class="text-h6">{{$t('dac_financials.treasury_explainer_header')}}</div>
+        <div class="q-my-md">{{$t('dac_financials.treasury_explainer')}}</div>
+        <div class="q-my-md">{{$t('dac_financials.treasury_explainer_to_fund')}}</div>
+        <div class="text-h5 q-my-md">{{$dir.getAccount($dir.ACCOUNT_TREASURY)}}</div>
       </div>
     </div>
 

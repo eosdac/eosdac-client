@@ -104,6 +104,10 @@ export default {
     'scatter_firewall': 'Scatter has blocked this request.  Please check Scatter under Settings > Firewall and remove eosio.msig::approve if it is there.'
   },
   'dac_financials': {
+    'treasury_explainer_header': 'The Treasury Account',
+    'treasury_explainer': 'The following account has been set up as the treasury account for the DAC.  This account is controlled by the DAC and is designed to hold all of the token balances which are owned by it, the funds here are used to pay for worker proposals and custodian pay.',
+    'treasury_explainer_to_fund': 'To fund the account, send tokens to the following account from any other account.  There is no need to set a memo.',
+    'intro': 'The following EOS accounts represent value flow over time within the DAC and can be useful for budgeting and decision making.',
     'clear': 'Clear All',
     'edit': 'edit',
     'empty_queue': 'No transactions in the queue',
