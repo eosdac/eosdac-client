@@ -85,14 +85,14 @@
                       </q-item>
                       <q-item
                               class="cursor-pointer q-body-1"
-                              v-close-overlay
+                              v-close-popup
                               @click.native="downloadReport"
                       >
                         <q-item-section>{{ $t("dac_financials.export") }}</q-item-section>
                       </q-item>
                       <q-item
                               class="cursor-pointer q-body-1"
-                              v-close-overlay
+                              v-close-popup
                               @click.native="clearQueue"
                       >
                         <q-item-section>{{ $t("dac_financials.clear") }}</q-item-section>
@@ -100,7 +100,7 @@
                       <q-item
                               v-if="trx_qeue.length > 1"
                               class="cursor-pointer q-body-1"
-                              v-close-overlay
+                              v-close-popup
                               @click.native="proposeAll"
                       >
                         <q-item-section>{{ $t("dac_financials.exec") }}</q-item-section>
