@@ -52,7 +52,7 @@
     </div>
     </div>
 
-    <div v-if="!getActivationStats.active">
+    <div v-if="!getActivationStats.active && getActivationStats.votePercentage">
       <div class="shadow-4 rounded-borders q-pa-md q-mb-md bg-info">
         <div class="text-h6">DAC Activation Progress</div>
         <div class="row q-col-gutter-lg">
