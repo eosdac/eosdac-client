@@ -100,6 +100,9 @@ class Helper {
   }
 
   truncate (str, length) {
+    if (!str) {
+      return ''
+    }
     let dots = str.length > length ? '...' : ''
     return str.substring(0, length) + dots
   }
