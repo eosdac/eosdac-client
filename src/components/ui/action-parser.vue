@@ -9,7 +9,7 @@
           <display-action :action="action" viewable />
         </q-item-section>
         <q-item-section v-if="actionMetadata[key].type === 'transfer'">
-          <q-item-label>{{$t('action.transfer')}} <b>{{action.data.quantity}} ({{action.account}})</b></q-item-label>
+          <q-item-label>{{$t('action.transfer')}} <b>{{$helper.assetToLocaleNumber(action.data.quantity)}} ({{action.account}})</b></q-item-label>
           <q-item-label caption>{{action.data.from}} -> {{action.data.to}}</q-item-label>
           <q-item-label caption>{{action.data.memo}}</q-item-label>
         </q-item-section>
