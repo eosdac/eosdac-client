@@ -357,7 +357,7 @@ export default {
       if (fromPermissions) return fromPermissions.permissions
 
       try {
-        const res = await this.$eosApi.get_account(accountname)
+        const res = await this.$eosApi.rpc.get_account(accountname)
         const accountPermissions = res.permissions
 
         if (accountPermissions) {
@@ -394,6 +394,7 @@ export default {
       try {
         fromPermissions = await this.getPermissions(trxData.from)
       } catch (e) {
+        console.log(`Could not get account for ${trxData.from}`, e)
         Notify.create({
           message: `Could not get account for ${trxData.from}`,
           timeout: 2000,
