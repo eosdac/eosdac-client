@@ -27,6 +27,7 @@
                   :label="$t('msig_transfer.form_from')"
                    :error="$v.form.from.$error"
                   :error-message="$t('msig_transfer.form_from_error')"
+                   @blur="setTokens"
                     />
         </div>
 
@@ -66,6 +67,7 @@
 
         <div class="col-xs-12">
           <div class="row justify-end">
+            <q-btn color="warning" label="clear" @click="clearForm" />
             <q-btn color="primary" :label="$t('msig_transfer.form_add')" @click="processInputs" />
           </div>
         </div>
@@ -75,7 +77,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { debounce } from 'quasar'
+// import { debounce } from 'quasar'
 import { required, maxLength } from 'vuelidate/lib/validators'
 import { isEosName } from '../../modules/validators.js'
 import AssetInput from '../ui/asset-input'
@@ -103,7 +105,7 @@ export default {
   data () {
     return {
       form: {
-        from: '',
+        from: this.$dir.getAccount(this.$dir.ACCOUNT_TREASURY),
         to: '',
         asset: {
           contract: 'eosio.token',
@@ -155,11 +157,11 @@ export default {
     },
     clearForm () {
       this.form = {
-        from: '',
+        from: this.$dir.getAccount(this.$dir.ACCOUNT_TREASURY),
         to: '',
         asset: {
           contract: 'eosio.token',
-          amount: '0.0000 EOS'
+          quantity: '0.0000 EOS'
         },
         memo: '',
         title: '',
@@ -225,11 +227,11 @@ export default {
     }
   },
   mounted () {
-    this.setTokens = debounce(this.setTokens, 500)
+    this.setTokens()
   },
   watch: {
     'form.from': function () {
-      this.setTokens()
+      // this.setTokens()
     }
   },
 
