@@ -62,7 +62,7 @@
                 {{ $t("dac_financials.trx_que") }}
               </q-item-section>
               <q-item-section side>
-                <q-btn flat round dense icon="more_vert" :disable="!getIsCustodian">
+                <q-btn flat round dense icon="more_vert" :disable="!getIsCustodian" v-if="trxQueue.length > 1">
                   <q-popup-proxy v-if="getIsCustodian">
                     <q-list highlight>
                       <q-item class="cursor-pointer q-body-1 ">
@@ -98,7 +98,7 @@
                         <q-item-section>{{ $t("dac_financials.clear") }}</q-item-section>
                       </q-item>
                       <q-item
-                              v-if="trx_qeue.length > 1"
+
                               class="cursor-pointer q-body-1"
                               v-close-popup
                               @click.native="proposeAll"
@@ -125,13 +125,13 @@
                 >
                   <q-list dense no-border separator highlight>
                     <div
-                            v-if="trx_qeue.length === 0"
+                            v-if="trxQueue.length === 0"
                             class="text-weight-thin text-center q-body-1 q-mt-md"
                     >
                       {{ $t("dac_financials.empty_queue") }}
                     </div>
                     <q-item
-                            v-for="(trx, i) in trx_qeue"
+                            v-for="(trx, i) in trxQueue"
                             :key="`trx${i}`"
                             class="animate-fade"
                     >
@@ -276,7 +276,7 @@ export default {
       financialaccounts: this.$configFile.get('financialaccounts'),
       permissions_map: [],
 
-      trx_qeue: this.$store.state.user.msigTransferQeue
+      trxQueue: this.$store.state.user.msigTransferQeue
     }
   },
 
@@ -309,10 +309,10 @@ export default {
     },
     editQueueItem (queueIndex) {
       // check if there is already an item being edited
-      let check = this.trx_qeue.find(qi => qi.status === 3)
+      let check = this.trxQueue.find(qi => qi.status === 3)
       if (check) check.status = 0
 
-      let queueItem = this.trx_qeue[queueIndex]
+      let queueItem = this.trxQueue[queueIndex]
       queueItem.status = 3
       this.$refs.msigTransferForm.setFormFieldsEdit(queueItem)
     },
@@ -374,19 +374,19 @@ export default {
 
     async proposeAll () {
       this.$store.commit('ui/setEnableTransactionOverlay', false)
-      for (let i = 0; i < this.trx_qeue.length; i++) {
+      for (let i = 0; i < this.trxQueue.length; i++) {
         // only propose if not proposed yet
-        if (this.trx_qeue[i].status === 0) {
+        if (this.trxQueue[i].status === 0) {
           await this.proposeTransfer(i)
         } else {
-          console.log(`already proposed`, this.trx_qeue[i])
+          console.log(`already proposed`, this.trxQueue[i])
         }
       }
       this.$store.commit('ui/setEnableTransactionOverlay', true)
     },
 
     async proposeTransfer (trxIndex) {
-      let trxData = this.trx_qeue[trxIndex]
+      let trxData = this.trxQueue[trxIndex]
 
       // set status to the sending state 1
       trxData.status = 1
@@ -467,8 +467,8 @@ export default {
     },
 
     downloadReport () {
-      if (this.trx_qeue.length === 0) return
-      let data = JSON.parse(JSON.stringify(this.trx_qeue))
+      if (this.trxQueue.length === 0) return
+      let data = JSON.parse(JSON.stringify(this.trxQueue))
       data.forEach(d => {
         delete d.status
       })
