@@ -229,11 +229,6 @@ export default {
   mounted () {
     this.setTokens()
   },
-  watch: {
-    'form.from': function () {
-      // this.setTokens()
-    }
-  },
 
   validations () {
     return {
