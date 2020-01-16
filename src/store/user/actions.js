@@ -170,24 +170,22 @@ export async function transact (
   if (!state.accountName) {
     console.log('please login first')
 
-    if (getters['getSettingByName']('notify_info_msg').value) {
-      Notify.create({
-        message: i18n.t('transaction.please_login'),
-        timeout: 5000, // in milliseconds; 0 means no timeout
-        type: 'info',
-        detail: i18n.t('transaction.you_must_login'),
-        position: 'bottom-right', // 'top', 'left', 'bottom-left' etc.
-        actions: [
-          {
-            label: i18n.t('default.login'),
-            icon: 'lock', // optional
-            handler: () => {
-              dispatch('global/login', null, { root: true })
-            }
+    Notify.create({
+      message: i18n.t('transaction.please_login'),
+      timeout: 5000, // in milliseconds; 0 means no timeout
+      type: 'info',
+      detail: i18n.t('transaction.you_must_login'),
+      position: 'bottom-right', // 'top', 'left', 'bottom-left' etc.
+      actions: [
+        {
+          label: i18n.t('default.login'),
+          icon: 'lock', // optional
+          handler: () => {
+            dispatch('global/login', null, { root: true })
           }
-        ]
-      })
-    }
+        }
+      ]
+    })
 
     return
   }
