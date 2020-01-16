@@ -49,11 +49,10 @@ export async function attemptAutoLogin ({ state, commit, dispatch }) {
       )
       window.setTimeout(async () => {
         authenticator.reset()
-        await dispatch('attemptAutoLogin')
+        // await dispatch('attemptAutoLogin')
 
-        // commit('setSESSION', { accountName: null, authenticatorName: null })
+        commit('setSESSION', { accountName: null, authenticatorName: null })
       }, 500)
-
       return
     }
 
