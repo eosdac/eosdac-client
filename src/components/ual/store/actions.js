@@ -38,36 +38,43 @@ export async function waitForAuthenticatorToLoad (_ = {}, authenticator) {
   })
 }
 export async function attemptAutoLogin ({ state, commit, dispatch }) {
-  let { accountName, authenticatorName } = state.SESSION
+  const { accountName, authenticatorName } = state.SESSION
   if (accountName && authenticatorName) {
-    let authenticator = state.UAL.authenticators.find(a => a.getStyle().text === authenticatorName)
-    await authenticator.init()
-    await dispatch('waitForAuthenticatorToLoad', authenticator)
-    if (authenticator.initError) {
-      console.log(
-        `Attempt to auto login with authenticator ${authenticatorName} failed.`
-      )
-      window.setTimeout(async () => {
+    commit('setAccountName', accountName)
+    dispatch('user/loggedInRoutine', accountName, { root: true })
+
+    window.setTimeout(async () => {
+      const authenticator = state.UAL.authenticators.find(a => a.getStyle().text === authenticatorName)
+      if (!authenticator) {
+        commit('setSESSION', { accountName: null, authenticatorName: null })
+        return
+      }
+      await authenticator.init()
+      await dispatch('waitForAuthenticatorToLoad', authenticator)
+      if (authenticator.initError) {
+        console.log(
+          `Attempt to auto login with authenticator ${authenticatorName} failed.`
+        )
         authenticator.reset()
         // await dispatch('attemptAutoLogin')
 
         commit('setSESSION', { accountName: null, authenticatorName: null })
-      }, 500)
-      return
-    }
+        return
+      }
 
-    authenticator
-      .login(accountName)
-      .then(() => {
-        commit('setSESSION', { accountName, authenticatorName })
-        commit('setAccountName', accountName)
-        commit('setActiveAuthenticator', authenticator)
-        dispatch('user/loggedInRoutine', accountName, { root: true })
-      })
-      .catch(e => {
-        commit('setSESSION', { accountName: null, authenticatorName: null })
-        console.log('auto login error', e, e.cause)
-      })
+      authenticator
+        .login(accountName)
+        .then(() => {
+          commit('setSESSION', { accountName, authenticatorName })
+          commit('setActiveAuthenticator', authenticator)
+          commit('setAccountName', accountName)
+          dispatch('user/loggedInRoutine', accountName, { root: true })
+        })
+        .catch(e => {
+          commit('setSESSION', { accountName: null, authenticatorName: null })
+          console.log('auto login error', e, e.cause)
+        })
+    }, 500)
   }
 }
 

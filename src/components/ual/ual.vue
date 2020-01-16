@@ -167,9 +167,7 @@ export default {
     this.ual = new UAL(this.chains, this.appName, this.authenticators)
     console.log('UAL', this.ual)
     this.$store.commit('ual/setUAL', this.ual)
-    window.setTimeout(() => {
-      this.$store.dispatch('ual/attemptAutoLogin')
-    }, 1500)
+    this.$store.dispatch('ual/attemptAutoLogin')
   },
 
   watch: {
