@@ -113,7 +113,7 @@
         <span class="text-weight-light">{{$t('workerproposal.id')}} {{ wp.id }}</span>
         <a
           target="_blank"
-          :href="$configFile.get('explorer') + `/transaction/${wp.trx_id}`"
+          :href="$configFile.get('explorer_transaction').replace('{transaction_id}', wp.trx_id)"
           >{{ $helper.truncate(wp.trx_id, 10) }}</a>
       </div>
     </div>

@@ -229,9 +229,7 @@ export async function transact (
           icon: 'link', // optional
           handler: () => {
             openURL(
-              `${this._vm.$configFile.get('explorer')}/transaction/${
-                result.transactionId
-              }`
+              this._vm.$configFile.get('explorer_transaction').replace('{transaction_id}', result.transactionId)
             )
           }
         }

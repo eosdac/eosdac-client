@@ -37,7 +37,7 @@
       <q-td slot="body-cell-trx_id" slot-scope="props" :props="props">
         <a
           target="_blank"
-          :href="$configFile.get('explorer') + `/transaction/${props.value}`"
+          :href="$configFile.get('explorer_transaction').replace('{transaction_id}', props.value)"
         >
           {{ $helper.truncate(props.value, 10) }}
         </a>

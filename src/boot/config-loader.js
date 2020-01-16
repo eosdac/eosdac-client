@@ -60,6 +60,10 @@ class ConfigLoader {
         return this.configFile.contracts.system_msig.name
       case 'explorer':
         return this.configFile.external.explorer.replace(/\/+$/, '')
+      case 'explorer_transaction':
+        return this.configFile.external.explorer_transaction
+      case 'explorer_msig':
+        return this.configFile.external.explorer_msig
       case 'external':
         return this.configFile.external
       case 'dacapi':

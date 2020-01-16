@@ -484,7 +484,7 @@ export default {
       // saveAs(blob, 'msig_report.json')
     },
     viewTrx (trxId) {
-      openURL(`${this.$configFile.get('explorer')}/transaction/${trxId}`)
+      openURL(this.$configFile.get('explorer_transaction').replace('{transaction_id}', trxId))
     }
   }
 }
