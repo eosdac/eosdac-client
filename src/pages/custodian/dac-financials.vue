@@ -4,7 +4,7 @@
       {{$t('dac_financials.intro')}}
     </p>
 
-    <div class="row q-col-gutter-md">
+    <div class="row q-col-gutter-md" v-if="financialaccounts && financialaccounts.length">
       <div class="col-lg-3"
               v-for="(account, i) in financialaccounts"
               :key="`fc${i}`"
