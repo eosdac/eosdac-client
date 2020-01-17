@@ -15,19 +15,19 @@
                   :color="getStatusColor"
           />
         </q-item-section>
-        <q-item-section>
+        <q-item-section style="overflow: hidden">
           <q-item-label>
             {{ msig.title }}
-            <q-chip
+            <!-- <q-chip
                     v-if="!is_seen_computed"
                     dense
                     class="animate-fade absolute"
-                    color="negative">new</q-chip>
+                    color="negative">new</q-chip> -->
           </q-item-label>
           <q-item-label caption>
             <MarkdownViewer
                     :tags="[]"
-                    :text="msig.description.replace(/\n/g, '').replace(/#/g, '')"
+                    :text="msig.description.replace(/\n/g, ' ').replace(/#/g, '')"
                     :maxlen="140"
             />
           </q-item-label>
