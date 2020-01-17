@@ -70,8 +70,6 @@ class ConfigLoader {
         return this.configFile.api.dac_api.replace(/\/+$/, '')
       case 'dacws':
         return this.configFile.api.dac_ws
-      case 'financialaccounts':
-        return this.configFile.financial_page_graphs
       default:
         return `***${configquery} not yet subscribed in config-loader***`
     }

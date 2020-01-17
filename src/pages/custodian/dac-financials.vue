@@ -279,7 +279,13 @@ export default {
   },
   data () {
     return {
-      financialaccounts: this.$configFile.get('financialaccounts'),
+      financialaccounts: [
+        {
+          'account': this.$dir.getAccount(this.$dir.ACCOUNT_TREASURY),
+          'contract': this.$configFile.get('systemtokencontract'),
+          'symbol': this.$configFile.get('systemtokensymbol')
+        }
+      ],
       permissions_map: [],
 
       trxQueue: this.$store.state.user.msigTransferQeue
