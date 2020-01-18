@@ -2,8 +2,8 @@
   <q-page class="q-pa-md">
     <div class="row q-col-gutter-lg">
       <!-- first column  -->
-      <div class="col-xs-12 col-lg-8">
-          <div class="constitution-body">
+      <div class="col-xs-12 col-lg-8 constitution-body">
+          <div class="constitution-container">
             <div
               v-if="constitution != ''"
               class="markdown-body animate-fade inline-doc"
@@ -13,7 +13,7 @@
       </div>
 
       <!-- second column -->
-      <div class="col-xs-12 col-lg-4">
+      <div class="col-xs-12 col-lg-4 constitution-side">
         <div>
           <div
             id="registerbox"
@@ -253,8 +253,14 @@ export default {
 </script>
 
 <style lang="stylus">
-.constitution-body
+.constitution-container
   min-height: 300px
+
+@media screen and (max-width: 1439px)
+    .constitution-body
+        order: 1
+    .constitution-side
+        order: 0
 
 #registerbox
     overflow hidden
