@@ -301,6 +301,8 @@ export default {
         value: 0
       },
       brandData: null,
+      brandMsigTitle: 'Update Configuration of Branding',
+      brandMsigDescription: '',
       tokenConfigLoaded: false,
       referendumConfigLoaded: false,
       referendumEnabled: false,
@@ -428,6 +430,9 @@ export default {
       console.log(res)
     },
     getBrandAction (type, value) {
+      if (this.$dir.getRef(type) === value) {
+        return null
+      }
       return {
         account: this.$configFile.get('dacdirectory'),
         name: 'regref',
@@ -463,9 +468,9 @@ export default {
 
       console.log(actions)
       const res = await this.$store.dispatch('user/proposeMsig', {
-        actions,
-        title: `Update configuration of Branding`,
-        description: ''
+        actions: actions.filter(a => a !== null),
+        title: this.brandMsigTitle,
+        description: this.brandMsigDescription
       })
       console.log(res)
     },
