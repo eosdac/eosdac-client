@@ -74,9 +74,9 @@
               width: '10px',
               opacity: 0.8
             }"
+            class="inline-doc"
           >
             <div class="q-my-md">
-              BIO
               <div class="float-right">
                 <span
                   >{{ $t("candidate.requestedpay") }}: </span
