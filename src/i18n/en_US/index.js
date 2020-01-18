@@ -1,7 +1,4 @@
 export default {
-  'home': {
-    'signout': 'Sign Out'
-  },
   'candidate': {
     'nominated_next': 'Nominated for next custodian board',
     'pay': 'Pay',
@@ -532,6 +529,8 @@ export default {
     'branding_logo': 'Logo URL',
     'branding_logo_notext': 'Logo (No Text) URL',
     'branding_background_url': 'Background URL',
+    'branding_discord': 'Discord URL',
+    'branding_telegram': 'Telegram URL',
     'branding_extension': 'Client Extension',
     'branding_dark_theme': 'Dark Theme',
     'branding_primary': 'Primary',

@@ -122,6 +122,14 @@
                 </q-card-section>
 
                 <q-card-section>
+                  <q-input v-model="brandData.discordUrl" :label="$t('contracts_config.branding_discord')" />
+                </q-card-section>
+
+                <q-card-section>
+                  <q-input v-model="brandData.telegramUrl" :label="$t('contracts_config.branding_telegram')" />
+                </q-card-section>
+
+                <q-card-section>
                   <q-input v-model="brandData.extension" :label="$t('contracts_config.branding_extension')" />
                 </q-card-section>
               </q-card>
@@ -324,8 +332,10 @@ export default {
       const logoUrl = this.$dir.getRef(this.$dir.REF_LOGO_URL)
       const logoNoTextUrl = this.$dir.getRef(this.$dir.REF_LOGO_NOTEXT_URL)
       const backgroundUrl = this.$dir.getRef(this.$dir.REF_BACKGROUND_URL)
+      const discordUrl = this.$dir.getRef(this.$dir.REF_DISCORD_URL)
+      const telegramUrl = this.$dir.getRef(this.$dir.REF_TELEGRAM_URL)
 
-      this.brandData = { ...theme, dacName: this.$dir.title, extension, description, homepage, logoUrl, logoNoTextUrl, backgroundUrl }
+      this.brandData = { ...theme, dacName: this.$dir.title, extension, description, homepage, logoUrl, logoNoTextUrl, backgroundUrl, discordUrl, telegramUrl }
     },
     async saveCustodianConfig () {
       console.log(`Saving custodian config`, this.custodianConfig)
@@ -442,6 +452,8 @@ export default {
       actions.push(this.getBrandAction(this.$dir.REF_CLIENT_EXTENSION, this.brandData.extension))
       actions.push(this.getBrandAction(this.$dir.REF_DESCRIPTION, this.brandData.description))
       actions.push(this.getBrandAction(this.$dir.REF_HOMEPAGE, this.brandData.homepage))
+      actions.push(this.getBrandAction(this.$dir.REF_DISCORD_URL, this.brandData.discordUrl))
+      actions.push(this.getBrandAction(this.$dir.REF_TELEGRAM_URL, this.brandData.telegramUrl))
       if (!this.brandData.extension) {
         actions.push(this.getBrandAction(this.$dir.REF_COLORS, colorsData))
         actions.push(this.getBrandAction(this.$dir.REF_LOGO_URL, this.brandData.logoUrl))

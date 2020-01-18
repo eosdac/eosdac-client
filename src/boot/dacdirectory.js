@@ -24,6 +24,8 @@ class DacDirectory {
     this.REF_FAVICON_URL = 7
     this.REF_DAC_CURRENCY_URL = 8
     this.REF_SYSTEM_CURRENCY_URL = 9
+    this.REF_DISCORD_URL = 10
+    this.REF_TELEGRAM_URL = 11
 
     this.dacId = config.get('dacid')
     this.directoryAccount = config.get('dacdirectory')
