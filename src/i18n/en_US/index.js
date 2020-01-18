@@ -365,6 +365,7 @@ export default {
   },
 
   'proposal': {
+    'new': 'new',
     'trx': 'Proposal Transaction ID',
     'executed_by': 'Executed by',
     'executed_trx': 'Executed Transaction ID',

@@ -17,12 +17,12 @@
         </q-item-section>
         <q-item-section style="overflow: hidden">
           <q-item-label>
-            {{ msig.title }}
-            <!-- <q-chip
+            <q-badge
                     v-if="!is_seen_computed"
-                    dense
-                    class="animate-fade absolute"
-                    color="negative">new</q-chip> -->
+                    transparent outline
+                    color="negative">{{$t('proposal.new')}}</q-badge>
+            {{ msig.title }}
+
           </q-item-label>
           <q-item-label caption>
             <MarkdownViewer
