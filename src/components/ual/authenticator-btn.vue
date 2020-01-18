@@ -6,7 +6,6 @@
     clickable
     v-ripple
     class="rounded-borders q-mb-sm text-center"
-    :class="{ authenticator_not_available: authenticator.initError }"
   >
     <q-item-section avatar>
       <img :src="style.icon" height="30" />
