@@ -9,7 +9,7 @@
         <q-card-section>
           <q-item class="no-padding">
             <q-item-section side>
-              <profile-pic :accountname="getAccountName" :scale="2.0" style="width:80px;height:80px" />
+              <profile-pic :accountname="getAccountName" :scale="2.0" :show_role="false"  />
             </q-item-section>
             <q-item-section>
               <q-item-label class="text-h5">{{$t("manage_candidateship.candidate")}}</q-item-label>
