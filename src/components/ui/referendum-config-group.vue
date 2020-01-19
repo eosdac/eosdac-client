@@ -14,7 +14,7 @@
 
 <script>
 
-import AssetInput from './asset-input'
+import AssetInput from '../controls/asset-input'
 export default {
   name: 'referendum-config-group',
   components: { AssetInput },

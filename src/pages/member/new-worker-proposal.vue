@@ -68,7 +68,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import MarkdownViewer from 'components/ui/markdown-viewer'
-import AssetInput from 'components/ui/asset-input'
+import AssetInput from 'components/controls/asset-input'
 import { required } from 'vuelidate/lib/validators'
 import { isEosName } from '../../modules/validators.js'
 

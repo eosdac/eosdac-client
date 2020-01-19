@@ -251,7 +251,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import ProfilePic from '../components/ui/profile-pic'
-import AssetInput from '../components/ui/asset-input'
+import AssetInput from '../components/controls/asset-input'
 
 export default {
   name: 'ManageCandidateship',

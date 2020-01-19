@@ -272,7 +272,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { colors } from 'quasar'
-import AssetInput from '../../components/ui/asset-input'
+import AssetInput from '../../components/controls/asset-input'
 import SecondsInput from '../../components/ui/seconds-input'
 import ReferendumConfigGroup from '../../components/ui/referendum-config-group'
 

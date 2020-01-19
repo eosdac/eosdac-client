@@ -79,7 +79,7 @@ import { mapGetters } from 'vuex'
 // import { debounce } from 'quasar'
 import { required, maxLength } from 'vuelidate/lib/validators'
 import { isEosName } from '../../modules/validators.js'
-import AssetInput from '../ui/asset-input'
+import AssetInput from './asset-input'
 export default {
   name: 'msigTransfer',
   components: {

@@ -81,7 +81,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { required } from 'vuelidate/lib/validators'
-import AssetInput from '../../components/ui/asset-input'
+import AssetInput from '../../components/controls/asset-input'
 export default {
   name: 'MyPayments',
   components: {
