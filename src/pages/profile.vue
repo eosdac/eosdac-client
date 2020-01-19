@@ -1,45 +1,41 @@
 <template>
   <q-page>
+    <div class="bg-primary">
     <div
-      class="gradient-bg-primary q-px-md q-pt-md relative-position"
-      style="min-height:260px"
-    >
-      <div class="text-h2">
-        {{ account_name }}
-      </div>
-      <q-space />
+      class="gradient-bg q-px-lg q-pt-none relative-position"
 
-      <div class="row">
-        <div class="col-md-2 animate-pop profile_image_outer_wrap">
-          <q-btn
-                  v-if="is_edit"
-                  round
-                  size="md"
-                  class="animate-pop"
-                  color="primary"
-                  icon="icon-plus"
-                  style="position:absolute;bottom:0;right:7px;z-index:2"
-                  @click="profile_pic_modal = true"
-          />
-          <div class="fit profile_image_inner_wrap">
-            <div
-                    v-if="img_loaded"
-                    class="profile_image profile_image_border relative-position animate-fade"
-                    style="height:140px; width:140px;"
-                    v-bind:style="{ 'background-image': `url(${setImgSrc})` }"
-            ></div>
-            <q-spinner-pie
-                    color="primary"
-                    class="hack_center"
-                    v-if="!img_loaded"
-                    size="139px"
-            />
+    >
+      <div class="row full-height items-center" style="min-height:260px;">
+        <div class="col-2">
+          <div class="column full-height items-center">
+            <div class="col-12">
+              <div
+                      v-if="img_loaded"
+                      class="profile_image profile_image_border relative-position animate-fade"
+                      style="height:140px; width:140px"
+                      v-bind:style="{ 'background-image': `url(${setImgSrc})` }"
+              ></div>
+              <q-btn
+                      v-if="is_edit"
+                      round
+                      size="md"
+                      class="animate-pop"
+                      color="primary"
+                      icon="icon-plus"
+                      @click="profile_pic_modal = true"
+              />
+            </div>
           </div>
         </div>
-        <div class="col-md-10 blur-details">
-          <div class="row profile_header_bottom_row">
+        <div class="col-10">
+          <div class="row q-my-lg" style="min-height:100px">
+            <div class="text-h2 col-12 q-pb-md">
+              {{ account_name }}
+            </div>
+          </div>
+          <div class="row full-width">
             <div class="col-md-2 col-xs-6 q-pr-sm">
-              <div class=" q-caption uppercase">
+              <div class="text-uppercase">
                 {{ $t("profile.givenName") }}
               </div>
               <q-input
@@ -50,7 +46,7 @@
               />
             </div>
             <div class="col-md-2 col-xs-6 q-pr-sm">
-              <div class=" q-caption uppercase">
+              <div class=" q-caption text-uppercase">
                 {{ $t("profile.familyName") }}
               </div>
               <q-input
@@ -60,30 +56,25 @@
                       :standout="is_edit"
               />
             </div>
-            <!-- <div class="col-md-2 col-xs-6 q-pr-sm">
-              <div class=" q-caption uppercase">
-                {{ $t("profile.gender") }}
-              </div>
-              <q-select
-                      class
-                      :readonly="!is_edit"
-                      :hide-underline="!is_edit"
-                      v-model="form.gender"
-                      :options="[
-                { label: $t('profile.female'), value: 'female' },
-                { label: $t('profile.male'), value: 'male' },
-                { label: $t('profile.other'), value: 'other' }
-              ]"
-              />
-            </div> -->
             <div class="col-md-2 col-xs-6">
-              <div class=" q-caption uppercase">Type</div>
+              <div class=" q-caption text-uppercase">Type</div>
               <div>{{ form.member_type }}</div>
             </div>
           </div>
         </div>
       </div>
 
+      <!--<div class="row">
+        <div class="col-md-2 animate-pop profile_image_outer_wrap">
+
+          </div>
+        </div>
+        <div class="col-md-10">
+
+        </div>
+      </div>-->
+
+    </div>
     </div>
     <!-- end header gradient -->
 
