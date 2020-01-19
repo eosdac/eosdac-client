@@ -1,18 +1,23 @@
 <template>
-  <q-avatar v-if="loaded" :size="size">
-    <img :src="profilePic" />
-
-    <div v-if="show_role">
-
-      <q-badge v-if="show_role" floating transparent color="transparent">
-        <q-icon v-if="is_custodian"
-                color="warning"
-                :name="$configFile.icon.cust_symbol" />
-      </q-badge>
-    </div>
-  </q-avatar>
+  <div v-if="loaded" :style="{
+  position: 'relative',
+  margin: 'auto',
+  height: `${60*scale}px`,
+  width: `${60*scale}px`,
+  backgroundImage: `url(${profilePic})`,
+  backgroundPosition: 'center',
+  borderRadius: '50%',
+  backgroundSize: `${60*scale}px`
+  }">
+    <q-badge v-if="show_role" floating color="transparent">
+      <q-icon v-if="is_custodian"
+              color="warning"
+              :size="`${25*scale}px`"
+              :name="$configFile.icon.cust_symbol" />
+    </q-badge>
+  </div>
   <div v-else class="row justify-center items-center">
-    <q-spinner-pie size="30px" color="primary" />
+    <q-spinner-pie :size="`${60*scale}px`" color="primary" />
   </div>
 </template>
 
@@ -23,7 +28,10 @@ export default {
   name: 'profilePic',
   props: {
     accountname: String,
-    scale: Number,
+    scale: {
+      type: Number,
+      default: 1
+    },
     size: String,
     show_role: {
       type: Boolean,
