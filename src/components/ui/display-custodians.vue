@@ -23,25 +23,22 @@
         </q-chip>
       </div>
 
-      <div class="row justify-between q-col-gutter-sm" v-if="custodians.length">
+      <div class="row items-center q-col-gutter-sm" v-if="custodians.length">
         <div
-                class="col-lg-2"
+                class="col-lg-1 text-center"
                 v-for="(custodian, i) in custodians"
                 :key="`cust_${i}`"
                 @mouseover="showing = true"
         >
-          <profile-pic
-                :accountname="custodian.cust_name"
-                :scale="1"
-                size="xl"
-                :show_role="true"
-        />
-            <q-chip size="md">
-
-              <q-item clickable :to="{ path: '/profile/' + custodian.cust_name }" >
-                {{ custodian.cust_name }}
-              </q-item>
-            </q-chip>
+            <profile-pic
+                    :accountname="custodian.cust_name"
+                    :scale="1"
+                    :show_role="true"
+            />
+          <router-link
+                  class="profile-link q-mt-xs"
+                  :to="{ path: '/profile/' + custodian.cust_name }"
+          >{{ custodian.cust_name }}</router-link>
 
         </div>
       </div>
@@ -199,3 +196,8 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.profile-link
+  color: inherit
+</style>
