@@ -1,18 +1,19 @@
 <template>
-  <div>
-      <q-avatar
-              v-for="(social, i) in parseLinks"
-              class="on-left"
-              :key="i"
-
-      >
-        <q-icon :name="'icon-' + social.icon" />
-      </q-avatar>
-
-  </div>
+    <div>
+        <q-btn
+          v-for="(social, i) in parseLinks"
+          class="on-left"
+          :key="i"
+          @click="openURL(social.link)"
+          :icon="'icon-' + social.icon"
+        >
+        </q-btn>
+    </div>
 </template>
 
 <script>
+import { openURL } from 'quasar'
+
 export default {
   name: 'SocialLinks',
 
@@ -36,9 +37,10 @@ export default {
   },
 
   methods: {
+    openURL,
     matchSocialIcon (link) {
       // supported social networks
-      link = link.indexOf('://') === -1 ? 'http://' + link : link
+      link = link.indexOf('://') === -1 ? 'https://' + link : link
       // console.log(link)
       const icons = [
         'social-youtube-com',
