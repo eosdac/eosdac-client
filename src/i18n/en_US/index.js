@@ -120,6 +120,7 @@ export default {
     'view': 'view'
   },
   'default': {
+    'powered_by': 'Powered by eosDAC',
     'constitution': 'Constitution',
     'constitution_has_been_updated': 'The Constitution has been updated. Please sign the updated Constitution to use the Member Client.',
     'login': 'login',

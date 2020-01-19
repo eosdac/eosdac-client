@@ -58,7 +58,7 @@
       >
         <div class="row items-center justify-end">
           <img style="width:36px" src="../assets/eosdac_logo_notext.svg" />
-          <span class="q-ml-sm q-caption">Powered by eosDAC</span>
+          <span class="q-ml-sm q-caption">{{$t('default.powered_by')}}</span>
         </div>
       </div>
     </q-drawer>
