@@ -29,7 +29,7 @@
         </div>
         <div class="col-10">
           <div class="row q-my-lg" style="min-height:100px">
-            <div class="text-h2 col-12 q-pb-md">
+            <div class="text-h4 col-12 q-pb-md text-weight-light text-uppercase">
               {{ account_name }}
             </div>
           </div>
