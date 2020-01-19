@@ -120,7 +120,7 @@
                 </q-card-section>
 
                 <q-card-section>
-                    <q-list class="q-mt-md">
+                    <q-list class="q-mt-md" separator>
                         <q-item
                                 v-for="(cand, i) in getSelectedCand"
                                 :key="i"
