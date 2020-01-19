@@ -39,7 +39,6 @@
                   :max="pagination.max"
                   :max-pages="6"
                   direction-links
-                  size="12px"
                 />
             </div>
             <div
@@ -61,7 +60,7 @@
 
             <div
               v-if="!loading && pagination.max > 1"
-              class="row q-pa-md q-mb-md"
+              class="row items-end q-pa-md q-mb-md"
             >
 <!--              <q-search-->
 <!--                color="primary-light"-->
@@ -76,7 +75,6 @@
                         :max="pagination.max"
                         :max-pages="6"
                         direction-links
-                        size="12px"
                 />
             </div>
         </div>
