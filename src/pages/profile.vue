@@ -44,8 +44,9 @@
               </div>
               <q-input
                       :readonly="!is_edit"
-                      :hide-underline="!is_edit"
                       v-model="form.givenName"
+                      :borderless="!is_edit"
+                      :standout="is_edit"
               />
             </div>
             <div class="col-md-2 col-xs-6 q-pr-sm">
@@ -54,8 +55,9 @@
               </div>
               <q-input
                       :readonly="!is_edit"
-                      :hide-underline="!is_edit"
                       v-model="form.familyName"
+                      :borderless="!is_edit"
+                      :standout="is_edit"
               />
             </div>
             <!-- <div class="col-md-2 col-xs-6 q-pr-sm">
