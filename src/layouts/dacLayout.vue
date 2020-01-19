@@ -57,7 +57,7 @@
               @click="openURL('https://eosdac.io')"
       >
         <div class="row items-center justify-end">
-          <img style="width:20px" src="../assets/eosdac_logo_notext.svg" />
+          <img style="width:36px" src="../assets/eosdac_logo_notext.svg" />
           <span class="q-ml-sm q-caption">Powered by eosDAC</span>
         </div>
       </div>
