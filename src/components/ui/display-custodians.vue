@@ -33,7 +33,7 @@
             <profile-pic
                     :accountname="custodian.cust_name"
                     :scale="1"
-                    :show_role="true"
+                    :show_role="false"
             />
           <router-link
                   class="profile-link q-mt-xs"
