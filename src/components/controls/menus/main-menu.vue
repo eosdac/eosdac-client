@@ -1,5 +1,5 @@
 <template>
-  <q-list no-border link inset-delimiter>
+  <q-list no-border link inset-delimiter class="main-menu">
     <q-item clickable v-if="getAccountName" :to="`/profile/` + getAccountName">
       <q-item-section avatar>
         <q-icon :name="$configFile.icon.profile" />
@@ -101,3 +101,8 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+  .main-menu
+    font-size: 1.15em
+</style>
