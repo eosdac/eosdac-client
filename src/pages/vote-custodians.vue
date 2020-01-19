@@ -49,9 +49,9 @@
             </div>
             <div v-else>
               <Candidate
-                v-for="candidate in paginate"
+                v-for="(candidate, position) in paginate"
                 :key="candidate.candidate_name"
-                :ref="candidate.candidate_name"
+                :position="position"
                 :data="candidate"
                 @clickvotefor="addToVoteList(candidate.candidate_name)"
                 @clickunvotefor="deleteFromVoteList(candidate.candidate_name)"

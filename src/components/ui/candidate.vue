@@ -110,7 +110,8 @@
           </div>
         </div>
       </q-expansion-item>
-    <q-separator />
+    <q-separator color="warning" v-if="position == getCustodianConfig.numelected" />
+    <q-separator v-else />
   </div>
 </template>
 
@@ -130,7 +131,8 @@ export default {
   },
 
   props: {
-    data: Object
+    data: Object,
+    position: Number
   },
 
   data () {
