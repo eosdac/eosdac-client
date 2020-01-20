@@ -6,7 +6,7 @@
         :show_role="false"
         :class="{ itsmeclass: checkItsMe }"
         :accountname="selected"
-        :scale="0.69"
+        :scale="0.5"
       />
     </q-item-section>
     <q-separator spaced />
@@ -19,7 +19,10 @@
       >
         <template v-slot:before>
           <q-avatar>
-            <profile-pic :accountname="selected" />
+            <profile-pic :accountname="selected"
+                        :border="false"
+                        :show_role="false"
+                        :scale="0.5" />
           </q-avatar>
         </template>
       </q-select>
