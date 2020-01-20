@@ -104,17 +104,19 @@ export default {
   methods: {
     async showNotify (data) {
       console.log(`Notification`, data)
-      let message = data.notify
+      let message = ''
       let color = 'info'
       let avatar = ''
       let actor = data.actor
-      const p = await this.$profiles.getProfiles([data.actor])
-      if (p.length && p[0].profile.givenName) {
-        actor = `${p[0].profile.givenName} ${p[0].profile.familyName}`
-      }
-      const a = await this.$profiles.getAvatars([data.actor])
-      if (a.length && a[0].image) {
-        avatar = a[0].image
+      if (actor) {
+        const p = await this.$profiles.getProfiles([data.actor])
+        if (p.length && p[0] && p[0].profile && p[0].profile.givenName) {
+          actor = `${p[0].profile.givenName} ${p[0].profile.familyName}`
+        }
+        const a = await this.$profiles.getAvatars([data.actor])
+        if (a.length && a[0].image) {
+          avatar = a[0].image
+        }
       }
 
       switch (data.notify) {
@@ -178,13 +180,15 @@ export default {
           break
       }
 
-      Notify.create({
-        message,
-        timeout: 5000,
-        color,
-        avatar,
-        position: 'top-right'
-      })
+      if (message) {
+        Notify.create({
+          message,
+          timeout: 5000,
+          color,
+          avatar,
+          position: 'top-right'
+        })
+      }
     }
     /* checkVersionChange () {
       // check if localstorage needs an update
