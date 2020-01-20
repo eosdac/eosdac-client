@@ -19,7 +19,10 @@
           <q-item-label caption>{{$t('action.click_icon')}}</q-item-label>
         </q-item-section>
         <q-item-section side>
-          <q-item-label v-for="(auth, a) in action.authorization" :key="a">{{auth.actor}}@{{auth.permission}}</q-item-label>
+          <q-item-label v-for="(auth, a) in action.authorization" :key="a">
+            {{auth.actor}}
+            <span class="text-caption" v-if="auth.permission !== 'active'">@{{auth.permission}}</span>
+          </q-item-label>
         </q-item-section>
       </q-item>
     </q-list>
