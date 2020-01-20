@@ -343,6 +343,16 @@ export default {
     'voting_progress': 'voting progress',
     'no_candidates': 'No candidates'
   },
+  'display_custodians': {
+    'new_election': 'New election in',
+    'days': 'days',
+    'hours': 'hours',
+    'minutes': 'minutes',
+    'seconds': 'seconds',
+    'activation_progress': 'DAC Activation Progress',
+    'voting_progress': 'Voting Progress',
+    'candidates_votes': 'Number of Candidates with Votes'
+  },
   'votingprogress': {
     'activated_at': 'The DAC will be activated at 15%',
     'loading': 'loading...',

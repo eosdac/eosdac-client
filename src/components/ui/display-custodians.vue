@@ -5,17 +5,17 @@
       <div class="row items-center justify-between ">
         <q-chip dense v-if="new_period_millisleft > 0">
           <div class="row items-center">
-            <div class="q-mr-sm q-caption">New election in</div>
+            <div class="q-mr-sm q-caption">{{ $t("display_custodians.new_election") }}</div>
             <countdown
               v-if="new_period_millisleft"
               :time="Number(new_period_millisleft)"
             >
               <template slot-scope="props">
                 <div class="q-caption text-weight-light">
-                  <span v-if="props.days">{{ props.days }} days, </span>
-                  <span v-if="props.hours">{{ props.hours }} hours, </span>
-                  <span v-if="props.minutes">{{ props.minutes }} minutes,</span>
-                  <span>{{ props.seconds }} seconds</span>
+                  <span v-if="props.days">{{ props.days }} {{ $t("display_custodians.days") }}, </span>
+                  <span v-if="props.hours">{{ props.hours }} {{ $t("display_custodians.hours") }}, </span>
+                  <span v-if="props.minutes">{{ props.minutes }} {{ $t("display_custodians.minutes") }},</span>
+                  <span>{{ props.seconds }} {{ $t("display_custodians.seconds") }}</span>
                 </div>
               </template>
             </countdown>
@@ -51,7 +51,7 @@
 
     <div v-if="!getActivationStats.active && getActivationStats.votePercentage">
       <div class="shadow-4 rounded-borders q-pa-md q-mb-md bg-info">
-        <div class="text-h6">DAC Activation Progress</div>
+        <div class="text-h6">{{ $t("display_custodians.activation_progress") }}</div>
         <div class="row q-col-gutter-lg">
           <div class="col-md-6">
             <div class="row">
@@ -67,7 +67,7 @@
               </div>
             </div>
             <div class="row q-mt-sm">
-              <div class="col-6">Voting Progress</div>
+              <div class="col-6">{{ $t("display_custodians.voting_progress") }}</div>
               <div class="col-6">{{ getActivationStats.votePercentage.toFixed(2) }}% of
                 {{ getActivationStats.voteQuorum }}%</div>
               </div>
@@ -86,7 +86,7 @@
               </div>
             </div>
             <div class="row q-mt-sm">
-              <div class="col-6">Number of Candidates with Votes</div>
+              <div class="col-6">{{ $t("display_custodians.candidates_votes") }}</div>
               <div class="col-6">{{ getActivationStats.numCandidates }} /
                 {{ getActivationStats.requiredCandidates }}</div>
             </div>
