@@ -349,6 +349,9 @@ export default {
     'hours': 'hours',
     'minutes': 'minutes',
     'seconds': 'seconds',
+    'waiting_for_newperiod': 'Waiting for new period',
+    'newperiod_overdue': 'NEW PERIOD IS OVERDUE',
+    'run_now': 'Run Now',
     'activation_progress': 'DAC Activation Progress',
     'voting_progress': 'Voting Progress',
     'candidates_votes': 'Number of Candidates with Votes'

@@ -2,13 +2,16 @@
   <div>
     <div v-if="getCustodianState.met_initial_votes_threshold === 1">
       <div class="shadow-4 rounded-borders q-pa-md q-mb-md">
-      <div class="row items-center justify-between ">
-        <q-chip dense v-if="new_period_millisleft > 0">
+      <div class="row items-center justify-between " v-if="msLeft !== null">
+        <q-chip dense v-if="msLeft > 0">
           <div class="row items-center">
             <div class="q-mr-sm q-caption">{{ $t("display_custodians.new_election") }}</div>
             <countdown
-              v-if="new_period_millisleft"
-              :time="Number(new_period_millisleft)"
+              v-if="msLeft"
+              :time="msLeft"
+              :key="msLeft"
+              emit-events
+              @end="newperiodCheck"
             >
               <template slot-scope="props">
                 <div class="q-caption text-weight-light">
@@ -21,6 +24,19 @@
             </countdown>
           </div>
         </q-chip>
+        <div v-else-if="showWaitingNewperiod">
+          <div class="text-warning rounded-borders q-mb-sm">
+            <q-spinner />
+            {{ $t("display_custodians.waiting_for_newperiod") }}...
+          </div>
+
+        </div>
+        <div v-else-if="showManualNewperiod">
+          <div class="text-warning rounded-borders q-mb-sm">
+            {{ $t("display_custodians.newperiod_overdue") }}
+            <q-btn color="info" @click="callNewPeriod">{{ $t("display_custodians.run_now") }}</q-btn>
+          </div>
+        </div>
       </div>
 
       <div class="row items-center q-col-gutter-sm" v-if="custodians.length">
@@ -119,13 +135,18 @@ export default {
   data () {
     return {
       custodians: [],
-      showing: false
+      showing: false,
+      msLeft: null,
+      recalcInterval: null,
+      showWaitingNewperiod: false,
+      showManualNewperiod: false
     }
   },
 
   computed: {
     ...mapGetters({
       tokenStats: 'dac/getTokenStats',
+      getAccountName: 'user/getAccountName',
       getCustodians: 'dac/getCustodians',
       getCustodianState: 'dac/getCustodianState',
       getActivationStats: 'dac/getActivationStats',
@@ -134,8 +155,24 @@ export default {
     getVotingProgress () {
       // this.$store.dispatch("api/getTokenStats");
       return this.getActivationStats.votePercentage
+    }
+  },
+
+  methods: {
+    async newperiodCheck () {
+      if (this.recalcInterval && this.msLeft !== null) {
+        return
+      }
+
+      this.showWaitingNewperiod = true
+      this.msLeft = -1
+      this.recalcInterval = setInterval(() => {
+        console.log(`check update`)
+        this.recalcNewperiodTime()
+      }, 5000)
     },
-    new_period_millisleft () {
+    async recalcNewperiodTime () {
+      await this.$store.dispatch('dac/fetchCustodianContractState')
       let lastperiodtime = this.getCustodianState.lastperiodtime
       const periodLength = this.getCustodianConfig.periodlength
       if (periodLength && lastperiodtime) {
@@ -143,24 +180,38 @@ export default {
           lastperiodtime = new Date(lastperiodtime * 1000)
         } else {
           // example "2019-05-06 18:34:46"
-          lastperiodtime = new Date(
-            Date.parse(lastperiodtime.replace(' UTC', ''))
+          lastperiodtime = new Date(Date.parse(lastperiodtime.replace(' UTC', ''))
           )
         }
         let end = addToDate(lastperiodtime, {
           seconds: periodLength
         })
-        return (
-          Date.parse(date.formatDate(end, 'YYYY-MM-DD HH:mm:ss')) -
-          Date.parse(new Date())
-        )
+        const millisleft = Date.parse(date.formatDate(end, 'YYYY-MM-DD HH:mm:ss')) - new Date().getTime()
+
+        console.log(`Time left = ${millisleft}`)
+
+        if (millisleft > 0) {
+          this.showWaitingNewperiod = false
+          this.msLeft = millisleft
+          if (this.recalcInterval) {
+            console.log(`clearing interval `, this.recalcInterval)
+            clearInterval(this.recalcInterval)
+            this.recalcInterval = null
+          }
+        } else if (millisleft < -180000) {
+          this.showManualNewperiod = true
+          this.msLeft = millisleft
+        } else if (millisleft < 0) {
+          this.showWaitingNewperiod = true
+          this.msLeft = millisleft
+          this.newperiodCheck()
+        }
+
+        return millisleft
       }
 
       return 0
-    }
-  },
-
-  methods: {
+    },
     async setCustodians () {
       let custodians
       if (!this.getCustodians) {
@@ -172,6 +223,26 @@ export default {
         c.tooltip = false
         return c
       })
+    },
+    async callNewPeriod () {
+      let actions = [
+        {
+          account: this.$dir.getAccount(this.$dir.ACCOUNT_CUSTODIAN),
+          name: 'newperiode',
+          data: {
+            message: `New period called by ${this.getAccountName}`,
+            dac_id: this.$dir.dacId
+          }
+        }
+      ]
+
+      let result = await this.$store.dispatch('user/transact', {
+        actions: actions
+      })
+      if (result) {
+        this.showManualNewperiod = false
+        await this.$store.dispatch('dac/fetchCustodianContractState')
+      }
     }
   },
 
@@ -185,6 +256,8 @@ export default {
     if (this.getActivationStats.voteQuorum === null) {
       await this.$store.dispatch('dac/fetchActivationStats')
     }
+    console.log(`MOUNTED`)
+    this.recalcNewperiodTime()
   },
 
   watch: {
