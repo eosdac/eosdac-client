@@ -270,6 +270,7 @@
         </div>
       </div>
     </q-expansion-item>
+    <q-separator  />
 
     <q-dialog v-model="expand_votes_modal">
       <q-card>

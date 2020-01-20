@@ -43,8 +43,8 @@
     </div>
 
     <q-list separator v-if="wps.length" class="row">
-      <div class="col-12" v-for="(wp, i) in wps" :key="`wp${i}`">
-        <wp-proposal
+      <div class="col-12" >
+        <wp-proposal v-for="(wp, i) in wps" :key="`wp${i}`"
           :wp="wp"
           :array_index="i"
           @wp_expand="
