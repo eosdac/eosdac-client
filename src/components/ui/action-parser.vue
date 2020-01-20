@@ -3,13 +3,14 @@
     <q-list separator>
       <q-item v-for="(action, key) in actions" :key="key">
         <q-item-section v-if="actionMetadata[key].type === 'transfer'" avatar>
-          $
+          <q-icon :name="$configFile.icon.systemtoken" v-if="action.account === 'eosio.token'" />
+          <q-icon :name="$configFile.icon.dactoken" v-else />
         </q-item-section>
         <q-item-section v-else avatar class="q-pa-none">
           <display-action :action="action" viewable />
         </q-item-section>
         <q-item-section v-if="actionMetadata[key].type === 'transfer'">
-          <q-item-label>{{$t('action.transfer')}} <b>{{$helper.assetToLocaleNumber(action.data.quantity)}} ({{action.account}})</b></q-item-label>
+          <q-item-label>{{$t('action.transfer')}} <b>{{$helper.assetToLocaleNumber(action.data.quantity)}}</b></q-item-label>
           <q-item-label caption>{{action.data.from}} -> {{action.data.to}}</q-item-label>
           <q-item-label caption>{{action.data.memo}}</q-item-label>
         </q-item-section>
