@@ -70,6 +70,8 @@ class ConfigLoader {
         return this.configFile.api.dac_api.replace(/\/+$/, '')
       case 'dacws':
         return this.configFile.api.dac_ws
+      case 'paycpu':
+        return !!this.configFile.pay_cpu
       default:
         return `***${configquery} not yet subscribed in config-loader***`
     }
