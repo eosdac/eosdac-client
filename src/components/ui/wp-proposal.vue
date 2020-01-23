@@ -26,6 +26,35 @@
         </q-item-section>
 
         <q-item-section>{{ wp.pay_amount.quantity }}</q-item-section>
+        <q-item-section>
+          <q-item-label>
+            <div v-if="wp.status == wpEnums.PENDING_APPROVAL" class="bg-warning q-pa-sm rounded-borders text-bold">
+              {{$t('workerproposals.pending_approval')}}
+            </div>
+            <div v-else-if="wp.status == wpEnums.WORK_IN_PROGRESS" class="bg-positive q-pa-sm rounded-borders text-bold">
+              {{$t('workerproposals.work_in_progress')}}
+            </div>
+            <div v-else-if="wp.status == wpEnums.PENDING_VALIDATE" class="bg-warning q-pa-sm rounded-borders text-bold">
+              {{$t('workerproposals.pending_validate')}}
+            </div>
+            <div v-else-if="wp.status == wpEnums.APPROVED" class="bg-positive q-pa-sm rounded-borders text-bold">
+              {{$t('workerproposals.approved')}}
+            </div>
+            <div v-else-if="wp.status == wpEnums.VALIDATED" class="bg-positive q-pa-sm rounded-borders text-bold">
+              {{$t('workerproposals.validated')}}
+            </div>
+            <div v-else-if="wp.status == wpEnums.COMPLETED" class="bg-positive q-pa-sm rounded-borders text-bold">
+              {{$t('workerproposals.completed')}}
+            </div>
+            <div v-else-if="wp.status == wpEnums.EXPIRED" class="bg-negative q-pa-sm rounded-borders text-bold">
+              {{$t('workerproposals.expired')}}
+            </div>
+            <div v-else-if="wp.status == wpEnums.CANCELLED" class="bg-negative q-pa-sm rounded-borders text-bold">
+              {{$t('workerproposals.cancelled')}}
+            </div>
+            <div v-else>{{wp.status}}</div>
+          </q-item-label>
+        </q-item-section>
 
         <q-item-section style="max-width: 10%">
           <q-item-label>{{$t('workerproposal.vote_threshold')}}</q-item-label>
@@ -48,42 +77,6 @@
         </div>
         <div class="col-md-4">
           <q-card>
-
-            <q-card-section>
-              <q-item>
-                <q-item-section>
-                  <q-item-label>{{$t('workerproposal.status')}}</q-item-label>
-                  <q-item-label caption>
-                    <div v-if="wp.status == wpEnums.PENDING_APPROVAL" class="bg-warning q-pa-sm rounded-borders text-bold">
-                      {{$t('workerproposals.pending_approval')}}
-                    </div>
-                    <div v-else-if="wp.status == wpEnums.WORK_IN_PROGRESS" class="bg-positive q-pa-sm rounded-borders text-bold">
-                      {{$t('workerproposals.work_in_progress')}}
-                    </div>
-                    <div v-else-if="wp.status == wpEnums.PENDING_CLAIM" class="bg-warning q-pa-sm rounded-borders text-bold">
-                      {{$t('workerproposals.pending_claim')}}
-                    </div>
-                    <div v-else-if="wp.status == wpEnums.APPROVED" class="bg-positive q-pa-sm rounded-borders text-bold">
-                      {{$t('workerproposals.approved')}}
-                    </div>
-                    <div v-else-if="wp.status == wpEnums.VALIDATED" class="bg-positive q-pa-sm rounded-borders text-bold">
-                      {{$t('workerproposals.validated')}}
-                    </div>
-                    <div v-else-if="wp.status == wpEnums.COMPLETED" class="bg-positive q-pa-sm rounded-borders text-bold">
-                      {{$t('workerproposals.completed')}}
-                    </div>
-                    <div v-else-if="wp.status == wpEnums.EXPIRED" class="bg-negative q-pa-sm rounded-borders text-bold">
-                      {{$t('workerproposals.expired')}}
-                    </div>
-                    <div v-else-if="wp.status == wpEnums.CANCELLED" class="bg-negative q-pa-sm rounded-borders text-bold">
-                      {{$t('workerproposals.cancelled')}}
-                    </div>
-                    <div v-else>{{wp.status}}</div>
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-card-section>
-
             <q-card-section>
               <q-item>
                 <q-item-section>
@@ -178,7 +171,7 @@
 
                 <div v-if="!read_only && getAccountName">
                     <member-select
-                            v-if="wp.status == wpEnums.PENDING_APPROVAL || wp.status == wpEnums.PENDING_CLAIM"
+                            v-if="wp.status == wpEnums.PENDING_APPROVAL || wp.status == wpEnums.PENDING_VALIDATE"
                             :show_selected="false"
                             @change="delegatevote($event)"
                             :value="MyDirectDelegation || ''"
@@ -208,7 +201,7 @@
                               @click="voteprop('voteDeny')"
                       />
                   </div>
-                  <div v-else-if="wp.status == wpEnums.PENDING_CLAIM">
+                  <div v-else-if="wp.status == wpEnums.PENDING_VALIDATE">
                       <q-btn
                               v-if="getVoterStatus == 4 || getVoterStatus == 0"
                               class="on-right animate-pop"
@@ -256,6 +249,7 @@
                               @click="finalize()"
                       />
                       <q-btn
+                              v-if="wp.status != wpEnums.COMPLETED && wp.status != wpEnums.CANCELLED"
                               class="on-right animate-pop"
                               flat
                               color="negative"
@@ -404,18 +398,18 @@ export default {
     getVotes () {
       if (this.wp.votes && this.wp.votes.length) {
         if (
-          this.wp.status === 0 ||
-          this.wp.status === 1 ||
-          this.wp.status === 3
+          this.wp.status === this.wpEnums.PENDING_APPROVAL ||
+          this.wp.status === this.wpEnums.WORK_IN_PROGRESS ||
+          this.wp.status === this.wpEnums.APPROVED
         ) {
           return this.wp.votes.filter(
             v => v.vote === 1 || v.vote === 2 || v.vote === null
           )
         }
         if (
-          this.wp.status === 2 ||
-          this.wp.status === 4 ||
-          this.wp.status === 101
+          this.wp.status === this.wpEnums.PENDING_VALIDATE ||
+          this.wp.status === this.wpEnums.VALIDATED ||
+          this.wp.status === this.wpEnums.COMPLETED
         ) {
           return this.wp.votes.filter(
             v => v.vote === 3 || v.vote === 4 || v.vote === null
@@ -482,12 +476,12 @@ export default {
     getExpiry () {
       let expirationMillis
       let start
-      if (this.wp.status === 0) {
+      if (this.wp.status === this.wpEnums.PENDING_APPROVAL) {
         expirationMillis = Number(this.getWpConfig.approval_expiry) * 1000
         start = Date.parse(this.wp.propose_timestamp)
         console.log('state 0', expirationMillis, start)
       }
-      if (this.wp.status === 2) {
+      if (this.wp.status === this.wpEnums.PENDING_VALIDATE) {
         expirationMillis = Number(this.getWpConfig.escrow_expiry) * 1000
         start = Date.parse(this.wp.complete_work_timestamp)
         console.log('state 0', expirationMillis, start)
@@ -499,7 +493,7 @@ export default {
       let perc = 100 - ((current - start) / (end - start)) * 100
       let msleft = end - current
 
-      if (this.wp.status === 5) {
+      if (this.wp.status === this.wpEnums.EXPIRED) {
         perc = 0
         msleft = 0
       }
