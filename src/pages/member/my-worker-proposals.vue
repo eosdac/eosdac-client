@@ -2,6 +2,7 @@
   <q-page class="q-pa-md">
     <q-tabs class="q-mb-md topbar" v-model="active_tab">
       <q-tab name="my_proposals" label="My Proposals" />
+      <q-tab name="completed" label="Completed Proposals" />
       <q-tab name="my_validations" label="Validator" />
     </q-tabs>
 
@@ -132,6 +133,7 @@ export default {
       let skip = (this.pagination.page - 1) * this.pagination.items_per_page
       // make request
       const query = {
+        status: '0,1,2,3,4', // all current statuses
         skip: skip,
         limit: this.pagination.items_per_page
       }
@@ -139,6 +141,9 @@ export default {
         query.proposer = this.getAccountName
       } else if (this.active_tab === 'my_validations') {
         query.arbitrator = this.getAccountName
+      } else if (this.active_tab === 'completed') {
+        query.proposer = this.getAccountName
+        query.status = 101
       }
       this.fetchWps(query)
     }
