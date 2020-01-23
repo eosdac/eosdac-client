@@ -403,7 +403,7 @@ export default {
     'pending_approval': 'Pending Approval',
     'approved': 'Approved',
     'work_in_progress': 'Work in Progress',
-    'pending_claim': 'Pending Claim',
+    'pending_validate': 'Awaiting Validation of Work',
     'validated': 'Work Validated',
     'completed': 'Completed',
     'expired': 'Expired',
