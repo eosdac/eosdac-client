@@ -401,6 +401,7 @@ export default {
     'my_delegations': 'my delegations',
     'inbox': 'inbox',
     'pending_approval': 'Pending Approval',
+    'approved': 'Approved',
     'work_in_progress': 'Work in Progress',
     'pending_claim': 'Pending Claim',
     'validated': 'Work Validated',
@@ -449,6 +450,8 @@ export default {
     'select_category': 'Please select a category',
     'proposal_category': 'Category',
     'arbitrator': 'Arbitrator',
+    'pay_amount': 'Pay Amount',
+    'expected_duration': 'Expected Duration of Work',
     'proposal_description': 'Description',
     'submit': 'Submit Proposal'
   },

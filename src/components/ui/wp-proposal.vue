@@ -572,7 +572,7 @@ export default {
           ],
           data: {
             custodian: this.getAccountName,
-            proposal_id: Number(this.wp.id),
+            proposal_id: this.wp.id,
             delegatee_custodian: delegatee.new,
             dac_id: this.$dir.dacId
           }
@@ -633,7 +633,7 @@ export default {
           ],
           data: {
             custodian: this.getAccountName,
-            proposal_id: Number(this.wp.id),
+            proposal_id: this.wp.id,
             vote: map[votetype],
             dac_id: this.$dir.dacId
           }
@@ -676,7 +676,7 @@ export default {
             }
           ],
           data: {
-            proposal_id: Number(this.wp.id),
+            proposal_id: this.wp.id,
             dac_id: this.$dir.dacId
           }
         }
@@ -697,7 +697,7 @@ export default {
           name: 'startwork',
           // authorization: [ {actor: this.getAccountName, permission: 'active'}],
           data: {
-            proposal_id: Number(this.wp.id),
+            proposal_id: this.wp.id,
             dac_id: this.$dir.dacId
           }
         }
@@ -717,7 +717,7 @@ export default {
           name: 'completework',
           // authorization: [ {actor: this.getAccountName, permission: 'active'}],
           data: {
-            proposal_id: Number(this.wp.id),
+            proposal_id: this.wp.id,
             dac_id: this.$dir.dacId
           }
         }
@@ -739,7 +739,7 @@ export default {
           name: 'arbapprove',
           data: {
             arbitrator: this.getAccountName,
-            proposal_id: Number(this.wp.id),
+            proposal_id: this.wp.id,
             dac_id: this.$dir.dacId
           }
         },
@@ -748,7 +748,7 @@ export default {
           name: 'approve',
 
           data: {
-            key: Number(this.wp.id),
+            key: this.wp.id,
             approver: this.getAccountName
           }
         }
@@ -769,7 +769,7 @@ export default {
           name: 'finalize',
           // authorization: [ {actor: this.getAccountName, permission: 'active'}],
           data: {
-            proposal_id: Number(this.wp.id),
+            proposal_id: this.wp.id,
             dac_id: this.$dir.dacId
           }
         }

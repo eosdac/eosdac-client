@@ -31,7 +31,7 @@
         </div>
         <div class="col-xs-12 col-lg-6">
 
-          <asset-input :allowed="allowed_currencies" label="Pay Amount" v-model="wp_data.pay_amount" />
+          <asset-input :allowed="allowed_currencies" :label="$t('newworkerproposal.pay_amount')" v-model="wp_data.pay_amount" />
 
         </div>
         <div class="col-xs-12 col-lg-6">
@@ -41,6 +41,9 @@
                   :label="$t('newworkerproposal.arbitrator')"
                   color="primary"
                   v-model="wp_data.arbitrator" />
+        </div>
+        <div class="col-xs-12">
+          <seconds-input v-model="wp_data.job_duration" :label="$t('newworkerproposal.expected_duration')" />
         </div>
       </div>
 
@@ -71,13 +74,15 @@ import MarkdownViewer from 'components/ui/markdown-viewer'
 import AssetInput from 'components/controls/asset-input'
 import { required } from 'vuelidate/lib/validators'
 import { isEosName } from '../../modules/validators.js'
+import SecondsInput from '../../components/ui/seconds-input'
 
 export default {
   name: 'newWorkerProposal',
 
   components: {
     MarkdownViewer,
-    AssetInput
+    AssetInput,
+    SecondsInput
   },
   data () {
     const [dacPrecision, dacSym] = this.$dir.symbol.symbol.split(',')
@@ -101,7 +106,8 @@ export default {
         arbitrator: '',
         pay_amount: null,
         category: '',
-        symbol: this.$configFile.get('systemtokensymbol')
+        symbol: this.$configFile.get('systemtokensymbol'),
+        job_duration: 60 * 60 * 24 * 30
       }
     }
   },
@@ -141,8 +147,9 @@ export default {
             arbitrator: this.wp_data.arbitrator,
             pay_amount: extendedAsset,
             content_hash: '00000000000000000000000000000000',
-            id: this.$helper.randomIntFromInterval(1, 999999999999999999),
+            id: this.$helper.randomName(),
             category: this.wp_data.category,
+            job_duration: this.wp_data.job_duration,
             dac_id: this.$dir.dacId
           }
         }
