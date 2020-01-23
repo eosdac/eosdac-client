@@ -413,6 +413,13 @@ export default {
     'delegate_votes': 'Delegate votes'
   },
 
+  'myworkerproposals': {
+    'my_proposals': 'My Proposals',
+    'completed_proposals': 'Completed Proposals',
+    'validator': 'Validator',
+    'loading': 'Loading'
+  },
+
   'workerproposal': {
     'proposer': 'Proposer',
     'requested_pay': 'Requested Pay',
