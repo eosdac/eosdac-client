@@ -1,7 +1,7 @@
 <template>
   <div v-if="getAccountName && wpcats.length">
-    <div class="relative-position q-pa-md rounded-borders shadow-4">
-      <div class="row q-col-gutter-md">
+    <div class="relative-position">
+      <div class="row q-col-gutter-xs">
         <div
           class="col-xs-12 col-md-6 col-xl-4"
           v-for="(cat, i) in wpcats"
@@ -9,7 +9,7 @@
         >
           <q-item>
             <q-item-section>
-              <q-card>
+              <q-card class="q-pa-sm">
                 <q-icon
                         v-if="
                   getAccountName &&
@@ -23,14 +23,12 @@
                 />
                 <q-item-label>{{ $t(cat.label) }}</q-item-label>
                 <q-item-label caption>
-                  {{ $t(`${cat.desc}`) }}
+                  {{ $t(cat.desc) }}
                 </q-item-label>
                 <member-select
-                        itsme="UNDELEGATE"
                         @change="handleCatDelegation(cat.value, $event)"
                         v-model="cat.delegatee"
                         :accountnames="getCustNames"
-                        placeholder="Select to Delegate"
                 />
               </q-card>
 
