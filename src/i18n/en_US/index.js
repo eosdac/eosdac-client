@@ -570,7 +570,8 @@ export default {
     'features_referendum_contract': 'Referendum contract name',
     'features_wp_contract': 'Worker proposals contract name',
     'features_referendums': 'Referendums',
-    'features_wp': 'Worker Proposals'
+    'features_wp': 'Worker Proposals',
+    'features_propose_changes': 'Propose Changes'
   },
 
   'wp_categories': {

@@ -260,6 +260,11 @@
                 </div>
               </div>
             </q-card-section>
+            <q-card-section>
+                <q-card-actions align="right">
+                  <q-btn color="positive" :label="$t('contracts_config.features_propose_changes')" @click="saveFeatures" />
+                </q-card-actions>
+            </q-card-section>
           </q-card>
 
         </q-tab-panel>
@@ -303,6 +308,8 @@ export default {
       brandData: null,
       brandMsigTitle: 'Update Configuration of Branding',
       brandMsigDescription: '',
+      featuresMsigTitle: 'Update DAC Features',
+      featuresMsigDescription: '',
       tokenConfigLoaded: false,
       referendumConfigLoaded: false,
       referendumEnabled: false,
@@ -429,24 +436,59 @@ export default {
       })
       console.log(res)
     },
-    getBrandAction (type, value) {
-      if (this.$dir.getRef(type) === value) {
+    getBrandAction (type, value, name = 'regref') {
+      if (name === 'regref' && this.$dir.getRef(type) === value) {
+        return null
+      } else if (name === 'regaccount' && this.$dir.getAccount(type) === value) {
         return null
       }
+      const data = {
+        dac_id: this.$dir.dacId,
+        value,
+        type
+      }
+      if (name === 'regaccount') {
+        data.account = data.value
+        delete data.value
+      }
+      // console.log('getBrandAction', data)
       return {
         account: this.$configFile.get('dacdirectory'),
-        name: 'regref',
+        name,
         authorization: [
           {
             actor: this.$dir.getAccount(this.$dir.ACCOUNT_AUTH),
             permission: 'active'
           }
         ],
-        data: {
-          dac_id: this.$dir.dacId,
-          value,
-          type
-        }
+        data
+      }
+    },
+    getFeatureAction (type, account) {
+      if (this.$dir.getAccount(type) === account) {
+        return null
+      }
+      let name = 'regaccount'
+      const data = {
+        dac_id: this.$dir.dacId,
+        account,
+        type
+      }
+      if (account === '') {
+        name = 'unregaccount'
+        delete data.account
+      }
+      // console.log('getBrandAction', data)
+      return {
+        account: this.$configFile.get('dacdirectory'),
+        name,
+        authorization: [
+          {
+            actor: this.$dir.getAccount(this.$dir.ACCOUNT_AUTH),
+            permission: 'active'
+          }
+        ],
+        data
       }
     },
     async saveBrand () {
@@ -479,6 +521,23 @@ export default {
       if (!this.brandData.extension) {
         colors.setBrand(type, color)
       }
+    },
+
+    async saveFeatures () {
+      const actions = []
+      console.log('saveFeatures', this.wpAccount)
+      const refAccount = (this.referendumEnabled) ? this.referendumAccount : ''
+      const wpAccount = (this.wpEnabled) ? this.wpAccount : ''
+      actions.push(this.getFeatureAction(this.$dir.ACCOUNT_REFERENDUM, refAccount))
+      actions.push(this.getFeatureAction(this.$dir.ACCOUNT_PROPOSALS, wpAccount))
+
+      console.log('saveFeatures', actions)
+      const res = await this.$store.dispatch('user/proposeMsig', {
+        actions: actions.filter(a => a !== null),
+        title: this.featuresMsigTitle,
+        description: this.featuresMsigDescription
+      })
+      console.log(res)
     }
   },
 
