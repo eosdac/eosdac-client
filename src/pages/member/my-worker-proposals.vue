@@ -1,13 +1,8 @@
 <template>
   <q-page class="q-pa-md">
     <q-tabs class="q-mb-md topbar" v-model="active_tab">
-      <q-tab name="pending_approval" label="pending approval" />
-      <q-tab name="approved" label="Approved" />
-      <q-tab name="work_in_progress" label="work in progress" />
-      <q-tab name="pending_claim" label="Pending claim" />
-      <q-tab name="claimable" label="claimable" />
-      <q-tab name="claimed" label="completed" />
-      <q-tab name="cancelled" label="cancelled" />
+      <q-tab name="my_proposals" label="My Proposals" />
+      <q-tab name="my_validations" label="Validator" />
     </q-tabs>
 
     <div
@@ -87,7 +82,7 @@
 <script>
 import wpProposal from 'components/ui/wp-proposal'
 import { mapGetters } from 'vuex'
-const stateEnum = require('../../boot/wp_state_enum.js')
+// const stateEnum = require('../../boot/wp_state_enum.js')
 
 export default {
   name: 'ReviewWP',
@@ -100,7 +95,7 @@ export default {
       expanded_modal: false,
       expanded_modal_index: 0,
       wps: [],
-      active_tab: 'approved',
+      active_tab: 'my_proposals',
       pagination: {
         page: 1,
         max: 1,
@@ -118,10 +113,6 @@ export default {
   },
   methods: {
     async fetchWps (query) {
-      if (!this.getAccountName) {
-        return
-      }
-      query.proposer = this.getAccountName
       console.log(`fetchWps`, query, this.getAccountName)
       this.loading = true
       let res = await this.$store.dispatch('dac/fetchWorkerProposals', query)
@@ -134,18 +125,22 @@ export default {
       }
       this.loading = false
     },
-    setActiveTab (tab) {
-      // setting the active tab will trigger a watcher
-      this.active_tab = tab
-    },
     managePagination () {
+      if (!this.getAccountName) {
+        return
+      }
       let skip = (this.pagination.page - 1) * this.pagination.items_per_page
       // make request
-      this.fetchWps({
-        status: stateEnum[this.active_tab],
+      const query = {
         skip: skip,
         limit: this.pagination.items_per_page
-      })
+      }
+      if (this.active_tab === 'my_proposals') {
+        query.proposer = this.getAccountName
+      } else if (this.active_tab === 'my_validations') {
+        query.arbitrator = this.getAccountName
+      }
+      this.fetchWps(query)
     }
   },
 
