@@ -21,7 +21,7 @@
         :label="$t('workerproposals.pending_approval')"
       />
       <q-tab name="work_in_progress" :label="$t('workerproposals.work_in_progress')" />
-      <q-tab name="pending_claim" :label="$t('workerproposals.pending_claim')" />
+      <q-tab name="pending_claim" :label="$t('workerproposals.pending_validate')" />
       <q-tab name="claimed" :label="$t('workerproposals.completed')" />
       <q-tab name="expired" :label="$t('workerproposals.expired')" />
       <q-tab name="cancelled" :label="$t('workerproposals.cancelled')" />
