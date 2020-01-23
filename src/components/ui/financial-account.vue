@@ -31,7 +31,7 @@
           <div class="q-pa-none relative-position">
             <xspan
                     class="absolute-right q-mr-md q-mt-sm"
-                    :value="balance"
+                    :value="$helper.assetToLocaleNumber(balance)"
             />
 
             <balance-timeline
