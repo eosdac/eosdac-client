@@ -34,7 +34,7 @@
             <div v-else-if="wp.status == wpEnums.WORK_IN_PROGRESS" class="bg-positive q-pa-sm rounded-borders text-bold">
               {{$t('workerproposals.work_in_progress')}}
             </div>
-            <div v-else-if="wp.status == wpEnums.PENDING_VALIDATE" class="bg-warning q-pa-sm rounded-borders text-bold">
+            <div v-else-if="wp.status == wpEnums.PENDING_VALIDATE" class="bg-warning q-pa-xs rounded-borders text-bold">
               {{$t('workerproposals.pending_validate')}}
             </div>
             <div v-else-if="wp.status == wpEnums.APPROVED" class="bg-positive q-pa-sm rounded-borders text-bold">
@@ -54,14 +54,20 @@
             </div>
             <div v-else>{{wp.status}}</div>
           </q-item-label>
-        </q-item-section>
 
-        <q-item-section style="max-width: 10%">
-          <q-item-label>{{$t('workerproposal.vote_threshold')}}</q-item-label>
-          <q-linear-progress :value="getVotingScore.score / getVotingScore.threshold" style="height:15px" color="positive" />
-          <q-item-label caption @click.stop="expand_votes_modal = true">
-            <span class="text-h6">{{ getVotingScore.score }}/{{ getVotingScore.threshold }}</span>
-          </q-item-label>
+          <div v-if="[wpEnums.PENDING_APPROVAL, wpEnums.PENDING_VALIDATE].includes(wp.status)" class="q-pt-xs">
+            <q-linear-progress :value="getVotingScore.yes / getVotingScore.threshold" style="height:15px" color="positive" />
+            <q-item-label caption @click.stop="expand_votes_modal = true">
+              <q-chip>
+                <q-avatar icon="mdi-thumb-up" color="positive"></q-avatar>
+                {{ getVotingScore.yes }}
+              </q-chip>
+              <q-chip>
+                <q-avatar icon="mdi-thumb-down" color="negative"></q-avatar>
+                {{ getVotingScore.no }}
+              </q-chip> / {{ getVotingScore.threshold }}
+            </q-item-label>
+          </div>
         </q-item-section>
       </template>
 
@@ -504,25 +510,27 @@ export default {
       }
     },
     getVotingScore () {
-      let score = { score: 0, threshold: null }
+      let score = { yes: 0, no: 0, threshold: null }
       if (
-        this.wp.status === 0 ||
-        this.wp.status === 3 ||
-        this.wp.status === 1
+        this.wp.status === this.wpEnums.PENDING_APPROVAL ||
+              this.wp.status === this.wpEnums.WORK_IN_PROGRESS ||
+              this.wp.status === this.wpEnums.APPROVED
       ) {
         score.threshold = this.getWpConfig.proposal_threshold
         this.getVotes.forEach(v => {
-          if (v.vote === 1) score.score += v.weight
+          if (v.vote === 1) score.yes += v.weight
+          if (v.vote === 2) score.no += v.weight
         })
       }
       if (
-        this.wp.status === 2 ||
-        this.wp.status === 4 ||
-        this.wp.status === 101
+        this.wp.status === this.wpEnums.PENDING_VALIDATE ||
+              this.wp.status === this.wpEnums.VALIDATED ||
+              this.wp.status === this.wpEnums.COMPLETED
       ) {
         score.threshold = this.getWpConfig.finalize_threshold
         this.getVotes.forEach(v => {
-          if (v.vote === 3) score.score += v.weight
+          if (v.vote === 3) score.yes += v.weight
+          if (v.vote === 4) score.no += v.weight
         })
       }
       return score
