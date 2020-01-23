@@ -1,14 +1,5 @@
 <template>
   <q-list no-border link inset-delimiter class="main-menu">
-    <q-item clickable v-if="getAccountName" :to="`/profile/` + getAccountName">
-      <q-item-section avatar>
-        <q-icon :name="$configFile.icon.profile" />
-      </q-item-section>
-
-      <q-item-section>
-        <q-item-label>{{$t('menu.profile')}}</q-item-label>
-      </q-item-section>
-    </q-item>
 
     <q-item clickable to="/vote-custodians">
       <q-item-section avatar>

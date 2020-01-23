@@ -121,14 +121,14 @@
 
         <q-separator inset="item" />
 
-        <q-item
-          clickable
-          @click.native="$store.dispatch('global/switchAccount')"
-        >
-            <q-item-section avatar>
-              <q-icon :name="$configFile.icon.refresh" color="info" />
-            </q-item-section>
-          <q-item-section>{{ $t("menu.switch_account") }}</q-item-section>
+        <q-item clickable v-if="getAccountName" :to="`/profile/` + getAccountName">
+          <q-item-section avatar>
+            <q-icon :name="$configFile.icon.profile" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>{{$t('menu.profile')}}</q-item-label>
+          </q-item-section>
         </q-item>
 
         <q-item to="/settings">
@@ -137,16 +137,25 @@
           </q-item-section>
           <q-item-section>{{ $t("menu.settings") }}</q-item-section>
         </q-item>
-      </q-list>
 
         <q-separator inset="item" />
 
+        <q-item
+                clickable
+                @click.native="$store.dispatch('global/switchAccount')"
+        >
+          <q-item-section avatar>
+            <q-icon :name="$configFile.icon.refresh" color="info" />
+          </q-item-section>
+          <q-item-section>{{ $t("menu.switch_account") }}</q-item-section>
+        </q-item>
         <q-item clickable @click.native="$store.dispatch('global/logout')">
           <q-item-section avatar>
             <q-icon :name="$configFile.icon.account" color="negative" />
           </q-item-section>
           <q-item-section>{{$t('default.logout')}}</q-item-section>
         </q-item>
+      </q-list>
     </q-btn-dropdown>
 
     <q-btn
