@@ -69,7 +69,7 @@
       <div class="shadow-4 rounded-borders q-pa-md q-mb-md bg-info">
         <div class="text-h6">{{ $t("display_custodians.activation_progress") }}</div>
         <div class="row q-col-gutter-lg">
-          <div class="col-md-6">
+          <div class="col-md-6" v-if="getActivationStats.voteQuorum > 0">
             <div class="row">
               <div class="col-12">
                 <q-linear-progress
