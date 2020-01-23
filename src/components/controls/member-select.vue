@@ -1,15 +1,5 @@
 <template>
   <q-item class="memberselector no-padding">
-    <q-item-section side v-if="show_selected">
-      <profile-pic
-        :border="false"
-        :show_role="false"
-        :class="{ itsmeclass: checkItsMe }"
-        :accountname="selected"
-        :scale="0.5"
-      />
-    </q-item-section>
-    <q-separator spaced />
     <q-item-section>
       <q-select
               color="primary"
