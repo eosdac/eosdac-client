@@ -1,6 +1,8 @@
 <template>
   <q-page class="q-pa-md">
-    <q-tabs class="q-mb-md topbar" v-model="active_tab">
+    <dac-events @notification="onDACEvent"></dac-events>
+
+    <q-tabs class="q-mb-md" v-model="active_tab">
       <q-tab name="my_proposals" :label="$t('myworkerproposals.my_proposals')" />
       <q-tab name="completed" :label="$t('myworkerproposals.completed_proposals')" />
       <q-tab name="my_validations" :label="$t('myworkerproposals.validator')" />
@@ -82,13 +84,15 @@
 
 <script>
 import wpProposal from 'components/ui/wp-proposal'
+import dacEvents from 'components/dacevents/dac-events'
 import { mapGetters } from 'vuex'
 // const stateEnum = require('../../boot/wp_state_enum.js')
 
 export default {
   name: 'ReviewWP',
   components: {
-    wpProposal
+    wpProposal,
+    dacEvents
   },
   data () {
     return {
@@ -113,6 +117,16 @@ export default {
     })
   },
   methods: {
+    onDACEvent (data) {
+      if (data.notify.substr(0, 3) === 'WP_') {
+        // this.managePagination()
+        for (let i = 0; i < this.wps.length; i++) {
+          if (this.wps[i].id === data.wp_data.id) {
+            this.$set(this.wps, i, data.wp_data)
+          }
+        }
+      }
+    },
     async fetchWps (query) {
       console.log(`fetchWps`, query, this.getAccountName)
       this.loading = true
