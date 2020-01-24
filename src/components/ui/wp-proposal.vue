@@ -90,7 +90,7 @@
 
                     <q-chat-message
                             :name="wp.comments[0].commenter"
-                            :text="wp.comments[0].comment.split('\n')" />
+                            :text="wp.comments[0].comment.split('\n').filter(v => v !== '')" />
 
                     <router-link :to="`/wps/${wp.id}`">{{$t('workerproposal.view_all_comments')}}</router-link>
                   </div>
@@ -103,7 +103,7 @@
                       <q-chat-message
                               v-for="(comment, c) in wp.comments"
                               :key="c" :name="comment.commenter"
-                              :text="comment.comment.split('\n')"
+                              :text="comment.comment.split('\n').filter(v => v !== '')"
                               :sent="getAccountName === comment.commenter" />
                     </div>
 
