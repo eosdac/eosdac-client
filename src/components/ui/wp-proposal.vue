@@ -110,7 +110,7 @@
               </q-item>
             </q-card-section>
 
-            <q-card-section>
+            <q-card-section v-if="wp.status == wpEnums.PENDING_APPROVAL">
               <q-item>
                 <q-item-section>
                   <q-item-label>{{$t('workerproposal.time_left')}}</q-item-label>
@@ -480,32 +480,15 @@ export default {
     },
 
     getExpiry () {
-      let expirationMillis
-      let start
-      if (this.wp.status === this.wpEnums.PENDING_APPROVAL) {
-        expirationMillis = Number(this.getWpConfig.approval_expiry) * 1000
-        start = Date.parse(this.wp.propose_timestamp)
-        console.log('state 0', expirationMillis, start)
-      }
-      if (this.wp.status === this.wpEnums.PENDING_VALIDATE) {
-        expirationMillis = Number(this.getWpConfig.escrow_expiry) * 1000
-        start = Date.parse(this.wp.complete_work_timestamp)
-        console.log('state 0', expirationMillis, start)
-      }
-
-      let end = start + expirationMillis
-      let current = new Date().getTime()
-      // calculate relative expiration based on NOW and expiration
-      let perc = 100 - ((current - start) / (end - start)) * 100
-      let msleft = end - current
+      const now = new Date().getTime()
+      const expiry = Date.parse(this.wp.expiry)
+      let msleft = expiry - now
 
       if (this.wp.status === this.wpEnums.EXPIRED) {
-        perc = 0
         msleft = 0
       }
 
       return {
-        percent: perc <= 0 ? 0 : perc,
         millisleft: msleft <= 0 ? 0 : msleft
       }
     },
