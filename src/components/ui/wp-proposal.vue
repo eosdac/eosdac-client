@@ -767,7 +767,7 @@ export default {
         actions: actions
       })
       if (result) {
-        this.$emit('delete')
+        // this.$emit('delete')
       }
     },
     async completeWork () {
