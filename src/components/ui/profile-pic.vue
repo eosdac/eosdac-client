@@ -8,7 +8,7 @@
   backgroundPosition: 'center',
   borderRadius: '50%',
   backgroundSize: `${60*scale}px`
-  }">
+  }" class="profile-pic">
     <q-badge v-if="show_role" floating color="transparent">
       <q-icon v-if="is_custodian"
               color="warning"
