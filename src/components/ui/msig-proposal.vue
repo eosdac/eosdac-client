@@ -41,9 +41,9 @@
         </q-item-section>
 
         <q-item-section style="max-width: 10%">
-          <q-linear-progress :value="provided_approvals.length / msig.threshold" style="height:15px" color="positive" />
+          <q-linear-progress :value="msig.provided_approvals.length / msig.threshold" style="height:15px" color="positive" />
           <q-item-label caption @click.stop="approvals_modal = true">
-            <span v-if="provided_approvals" class="text-h6">{{ provided_approvals.length }}/{{ msig.threshold }}</span>
+            <span v-if="msig.provided_approvals" class="text-h6">{{ msig.provided_approvals.length }}/{{ msig.threshold }}</span>
           </q-item-label>
         </q-item-section>
         </template>
@@ -207,7 +207,7 @@
           <div class="text-h6">
             {{$t('proposal.approvals')}}
           </div>
-          <div v-if="provided_approvals" class="text-weight-thin">needs {{ msig.threshold - provided_approvals.length }} more</div>
+          <div v-if="msig.provided_approvals" class="text-weight-thin">needs {{ msig.threshold - msig.provided_approvals.length }} more</div>
         </q-card-section>
         <!-- content -->
         <q-card-section class="q-pa-md">
@@ -215,7 +215,7 @@
             <!-- <pre>{{provided_approvals}}</pre> -->
             <div
               class="row items-center relative-position rounded-borders q-pr-md q-ma-sm"
-              v-for="(c, i) in provided_approvals"
+              v-for="(c, i) in msig.provided_approvals"
               :key="i + 'p'"
             >
               <profile-pic
@@ -241,7 +241,7 @@
 
             <div
               class="row items-center relative-position rounded-borders q-pr-md q-ma-sm"
-              v-for="(c, i) in requested_approvals"
+              v-for="(c, i) in msig.requested_approvals"
               :key="i + 'r'"
             >
               <profile-pic
@@ -288,8 +288,6 @@ export default {
     return {
       systemmsig: this.$configFile.get('systemmsigcontract'),
       dacmsig: this.$dir.getAccount(this.$dir.ACCOUNT_MSIGS),
-      provided_approvals: null,
-      requested_approvals: null,
 
       isHidden: false,
       approvals_modal: false,
@@ -316,16 +314,16 @@ export default {
     },
     getCustodianApprovals () {
       let custNames = this.getCustodians.map(c => c.cust_name)
-      let custodianApprovals = this.provided_approvals.filter(pa =>
+      let custodianApprovals = this.msig.provided_approvals.filter(pa =>
         custNames.includes(pa.actor)
       )
       return custodianApprovals
     },
 
     isExecutable: function () {
-      if (this.provided_approvals) {
+      if (this.msig.provided_approvals) {
         let custNames = this.getCustodians.map(c => c.cust_name)
-        let custodianApprovals = this.provided_approvals.filter(pa =>
+        let custodianApprovals = this.msig.provided_approvals.filter(pa =>
           custNames.includes(pa.actor)
         )
         return custodianApprovals.length >= this.msig.threshold
@@ -334,8 +332,8 @@ export default {
       }
     },
     isApproved: function () {
-      if (this.provided_approvals) {
-        return !!this.provided_approvals.find(
+      if (this.msig.provided_approvals) {
+        return !!this.msig.provided_approvals.find(
           a => a.actor === this.getAccountName
         )
       } else {
@@ -410,33 +408,10 @@ export default {
 
   methods: {
     openURL,
-    async checkApprovals () {
-      let avatars = await this.$profiles.getAvatars([
-        ...this.msig.provided_approvals.map(a => a.actor),
-        ...this.msig.requested_approvals.map(a => a.actor)
-      ])
-
-      // let cust_names = this.getCustodians.map(c => c.cust_name);
-
-      this.provided_approvals = this.msig.provided_approvals
-        // .filter(ra => cust_names.includes(ra.actor))
-        .map(pa => {
-          pa.avatar = avatars.find(p => p.account === pa.actor)
-          return pa
-        })
-
-      this.requested_approvals = this.msig.requested_approvals
-        // .filter(ra => cust_names.includes(ra.actor))
-        .map(ra => {
-          ra.avatar = avatars.find(p => p.account === ra.actor)
-          return ra
-        })
-    },
-
     // approve a proposal via msig relay {"proposer":0,"proposal_name":0,"level":0}
     async approveProposal (proposer, proposalName) {
       const authAccount = this.$dir.getAccount(this.$dir.ACCOUNT_AUTH)
-      let actions = [
+      const actions = [
         {
           account: this.systemmsig,
           name: 'approve',
@@ -464,6 +439,23 @@ export default {
           }
         }
       ]
+      if (this.$configFile.get('paycpu')) {
+        actions.unshift(
+          {
+            account: 'eosdacpaycpu',
+            name: 'cpu',
+            authorization: [
+              {
+                actor: authAccount,
+                permission: 'one'
+              }
+            ],
+            data: {
+              dac_id: this.$dir.dacId
+            }
+          }
+        )
+      }
       let result = await this.$store.dispatch('user/transact', {
         actions: actions
       })
@@ -603,7 +595,6 @@ export default {
           this.getSettingByName('trx_delay').value,
           'seconds'
         )
-        this.checkApprovals()
       }
       if (eType === 'e_unapproval') {
         this.provided_approvals = null // temporary show spinner by setting to null
@@ -619,7 +610,6 @@ export default {
           this.getSettingByName('trx_delay').value,
           'seconds'
         )
-        this.checkApprovals()
       }
 
       if (eType === 'e_cancel') {
@@ -660,8 +650,6 @@ export default {
     }
   },
 
-  mounted: function () {
-    this.checkApprovals()
-  }
+  mounted: function () {}
 }
 </script>
