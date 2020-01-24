@@ -332,6 +332,29 @@ export class DacApi {
     return wps
   }
 
+  async getWpsById (payload) {
+    let url = this.configobj.get('dacapi')
+    const header = {
+      'X-DAC-Name': this.dir.dacId
+    }
+    const wps = axios({
+      method: 'get',
+      url: `${url}/proposals`,
+      params: { id: payload },
+      headers: header
+    })
+      .then(r => {
+        // console.log(r.data)
+        return r.data
+      })
+      .catch(e => {
+        console.log('could not load worker proposal from api')
+        return []
+      })
+
+    return wps
+  }
+
   async getCustodianContractState () {
     let res = await this.eos
       .get_table_rows({

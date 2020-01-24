@@ -1,9 +1,10 @@
 <template>
-  <div class="wp-container">
+  <div class="wp-container" v-if="wp">
     <q-expansion-item
             icon-toggle
             group="msigproposals"
             header-class="wpproposal_header"
+            :default-opened="expanded"
             :collapse-icon="$configFile.icon.collapse"
     >
       <template v-slot:header>
@@ -75,12 +76,54 @@
 
         <div class="col-md-8">
           <q-card class="full-height">
-            <q-card-section class="">
-              <MarkdownViewer :text="wp.summary" class="inline-doc" />
+            <q-card-section class="full-height">
+              <div class="column full-height justify-between">
+                <div class="col"><MarkdownViewer :text="wp.summary" class="inline-doc" /></div>
+                <!-- comments -->
+                <div class="col-auto justify-end" v-if="wp.comments.length && !fullscreen">
+                  <div class="float-right">
+                    <q-btn @click="showCommentModal = true" icon="mdi-plus-box-outline" color="positive" />
+                  </div>
+                  <div class="text-h6">Latest comment</div>
+                  <div>
+                    <q-card>
+                      <q-card-section><profile-pic :scale="0.5" accountname="wp.comments[0].commenter" /> {{wp.comments[0].commenter}}</q-card-section>
+                      <q-card-section><blockquote>{{wp.comments[0].comment}}</blockquote></q-card-section>
+                      <q-card-section>
+                        <q-card-actions align="right">
+                          <router-link :to="`/wps/${wp.id}`">View all comments</router-link>
+                        </q-card-actions>
+                      </q-card-section>
+                    </q-card>
+                  </div>
+                </div>
+                <div v-else>
+                  <q-card v-for="(comment, c) in wp.comments" :key="c">
+                      <q-card-section><profile-pic :scale="0.5" accountname="comment.commenter" /> {{comment.commenter}}</q-card-section>
+                      <q-card-section><blockquote>{{comment.comment}}</blockquote></q-card-section>
+                    </q-card>
+                  <q-btn @click="showCommentModal = true" icon="mdi-plus-box-outline" label="Add Comment" color="positive" />
+                </div>
+                <!-- end comments -->
+              </div>
             </q-card-section>
           </q-card>
 
         </div>
+
+        <q-dialog v-model="showCommentModal">
+          <q-card>
+            <q-card-section>
+              <q-input type="textarea" v-model="currentComment[wp.id]" />
+            </q-card-section>
+            <q-card-section>
+              <q-card-actions align="right">
+                <q-btn @click="commentProposal" label="Submit Comment" color="positive" />
+              </q-card-actions>
+            </q-card-section>
+          </q-card>
+        </q-dialog>
+
         <div class="col-md-4">
           <q-card>
             <q-card-section>
@@ -166,7 +209,7 @@
               <q-item>
                 <q-item-section>
                   <q-item-label>{{$t('workerproposal.id')}}</q-item-label>
-                  <q-item-label caption>{{ wp.id }}</q-item-label>
+                  <q-item-label caption><router-link :to="`/wps/${wp.id}`">{{ wp.id }}</router-link></q-item-label>
                 </q-item-section>
               </q-item>
             </q-card-section>
@@ -384,13 +427,19 @@ export default {
     expanded: {
       type: Boolean,
       default: false
+    },
+    fullscreen: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
     return {
       wp_expiration: 100,
       expand_votes_modal: false,
-      wpEnums
+      currentComment: {},
+      wpEnums,
+      showCommentModal: false
     }
   },
   computed: {
@@ -587,13 +636,42 @@ export default {
     },
     async actionCallBack (id) {
       await new Promise(resolve => setTimeout(resolve, 2000))
-      let res = await this.$store.dispatch('dac/fetchWorkerProposals', {
+      const res = await this.$store.dispatch('dac/fetchWorkerProposals', {
         id: id
       })
       if (res) {
         this.wp.votes = res.results[0].votes
       }
       console.log(res)
+    },
+
+    async commentProposal () {
+      // comment(name commenter, name proposal_id, string comment, string comment_category, name dac_id)
+      const actions = [
+        {
+          account: this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS),
+          name: 'comment',
+          authorization: [
+            { actor: this.getAccountName, permission: this.getAuth }
+          ],
+          data: {
+            commenter: this.getAccountName,
+            proposal_id: this.wp.id,
+            comment: this.currentComment[this.wp.id],
+            comment_category: '',
+            dac_id: this.$dir.dacId
+          }
+        }
+      ]
+
+      const result = await this.$store.dispatch('user/transact', {
+        actions: actions
+      })
+      if (result) {
+        this.$emit('comment')
+        this.showCommentModal = false
+        console.log(result)
+      }
     },
 
     async voteprop (votetype) {
@@ -769,28 +847,6 @@ export default {
     }
   }
 }
-
-// ProposalStatePending_approval = 0,
-// ProposalStateWork_in_progress = 1,
-// ProposalStatePending_finalize = 2,
-// ProposalStateHas_enough_approvals_votes = 3,
-// ProposalStateHas_enough_finalize_votes = 4,
-// ProposalStateExpired = 5 -->
-
-// enum VoteType {
-//             none = 0,
-//             // a vote type to indicate a custodian's approval of a worker proposal.
-//            1= proposal_approve,
-//             // a vote type to indicate a custodian's denial of a worker proposal.
-//             2=proposal_deny,
-//             // a vote type to indicate a custodian's acceptance of a worker proposal as completed.
-//            3= claim_approve,
-//             // a vote type to indicate a custodian's rejection of a worker proposal as completed.
-//            4= claim_deny
-//         };
-
-// The values only support integers on the input into the contract. Inside the values are cast to Doubles for the percentage calculation and then assert for >= to required perecentage
-// eg. double(approved_count) / double(approved_count + deny_count) * 100.0
 </script>
 
 <style lang="stylus">

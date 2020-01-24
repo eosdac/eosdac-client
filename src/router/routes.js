@@ -27,6 +27,7 @@ const routes = [
       { path: 'settings', component: () => import('pages/settings.vue') },
       { path: 'review-proposals', component: () => import('pages/review-proposals.vue') },
       { path: 'review-worker-proposals', component: () => import('pages/review-worker-proposals.vue') },
+      { path: 'wps/:id', props: true, component: () => import('pages/worker-proposal.vue') },
       {
         path: 'vote-custodians',
         component: () => import('pages/vote-custodians.vue')
