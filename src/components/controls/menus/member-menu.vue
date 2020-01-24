@@ -1,8 +1,8 @@
 <template>
-<div v-if="wpEnabled || referendumEnabled">
+<div v-if="wpEnabled || referendumEnabled || true">
   <q-expansion-item
           group="main-menu-sub"
-          v-if="getMemberStatus == 'member'"
+          v-if="getMemberStatus"
           class="animate-fade"
   >
     <template slot="header">
