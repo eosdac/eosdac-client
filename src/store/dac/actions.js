@@ -432,7 +432,7 @@ export async function fetchVotesTimeline (obj, payload = {}) {
 
 export async function fetchTokenMarketData (obj, payload = {}) {
   const pricefeed = this._vm.$configFile.get('pricefeed')
-  if (pricefeed.newdex.endpoint) {
+  if (pricefeed && pricefeed.newdex.endpoint) {
     try {
       const market = await this._vm.$axios.get(`${pricefeed.newdex.endpoint}?symbol=${pricefeed.newdex.symbol}`)
       return market.data.data
