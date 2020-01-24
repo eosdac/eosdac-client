@@ -193,6 +193,7 @@ export default {
     'credits': 'Credits',
     'custodian_tools': 'Custodian Tools',
     'custodians': 'Vote For Custodians',
+    'constitution': 'Constitution',
     'dac_activity': '{dacname} Activity',
     'explore': 'Explore',
     'manage_financials': 'Manage Financials',
