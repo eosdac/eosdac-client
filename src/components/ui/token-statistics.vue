@@ -28,7 +28,6 @@
               </q-item-section>
             </q-item>
           </div>
-          <div v-else>Loading...</div>
         </div>
       </div>
       <div class="col-xs-12 col-md-4">
@@ -45,7 +44,7 @@
                 <q-item-label caption>{{ $helper.assetToLocaleNumber(tokenStats.supply) }}</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item>
+            <q-item v-if="marketData">
               <q-item-section>
                 <q-item-label>Market Cap</q-item-label>
                 <q-item-label caption>{{ $helper.toLocaleNumber(marketData.last * supplyDecimal) }} EOS</q-item-label>
