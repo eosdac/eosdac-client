@@ -265,7 +265,7 @@ export default {
     },
 
     async getProfileData () {
-      let p = await this.$profiles.getProfiles([this.account_name])
+      const p = await this.$profiles.getProfiles([this.account_name])
       if (p && p.length && this.validateProfile(p[0].profile)) {
         // todo validate profile
         this.form = p[0].profile
@@ -277,9 +277,9 @@ export default {
     },
 
     validateProfile (profile) {
-      let validkeys = Object.keys(ProfileTemplate)
+      const validkeys = Object.keys(ProfileTemplate)
 
-      let valid = validkeys.every(function (key) {
+      const valid = validkeys.every(function (key) {
         return profile.hasOwnProperty(key)
       })
       // loop over keys to see if types match
@@ -295,7 +295,7 @@ export default {
       this.deleteEmptyLinks()
       this.form.timezone = new Date().getTimezoneOffset()
 
-      let actions = [
+      const actions = [
         {
           account: this.$dir.getAccount(this.$dir.ACCOUNT_CUSTODIAN),
           name: 'stprofile',
@@ -307,7 +307,7 @@ export default {
         }
       ]
 
-      let result = await this.$store.dispatch('user/transact', {
+      const result = await this.$store.dispatch('user/transact', {
         actions: actions
       })
       if (result) {
@@ -323,7 +323,7 @@ export default {
     },
 
     addSocial () {
-      let max = 4
+      const max = 4
       this.deleteEmptyLinks()
       if (this.form.sameAs.length < max) {
         this.form.sameAs.push({ link: '' })
@@ -349,8 +349,8 @@ export default {
     },
 
     download (content, fileName, contentType) {
-      var a = document.createElement('a')
-      var file = new Blob([content], { type: contentType })
+      const a = document.createElement('a')
+      const file = new Blob([content], { type: contentType })
       a.href = URL.createObjectURL(file)
       a.download = fileName
       a.click()
