@@ -1,5 +1,5 @@
 <template>
-<div v-if="wpEnabled || referendumEnabled || true">
+<div v-if="wpEnabled || referendumEnabled">
   <q-expansion-item
           group="main-menu-sub"
           v-if="getMemberStatus"
