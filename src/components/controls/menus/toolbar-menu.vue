@@ -138,6 +138,13 @@
           <q-item-section>{{ $t("menu.settings") }}</q-item-section>
         </q-item>
 
+        <q-item to="/constitution">
+          <q-item-section avatar>
+            <q-icon :name="$configFile.icon.constitution" />
+          </q-item-section>
+          <q-item-section>{{ $t("menu.constitution") }}</q-item-section>
+        </q-item>
+
         <q-separator inset="item" />
 
         <q-item

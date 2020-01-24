@@ -25,18 +25,68 @@
 
     </q-item>
 
-    <q-item clickable to="/constitution">
+    <q-item clickable to="/constitution" v-if="!getAgreedTermsVersion">
       <q-item-section avatar>
         <q-icon :name="$configFile.icon.constitution" />
       </q-item-section>
 
       <q-item-section>
-        <q-item-label v-if="getAccountName">{{$t('default.sign_the_constitution')}}</q-item-label>
+        <q-item-label v-if="getAgreedTermsVersion">{{$t('default.sign_the_constitution')}}</q-item-label>
         <q-item-label v-else>{{$t('default.read_the_constitution')}}</q-item-label>
       </q-item-section>
     </q-item>
 
-    <custodian-menu />
+    <q-item clickable to="/review-proposals">
+      <q-item-section avatar>
+        <q-icon name="mdi-account-supervisor-circle" />
+      </q-item-section>
+
+      <q-item-section class="text-weight-light" v-if="getIsCustodian">{{$t('menu.vote_msigs')}}</q-item-section>
+      <q-item-section class="text-weight-light" v-else>{{$t('menu.view_msigs')}}</q-item-section>
+    </q-item>
+
+    <q-item clickable to="/review-worker-proposals" v-if="wpEnabled">
+      <q-item-section avatar>
+        <q-icon name="mdi-human" />
+      </q-item-section>
+
+      <q-item-section class="text-weight-light" v-if="getIsCustodian">{{$t('menu.vote_worker_proposals')}}</q-item-section>
+      <q-item-section class="text-weight-light" v-else>{{$t('menu.view_worker_proposals')}}</q-item-section>
+    </q-item>
+
+    <q-item clickable to="/custodian/dac-management" v-if="getIsCustodian">
+      <q-item-section avatar>
+        <q-icon name="mdi-cogs" />
+      </q-item-section>
+
+      <q-item-section class="text-weight-light">{{$t('menu.manage_dac')}}</q-item-section>
+    </q-item>
+
+    <q-item clickable to="/dac-activity/financials" v-if="!getIsCustodian">
+      <q-item-section avatar>
+        <q-icon :name="$configFile.icon.constitution" />
+      </q-item-section>
+
+      <q-item-section class="text-weight-light">{{$t('menu.view_financials')}}</q-item-section>
+    </q-item>
+
+    <q-item v-if="getEnableCustPayments" clickable to="/custodian/my-payments">
+      <q-item-section avatar>
+        <q-icon name="mdi-wallet-outline" />
+      </q-item-section>
+
+      <q-item-section class="text-weight-light">{{$t('menu.my_payments')}}</q-item-section>
+    </q-item>
+
+    <q-item clickable to="/explore-dac">
+      <q-item-section avatar>
+        <q-icon name="mdi-globe-model" />
+      </q-item-section>
+
+      <q-item-section class="text-weight-light">{{$t('menu.explore')}}</q-item-section>
+    </q-item>
+
+<!--    <custodian-menu />-->
     <member-menu />
 
     <!--<menu-extension />-->
@@ -67,27 +117,32 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import custodianMenu from './custodian-menu'
+// import custodianMenu from './custodian-menu'
 import memberMenu from './member-menu'
 // import devMenu from "./dev-menu";
 // import menuExtension from "../../../extensions/components/menu/menu-extension";
 export default {
   name: 'MainMenu',
   components: {
-    custodianMenu,
+    // custodianMenu,
     memberMenu
     // devMenu,
     // menuExtension
   },
   data () {
-    return {}
+    return {
+      referendumsEnabled: !!this.$dir.getAccount(this.$dir.ACCOUNT_REFERENDUM),
+      wpEnabled: !!this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS)
+    }
   },
   computed: {
     ...mapGetters({
       getAccountName: 'user/getAccountName',
+      getAgreedTermsVersion: 'user/getAgreedTermsVersion',
       getSettingByName: 'user/getSettingByName',
       getIsCustodian: 'user/getIsCustodian',
-      getIsCandidate: 'user/getIsCandidate'
+      getIsCandidate: 'user/getIsCandidate',
+      getEnableCustPayments: 'dac/getEnableCustPayments'
     })
   }
 }
