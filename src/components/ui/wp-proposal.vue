@@ -539,16 +539,14 @@ export default {
     },
 
     getExpiry () {
+      const config = this.getWpConfig
       const now = new Date().getTime()
       const expiry = Date.parse(this.wp.expiry)
-      let msleft = expiry - now
-
-      if (this.wp.status === this.wpEnums.EXPIRED) {
-        msleft = 0
-      }
+      const millisleft = Math.max(0, expiry - now)
 
       return {
-        millisleft: msleft <= 0 ? 0 : msleft
+        millisleft,
+        percent: (millisleft / (config.approval_duration * 1000))
       }
     },
     getVotingScore () {
