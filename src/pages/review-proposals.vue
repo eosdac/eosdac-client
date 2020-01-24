@@ -30,7 +30,7 @@
           v-model="pagination.page"
           :min="1"
           :max="pagination.max"
-          max-pages="6"
+          :max-pages="6"
           direction-links
         />
     </div>
@@ -77,6 +77,7 @@
 </template>
 
 <script>
+// import Vue from 'vue'
 import Msigproposal from 'components/ui/msig-proposal'
 import dacEvents from 'components/dacevents/dac-events'
 
@@ -120,15 +121,38 @@ export default {
   methods: {
     onDACEvent (data) {
       if (data.notify.substr(0, 5) === 'MSIG_') {
-        this.managePagination()
+        // this.managePagination()
+        let found = false
+        const status = this.currentStatus()
+        for (let i = 0; i < this.proposals.length; i++) {
+          if (this.proposals[i].proposal_name === data.msig_data.proposal_name) {
+            found = true
+            if (data.msig_data.status === status) {
+              this.$set(this.proposals, i, data.msig_data)
+            } else {
+              this.proposals.splice(i, 1)
+            }
+            break
+          }
+        }
+        if (!found) {
+          console.log(`my data not found`)
+          if (status === data.msig_data.status) {
+            console.log(`Adding new msig`)
+            this.proposals.unshift(data.msig_data)
+          }
+        }
       }
+    },
+    currentStatus () {
+      const map = { open: 1, executed: 2, cancelled: 0, expired: 3 }
+      return map[this.active_tab]
     },
     managePagination () {
       // map tab to number for making the request
-      const map = { open: 1, executed: 2, cancelled: 0, expired: 3 }
       // calculate skip
       let skip = (this.pagination.page - 1) * this.pagination.items_per_page
-      const status = map[this.active_tab]
+      const status = this.currentStatus()
       console.log(`status = ${status}, active tab = ${this.active_tab}`)
       // this.getProposals({find: find, skip: skip, limit: this.pagination.items_per_page});
       this.getProposals({
@@ -140,10 +164,10 @@ export default {
 
     async getProposals (query) {
       this.msigs_loading = true
-      this.proposals = []
       let p = await this.$store.dispatch('dac/fetchMsigProposals', query)
-      console.log('msigs', p)
       if (p) {
+        console.log('msigs', p)
+        this.proposals = []
         this.total = p.count
         this.pagination.max = Math.ceil(
           p.count / this.pagination.items_per_page
@@ -159,6 +183,7 @@ export default {
       if (newVal !== oldVal) {
         // double check the tab has been changed
 
+        this.proposals = []
         if (this.pagination.page === 1) {
           this.managePagination()
         } else {
