@@ -48,8 +48,7 @@
             <q-card-section>
               <q-input type="number" v-model="wpConfig.proposal_threshold" :label="$t('contracts_config.proposals_proposal_threshold')" />
               <q-input type="number" v-model="wpConfig.finalize_threshold" :label="$t('contracts_config.proposals_finalise_threshold')" />
-              <seconds-input v-model="wpConfig.escrow_expiry" :label="$t('contracts_config.proposals_escrow_expiry')" />
-              <seconds-input v-model="wpConfig.approval_expiry" :label="$t('contracts_config.proposals_approval_expiry')" />
+              <seconds-input v-model="wpConfig.approval_duration" :label="$t('contracts_config.proposals_approval_expiry')" />
             </q-card-section>
             <q-card-actions align="right">
               <q-btn color="positive"  :label="$t('contracts_config.proposals_propose_changes')" @click="saveWpConfig" />
