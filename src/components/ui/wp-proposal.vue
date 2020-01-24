@@ -194,7 +194,7 @@
                     </div>
                     <q-linear-progress
                             :value="getExpiry.percent"
-                            color="secondary"
+                            :color="(getExpiry.percent > 0.1) ? 'secondary' : 'negative'"
                             style="height: 4px"
                     />
                   </q-item-label>
