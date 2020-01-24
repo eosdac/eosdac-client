@@ -56,7 +56,7 @@
           </q-item-label>
 
           <div v-if="[wpEnums.PENDING_APPROVAL, wpEnums.PENDING_VALIDATE].includes(wp.status)" class="q-pt-xs">
-            <q-linear-progress :value="getVotingScore.yes / getVotingScore.threshold" style="height:15px" color="positive" />
+            <q-linear-progress :value="getVotingScore.yes / getVotingScore.threshold" v-if="getVotingScore.yes > 0" style="height:15px" color="positive" />
             <q-item-label caption @click.stop="expand_votes_modal = true">
               <q-chip>
                 <q-avatar icon="mdi-thumb-up" color="positive"></q-avatar>
