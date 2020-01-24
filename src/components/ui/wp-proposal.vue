@@ -88,7 +88,7 @@
                   <div class="q-px-lg">
 
                     <q-chat-message
-                            :key="c" :name="wp.comments[0].commenter"
+                            :name="wp.comments[0].commenter"
                             :text="wp.comments[0].comment.split('\n')" />
 
                     <router-link :to="`/wps/${wp.id}`">{{$t('workerproposal.view_all_comments')}}</router-link>
@@ -667,6 +667,7 @@ export default {
       if (result) {
         this.$emit('comment')
         this.showCommentModal = false
+        this.currentComment[this.wp.id] = ''
         console.log(result)
       }
     },
