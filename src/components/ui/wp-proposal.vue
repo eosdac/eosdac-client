@@ -84,27 +84,29 @@
                   <div class="float-right">
                     <q-btn @click="showCommentModal = true" icon="mdi-plus-box-outline" color="positive" />
                   </div>
-                  <div class="text-h6">Latest comment</div>
-                  <div>
-                    <q-card>
-                      <q-card-section><profile-pic :scale="0.5" accountname="wp.comments[0].commenter" /> {{wp.comments[0].commenter}}</q-card-section>
-                      <q-card-section><blockquote>{{wp.comments[0].comment}}</blockquote></q-card-section>
-                      <q-card-section>
-                        <q-card-actions align="right">
-                          <router-link :to="`/wps/${wp.id}`">View all comments</router-link>
-                        </q-card-actions>
-                      </q-card-section>
-                    </q-card>
+                  <div class="text-h6">{{$t('workerproposal.latest_comment')}}</div>
+                  <div class="q-px-lg">
+
+                    <q-chat-message
+                            :key="c" :name="wp.comments[0].commenter"
+                            :text="wp.comments[0].comment.split('\n')" />
+
+                    <router-link :to="`/wps/${wp.id}`">{{$t('workerproposal.view_all_comments')}}</router-link>
                   </div>
                 </div>
                 <div v-else>
-                  <q-btn @click="showCommentModal = true" icon="mdi-plus-box-outline" label="Add Comment" color="positive" />
+                  <q-btn @click="showCommentModal = true" icon="mdi-plus-box-outline" :label="$t('workerproposal.add_comment')" color="positive" />
 
-                  <div v-for="(comment, c) in wp.comments" :key="c">
-                    <q-chat-message :name="comment.commenter" :text="comment.comment.split('\n')" :sent="getAccountName === comment.commenter" />
-                  </div>
+                  <q-scroll-area style="height:200px" v-if="wp.comments.length">
+                    <div class="q-px-lg">
+                      <q-chat-message
+                              v-for="(comment, c) in wp.comments"
+                              :key="c" :name="comment.commenter"
+                              :text="comment.comment.split('\n')"
+                              :sent="getAccountName === comment.commenter" />
+                    </div>
 
-                  <q-btn @click="showCommentModal = true" icon="mdi-plus-box-outline" label="Add Comment" color="positive" />
+                  </q-scroll-area>
                 </div>
                 <!-- end comments -->
               </div>
@@ -113,14 +115,15 @@
 
         </div>
 
-        <q-dialog v-model="showCommentModal">
+        <q-dialog v-model="showCommentModal" full-width>
           <q-card>
+            <q-card-section class="bg-primary">{{$t('workerproposal.add_comment')}}</q-card-section>
             <q-card-section>
               <q-input type="textarea" v-model="currentComment[wp.id]" />
             </q-card-section>
             <q-card-section>
               <q-card-actions align="right">
-                <q-btn @click="commentProposal" label="Submit Comment" color="positive" />
+                <q-btn @click="commentProposal" :label="$t('workerproposal.submit_comment')" color="positive" />
               </q-card-actions>
             </q-card-section>
           </q-card>

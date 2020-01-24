@@ -446,7 +446,11 @@ export default {
     'propose_transaction': 'Propose Transaction',
     'claim': 'Claim',
     'cancel': 'Cancel',
-    'votes': 'Votes'
+    'votes': 'Votes',
+    'latest_comment': 'Latest comment',
+    'view_all_comments': 'View all comments',
+    'add_comment': 'Add Comment',
+    'submit_comment': 'Submit Comment'
   },
 
   'newworkerproposal': {
