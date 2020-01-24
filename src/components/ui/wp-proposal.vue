@@ -16,7 +16,7 @@
           <q-item-label>
             {{ wp.title }}
           </q-item-label>
-          <q-item-label caption><i>{{ $t(`${getCategoryNameFromId(wp.category)}`) }}</i></q-item-label>
+          <q-item-label caption><i>{{ $t(getCategoryNameFromId(wp.category)) }}</i></q-item-label>
           <q-item-label caption>
             <MarkdownViewer
                     :tags="[]"
@@ -580,7 +580,7 @@ export default {
 
   methods: {
     getCategoryNameFromId (id) {
-      console.log(`worker categories`, wpcats)
+      // console.log(`worker categories`, wpcats)
       const wpc = wpcats.find(wpc => parseInt(wpc.value) === parseInt(id))
       if (!wpc) {
         return id
@@ -645,12 +645,17 @@ export default {
 
     async commentProposal () {
       // comment(name commenter, name proposal_id, string comment, string comment_category, name dac_id)
+      const authAccount = this.$dir.getAccount(this.$dir.ACCOUNT_AUTH)
       const actions = [
         {
           account: this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS),
           name: 'comment',
           authorization: [
-            { actor: this.getAccountName, permission: this.getAuth }
+            { actor: this.getAccountName, permission: this.getAuth },
+            {
+              actor: authAccount,
+              permission: 'one'
+            }
           ],
           data: {
             commenter: this.getAccountName,
