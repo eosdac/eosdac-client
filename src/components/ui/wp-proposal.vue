@@ -98,10 +98,12 @@
                   </div>
                 </div>
                 <div v-else>
-                  <q-card v-for="(comment, c) in wp.comments" :key="c">
-                      <q-card-section><profile-pic :scale="0.5" accountname="comment.commenter" /> {{comment.commenter}}</q-card-section>
-                      <q-card-section><blockquote>{{comment.comment}}</blockquote></q-card-section>
-                    </q-card>
+                  <q-btn @click="showCommentModal = true" icon="mdi-plus-box-outline" label="Add Comment" color="positive" />
+
+                  <div v-for="(comment, c) in wp.comments" :key="c">
+                    <q-chat-message :name="comment.commenter" :text="comment.comment.split('\n')" :sent="getAccountName === comment.commenter" />
+                  </div>
+
                   <q-btn @click="showCommentModal = true" icon="mdi-plus-box-outline" label="Add Comment" color="positive" />
                 </div>
                 <!-- end comments -->
