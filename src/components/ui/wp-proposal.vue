@@ -33,6 +33,7 @@
               {{$t('workerproposals.pending_approval')}}
             </q-badge>
             <q-badge v-else-if="wp.status == wpEnums.WORK_IN_PROGRESS" color="positive" class="q-pa-xs">
+              <q-spinner-gears size="sm" class="q-mr-xs" />
               {{$t('workerproposals.work_in_progress')}}
             </q-badge>
             <q-badge v-else-if="wp.status == wpEnums.PENDING_VALIDATE" color="warning" class="q-pa-xs">
