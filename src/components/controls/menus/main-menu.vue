@@ -41,8 +41,8 @@
         <q-icon name="mdi-account-supervisor-circle" />
       </q-item-section>
 
-      <q-item-section class="text-weight-light" v-if="getIsCustodian">{{$t('menu.vote_msigs')}}</q-item-section>
-      <q-item-section class="text-weight-light" v-else>{{$t('menu.view_msigs')}}</q-item-section>
+      <q-item-section v-if="getIsCustodian">{{$t('menu.vote_msigs')}}</q-item-section>
+      <q-item-section v-else>{{$t('menu.view_msigs')}}</q-item-section>
     </q-item>
 
     <q-item clickable to="/review-worker-proposals" v-if="wpEnabled">
@@ -50,8 +50,8 @@
         <q-icon name="mdi-human" />
       </q-item-section>
 
-      <q-item-section class="text-weight-light" v-if="getIsCustodian">{{$t('menu.vote_worker_proposals')}}</q-item-section>
-      <q-item-section class="text-weight-light" v-else>{{$t('menu.view_worker_proposals')}}</q-item-section>
+      <q-item-section v-if="getIsCustodian">{{$t('menu.vote_worker_proposals')}}</q-item-section>
+      <q-item-section v-else>{{$t('menu.view_worker_proposals')}}</q-item-section>
     </q-item>
 
     <q-item clickable to="/custodian/dac-management" v-if="getIsCustodian">
@@ -59,7 +59,7 @@
         <q-icon name="mdi-cogs" />
       </q-item-section>
 
-      <q-item-section class="text-weight-light">{{$t('menu.manage_dac')}}</q-item-section>
+      <q-item-section>{{$t('menu.manage_dac')}}</q-item-section>
     </q-item>
 
     <q-item clickable to="/dac-activity/financials" v-if="!getIsCustodian">
@@ -67,7 +67,7 @@
         <q-icon :name="$configFile.icon.constitution" />
       </q-item-section>
 
-      <q-item-section class="text-weight-light">{{$t('menu.view_financials')}}</q-item-section>
+      <q-item-section>{{$t('menu.view_financials')}}</q-item-section>
     </q-item>
 
     <q-item v-if="getEnableCustPayments" clickable to="/custodian/my-payments">
@@ -75,7 +75,7 @@
         <q-icon name="mdi-wallet-outline" />
       </q-item-section>
 
-      <q-item-section class="text-weight-light">{{$t('menu.my_payments')}}</q-item-section>
+      <q-item-section>{{$t('menu.my_payments')}}</q-item-section>
     </q-item>
 
     <q-item clickable to="/explore-dac">
@@ -83,7 +83,7 @@
         <q-icon name="mdi-globe-model" />
       </q-item-section>
 
-      <q-item-section class="text-weight-light">{{$t('menu.explore')}}</q-item-section>
+      <q-item-section>{{$t('menu.explore')}}</q-item-section>
     </q-item>
 
 <!--    <custodian-menu />-->
