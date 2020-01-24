@@ -89,8 +89,14 @@
                   <div class="q-px-lg">
 
                     <q-chat-message
+                            class="comment-bubble"
                             :name="wp.comments[0].commenter"
-                            :text="wp.comments[0].comment.split('\n').filter(v => v !== '')" />
+                            :text="wp.comments[0].comment.split('\n').filter(v => v !== '')">
+
+                      <template v-slot:avatar>
+                        <profile-pic :accountname="wp.comments[0].commenter" :scale="0.7" :show_role="false"></profile-pic>
+                      </template>
+                    </q-chat-message>
 
                     <router-link :to="`/wps/${wp.id}`">{{$t('workerproposal.view_all_comments')}}</router-link>
                   </div>
@@ -101,10 +107,16 @@
                   <q-scroll-area style="height:200px" v-if="wp.comments.length">
                     <div class="q-px-lg">
                       <q-chat-message
+                              class="comment-bubble"
                               v-for="(comment, c) in wp.comments"
                               :key="c" :name="comment.commenter"
                               :text="comment.comment.split('\n').filter(v => v !== '')"
-                              :sent="getAccountName === comment.commenter" />
+                              :sent="getAccountName === comment.commenter">
+
+                        <template v-slot:avatar>
+                          <profile-pic :accountname="comment.commenter" :scale="0.7" :show_role="false"></profile-pic>
+                        </template>
+                      </q-chat-message>
                     </div>
 
                   </q-scroll-area>
@@ -852,3 +864,9 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.comment-bubble
+  .profile-pic
+    margin: 5px !important
+</style>
