@@ -95,15 +95,13 @@ export function getCatDelegations (state) {
 }
 
 export function getIsCustodian (state, getters, rootState) {
-  const devs = ['piecesnbitss']
   if (rootState.dac.custodians && getters.getAccountName) {
     let res = rootState.dac.custodians.find(
       c => c.cust_name === getters.getAccountName
     )
     if (
       res ||
-      rootState.dac.dacAdmins.includes(state.accountName) ||
-      devs.includes(state.accountName)
+      rootState.dac.dacAdmins.includes(state.accountName)
     ) {
       return true
     } else {
