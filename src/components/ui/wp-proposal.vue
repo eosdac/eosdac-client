@@ -29,31 +29,31 @@
         <q-item-section>{{ wp.pay_amount.quantity }}</q-item-section>
         <q-item-section>
           <q-item-label>
-            <div v-if="wp.status == wpEnums.PENDING_APPROVAL" class="bg-warning q-pa-sm rounded-borders text-bold">
+            <q-badge v-if="wp.status == wpEnums.PENDING_APPROVAL" color="warning" class="q-pa-xs">
               {{$t('workerproposals.pending_approval')}}
-            </div>
-            <div v-else-if="wp.status == wpEnums.WORK_IN_PROGRESS" class="bg-positive q-pa-sm rounded-borders text-bold">
+            </q-badge>
+            <q-badge v-else-if="wp.status == wpEnums.WORK_IN_PROGRESS" color="positive" class="q-pa-xs">
               {{$t('workerproposals.work_in_progress')}}
-            </div>
-            <div v-else-if="wp.status == wpEnums.PENDING_VALIDATE" class="bg-warning q-pa-xs rounded-borders text-bold">
+            </q-badge>
+            <q-badge v-else-if="wp.status == wpEnums.PENDING_VALIDATE" color="warning" class="q-pa-xs">
               {{$t('workerproposals.pending_validate')}}
-            </div>
-            <div v-else-if="wp.status == wpEnums.APPROVED" class="bg-positive q-pa-sm rounded-borders text-bold">
+            </q-badge>
+            <q-badge v-else-if="wp.status == wpEnums.APPROVED" color="positive" class="q-pa-xs">
               {{$t('workerproposals.approved')}}
-            </div>
-            <div v-else-if="wp.status == wpEnums.VALIDATED" class="bg-positive q-pa-sm rounded-borders text-bold">
+            </q-badge>
+            <q-badge v-else-if="wp.status == wpEnums.VALIDATED" color="positive" class="q-pa-xs">
               {{$t('workerproposals.validated')}}
-            </div>
-            <div v-else-if="wp.status == wpEnums.COMPLETED" class="bg-positive q-pa-sm rounded-borders text-bold">
+            </q-badge>
+            <q-badge v-else-if="wp.status == wpEnums.COMPLETED" color="positive" class="q-pa-xs">
               {{$t('workerproposals.completed')}}
-            </div>
-            <div v-else-if="wp.status == wpEnums.EXPIRED" class="bg-negative q-pa-sm rounded-borders text-bold">
+            </q-badge>
+            <q-badge v-else-if="wp.status == wpEnums.EXPIRED" color="negative" class="q-pa-xs">
               {{$t('workerproposals.expired')}}
-            </div>
-            <div v-else-if="wp.status == wpEnums.CANCELLED" class="bg-negative q-pa-sm rounded-borders text-bold">
+            </q-badge>
+            <q-badge v-else-if="wp.status == wpEnums.CANCELLED" color="negative" class="q-pa-xs">
               {{$t('workerproposals.cancelled')}}
-            </div>
-            <div v-else>{{wp.status}}</div>
+            </q-badge>
+            <q-badge v-else>{{wp.status}}</q-badge>
           </q-item-label>
 
           <div v-if="[wpEnums.PENDING_APPROVAL, wpEnums.PENDING_VALIDATE].includes(wp.status)" class="q-pt-xs">
@@ -500,14 +500,6 @@ export default {
       return myDirectDelegatee
     },
 
-    scroll_area_style () {
-      if (this.expanded) {
-        return { height: '400px', width: '100%' }
-      } else {
-        return { height: '200px', width: '100%' }
-      }
-    },
-
     getIsCreator () {
       return this.getAccountName === this.wp.proposer
     },
@@ -592,7 +584,7 @@ export default {
     async delegatevote (delegatee) {
       console.log(delegatee)
       const authAccount = this.$dir.getAccount(this.$dir.ACCOUNT_AUTH)
-      let actions = [
+      const actions = [
         {
           account: this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS),
           name: 'delegatevote',
@@ -612,7 +604,7 @@ export default {
           }
         }
       ]
-      let result = await this.$store.dispatch('user/transact', {
+      const result = await this.$store.dispatch('user/transact', {
         actions: actions
       })
       if (result) {
@@ -635,14 +627,14 @@ export default {
       }
     },
     async actionCallBack (id) {
-      await new Promise(resolve => setTimeout(resolve, 2000))
+      /* await new Promise(resolve => setTimeout(resolve, 2000))
       const res = await this.$store.dispatch('dac/fetchWorkerProposals', {
         id: id
       })
       if (res) {
         this.wp.votes = res.results[0].votes
       }
-      console.log(res)
+      console.log(res) */
     },
 
     async commentProposal () {
@@ -683,7 +675,7 @@ export default {
         claimDeny: 4
       }
 
-      let actions = [
+      const actions = [
         {
           account: this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS),
           name: 'voteprop',
@@ -703,7 +695,7 @@ export default {
         }
       ]
 
-      let result = await this.$store.dispatch('user/transact', {
+      const result = await this.$store.dispatch('user/transact', {
         actions: actions
       })
       if (result) {
@@ -727,7 +719,7 @@ export default {
     },
     async cancelProp () {
       const authAccount = this.$dir.getAccount(this.$dir.ACCOUNT_AUTH)
-      let actions = [
+      const actions = [
         {
           account: this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS),
           name: 'cancel',
@@ -745,16 +737,16 @@ export default {
         }
       ]
 
-      let result = await this.$store.dispatch('user/transact', {
+      const result = await this.$store.dispatch('user/transact', {
         actions: actions
       })
       if (result) {
-        this.$emit('delete')
+        // this.$emit('delete')
         console.log(result)
       }
     },
     async startWork () {
-      let actions = [
+      const actions = [
         {
           account: this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS),
           name: 'startwork',
@@ -766,7 +758,7 @@ export default {
         }
       ]
 
-      let result = await this.$store.dispatch('user/transact', {
+      const result = await this.$store.dispatch('user/transact', {
         actions: actions
       })
       if (result) {
@@ -774,7 +766,7 @@ export default {
       }
     },
     async completeWork () {
-      let actions = [
+      const actions = [
         {
           account: this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS),
           name: 'completework',
@@ -786,17 +778,17 @@ export default {
         }
       ]
 
-      let result = await this.$store.dispatch('user/transact', {
+      const result = await this.$store.dispatch('user/transact', {
         actions: actions
       })
       if (result) {
-        this.$emit('delete')
+        // this.$emit('delete')
         console.log(result)
       }
     },
 
     async arbApprove () {
-      let actions = [
+      const actions = [
         {
           account: this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS),
           name: 'arbapprove',
@@ -817,7 +809,7 @@ export default {
         }
       ]
 
-      let result = await this.$store.dispatch('user/transact', {
+      const result = await this.$store.dispatch('user/transact', {
         actions: actions
       })
       if (result) {
@@ -826,7 +818,7 @@ export default {
     },
 
     async finalize () {
-      let actions = [
+      const actions = [
         {
           account: this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS),
           name: 'finalize',
@@ -838,7 +830,7 @@ export default {
         }
       ]
 
-      let result = await this.$store.dispatch('user/transact', {
+      const result = await this.$store.dispatch('user/transact', {
         actions: actions
       })
       if (result) {
@@ -848,6 +840,3 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus">
-</style>
