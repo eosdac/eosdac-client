@@ -533,13 +533,11 @@ export default {
     'general_initial_quorum': 'Unlock Threshold (%)',
     'general_vote_quorum': 'Ongoing Quorum (%)',
     'general_use_service': 'Use Service Provider',
-    'general_propose_changes': 'Propose Changes',
     'proposals_title': 'Proposals',
     'proposals_proposal_threshold': 'Proposal Threshold',
     'proposals_finalise_threshold': 'Finalize Threshold',
     'proposals_escrow_expiry': 'Escrow Expiry',
     'proposals_approval_expiry': 'Approval Expiry',
-    'proposals_propose_changes': 'Propose Changes',
     'token_title': 'Token Config',
     'token_enable_staking': 'Enable Staking',
     'token_min_stake_time': 'Minimum Stake Time',
@@ -570,14 +568,15 @@ export default {
     'branding_positive': 'Positive',
     'branding_negative': 'Negative',
     'branding_warning': 'Warning',
-    'branding_propose_changes': 'Propose Changes',
     'branding_colors_disabled': 'Color selection is disabled because a custom extension is being used',
     'features_title': 'Features',
     'features_referendum_contract': 'Referendum contract name',
     'features_wp_contract': 'Worker proposals contract name',
     'features_referendums': 'Referendums',
     'features_wp': 'Worker Proposals',
-    'features_propose_changes': 'Propose Changes'
+    'propose_changes': 'Propose Changes',
+    'propose_title': 'Propose Title',
+    'propose_description': 'Propose Description'
   },
 
   'wp_categories': {

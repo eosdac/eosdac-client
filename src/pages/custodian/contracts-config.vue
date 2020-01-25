@@ -36,7 +36,7 @@
               <q-toggle v-model="custodianConfig.should_pay_via_service_provider" :label="$t('contracts_config.general_use_service')" />
             </q-card-section>
             <q-card-actions align="right">
-              <q-btn color="positive" :label="$t('contracts_config.general_propose_changes')" @click="saveCustodianConfig" />
+              <q-btn color="positive" :label="$t('contracts_config.propose_changes')" @click="startSave('general')" />
             </q-card-actions>
           </q-card>
         </q-tab-panel>
@@ -51,7 +51,7 @@
               <seconds-input v-model="wpConfig.approval_duration" :label="$t('contracts_config.proposals_approval_expiry')" />
             </q-card-section>
             <q-card-actions align="right">
-              <q-btn color="positive"  :label="$t('contracts_config.proposals_propose_changes')" @click="saveWpConfig" />
+              <q-btn color="positive"  :label="$t('contracts_config.propose_changes')" @click="startSave('proposals')" />
             </q-card-actions>
           </q-card>
         </q-tab-panel>
@@ -67,7 +67,7 @@
               <seconds-input v-model="tokenConfig.max_stake_time" :label="$t('contracts_config.token_max_stake_time')" />
             </q-card-section>
             <q-card-actions align="right">
-              <q-btn color="positive" :label="$t('contracts_config.token_propose_changes')" @click="saveTokenConfig" />
+              <q-btn color="positive" :label="$t('contracts_config.token_propose_changes')" @click="startSave('token')" />
             </q-card-actions>
           </q-card>
 
@@ -85,7 +85,7 @@
               <referendum-config-group v-model="referendumConfig.allow_per_account_voting" type="bool" :label="$t('contracts_config.referendum_allow_per_account')" />
             </q-card-section>
             <q-card-actions align="right">
-              <q-btn color="positive" :label="$t('contracts_config.referendum_propose_changes')" @click="saveReferendumConfig" />
+              <q-btn color="positive" :label="$t('contracts_config.propose_changes')" @click="startSave('referendum')" />
             </q-card-actions>
           </q-card>
 
@@ -219,14 +219,14 @@
                 </q-card-section>
 
                 <q-card-actions align="right">
-                  <q-btn color="positive" :label="$t('contracts_config.branding_propose_changes')" @click="saveBrand" />
+                  <q-btn color="positive" :label="$t('contracts_config.branding_propose_changes')" @click="startSave('brand')" />
                 </q-card-actions>
               </q-card>
               <q-card v-else>
                 <q-card-section class="text-warning">{{$t('contracts_config.branding_colors_disabled')}}</q-card-section>
 
                 <q-card-actions align="right">
-                  <q-btn color="positive" :label="$t('contracts_config.branding_propose_changes')" @click="saveBrand" />
+                  <q-btn color="positive" :label="$t('contracts_config.propose_changes')" @click="startSave('brand')" />
                 </q-card-actions>
               </q-card>
             </div>
@@ -261,7 +261,7 @@
             </q-card-section>
             <q-card-section>
                 <q-card-actions align="right">
-                  <q-btn color="positive" :label="$t('contracts_config.features_propose_changes')" @click="saveFeatures" />
+                  <q-btn color="positive" :label="$t('contracts_config.propose_changes')" @click="startSave('features')" />
                 </q-card-actions>
             </q-card-section>
           </q-card>
@@ -269,6 +269,20 @@
         </q-tab-panel>
       </q-tab-panels>
     </div>
+
+    <q-dialog v-model="showProposeDialog">
+      <q-card style="width: 700px; max-width: 80vw;">
+        <q-card-section>
+          <q-input :label="$t('contracts_config.propose_title')" v-model="msigTitle" />
+          <q-input :label="$t('contracts_config.propose_description')" v-model="msigDescription" type="textarea" />
+        </q-card-section>
+        <q-card-section>
+            <q-card-actions align="right">
+              <q-btn color="positive" :label="$t('contracts_config.propose_changes')" @click="proposeChanges" />
+            </q-card-actions>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
 
   </q-page>
 </template>
@@ -309,6 +323,9 @@ export default {
       brandMsigDescription: '',
       featuresMsigTitle: 'Update DAC Features',
       featuresMsigDescription: '',
+      showProposeDialog: false,
+      msigTitle: '',
+      msigDescription: '',
       tokenConfigLoaded: false,
       referendumConfigLoaded: false,
       referendumEnabled: false,
@@ -345,6 +362,37 @@ export default {
 
       this.brandData = { ...theme, dacName: this.$dir.title, extension, description, homepage, logoUrl, logoNoTextUrl, backgroundUrl, discordUrl, telegramUrl }
     },
+    startSave (type) {
+      this.savingType = type
+      this.showProposeDialog = true
+    },
+    async proposeChanges () {
+      this.showProposeDialog = false
+
+      switch (this.savingType) {
+        case 'general':
+          await this.saveCustodianConfig()
+          break
+        case 'proposals':
+          await this.saveWpConfig()
+          break
+        case 'token':
+          await this.saveTokenConfig()
+          break
+        case 'referendum':
+          await this.saveReferendumConfig()
+          break
+        case 'brand':
+          await this.saveBrand()
+          break
+        case 'features':
+          await this.saveFeatures()
+          break
+      }
+
+      this.msigTitle = ''
+      this.msigDescription = ''
+    },
     async saveCustodianConfig () {
       console.log(`Saving custodian config`, this.custodianConfig)
 
@@ -363,8 +411,8 @@ export default {
 
       const res = await this.$store.dispatch('user/proposeMsig', {
         actions: [action],
-        title: `Update configuration of Custodian Contract`,
-        description: ''
+        title: this.msigTitle,
+        description: this.msigDescription
       })
       console.log(res)
     },
@@ -385,8 +433,8 @@ export default {
 
       const res = await this.$store.dispatch('user/proposeMsig', {
         actions: [action],
-        title: `Update configuration of Worker Proposal Contract`,
-        description: ''
+        title: this.msigTitle,
+        description: this.msigDescription
       })
       console.log(res)
     },
@@ -407,8 +455,8 @@ export default {
 
       const res = await this.$store.dispatch('user/proposeMsig', {
         actions: [action],
-        title: `Update configuration of Referendum Contract`,
-        description: ''
+        title: this.msigTitle,
+        description: this.msigDescription
       })
       console.log(res)
     },
@@ -430,8 +478,8 @@ export default {
 
       const res = await this.$store.dispatch('user/proposeMsig', {
         actions: [action],
-        title: `Update configuration of Token Contract`,
-        description: ''
+        title: this.msigTitle,
+        description: this.msigDescription
       })
       console.log(res)
     },
@@ -510,8 +558,8 @@ export default {
       console.log(actions)
       const res = await this.$store.dispatch('user/proposeMsig', {
         actions: actions.filter(a => a !== null),
-        title: this.brandMsigTitle,
-        description: this.brandMsigDescription
+        title: this.msigTitle,
+        description: this.msigDescription
       })
       console.log(res)
     },
@@ -533,8 +581,8 @@ export default {
       console.log('saveFeatures', actions)
       const res = await this.$store.dispatch('user/proposeMsig', {
         actions: actions.filter(a => a !== null),
-        title: this.featuresMsigTitle,
-        description: this.featuresMsigDescription
+        title: this.msigTitle,
+        description: this.msigDescription
       })
       console.log(res)
     }
