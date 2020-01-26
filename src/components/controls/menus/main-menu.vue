@@ -54,6 +54,14 @@
       <q-item-section v-else>{{$t('menu.view_worker_proposals')}}</q-item-section>
     </q-item>
 
+    <q-item clickable to="/member/referendums" v-if="referendumEnabled">
+      <q-item-section avatar>
+        <q-icon name="mdi-human-greeting" />
+      </q-item-section>
+
+      <q-item-section>{{$t('menu.referendums')}}</q-item-section>
+    </q-item>
+
     <q-item clickable to="/custodian/dac-management" v-if="getIsCustodian">
       <q-item-section avatar>
         <q-icon name="mdi-cogs" />
@@ -131,7 +139,7 @@ export default {
   },
   data () {
     return {
-      referendumsEnabled: !!this.$dir.getAccount(this.$dir.ACCOUNT_REFERENDUM),
+      referendumEnabled: !!this.$dir.getAccount(this.$dir.ACCOUNT_REFERENDUM),
       wpEnabled: !!this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS)
     }
   },

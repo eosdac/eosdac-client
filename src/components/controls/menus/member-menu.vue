@@ -20,10 +20,6 @@
       <q-item-section class="text-weight-light">{{$t('menu.my_worker_proposals')}}</q-item-section>
     </q-item>
 
-    <q-item class="q-pl-lg animate-fade" clickable to="/member/referendums" v-if="referendumEnabled">
-      <q-item-section class="text-weight-light">{{$t('menu.referendums')}}</q-item-section>
-    </q-item>
-
     <q-item class="q-pl-lg animate-fade" clickable to="/member/new-referendum" v-if="referendumEnabled">
       <q-item-section class="text-weight-light">{{$t('menu.new_referendum')}}</q-item-section>
     </q-item>
