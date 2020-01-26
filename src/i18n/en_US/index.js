@@ -544,6 +544,7 @@ export default {
     'token_max_stake_time': 'Maximum Stake Time',
     'token_propose_changes': 'Propose Changes',
     'referendum_title': 'Referendums',
+    'allow_vote_type': 'Allow Vote Type',
     'referendum_fees': 'Fees',
     'referendum_pass_rate': 'Pass rate',
     'referendum_quorum_token': 'Quorum (Token Votes)',

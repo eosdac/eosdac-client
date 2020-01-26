@@ -75,14 +75,18 @@
 
         <q-tab-panel name="referendum" v-if="referendumEnabled">
           <div class="text-h5 q-mb-md">{{$t('contracts_config.referendum_title')}}</div>
-          <!-- {{referendumConfig}} -->
+<!--           {{referendumConfig}}-->
           <q-card v-if="referendumConfigLoaded">
-            <q-card-section>
+            <q-card-section v-if="referendumConfig.fee !== null">
+              <referendum-config-group v-model="referendumConfig.allow_vote_type" type="bool" :label="$t('contracts_config.allow_vote_type')" />
               <referendum-config-group v-model="referendumConfig.fee" type="asset" :allowed="[dacToken, systemToken]" :label="$t('contracts_config.referendum_fees')" />
               <referendum-config-group v-model="referendumConfig.pass" type="number" :label="$t('contracts_config.referendum_pass_rate')" />
               <referendum-config-group v-model="referendumConfig.quorum_token" type="number" :label="$t('contracts_config.referendum_quorum_token')" />
               <referendum-config-group v-model="referendumConfig.quorum_account" type="number" :label="$t('contracts_config.referendum_quorum_account')" />
               <referendum-config-group v-model="referendumConfig.allow_per_account_voting" type="bool" :label="$t('contracts_config.referendum_allow_per_account')" />
+            </q-card-section>
+            <q-card-section v-else>
+              Referendum contract is not configured yet
             </q-card-section>
             <q-card-actions align="right">
               <q-btn color="positive" :label="$t('contracts_config.propose_changes')" @click="startSave('referendum')" />
@@ -593,6 +597,38 @@ export default {
     this.referendumAccount = this.$dir.getAccount(this.$dir.ACCOUNT_REFERENDUM)
     this.wpEnabled = !!this.wpAccount
     this.referendumEnabled = !!this.referendumAccount
+    if (this.referendumConfig && this.referendumConfig.fee === null) {
+      this.referendumConfig.fee = [
+        { key: 0, value: { contract: 'eosio.token', quantity: '100.0000 EOS' } },
+        { key: 1, value: { contract: 'eosio.token', quantity: '100.0000 EOS' } },
+        { key: 2, value: { contract: 'eosio.token', quantity: '100.0000 EOS' } }
+      ]
+      this.referendumConfig.pass = [
+        { key: 0, value: 3000 },
+        { key: 1, value: 2000 },
+        { key: 2, value: 1000 }
+      ]
+      this.referendumConfig.quorum_token = [
+        { key: 0, value: 3000 },
+        { key: 1, value: 2000 },
+        { key: 2, value: 1000 }
+      ]
+      this.referendumConfig.quorum_account = [
+        { key: 0, value: 3000 },
+        { key: 1, value: 2000 },
+        { key: 2, value: 1000 }
+      ]
+      this.referendumConfig.allow_per_account_voting = [
+        { key: 0, value: 0 },
+        { key: 1, value: 0 },
+        { key: 2, value: 0 }
+      ]
+      this.referendumConfig.allow_vote_type = [
+        { key: 0, value: 0 },
+        { key: 1, value: 0 },
+        { key: 2, value: 1 }
+      ]
+    }
   },
 
   watch: {
