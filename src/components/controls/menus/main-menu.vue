@@ -54,7 +54,7 @@
       <q-item-section v-else>{{$t('menu.view_worker_proposals')}}</q-item-section>
     </q-item>
 
-    <q-item clickable to="/member/referendums" v-if="referendumEnabled">
+    <q-item clickable to="/referendums" v-if="referendumEnabled">
       <q-item-section avatar>
         <q-icon name="mdi-human-greeting" />
       </q-item-section>

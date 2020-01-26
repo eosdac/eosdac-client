@@ -28,6 +28,7 @@ const routes = [
       { path: 'review-proposals', component: () => import('pages/review-proposals.vue') },
       { path: 'review-worker-proposals', component: () => import('pages/review-worker-proposals.vue') },
       { path: 'wps/:id', props: true, component: () => import('pages/worker-proposal.vue') },
+      { path: 'referendums', component: () => import('pages/referendums') },
       {
         path: 'vote-custodians',
         component: () => import('pages/vote-custodians.vue')
@@ -48,7 +49,6 @@ const routes = [
         path: 'my-worker-proposals',
         component: () => import('pages/member/my-worker-proposals')
       },
-      { path: 'referendums', component: () => import('pages/member/referendums') },
       { path: 'new-referendum', component: () => import('pages/member/new-referendum') }
     ]
   },
