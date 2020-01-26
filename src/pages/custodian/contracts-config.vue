@@ -79,11 +79,11 @@
           <q-card v-if="referendumConfigLoaded">
             <q-card-section v-if="referendumConfig.fee !== null">
               <referendum-config-group v-model="referendumConfig.allow_vote_type" type="bool" :label="$t('contracts_config.allow_vote_type')" />
+              <referendum-config-group v-model="referendumConfig.allow_per_account_voting" type="bool" :label="$t('contracts_config.referendum_allow_per_account')" />
               <referendum-config-group v-model="referendumConfig.fee" type="asset" :allowed="[dacToken, systemToken]" :label="$t('contracts_config.referendum_fees')" />
               <referendum-config-group v-model="referendumConfig.pass" type="number" :label="$t('contracts_config.referendum_pass_rate')" />
               <referendum-config-group v-model="referendumConfig.quorum_token" type="number" :label="$t('contracts_config.referendum_quorum_token')" />
               <referendum-config-group v-model="referendumConfig.quorum_account" type="number" :label="$t('contracts_config.referendum_quorum_account')" />
-              <referendum-config-group v-model="referendumConfig.allow_per_account_voting" type="bool" :label="$t('contracts_config.referendum_allow_per_account')" />
             </q-card-section>
             <q-card-section v-else>
               Referendum contract is not configured yet
@@ -309,6 +309,39 @@ export default {
     const [precisionStr, symbol] = this.$dir.symbol.symbol.split(',')
     const precision = parseInt(precisionStr)
     const contract = this.$dir.symbol.contract
+
+    const referendumConfig = {}
+    referendumConfig.fee = [
+      { key: 0, value: { contract: 'eosio.token', quantity: '100.0000 EOS' } },
+      { key: 1, value: { contract: 'eosio.token', quantity: '100.0000 EOS' } },
+      { key: 2, value: { contract: 'eosio.token', quantity: '100.0000 EOS' } }
+    ]
+    referendumConfig.pass = [
+      { key: 0, value: 3000 },
+      { key: 1, value: 2000 },
+      { key: 2, value: 1000 }
+    ]
+    referendumConfig.quorum_token = [
+      { key: 0, value: 3000 },
+      { key: 1, value: 2000 },
+      { key: 2, value: 1000 }
+    ]
+    referendumConfig.quorum_account = [
+      { key: 0, value: 3000 },
+      { key: 1, value: 2000 },
+      { key: 2, value: 1000 }
+    ]
+    referendumConfig.allow_per_account_voting = [
+      { key: 0, value: 0 },
+      { key: 1, value: 0 },
+      { key: 2, value: 0 }
+    ]
+    referendumConfig.allow_vote_type = [
+      { key: 0, value: 0 },
+      { key: 1, value: 0 },
+      { key: 2, value: 1 }
+    ]
+
     return {
       custodianContract: this.$dir.getAccount(this.$dir.ACCOUNT_CUSTODIAN),
       proposalsContract: this.$dir.getAccount(this.$dir.ACCOUNT_PROPOSALS),
@@ -331,6 +364,7 @@ export default {
       msigTitle: '',
       msigDescription: '',
       tokenConfigLoaded: false,
+      referendumConfig,
       referendumConfigLoaded: false,
       referendumEnabled: false,
       wpConfigLoaded: false,
@@ -344,7 +378,7 @@ export default {
       custodianConfig: 'dac/getCustodianConfig',
       wpConfig: 'dac/getWpConfig',
       tokenConfig: 'dac/getTokenConfig',
-      referendumConfig: 'dac/getReferendumConfig'
+      getReferendumConfig: 'dac/getReferendumConfig'
     })
   },
   methods: {
@@ -597,38 +631,6 @@ export default {
     this.referendumAccount = this.$dir.getAccount(this.$dir.ACCOUNT_REFERENDUM)
     this.wpEnabled = !!this.wpAccount
     this.referendumEnabled = !!this.referendumAccount
-    if (this.referendumConfig && this.referendumConfig.fee === null) {
-      this.referendumConfig.fee = [
-        { key: 0, value: { contract: 'eosio.token', quantity: '100.0000 EOS' } },
-        { key: 1, value: { contract: 'eosio.token', quantity: '100.0000 EOS' } },
-        { key: 2, value: { contract: 'eosio.token', quantity: '100.0000 EOS' } }
-      ]
-      this.referendumConfig.pass = [
-        { key: 0, value: 3000 },
-        { key: 1, value: 2000 },
-        { key: 2, value: 1000 }
-      ]
-      this.referendumConfig.quorum_token = [
-        { key: 0, value: 3000 },
-        { key: 1, value: 2000 },
-        { key: 2, value: 1000 }
-      ]
-      this.referendumConfig.quorum_account = [
-        { key: 0, value: 3000 },
-        { key: 1, value: 2000 },
-        { key: 2, value: 1000 }
-      ]
-      this.referendumConfig.allow_per_account_voting = [
-        { key: 0, value: 0 },
-        { key: 1, value: 0 },
-        { key: 2, value: 0 }
-      ]
-      this.referendumConfig.allow_vote_type = [
-        { key: 0, value: 0 },
-        { key: 1, value: 0 },
-        { key: 2, value: 1 }
-      ]
-    }
   },
 
   watch: {
@@ -646,6 +648,10 @@ export default {
           break
         case 'referendum':
           await this.fetchReferendumConfig()
+          const referendumConfig = this.getReferendumConfig
+          if (referendumConfig && referendumConfig.fee) {
+            this.referendumConfig = JSON.parse(JSON.stringify(referendumConfig))
+          }
           this.referendumConfigLoaded = true
           this.referendumEnabled = !!this.$dir.getAccount(this.$dir.ACCOUNT_REFERENDUM)
           break
