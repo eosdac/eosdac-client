@@ -44,6 +44,10 @@
       <q-select label="Voting Type" :options="voting_type_options" v-model="voting_type" />
     </div>
 
+    <div class="col q-pa-md text-warning" v-if="showPayFee">
+      There is a fee of {{feeRequired.quantity}} to pay for this referendum
+    </div>
+
     <div class="col q-pa-md text-right">
       <q-btn @click="submitReferendum" color="positive">{{$t('referendums.submit')}}</q-btn>
     </div>
@@ -51,7 +55,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import MarkdownViewer from 'components/ui/markdown-viewer'
 
 export default {
@@ -62,31 +66,45 @@ export default {
   },
   data () {
     return {
-      config: null,
       title: null,
       content: null,
       type: null,
       voting_type: null,
       actions: [],
       type_options: [{ value: 1, label: 'Semi-Binding' }, { value: 2, label: 'Opinion' }],
-      voting_type_options: [{ value: 0, label: 'Token' }, { value: 1, label: 'Account' }]
+      voting_type_options: [{ value: 0, label: 'Token' }, { value: 1, label: 'Account' }],
+      feeRequired: { contract: 'eosio.token', quantity: '0.0000 EOS' },
+      showPayFee: false
     }
   },
   computed: {
     ...mapGetters({
       getAccountName: 'user/getAccountName',
+      getReferendumConfig: 'dac/getReferendumConfig',
       getSettingByName: 'user/getSettingByName'
     })
   },
   methods: {
+    ...mapActions({
+      fetchReferendumConfig: 'dac/fetchReferendumConfig'
+    }),
     updateText (val) {
       this.content = val
     },
-    async loadConfig () {
-      console.log(`Load referendums config`)
-      const results = await this.$store.dispatch('dac/fetchReferendumConfig')
-      console.log('Referendum config', results)
-      this.config = results
+    async updateRequiredFee () {
+      if (!this.getReferendumConfig) {
+        await this.fetchReferendumConfig()
+      }
+      if (this.type && this.voting_type && this.getReferendumConfig.fee) {
+        // const type = this.type
+        const fee = this.getReferendumConfig.fee.find((f) => f.key === parseInt(this.type.value))
+        console.log(fee)
+        const [feeQtyStr] = fee.value.quantity.split(' ')
+        if (parseFloat(feeQtyStr) > 0) {
+          this.showPayFee = true
+        }
+        this.feeRequired = fee.value
+      }
     },
     updateContent (e) {
       this.content = e.target.value
@@ -102,16 +120,33 @@ export default {
         dac_id: this.$dir.dacId,
         acts: this.actions
       }
-      let actions = [
+      const actions = []
+      if (this.showPayFee) {
+        console.log(`feeRequired`, this.feeRequired.contract)
+        actions.push(
+          {
+            account: this.feeRequired.contract,
+            name: 'transfer',
+            data: {
+              from: this.getAccountName,
+              to: this.$dir.getAccount(this.$dir.ACCOUNT_REFERENDUM),
+              quantity: this.feeRequired.quantity,
+              memo: `Fee for referendum "${data.title}"`
+            }
+          }
+        )
+      }
+      actions.push(
         {
           account: this.$dir.getAccount(this.$dir.ACCOUNT_REFERENDUM),
           name: 'propose',
           data
         }
-      ]
+      )
+
       try {
-        let result = await this.$store.dispatch('user/transact', {
-          actions: actions
+        const result = await this.$store.dispatch('user/transact', {
+          actions
         })
         if (result) {
           console.log(result)
@@ -122,7 +157,14 @@ export default {
     }
   },
   mounted () {
-    this.loadConfig()
+  },
+  watch: {
+    type: function (val) {
+      this.updateRequiredFee()
+    },
+    voting_type: function (val) {
+      this.updateRequiredFee()
+    }
   }
 }
 </script>
