@@ -99,7 +99,10 @@ export default {
     'VOTEPROP_INVALID_PROPOSAL_STATE': 'Invalid proposal state to accept votes.',
     'VOTEPROP_INVALID_VOTE': 'Invalid vote for the current proposal state.',
     'VOTEPROP_PROPOSAL_NOT_FOUND': 'Proposal not found.',
-    'scatter_firewall': 'Scatter has blocked this request.  Please check Scatter under Settings > Firewall and remove eosio.msig::approve if it is there.'
+    'scatter_firewall': 'Scatter has blocked this request.  Please check Scatter under Settings > Firewall and remove eosio.msig::approve if it is there.',
+    'FEE_REQUIRED': 'A fee is required to propose this type of referendum.  Please send the correct fee to this contract and try again.',
+    'INSUFFICIENT_FEE': 'Fee provided is insufficient',
+    'PERMS_FAILED': 'The authorization supplied with the action does not pass'
   },
   'dac_financials': {
     'treasury_explainer_header': 'The Treasury Account',
