@@ -3,6 +3,12 @@
     <!-- content -->
     <h4>{{$t('referendums.title')}}</h4>
 
+    <q-tabs align="justify" v-model="active_tab" class="q-mb-md">
+      <q-tab name="open" :label="$t('referendums.open')" />
+      <q-tab name="passed" :label="$t('referendums.passed')" />
+      <q-tab name="failed" :label="$t('referendums.failed')" />
+    </q-tabs>
+
     <div v-for="(refData, i) in referendums" :key="i">
       <referendum :data="refData" v-on:referendumvote="delayedUpdateList" :updating="updating" />
     </div>
@@ -23,7 +29,13 @@ export default {
     return {
       referendums: [],
       config: null,
-      updating: false
+      updating: false,
+      pagination: {
+        page: 1,
+        max: 1,
+        items_per_page: 20
+      },
+      active_tab: ''
     }
   },
   computed: {
@@ -41,9 +53,21 @@ export default {
         this.updating = false
       }, 2000)
     },
+    currentStatus () {
+      const map = { open: 0, passed: 1, failed: 2 }
+      return map[this.active_tab]
+    },
     async updateList () {
+      let skip = (this.pagination.page - 1) * this.pagination.items_per_page
+      const status = this.currentStatus()
+      console.log(`status = ${status}, active tab = ${this.active_tab}`)
+
       console.log(`Update referendums list`)
-      const query = { status: 0 }
+      const query = {
+        status,
+        limit: this.pagination.items_per_page,
+        skip: skip
+      }
       const { results } = await this.$store.dispatch('dac/fetchReferendums', query)
       console.log('Referendum results', results)
       this.referendums = results
@@ -59,6 +83,29 @@ export default {
   mounted () {
     this.loadConfig()
     this.updateList()
+  },
+
+  watch: {
+    active_tab: function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        // double check the tab has been changed
+
+        this.proposals = []
+        if (this.pagination.page === 1) {
+          this.updateList()
+        } else {
+          this.pagination.page = 1 // this will trigger the watcher below
+        }
+      }
+    },
+
+    'pagination.items_per_page': function (newVal, oldVal) {
+      this.updateList()
+    },
+
+    'pagination.page': function (newVal, oldVal) {
+      this.updateList()
+    }
   }
 }
 </script>

@@ -50,6 +50,10 @@
 
             </div>
           </q-item-section>
+          <q-item-section>
+            {{data.expires}}
+            {{data.status}}
+          </q-item-section>
 
           <q-item-section side>
             <profile-pic :accountname="data.proposer" />

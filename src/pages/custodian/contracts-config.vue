@@ -77,6 +77,9 @@
           <div class="text-h5 q-mb-md">{{$t('contracts_config.referendum_title')}}</div>
 <!--           {{referendumConfig}}-->
           <q-card v-if="referendumConfigLoaded">
+            <q-card-section>
+              <seconds-input v-model="referendumConfig.duration" :label="$t('contracts_config.duration')" />
+            </q-card-section>
             <q-card-section v-if="referendumConfig.fee !== null">
               <referendum-config-group v-model="referendumConfig.allow_vote_type" type="bool" :label="$t('contracts_config.allow_vote_type')" />
               <referendum-config-group v-model="referendumConfig.allow_per_account_voting" type="bool" :label="$t('contracts_config.referendum_allow_per_account')" />
@@ -311,6 +314,7 @@ export default {
     const contract = this.$dir.symbol.contract
 
     const referendumConfig = {}
+    referendumConfig.duration = 60 * 60 * 24 * 30
     referendumConfig.fee = [
       { key: 0, value: { contract: 'eosio.token', quantity: '100.0000 EOS' } },
       { key: 1, value: { contract: 'eosio.token', quantity: '100.0000 EOS' } },

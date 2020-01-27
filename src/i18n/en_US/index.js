@@ -102,7 +102,8 @@ export default {
     'scatter_firewall': 'Scatter has blocked this request.  Please check Scatter under Settings > Firewall and remove eosio.msig::approve if it is there.',
     'FEE_REQUIRED': 'A fee is required to propose this type of referendum.  Please send the correct fee to this contract and try again.',
     'INSUFFICIENT_FEE': 'Fee provided is insufficient',
-    'PERMS_FAILED': 'The authorization supplied with the action does not pass'
+    'PERMS_FAILED': 'The authorization supplied with the action does not pass',
+    'REFERENDUM_NOT_OPEN': 'This referendum has expired'
   },
   'dac_financials': {
     'treasury_explainer_header': 'The Treasury Account',
