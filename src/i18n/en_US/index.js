@@ -475,6 +475,7 @@ export default {
 
   'referendums': {
     'title': 'Referendums',
+    'no_results': 'No results',
     'open': 'Open',
     'passed': 'Passed',
     'failed': 'Failed',

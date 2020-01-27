@@ -12,6 +12,9 @@
     <div v-for="(refData, i) in referendums" :key="i">
       <referendum :data="refData" v-on:referendumvote="delayedUpdateList" :updating="updating" />
     </div>
+    <div v-if="!referendums.length">
+      {{$t('referendums.no_results')}}
+    </div>
   </q-page>
 </template>
 
