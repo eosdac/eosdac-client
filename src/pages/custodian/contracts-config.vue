@@ -78,10 +78,10 @@
 <!--           {{referendumConfig}}-->
           <q-card v-if="referendumConfigLoaded">
             <q-card-section>
-              <seconds-input v-model="referendumConfig.duration" :label="$t('contracts_config.duration')" />
+              <seconds-input v-model="referendumConfig.duration" :label="$t('contracts_config.referendum_duration')" />
             </q-card-section>
             <q-card-section v-if="referendumConfig.fee !== null">
-              <referendum-config-group v-model="referendumConfig.allow_vote_type" type="bool" :label="$t('contracts_config.allow_vote_type')" />
+              <referendum-config-group v-model="referendumConfig.allow_vote_type" type="bool" :label="$t('contracts_config.referendum_allow_vote_type')" />
               <referendum-config-group v-model="referendumConfig.allow_per_account_voting" type="bool" :label="$t('contracts_config.referendum_allow_per_account')" />
               <referendum-config-group v-model="referendumConfig.fee" type="asset" :allowed="[dacToken, systemToken]" :label="$t('contracts_config.referendum_fees')" />
               <referendum-config-group v-model="referendumConfig.pass" type="number" :label="$t('contracts_config.referendum_pass_rate')" />
