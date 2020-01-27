@@ -35,7 +35,7 @@ export default {
         max: 1,
         items_per_page: 20
       },
-      active_tab: ''
+      active_tab: 'open'
     }
   },
   computed: {
