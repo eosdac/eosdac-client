@@ -479,6 +479,7 @@ export default {
     'open': 'Open',
     'passed': 'Passed',
     'failed': 'Failed',
+    'not_met': 'Didn\'t Reach Quorum',
     'new_title': 'Propose New Referendum',
     'form_title': 'Title',
     'form_content': 'Content',

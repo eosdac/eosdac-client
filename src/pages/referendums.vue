@@ -7,6 +7,7 @@
       <q-tab name="open" :label="$t('referendums.open')" />
       <q-tab name="passed" :label="$t('referendums.passed')" />
       <q-tab name="failed" :label="$t('referendums.failed')" />
+      <q-tab name="not_met" :label="$t('referendums.not_met')" />
     </q-tabs>
 
     <div v-for="(refData, i) in referendums" :key="i">
@@ -57,7 +58,7 @@ export default {
       }, 2000)
     },
     currentStatus () {
-      const map = { open: 0, passed: 1, failed: 2 }
+      const map = { open: 0, passed: 1, failed: 2, not_met: 3 }
       return map[this.active_tab]
     },
     async updateList () {
