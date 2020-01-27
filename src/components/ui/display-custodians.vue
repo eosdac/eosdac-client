@@ -15,10 +15,10 @@
             >
               <template slot-scope="props">
                 <div class="q-caption text-weight-light">
-                  <span v-if="props.days">{{ props.days }} {{ $t("display_custodians.days") }}, </span>
-                  <span v-if="props.hours">{{ props.hours }} {{ $t("display_custodians.hours") }}, </span>
-                  <span v-if="props.minutes">{{ props.minutes }} {{ $t("display_custodians.minutes") }},</span>
-                  <span>{{ props.seconds }} {{ $t("display_custodians.seconds") }}</span>
+                  <span v-if="props.days">{{ props.days }} {{ $t("general.days") }}, </span>
+                  <span v-if="props.hours">{{ props.hours }} {{ $t("general.hours") }}, </span>
+                  <span v-if="props.minutes">{{ props.minutes }} {{ $t("general.minutes") }},</span>
+                  <span>{{ props.seconds }} {{ $t("general.seconds") }}</span>
                 </div>
               </template>
             </countdown>

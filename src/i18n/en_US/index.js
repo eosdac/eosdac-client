@@ -1,4 +1,10 @@
 export default {
+  'general': {
+    'days': 'days',
+    'hours': 'hours',
+    'minutes': 'minutes',
+    'seconds': 'seconds'
+  },
   'candidate': {
     'nominated_next': 'Nominated for next custodian board',
     'pay': 'Pay',
@@ -351,10 +357,6 @@ export default {
   },
   'display_custodians': {
     'new_election': 'New election in',
-    'days': 'days',
-    'hours': 'hours',
-    'minutes': 'minutes',
-    'seconds': 'seconds',
     'waiting_for_newperiod': 'Waiting for new period',
     'newperiod_overdue': 'NEW PERIOD IS OVERDUE',
     'run_now': 'Run Now',
@@ -366,7 +368,6 @@ export default {
     'activated_at': 'The DAC will be activated at 15%',
     'loading': 'loading...',
     'refresh': 'Refresh',
-    'seconds': 'seconds',
     'threshold_met': 'Voting threshold met. The DAC can be unlocked.',
     'update_in': 'update in'
   },
@@ -434,10 +435,6 @@ export default {
     'status': 'Status',
     'time_left': 'Time Left',
     'expired': 'expired',
-    'days': 'days',
-    'hours': 'hours',
-    'minutes': 'minutes',
-    'seconds': 'seconds',
     'id': 'ID',
     'vote_threshold': 'Vote Threshold',
     'delegation': 'Delegation',

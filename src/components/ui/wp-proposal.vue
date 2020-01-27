@@ -182,10 +182,10 @@
                     >
                       <template slot-scope="props">
                         <div class="text-weight-light q-mb-xs">
-                          <span v-if="props.days">{{ props.days }} {{$t('workerproposal.days')}}, </span>
-                          <span v-if="props.hours">{{ props.hours }} {{$t('workerproposal.hours')}}, </span>
-                          <span v-if="props.minutes">{{ props.minutes }} {{$t('workerproposal.minutes')}}, </span>
-                          <span>{{ props.seconds }} {{$t('workerproposal.seconds')}}</span>
+                          <span v-if="props.days">{{ props.days }} {{$t('general.days')}}, </span>
+                          <span v-if="props.hours">{{ props.hours }} {{$t('general.hours')}}, </span>
+                          <span v-if="props.minutes">{{ props.minutes }} {{$t('general.minutes')}}, </span>
+                          <span>{{ props.seconds }} {{$t('general.seconds')}}</span>
                         </div>
                       </template>
                     </countdown>
