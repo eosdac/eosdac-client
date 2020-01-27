@@ -110,7 +110,7 @@
           </div>
         </div>
       </q-expansion-item>
-    <q-separator color="warning" v-if="position == getCustodianConfig.numelected" />
+    <q-separator color="warning" v-if="position == getCustodianConfig.numelected - 1" />
     <q-separator v-else />
   </div>
 </template>
