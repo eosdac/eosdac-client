@@ -475,6 +475,9 @@ export default {
 
   'referendums': {
     'title': 'Referendums',
+    'open': 'Open',
+    'passed': 'Passed',
+    'failed': 'Failed',
     'new_title': 'Propose New Referendum',
     'form_title': 'Title',
     'form_content': 'Content',
