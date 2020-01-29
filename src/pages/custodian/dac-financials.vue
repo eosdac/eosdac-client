@@ -428,7 +428,7 @@ export default {
         data: {
           from: trxData.from,
           to: trxData.to,
-          quantity: `${trxData.asset.quantity} ${trxData.asset.symbol}`,
+          quantity: trxData.asset.quantity,
           memo: trxData.memo.trim()
         },
         authorization: [
@@ -440,7 +440,7 @@ export default {
       }
 
       let res = await this.$store.dispatch('user/proposeMsig', {
-        actions: [action],
+        actions: [JSON.parse(JSON.stringify(action))],
         title: trxData.title,
         description: trxData.description
       })
