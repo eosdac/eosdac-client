@@ -392,7 +392,11 @@ export default {
       fetchReferendumConfig: 'dac/fetchReferendumConfig'
     }),
     loadBrand () {
-      const theme = JSON.parse(this.$dir.getRef(this.$dir.REF_COLORS))
+      const coloursJSON = this.$dir.getRef(this.$dir.REF_COLORS)
+      let theme = null
+      try {
+        theme = (coloursJSON) ? JSON.parse(coloursJSON) : null
+      } catch (e) {}
       const extension = this.$dir.getRef(this.$dir.REF_CLIENT_EXTENSION)
       const description = this.$dir.getRef(this.$dir.REF_DESCRIPTION)
       const homepage = this.$dir.getRef(this.$dir.REF_HOMEPAGE)
