@@ -234,9 +234,8 @@
 
             <q-separator spaced />
 
-            <q-card-section>
-
-                <div v-if="!read_only && getAccountName">
+            <q-card-section v-if="getIsCustodian">
+                <div>
                     <member-select
                             v-if="wp.status == wpEnums.PENDING_APPROVAL || wp.status == wpEnums.PENDING_VALIDATE"
                             :show_selected="false"
@@ -250,80 +249,86 @@
                     />
                 </div>
             </q-card-section>
-            <q-card-section>
-              <q-card-actions align="right" v-if="!read_only">
-                  <div v-if="wp.status == wpEnums.PENDING_APPROVAL" class="col-12 q-pt-md">
-                      <q-btn
-                              v-if="getVoterStatus == 2 || getVoterStatus == 0"
-                              class="on-right animate-pop"
-                              color="positive"
-                              :label="$t('workerproposal.approve')"
-                              @click="voteprop('voteApprove')"
-                      />
-                      <q-btn
-                              v-if="getVoterStatus == 1 || getVoterStatus == 0"
-                              class="on-right animate-pop"
-                              color="negative"
-                              :label="$t('workerproposal.deny')"
-                              @click="voteprop('voteDeny')"
-                      />
-                  </div>
-                  <div v-else-if="wp.status == wpEnums.PENDING_VALIDATE">
-                      <q-btn
-                              v-if="getVoterStatus == 4 || getVoterStatus == 0"
-                              class="on-right animate-pop"
-                              color="positive"
-                              :label="$t('workerproposal.approve_claim')"
-                              @click="voteprop('claimApprove')"
-                      />
-                      <q-btn
-                              v-if="getVoterStatus == 3 || getVoterStatus == 0"
-                              class="on-right animate-pop"
-                              color="negative"
-                              :label="$t('workerproposal.deny_claim')"
-                              @click="voteprop('claimDeny')"
-                      />
-                      <q-btn
-                              v-if="getIsArbitrator"
-                              class="on-right animate-pop"
-                              flat
-                              color="positive"
-                              :label="$t('workerproposal.arb_approve')"
-                              @click="arbApprove()"
-                      />
-                  </div>
+            <q-card-section v-if="getIsCustodian">
+              <q-card-actions align="right">
+                <div v-if="wp.status == wpEnums.PENDING_APPROVAL" class="col-12 q-pt-md">
+                  <q-btn
+                          v-if="getVoterStatus == 2 || getVoterStatus == 0"
+                          class="on-right animate-pop"
+                          color="positive"
+                          :label="$t('workerproposal.approve')"
+                          @click="voteprop('voteApprove')"
+                  />
+                  <q-btn
+                          v-if="getVoterStatus == 1 || getVoterStatus == 0"
+                          class="on-right animate-pop"
+                          color="negative"
+                          :label="$t('workerproposal.deny')"
+                          @click="voteprop('voteDeny')"
+                  />
+                </div>
+                <div v-else-if="wp.status == wpEnums.PENDING_VALIDATE">
+                  <q-btn
+                          v-if="getVoterStatus == 4 || getVoterStatus == 0"
+                          class="on-right animate-pop"
+                          color="positive"
+                          :label="$t('workerproposal.approve_claim')"
+                          @click="voteprop('claimApprove')"
+                  />
+                  <q-btn
+                          v-if="getVoterStatus == 3 || getVoterStatus == 0"
+                          class="on-right animate-pop"
+                          color="negative"
+                          :label="$t('workerproposal.deny_claim')"
+                          @click="voteprop('claimDeny')"
+                  />
+                </div>
 
-                  <div v-if="getIsCreator">
-                      <q-btn
-                              v-if="wp.status == wpEnums.APPROVED"
-                              class="on-right animate-pop"
-                              color="info"
-                              :label="$t('workerproposal.start_work')"
-                              @click="startWork()"
-                      />
-                      <q-btn
-                              v-if="wp.status == wpEnums.WORK_IN_PROGRESS"
-                              class="on-right animate-pop"
-                              color="info"
-                              :label="$t('workerproposal.complete_work')"
-                              @click="completeWork()"
-                      />
-                      <q-btn
-                              v-if="wp.status == wpEnums.VALIDATED"
-                              class="on-right animate-pop"
-                              color="info"
-                              :label="$t('workerproposal.claim')"
-                              @click="finalize()"
-                      />
-                      <q-btn
-                              v-if="wp.status != wpEnums.COMPLETED && wp.status != wpEnums.CANCELLED"
-                              class="on-right animate-pop"
-                              flat
-                              color="negative"
-                              :label="$t('workerproposal.cancel')"
-                              @click="cancelProp()"
-                      />
-                  </div>
+              </q-card-actions>
+            </q-card-section>
+
+            <q-card-section v-if="getIsCreator">
+              <q-card-actions align="right">
+                  <q-btn
+                          v-if="wp.status == wpEnums.APPROVED"
+                          class="on-right animate-pop"
+                          color="info"
+                          :label="$t('workerproposal.start_work')"
+                          @click="startWork()"
+                  />
+                  <q-btn
+                          v-if="wp.status == wpEnums.WORK_IN_PROGRESS"
+                          class="on-right animate-pop"
+                          color="info"
+                          :label="$t('workerproposal.complete_work')"
+                          @click="completeWork()"
+                  />
+                  <q-btn
+                          v-if="wp.status == wpEnums.VALIDATED"
+                          class="on-right animate-pop"
+                          color="info"
+                          :label="$t('workerproposal.claim')"
+                          @click="finalize()"
+                  />
+                  <q-btn
+                          v-if="wp.status != wpEnums.COMPLETED && wp.status != wpEnums.CANCELLED"
+                          class="on-right animate-pop"
+                          flat
+                          color="negative"
+                          :label="$t('workerproposal.cancel')"
+                          @click="cancelProp()"
+                  />
+              </q-card-actions>
+            </q-card-section>
+
+            <q-card-section v-if="getIsArbitrator">
+              <q-card-actions align="right">
+                  <q-btn
+                          class="on-right animate-pop"
+                          color="positive"
+                          :label="$t('workerproposal.arb_approve')"
+                          @click="arbApprove()"
+                  />
               </q-card-actions>
             </q-card-section>
 
@@ -463,10 +468,18 @@ export default {
   computed: {
     ...mapGetters({
       getAccountName: 'user/getAccountName',
+      getIsCustodian: 'user/getIsCustodian',
       getWpConfig: 'dac/getWpConfig',
       getAuth: 'user/getAuth',
       getCustodians: 'dac/getCustodians'
     }),
+
+    getIsCreator () {
+      return this.getAccountName === this.wp.proposer
+    },
+    getIsArbitrator () {
+      return this.getAccountName === this.wp.arbitrator
+    },
 
     getVotes () {
       if (this.wp.votes && this.wp.votes.length) {
@@ -516,13 +529,6 @@ export default {
         }
       }
       return myDirectDelegatee
-    },
-
-    getIsCreator () {
-      return this.getAccountName === this.wp.proposer
-    },
-    getIsArbitrator () {
-      return this.getAccountName === this.wp.arbitrator
     },
     // get vote type of logged in user
     getVoterStatus () {
