@@ -121,46 +121,46 @@ export default {
 
       switch (data.notify) {
         case 'MSIG_PROPOSED':
-          message = `${data.msig_data.title} Proposed by ${actor}`
+          message = `"${data.msig_data.title}" proposed by ${actor}`
           break
         case 'MSIG_APPROVED':
-          message = `${data.msig_data.title} Approved by ${actor}`
+          message = `"${data.msig_data.title}" approved by ${actor}`
           break
         case 'MSIG_UNAPPROVED':
-          message = `${data.msig_data.title} Unapproved by ${actor}`
+          message = `"${data.msig_data.title}" unapproved by ${actor}`
           color = 'warning'
           break
         case 'MSIG_CANCELLED':
-          message = `${data.msig_data.title} Cancelled by ${actor}`
+          message = `"${data.msig_data.title}" cancelled by ${actor}`
           color = 'negative'
           break
         case 'MSIG_EXECUTED':
-          message = `${data.msig_data.title} executed by ${actor}`
+          message = `"${data.msig_data.title}" executed by ${actor}`
           color = 'positive'
           break
         case 'VOTES_CHANGED':
           break
         case 'WP_PROPOSED':
-          message = `${actor} created worker proposal ${data.wp_data.title}`
+          message = `${actor} created worker proposal "${data.wp_data.title}"`
           color = 'positive'
           break
         case 'WP_ARB_APPROVE':
-          message = `${data.wp_data.title} approved by arbitrator ${actor}`
+          message = `"${data.wp_data.title}" approved by arbitrator ${actor}`
           color = 'warning'
           break
         case 'WP_CANCEL':
-          message = `${actor} cancelled worker proposal ${data.wp_data.title}`
+          message = `${actor} cancelled worker proposal "${data.wp_data.title}"`
           color = 'negative'
           break
         case 'WP_COMMENT':
-          message = `${actor} commented on ${data.wp_data.title}`
+          message = `${actor} commented on "${data.wp_data.title}"`
           break
         case 'WP_COMPLETE_WORK':
-          message = `${actor} completed work on ${data.wp_data.title}`
+          message = `${actor} completed work on "${data.wp_data.title}"`
           color = 'positive'
           break
         case 'WP_FINALIZE':
-          message = `${actor} finalized ${data.wp_data.title}`
+          message = `${actor} claimed pay for "${data.wp_data.title}"`
           break
         case 'WP_START_WORK':
           message = `${actor} started work on ${data.wp_data.title}`
@@ -169,11 +169,11 @@ export default {
         case 'WP_VOTED':
           switch (data.action.data.vote) {
             case 1:
-              message = `${actor} approved ${data.wp_data.title}`
+              message = `${actor} approved "${data.wp_data.title}"`
               color = 'positive'
               break
             case 2:
-              message = `${actor} disapproved ${data.wp_data.title}`
+              message = `${actor} disapproved "${data.wp_data.title}"`
               color = 'negative'
               break
           }
