@@ -63,6 +63,7 @@
       <span v-if="loading" class="row items-center">
         <q-spinner class="on-left" color="primary" />{{$t('workerproposals.loading')}}
       </span>
+      <span v-else-if="active_tab == 'inbox'">{{$t('workerproposals.inbox_empty')}}</span>
       <span v-else>{{$t('workerproposals.no_proposals')}}</span>
     </div>
 
