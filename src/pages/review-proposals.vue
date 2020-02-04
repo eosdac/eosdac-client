@@ -9,6 +9,7 @@
     </div>
 
     <q-tabs align="justify" v-model="active_tab" class="q-mb-md">
+      <q-tab name="inbox" :label="$t('proposals.inbox')" />
       <q-tab name="open" :label="$t('proposals.open')" />
       <q-tab name="executed" :label="$t('proposals.executed')" />
       <q-tab name="cancelled" :label="$t('proposals.cancelled')" />
@@ -108,12 +109,13 @@ export default {
 
   computed: {
     ...mapGetters({
-      getIsCustodian: 'user/getIsCustodian'
+      getIsCustodian: 'user/getIsCustodian',
+      getAccountName: 'user/getAccountName'
     })
   },
 
   created () {
-    this.active_tab = 'open'
+    this.active_tab = this.getIsCustodian ? 'inbox' : 'open'
     this.managePagination()
     // this.$root.$on('reloadproposals', this.getProposalsWithDelay)
   },
@@ -145,24 +147,35 @@ export default {
       }
     },
     currentStatus () {
-      const map = { open: 1, executed: 2, cancelled: 0, expired: 3 }
+      const map = { inbox: 1, open: 1, executed: 2, cancelled: 0, expired: 3 }
       return map[this.active_tab]
     },
     managePagination () {
       // map tab to number for making the request
       // calculate skip
       let skip = (this.pagination.page - 1) * this.pagination.items_per_page
+      let limit = this.pagination.items_per_page
       const status = this.currentStatus()
       console.log(`status = ${status}, active tab = ${this.active_tab}`)
       // this.getProposals({find: find, skip: skip, limit: this.pagination.items_per_page});
+      let filterFn = null
+      if (this.active_tab === 'inbox') {
+        // increase limit to not miss with the filter
+        limit *= 4
+        filterFn = (m) => {
+          return !m.provided_approvals.find((a) => {
+            return a.actor === this.getAccountName
+          })
+        }
+      }
       this.getProposals({
         status,
-        limit: this.pagination.items_per_page,
+        limit,
         skip: skip
-      })
+      }, filterFn)
     },
 
-    async getProposals (query) {
+    async getProposals (query, filterFn = null) {
       this.msigs_loading = true
       let p = await this.$store.dispatch('dac/fetchMsigProposals', query)
       if (p) {
@@ -172,7 +185,11 @@ export default {
         this.pagination.max = Math.ceil(
           p.count / this.pagination.items_per_page
         )
-        this.proposals = p.results
+        if (filterFn) {
+          this.proposals = p.results.filter(filterFn)
+        } else {
+          this.proposals = p.results
+        }
       }
       this.msigs_loading = false
     }
