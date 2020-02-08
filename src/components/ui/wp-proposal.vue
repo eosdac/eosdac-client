@@ -234,7 +234,7 @@
 
             <q-separator spaced />
 
-            <q-card-section v-if="getIsCustodian">
+            <!-- <q-card-section v-if="getIsCustodian">
                 <div>
                     <member-select
                             v-if="wp.status == wpEnums.PENDING_APPROVAL || wp.status == wpEnums.PENDING_VALIDATE"
@@ -248,7 +248,7 @@
                             ref="directDelSelect"
                     />
                 </div>
-            </q-card-section>
+            </q-card-section> -->
             <q-card-section v-if="getIsCustodian">
               <q-card-actions align="right">
                 <div v-if="wp.status == wpEnums.PENDING_APPROVAL" class="col-12 q-pt-md">
@@ -423,7 +423,7 @@
 import { mapGetters } from 'vuex'
 // import profilePic from 'components/ui/profile-pic'
 import MarkdownViewer from 'components/ui/markdown-viewer'
-import memberSelect from 'components/controls/member-select'
+// import memberSelect from 'components/controls/member-select'
 import wpcats from '../../extensions/statics/config/wp_categories.json'
 import ProfilePic from './profile-pic'
 import countdown from '@chenfengyuan/vue-countdown'
@@ -434,7 +434,7 @@ export default {
   components: {
     ProfilePic,
     // profilePic,
-    memberSelect,
+    // memberSelect,
     MarkdownViewer,
     countdown
   },

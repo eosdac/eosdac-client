@@ -2,13 +2,13 @@
   <q-page class="q-pa-md">
     <dac-events @notification="onDACEvent"></dac-events>
 
-    <div class="row justify-end q-mb-md">
+    <!-- <div class="row justify-end q-mb-md">
       <q-btn
         color="primary"
         :label="$t('workerproposals.my_delegations')"
         @click="delegate_modal = true"
       />
-    </div>
+    </div> -->
 
     <q-tabs class="q-mb-md topbar" v-model="active_tab">
       <q-tab
