@@ -355,6 +355,7 @@ export default {
 
   'proposals': {
     'review_proposals': 'Management Proposals',
+    'inbox': 'inbox',
     'open': 'open',
     'executed': 'executed',
     'cancelled': 'cancelled',
