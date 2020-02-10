@@ -164,6 +164,18 @@
                         @click="unapproveProposal(msig.proposer, msig.proposal_name)"
                 />
                 <q-btn
+                        v-if="!isDenied"
+                        color="negative"
+                        :label="$t('proposal.deny')"
+                        @click="denyProposal(msig.proposer, msig.proposal_name)"
+                />
+                <q-btn
+                        v-if="isDenied"
+                        color="negative"
+                        :label="$t('proposal.undeny')"
+                        @click="undenyProposal(msig.proposer, msig.proposal_name)"
+                />
+                <q-btn
                         v-if="isCreator"
                         color="negative"
                         flat
@@ -340,6 +352,15 @@ export default {
         return false
       }
     },
+    isDenied: function () {
+      if (this.msig.denials) {
+        return !!this.msig.denials.find(
+          a => a.actor === this.getAccountName
+        )
+      } else {
+        return false
+      }
+    },
     isCreator: function () {
       return this.getAccountName === this.msig.proposer
     },
@@ -500,6 +521,64 @@ export default {
       })
       if (result) {
         this.transactionCallback('e_unapproval')
+      }
+    },
+    // deny a proposal, just marks as an action
+    async denyProposal (proposer, proposalName) {
+      const authAccount = this.$dir.getAccount(this.$dir.ACCOUNT_AUTH)
+      let actions = [
+        {
+          account: this.dacmsig,
+          name: 'deny',
+          authorization: [
+            { actor: this.getAccountName, permission: this.getAuth },
+            {
+              actor: authAccount,
+              permission: 'one'
+            }
+          ],
+          data: {
+            proposer: proposer,
+            proposal_name: proposalName,
+            denier: this.getAccountName,
+            dac_id: this.$dir.dacId
+          }
+        }
+      ]
+      let result = await this.$store.dispatch('user/transact', {
+        actions: actions
+      })
+      if (result) {
+        this.transactionCallback('e_deny')
+      }
+    },
+    // undeny a proposal, just marks as an action
+    async undenyProposal (proposer, proposalName) {
+      const authAccount = this.$dir.getAccount(this.$dir.ACCOUNT_AUTH)
+      let actions = [
+        {
+          account: this.dacmsig,
+          name: 'undeny',
+          authorization: [
+            { actor: this.getAccountName, permission: this.getAuth },
+            {
+              actor: authAccount,
+              permission: 'one'
+            }
+          ],
+          data: {
+            proposer: proposer,
+            proposal_name: proposalName,
+            undenier: this.getAccountName,
+            dac_id: this.$dir.dacId
+          }
+        }
+      ]
+      let result = await this.$store.dispatch('user/transact', {
+        actions: actions
+      })
+      if (result) {
+        this.transactionCallback('e_deny')
       }
     },
     // execute a proposal via msig relay {"proposer":0,"proposal_name":0,"executer":0}
