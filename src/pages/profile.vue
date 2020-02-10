@@ -173,9 +173,9 @@
         </div>
       </div>
     </div>
-    <div v-if="form.timezone != ''" class="q-pa-md q-my-md">
+    <!-- <div v-if="form.timezone != ''" class="q-pa-md q-my-md">
       <TimeZone :offset="Number(form.timezone)" />
-    </div>
+    </div> -->
 
     <q-dialog v-model="profile_pic_modal" persistent @hide="handleModalClose">
       <q-card style="min-width: 350px">
