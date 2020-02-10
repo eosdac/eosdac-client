@@ -51,8 +51,8 @@
 
             <q-item-section class="q-ml-lg">
                 <q-spinner-pie v-if="updating" />
-                <div class="row q-gutter-md" v-else-if="!updating">
-                    <div style="height:10px" class="full-width">
+                <div v-else-if="!updating">
+                    <div style="height:10px;margin-bottom:10px" class="full-width">
                         <div class="bg-positive" :style="{
                         width: `${100 * (data.votes.yes / (data.votes.yes + data.votes.no + data.votes.abstain))}%`,
                         height: '10px',
@@ -69,38 +69,41 @@
                         display: 'inline-block'
                       }"></div>
                     </div>
-                    <span class="text-positive">{{ $t("referendum.votes_yes") }}: <strong>{{ data.votes.yes }}</strong></span>
-                    <span class="text-negative">{{ $t("referendum.votes_no") }}: <strong>{{ data.votes.no }}</strong></span>
-                    <span class="text-grey-6">{{ $t("referendum.votes_abstain") }}: <strong>{{ data.votes.abstain }}</strong></span>
+
+                    <div>
+                        <span class="text-positive">{{ $t("referendum.votes_yes") }}: <strong>{{ data.votes.yes }}</strong></span>
+                        <span class="text-negative"> {{ $t("referendum.votes_no") }}: <strong>{{ data.votes.no }}</strong></span>
+                        <span class="text-grey-6"> {{ $t("referendum.votes_abstain") }}: <strong>{{ data.votes.abstain }}</strong></span>
+                    </div>
+
+                </div>
+                <div v-if="data.status === 0">
+                    <q-linear-progress
+                            v-if="percentRemaining"
+                            :value="percentRemaining"
+                            :color="(percentRemaining > 0.1) ? 'secondary' : 'negative'"
+                            style="height: 8px"
+                    />
+                    <countdown
+                            v-if="msRemaining && !showUpdateButton"
+                            :time="Number(msRemaining)"
+                            @end="countdownEnded"
+                    >
+                        <template slot-scope="props">
+                            <div class="text-weight-light q-mb-xs">
+                                <span v-if="props.days">{{ props.days }} {{$t('general.days')}}, </span>
+                                <span v-if="props.hours">{{ props.hours }} {{$t('general.hours')}}, </span>
+                                <span v-if="props.minutes">{{ props.minutes }} {{$t('general.minutes')}}, </span>
+                                <span>{{ props.seconds }} {{$t('general.seconds')}}</span>
+                            </div>
+                        </template>
+                    </countdown>
+                    <div v-else-if="showUpdateButton" class="q-caption text-weight-light q-mb-xs text-negative">
+                        This referendum has now ended. <q-btn @click.stop="updateStatus" color="info">calculate result</q-btn>
+                    </div>
+
                 </div>
             </q-item-section>
-
-          <q-item-section v-if="data.status === 0">
-              <countdown
-                      v-if="msRemaining && !showUpdateButton"
-                      :time="Number(msRemaining)"
-                      @end="countdownEnded"
-              >
-                  <template slot-scope="props">
-                      <div class="text-weight-light q-mb-xs">
-                          <span v-if="props.days">{{ props.days }} {{$t('general.days')}}, </span>
-                          <span v-if="props.hours">{{ props.hours }} {{$t('general.hours')}}, </span>
-                          <span v-if="props.minutes">{{ props.minutes }} {{$t('general.minutes')}}, </span>
-                          <span>{{ props.seconds }} {{$t('general.seconds')}}</span>
-                      </div>
-                  </template>
-              </countdown>
-              <div v-else-if="showUpdateButton" class="q-caption text-weight-light q-mb-xs text-negative">
-                  This referendum has now ended. <q-btn @click.stop="updateStatus" color="info">calculate result</q-btn>
-              </div>
-              <q-linear-progress
-                      v-if="percentRemaining"
-                      :value="percentRemaining"
-                      :color="(percentRemaining > 0.1) ? 'secondary' : 'negative'"
-                      style="height: 8px"
-              />
-
-          </q-item-section>
 
           <q-item-section side>
             <profile-pic :accountname="data.proposer" />
