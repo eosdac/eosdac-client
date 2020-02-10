@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="tokenStats">
     <div class="row q-col-gutter-sm">
       <div class="col-xs-12 col-md-4">
         <div class="bg-secondary rounded-borders shadow-4 q-pa-md full-height">
