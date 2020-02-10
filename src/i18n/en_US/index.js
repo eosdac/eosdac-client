@@ -44,6 +44,7 @@ export default {
     'CREATE_MAX_SUPPLY_MUST_BE_POSITIVE': 'max-supply must be positive',
     'DELEGATEVOTE_DELEGATE_SELF': 'Cannot delegate voting to yourself.',
     'DELEGATEVOTE_PROPOSAL_NOT_FOUND': 'Proposal not found.',
+    'DURATION_TOO_SHORT': 'Job duration is too short',
     'FINALIZE_INSUFFICIENT_VOTES': 'Insufficient votes on worker proposal to be finalized.',
     'FINALIZE_WRONG_STATE': 'Proposal is not in the pending_finalize state therefore cannot be finalized.',
     'GENERAL_MEMBER_HAS_NOT_AGREED_TO_ANY_TERMS': 'Account has not agreed to any terms',
