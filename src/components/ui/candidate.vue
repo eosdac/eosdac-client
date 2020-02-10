@@ -104,7 +104,7 @@
             />
           </q-scroll-area>
           <div class="row justify-between items-center full-height q-pb-sm">
-            <q-separator />
+            <q-separator v-if="sociallinks && sociallinks.length" />
             <SocialLinks :links="sociallinks" />
             <a target="_blank" :href="website" class="a2">{{ website }}</a>
           </div>
