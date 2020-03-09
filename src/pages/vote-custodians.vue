@@ -9,7 +9,7 @@
 
       <div class="row q-col-gutter-lg">
         <!-- first column  -->
-        <div class="col-xs-12 col-md-9">
+        <div class="col-xs-12 col-md-8">
           <!-- <pre>{{getSelectedCand}}</pre> -->
             <div class="text-h5">
               {{ $t("vote_custodians.candidate_list") }} - {{ custodians.length }}
@@ -79,7 +79,7 @@
             </div>
         </div>
         <!-- second column -->
-        <div class="col-xs-12 col-md-3">
+        <div class="col-xs-12 col-md-4">
           <div>
             <div class="text-h5">
               {{ $t("vote_custodians.my_votes") }}
