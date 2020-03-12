@@ -1,0 +1,14 @@
+/**
+ * Overwritting user's input font sizes.
+ *
+ * Quasar has very big fonts by default for <h*> tags, that's why we use lower
+ * <h*> tags, like <h4> and <h5>. But the tags that come from the markdown are
+ * <h1>. We need to overwrite those rules and make them smaller.
+ */
+ .markdown-body {
+    h1 { font-size: 2.75em; line-height: normal; margin: 0.5em 0; }
+    h2 { font-size: 2.50em; line-height: normal; margin: 0.5em 0; }
+    h3 { font-size: 2.25em; line-height: normal; margin: 0.5em 0; }
+    h4 { font-size: 2.00em; line-height: normal; margin: 0.5em 0; }
+    h5 { font-size: 1.75em; line-height: normal; margin: 0.5em 0; }
+  }
