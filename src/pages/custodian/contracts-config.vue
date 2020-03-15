@@ -67,7 +67,7 @@
               <seconds-input v-model="tokenConfig.max_stake_time" :label="$t('contracts_config.token_max_stake_time')" />
             </q-card-section>
             <q-card-actions align="right">
-              <q-btn color="positive" :label="$t('contracts_config.token_propose_changes')" @click="startSave('token')" />
+              <q-btn color="positive" :label="$t('contracts_config.propose_changes')" @click="startSave('token')" />
             </q-card-actions>
           </q-card>
 
