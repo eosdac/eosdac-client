@@ -7,6 +7,7 @@ export default {
     isShowCloseButton: true
   },
   activeAuthenticator: null,
+  authenticatorUser: null,
   UAL: null,
   accountName: null,
   SESSION: {

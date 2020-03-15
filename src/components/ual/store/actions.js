@@ -46,9 +46,11 @@ export async function attemptAutoLogin ({ state, commit, dispatch }) {
     window.setTimeout(async () => {
       const authenticator = state.UAL.authenticators.find(a => a.getStyle().text === authenticatorName)
       if (!authenticator) {
+        console.log(`Could not find authenticator ${authenticatorName}`)
         commit('setSESSION', { accountName: null, authenticatorName: null })
         return
       }
+      await authenticator.reset()
       await authenticator.init()
       await dispatch('waitForAuthenticatorToLoad', authenticator)
       if (authenticator.initError) {
@@ -61,6 +63,8 @@ export async function attemptAutoLogin ({ state, commit, dispatch }) {
         commit('setSESSION', { accountName: null, authenticatorName: null })
         return
       }
+
+      console.log(`Auto login for ${accountName}`)
 
       authenticator
         .login(accountName)
@@ -80,12 +84,19 @@ export async function attemptAutoLogin ({ state, commit, dispatch }) {
 
 export async function transact ({ state, dispatch, commit }, payload) {
   const { actions } = payload
+  const { accountName, authenticatorName, permission } = state.SESSION
+  console.log(`transact with stored state ${authenticatorName} ${accountName}@${permission}`, state.activeAuthenticator.users)
   // commit('setSigningOverlay', { show: true, status: 0, msg: 'Waiting for Signature', isShowCloseButton: false })
-  const user = state.activeAuthenticator.users[0]
+  let user
+  for (let u = 0; u < state.activeAuthenticator.users.length; u++) {
+    if (await state.activeAuthenticator.users[u].getAccountName() === accountName) {
+      user = state.activeAuthenticator.users[u]
+    }
+  }
   console.log(`Users`, user, state.activeAuthenticator.users)
   const copiedActions = actions.map((action, index) => {
     if (!action.authorization) {
-      action.authorization = [{ actor: user.accountName, permission: 'active' }]
+      action.authorization = [{ actor: accountName, permission }]
     }
     return action
   })

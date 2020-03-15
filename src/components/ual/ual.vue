@@ -55,6 +55,26 @@
                 <q-btn label="back" flat color="primary" class="q-mt-sm" @click="resetUI" />
               </div>
             </q-carousel-slide>
+
+            <q-carousel-slide name="accountname_select" class="column no-wrap justify-between">
+              <q-list bordered separator>
+                <q-item clickable v-for="(account, a) in accountname_options" :key="a" @click="selectMultiAccount(account)" :active="account === account_selected">
+                  <q-item-section>{{account.actor}}</q-item-section>
+                  <q-item-section side>{{account.permission}}</q-item-section>
+                </q-item>
+              </q-list>
+              {{account_selected}}
+
+              <div class="column">
+                <q-btn
+                  label="continue"
+                  color="primary"
+                  class="full-width"
+                  @click="connectAuthenticator(authenticator)"
+                />
+                <q-btn label="back" flat color="primary" class="q-mt-sm" @click="resetUI" />
+              </div>
+            </q-carousel-slide>
             <q-carousel-slide name="error" class="column no-wrap justify-between">
               <div class="text-red">{{ error_msg }}</div>
               <div class="column">
@@ -71,7 +91,7 @@
 
 <script>
 import { UAL } from 'universal-authenticator-library'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import authenticatorBtn from 'components/ual/authenticator-btn'
 import signingOverlay from 'components/ual/signing-overlay'
 
@@ -91,6 +111,8 @@ export default {
 
       slide: 'wallet_selection',
       accountname: '',
+      account_selected: '',
+      accountname_options: [],
 
       authenticator: null
     }
@@ -103,6 +125,9 @@ export default {
     })
   },
   methods: {
+    ...mapActions({
+      setAuthenticatorUser: 'ual/setAuthenticatorUser'
+    }),
     async handleAuthenticatorSelection (authenticator) {
       this.authenticator = authenticator
       let shouldRequestAccountName = await authenticator.shouldRequestAccountName()
@@ -115,32 +140,36 @@ export default {
     },
 
     async connectAuthenticator (authenticator) {
-      let authenticatorName = authenticator.getStyle().text
+      const authenticatorName = authenticator.getStyle().text
       this.bar_msg = this.$t('ual.connecting_to', { name: authenticatorName })
 
       let users
       try {
         console.log('authenticator object', authenticator)
         if (this.accountname) {
+          console.log(`Logging in as ${this.accountname}`)
           users = await authenticator.login(this.accountname)
         } else {
           users = await authenticator.login()
+          console.log(`Logging in to authenticator`, users)
         }
-        if (!users) {
+        if (!users || !users.length) {
+          return
+        }
+
+        this.$store.commit('ual/setActiveAuthenticator', authenticator)
+
+        if (users.length > 1) {
+          this.bar_msg = 'Choose account'
+          this.slide = 'accountname_select'
+          this.accountname_options = users.map(u => {
+            return { actor: u.accountName, permission: u.permission }
+          })
           return
         }
 
         const accountName = await users[0].getAccountName()
-        this.$store.commit('ual/setSESSION', {
-          accountName: accountName,
-          authenticatorName: authenticatorName
-        })
-        this.$store.commit('ual/setAccountName', accountName)
-        this.$store.commit('ual/setActiveAuthenticator', authenticator)
-
-        this.$store.dispatch('user/loggedInRoutine', accountName, { root: true })
-        this.$store.commit('ual/setShouldRenderLoginModal', false)
-        this.resetUI()
+        this.saveSession(accountName, authenticatorName)
       } catch (err) {
         this.bar_msg = ''
         console.log(err.cause ? err.cause : err)
@@ -153,6 +182,28 @@ export default {
         this.authenticator.reset()
         this.error_msg = m
       }
+    },
+    async saveSession (accountName, authenticatorName, permission = 'active') {
+      this.accountname = accountName
+      this.$store.commit('ual/setSESSION', {
+        accountName,
+        permission,
+        authenticatorName
+      })
+      this.$store.commit('ual/setAccountName', accountName)
+
+      await this.$store.dispatch('user/loggedInRoutine', accountName, { root: true })
+      this.$store.commit('ual/setShouldRenderLoginModal', false)
+      this.resetUI()
+    },
+    async selectMultiAccount (e) {
+      console.log(`select multi`)
+      this.account_selected = e
+      this.accountname = e.actor
+      const authenticator = this.getActiveAuthenticator
+      const authenticatorName = authenticator.getStyle().text
+      await this.saveSession(this.account_selected.actor, authenticatorName, this.account_selected.permission)
+      authenticator.login(e.actor)
     },
     resetUI () {
       this.bar_msg = this.error_msg = this.accountname = ''
