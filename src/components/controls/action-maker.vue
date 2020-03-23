@@ -275,7 +275,6 @@ export default {
     },
 
     async loadActions (contract) {
-      console.log(`UPDATE`, contract)
       this.data_fields = []
       if (contract) {
         this.custom_mode_parse_actions(contract)
@@ -285,7 +284,6 @@ export default {
     },
 
     getDataFieldsForActionType (abi, actionType) {
-      console.log(abi)
       if (abi && abi.structs) {
         let struct = abi.structs.find(s => s.name === actionType)
         return struct.fields

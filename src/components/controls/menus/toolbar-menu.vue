@@ -211,10 +211,8 @@ export default {
     async updateMemberType () {
       if (this.getAccountName) {
         const p = await this.$profiles.getProfiles([this.getAccountName])
-        console.log(`mounted`, p, this.getAccountName)
         if (p.length) {
-          console.log(p)
-          this.memberType = this.$helper.memberTypeToText(p[0].member_type)
+          this.memberType = this.$helper.memberTypeToText(p[0])
           return
         }
       }
@@ -225,7 +223,7 @@ export default {
 
   watch: {
     getAccountName (accountName) {
-      console.log(`Account name changed `, accountName)
+      this.updateMemberType()
     }
   },
 

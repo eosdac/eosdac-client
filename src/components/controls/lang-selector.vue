@@ -88,7 +88,6 @@ export default {
 
   watch: {
     lang (lang) {
-      console.log(lang.value)
       this.$store.commit('user/setLanguage', lang.value)
       this.$i18n.locale = lang.value
     }

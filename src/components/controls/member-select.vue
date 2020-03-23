@@ -91,8 +91,6 @@ export default {
 
           return data
         })
-
-        console.log(data)
         return data
       }
       return []

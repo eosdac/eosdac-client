@@ -2,7 +2,6 @@ import axios from 'axios'
 
 class ProfileCache {
   constructor (config) {
-    console.log('profile cache initiated')
     this.config = config
     this.cache = new Map()
     this.default_avatar = require('../extensions/branding/images/default-avatar.png')
@@ -13,7 +12,6 @@ class ProfileCache {
     if (cacheLife) {
       setInterval(() => {
         this.cache.clear()
-        console.log('emptied cache')
       }, cacheLife)
     }
 
@@ -26,7 +24,6 @@ class ProfileCache {
     let profiles = accountnames.map(accountname => {
       return this.getPromise(accountname)
     })
-
     return Promise.all(profiles)
   }
 
@@ -46,7 +43,6 @@ class ProfileCache {
   async processQueue () {
     if (this.request_queue.size) {
       const names = Array.from(this.request_queue.values())
-      console.log(`Process queue`, names)
       this.request_queue.clear()
       this.inflight = new Set(names)
       this.fetchProfiles(names)
@@ -86,11 +82,15 @@ class ProfileCache {
     return retvals
   }
 
+  /**
+   * Returns a promise which will return the contents of the cache.
+   *
+   * If not in the cache then will add to the request queue and resolve once
+   * that has been executed and in the cache.
+   *
+   * @param string accountname
+   */
   async getPromise (accountname) {
-    /*
-      Returns a promise which will return the contents of the cache, if not in the cache then will add to the
-      request queue and resolve once that has been executed and in the cache
-       */
     return new Promise((resolve, reject) => {
       if (this.cache.has(accountname)) {
         resolve(this.cache.get(accountname))
