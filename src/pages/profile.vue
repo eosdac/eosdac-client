@@ -1,10 +1,8 @@
 <template>
   <q-page>
     <div class="bg-primary">
-    <div
-      class="gradient-bg q-px-lg q-pt-none relative-position"
 
-    >
+    <div class="gradient-bg q-px-lg q-pt-none relative-position">
       <div class="row full-height items-center" style="min-height:260px;">
         <div class="col-2">
           <div class="column full-height items-center">
@@ -33,8 +31,8 @@
               {{ account_name }}
             </div>
           </div>
-          <div class="row full-width">
-            <div class="col-md-2 col-xs-6 q-pr-sm">
+          <div class="row q-gutter-md full-width">
+            <div class="col">
               <div class="text-uppercase">
                 {{ $t("profile.givenName") }}
               </div>
@@ -45,8 +43,8 @@
                       :standout="is_edit"
               />
             </div>
-            <div class="col-md-2 col-xs-6 q-pr-sm">
-              <div class=" q-caption text-uppercase">
+            <div class="col">
+              <div class="q-caption text-uppercase">
                 {{ $t("profile.familyName") }}
               </div>
               <q-input
@@ -56,9 +54,17 @@
                       :standout="is_edit"
               />
             </div>
-            <div class="col-md-2 col-xs-6">
-              <div class=" q-caption text-uppercase">Type</div>
-              <div>{{ form.member_type }}</div>
+
+            <div class="col">
+              <div class="q-caption text-uppercase">
+                {{$t("menu.member_status")}}
+              </div>
+              <q-input
+                      v-model="form.member_type"
+                      :readonly="true"
+                      :borderless="true"
+                      :standout="false"
+              />
             </div>
           </div>
         </div>
@@ -138,7 +144,7 @@
               }}</span>
             </div>
 
-            <div v-if="allow_edit" class="row gutter-sm justify-end q-mt-md">
+            <div v-if="allow_edit" class="row q-gutter-sm justify-end q-pa-md">
               <div>
                 <q-btn
                   v-if="!is_edit"
@@ -269,7 +275,8 @@ export default {
       if (p && p.length && this.validateProfile(p[0].profile)) {
         // todo validate profile
         this.form = p[0].profile
-        this.form.member_type = this.$helper.memberTypeToText(p[0].member_type)
+        console.log('Profile.vue->getProfileData', p[0])
+        this.form.member_type = this.$helper.memberTypeToText(p[0])
         this.allow_edit = this.account_name === this.getAccountName
       } else {
         this.allow_edit = this.account_name === this.getAccountName

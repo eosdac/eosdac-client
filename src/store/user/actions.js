@@ -34,9 +34,7 @@ export async function loggedInRoutine ({ state, commit, dispatch }, accountname)
     api.getAgreedTermsVersion(accountname),
     api.isCandidate(accountname)
   ]
-  console.log(JSON.stringify(await api.getAccount(accountname)))
   const [balance, staked, termsversion, isCandidate] = await Promise.all(requests)
-  console.log('is canddate:', isCandidate)
   commit('setDacBalance', balance)
   commit('setStakedDacBalance', staked)
   commit('setAgreedTermsVersion', termsversion)
@@ -168,8 +166,6 @@ export async function transact (
 
   // if not logged in
   if (!state.accountName) {
-    console.log('please login first')
-
     Notify.create({
       message: i18n.t('transaction.please_login'),
       timeout: 5000, // in milliseconds; 0 means no timeout
@@ -189,8 +185,6 @@ export async function transact (
 
     return
   }
-
-  console.log('loading scatter')
   commit('ui/setShowTransactionOverlay', 'loading', { root: true })
 
   // let account = (await rootState.global.scatter.login()).accounts[0] // same as getIdentity
@@ -204,8 +198,6 @@ export async function transact (
     }
     return action
   })
-
-  console.log(JSON.stringify(actions, null, 2))
 
   try {
     // let [eos] = await dispatch('global/getEosScatter', null, { root: true })
@@ -319,7 +311,6 @@ export async function proposeMsig (
       root: true
     })
   }
-  console.log(`requested permissions`, requested)
   // msig trx template
   let msigTrxTemplate = {
     expiration: payload.expiration || expiration,
@@ -338,7 +329,6 @@ export async function proposeMsig (
   // serialize action data and add to template
   for (let i = 0; i < payload.actions.length; i++) {
     let action = payload.actions[i]
-    console.log(payload.actions[i])
     let hexdata = await api.serializeActionData(action)
     action.data = hexdata
     msigTrxTemplate.actions.push(action)
@@ -393,7 +383,6 @@ function parseError (err) {
   if (typeof err === 'string') {
     message = err
   } else if (err && err.error) {
-    // console.log(err)
     message = err.error.details[0].message
   }
 

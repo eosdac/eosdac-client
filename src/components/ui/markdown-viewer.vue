@@ -9,7 +9,7 @@
       <q-field :label="label" stack-label>
         <template v-slot:control>
           <div class="self-center full-width no-outline" tabindex="0">
-            <textarea ref="editor_replace" style="display:none"></textarea>
+            <textarea ref="editor_replace" style="display:none" v-model="text"></textarea>
           </div>
         </template>
       </q-field>

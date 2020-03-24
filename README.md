@@ -1,6 +1,9 @@
 # eosDAC Member Client (eosdac-client)
 
-Member client for eosDAC upgraded to quasar 1.x
+Member client for eosDAC upgraded to quasar 1.x.
+
+We had problems when npm was mixed with yarn before so it is safest to only use
+yarn. If you ever install using npm, delete node_modules and package-lock.json.
 
 ## Install the dependencies
 ```bash

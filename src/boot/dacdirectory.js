@@ -31,7 +31,6 @@ class DacDirectory {
     this.directoryAccount = config.get('dacdirectory')
     this.api = api
     this.dacData = null
-    console.log(`DACDirectory loaded with ID ${this.dacId} on directory ${this.directoryAccount}`)
   }
 
   processMap (chainData) {
@@ -88,12 +87,10 @@ class DacDirectory {
     dacData.refs = this.processMap(dacData.refs)
 
     this.dacData = dacData
-    console.log(`dac directory reload`, dacData)
   }
 }
 
 export default async ({ Vue, store }) => {
-  console.log(`Loading dacdirectory`, Vue.prototype.$configFile.get('dacdirectory'))
   Vue.prototype.$dir = new DacDirectory(Vue.prototype.$eosApi, Vue.prototype.$configFile)
   await Vue.prototype.$dir.reload()
 }
