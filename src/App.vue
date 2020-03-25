@@ -103,7 +103,6 @@ export default {
   },
   methods: {
     async showNotify (data) {
-      console.log(`Notification`, data)
       let message = ''
       let color = 'info'
       let avatar = ''
@@ -201,7 +200,6 @@ export default {
       this.$store.commit('global/setDapp_version', pj.version) // store the app version too
 
       if (stored_version === null) {
-        console.log(`Loaded LS v${version} for the first time`)
         Notify.create({
           message: `You're ready. Loaded Memberclient v${version}`,
           timeout: 2500,
@@ -213,7 +211,6 @@ export default {
       }
 
       if (stored_version != version) {
-        console.log(`Update detected. New LS Version ${version}`)
         Notify.create({
           message: `Detected new LS version v${version}`,
           detail: `The memberclient will auto reload`,

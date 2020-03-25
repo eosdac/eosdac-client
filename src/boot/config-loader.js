@@ -95,7 +95,6 @@ export default ({ Vue, store }) => {
   }
 
   const network = { ...config.get('network'), host: u.host, protocol, port }
-  console.log('setting network', network)
   store.commit('global/setNetwork', network)
 
   Vue.prototype.$configFile = config

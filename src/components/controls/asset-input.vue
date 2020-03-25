@@ -48,7 +48,6 @@ export default {
   computed: {
     internalValue () {
       let extAsset = this.value
-      // console.log('rendering', extAsset)
       if (!extAsset) {
         extAsset = { quantity: '0.0000 EOS', contract: 'eosio.token' }
       }
@@ -57,7 +56,6 @@ export default {
   },
   methods: {
     updateValueQuantity (val) {
-      // console.log(`updateValueQuantity`, val)
       let symbolOpt = this.$refs.symbol_input.value
       let symbol
       if (typeof symbolOpt === 'string') {
@@ -65,20 +63,17 @@ export default {
       }
       symbol = symbolOpt.value
 
-      console.log(symbolOpt)
       let quantity = parseFloat(val)
 
       this.updateValue(quantity, symbol)
     },
     updateValueAsset (val) {
-      // console.log(`updateValueAsset selected symbol`, this.selected_symbol)
       const symbol = val.value
       let quantity = parseFloat(this.$refs.quantity_input.value)
 
       this.updateValue(quantity, symbol)
     },
     updateValue (quantity, symbol) {
-      console.log(`updateValue`, quantity, symbol)
       if (!symbol) {
         return
       }

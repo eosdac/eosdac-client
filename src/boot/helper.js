@@ -25,8 +25,8 @@ class Helper {
     return re.test(accountname)
   }
 
-  memberTypeToText (type) {
-    switch (type) {
+  memberTypeToText (profile) {
+    switch (profile.member_type) {
       case 0:
         return 'non-member'
       case 1:
