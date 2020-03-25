@@ -185,35 +185,35 @@ export async function fetchActivationStats ({ commit, dispatch, state }) {
     activationStats.votePercentage = percentage / 100
     activationStats.voteQuorum = conf.initial_vote_quorum_percent
 
-    if (percentage >= 100) {
-      // check enough candidates
-      // console.log('config', conf)
+    // if (percentage <= 100) {
+    // check enough candidates
+    // console.log('config', conf)
 
-      // Calculate number of viable candidates
-      const res = await this._vm.$eosApi.rpc.get_table_rows({
-        code: this._vm.$dir.getAccount(this._vm.$dir.ACCOUNT_CUSTODIAN),
-        scope: this._vm.$dir.dacId,
-        table: 'candidates',
-        index_position: 2,
-        key_type: 'i64',
-        limit: conf.numelected * 3
-      })
-      for (let c = 0; c < res.rows.length; c++) {
-        const row = res.rows[c]
-        if (row.is_active && parseInt(row.total_votes) > 0) {
-          numCandidates++
-        }
-        if (numCandidates >= requiredCandidates) {
-          break
-        }
+    // Calculate number of viable candidates
+    const res = await this._vm.$eosApi.rpc.get_table_rows({
+      code: this._vm.$dir.getAccount(this._vm.$dir.ACCOUNT_CUSTODIAN),
+      scope: this._vm.$dir.dacId,
+      table: 'candidates',
+      index_position: 2,
+      key_type: 'i64',
+      limit: conf.numelected * 3
+    })
+    for (let c = 0; c < res.rows.length; c++) {
+      const row = res.rows[c]
+      if (row.is_active && parseInt(row.total_votes) > 0) {
+        numCandidates++
       }
-
-      console.log(`numCandidates ${numCandidates} / ${requiredCandidates}`)
-
       if (numCandidates >= requiredCandidates) {
-        activationStats.canActivate = true
+        break
       }
     }
+
+    console.log(`numCandidates ${numCandidates} / ${requiredCandidates}`)
+
+    if (numCandidates >= requiredCandidates) {
+      activationStats.canActivate = true
+    }
+    // }
   }
 
   activationStats.numCandidates = numCandidates
