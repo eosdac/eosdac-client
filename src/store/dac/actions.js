@@ -182,7 +182,7 @@ export async function fetchActivationStats ({ commit, dispatch, state }) {
 
     const percentage = (custodianState.total_weight_of_votes / quorum) * 100
     // console.log(percentage)
-    activationStats.votePercentage = percentage / 100
+    activationStats.votePercentage = percentage
     activationStats.voteQuorum = conf.initial_vote_quorum_percent
 
     // if (percentage <= 100) {
