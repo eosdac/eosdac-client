@@ -84,7 +84,7 @@
             </div>
             <div class="row q-mt-sm">
               <div class="col-6">{{ $t("display_custodians.voting_progress") }}</div>
-              <div class="col-6">{{ getActivationStats.votePercentage.toFixed(2) }}% of
+              <div class="col-6">{{ (getActivationStats.votePercentage * 100).toFixed(2) }}% of
                 {{ getActivationStats.voteQuorum }}%</div>
               </div>
           </div>
