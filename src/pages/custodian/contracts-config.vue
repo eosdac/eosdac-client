@@ -226,7 +226,7 @@
                 </q-card-section>
 
                 <q-card-actions align="right">
-                  <q-btn color="positive" :label="$t('contracts_config.branding_propose_changes')" @click="startSave('brand')" />
+                  <q-btn color="positive" :label="$t('contracts_config.propose_changes')" @click="startSave('brand')" />
                 </q-card-actions>
               </q-card>
               <q-card v-else>
@@ -395,7 +395,19 @@ export default {
       const coloursJSON = this.$dir.getRef(this.$dir.REF_COLORS)
       let theme = null
       try {
-        theme = (coloursJSON) ? JSON.parse(coloursJSON) : null
+        const defaultTheme = {
+          colors: {
+            primary: '#451e1e',
+            secondary: '#d19292',
+            accent: '#50117d',
+            positive: '#5c9956',
+            negative: '#32429c',
+            info: '#32429c',
+            warning: '#c20000',
+            is_dark: true
+          }
+        }
+        theme = (coloursJSON) ? JSON.parse(coloursJSON) : defaultTheme
       } catch (e) {}
       const extension = this.$dir.getRef(this.$dir.REF_CLIENT_EXTENSION)
       const description = this.$dir.getRef(this.$dir.REF_DESCRIPTION)
