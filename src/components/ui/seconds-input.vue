@@ -1,29 +1,38 @@
 <template>
-  <div class="row no-wrap">
+  <div class="row no-wrap q-gutter-sm">
     <q-input
-            class="full-width"
-            :label="label"
-            type="number"
-            color="primary"
-            v-model="internalValue.quantity"
-            ref="quantity_input"
-            @input="updateValueQuantity"
+      class = "col"
+      :label ="label"
+      v-model ="internalValue.quantity"
+      type = "number"
+      input-class = "text-right"
+      ref = "quantity_input"
+      @input ="updateValueQuantity"
     />
     <q-select
-            v-model="internalValue.timeframe"
-            color="primary"
-            ref="timeframe_input"
-            :options="
-                  allowed.map(c => {
+      class = ""
+      v-model ="internalValue.timeframe"
+      label = ""
+      ref = "timeframe_input"
+      :options ="allowed.map(c => {
                     return { label: c, value: c };
-                  })
-                "
-            @input="updateValueTimeframe"
+                })"
+      @input="updateValueTimeframe"
     />
   </div>
 </template>
 
 <script>
+/**
+ * Seconds selector
+ *
+ * Timeframe should have a label defined as an empty string, or else, the
+ * selected value looks a bit shifted up, not aligning with the quantity
+ * input.
+ *
+ * @todo add option for weeks and months
+ * @todo Should this be in the components/controls as it's very simiar to components/controls/asset-input.vue?
+ */
 
 const oneMinute = 60
 const oneHour = oneMinute * 60
@@ -79,15 +88,12 @@ export default {
       return val
     },
     updateValueQuantity (val) {
-      // console.log(`updateValueQuantity`, val)
       let timeframeOpt = this.$refs.timeframe_input.value
       let timeframe
       if (typeof timeframeOpt === 'string') {
         timeframeOpt = this.$refs.timeframe_input.options.filter(o => o.label === this.$refs.timeframe_input.value)[0]
       }
       timeframe = timeframeOpt.value
-
-      console.log('timeframeOpt', timeframeOpt)
       let quantity = parseFloat(val)
 
       this.updateValue(quantity, timeframe)

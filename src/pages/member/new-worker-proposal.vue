@@ -18,22 +18,25 @@
                     v-model="wp_data.title"
                   />
         </div>
+
+        <!-- Category -->
         <div class="col-xs-12 col-lg-4">
             <q-select
-                    :error="$v.wp_data.category.$error"
-                    :error-label="$t('newworkerproposal.select_category')"
-              color="primary"
-              v-model="wp_data.category"
               :label="$t('newworkerproposal.proposal_category')"
-              emit-value
+              v-model="wp_data.category"
               :options="getWpCategoriesOptions"
+              emit-value
+              map-options
+              :error="$v.wp_data.category.$error"
+              :error-label="$t('newworkerproposal.select_category')"
             />
         </div>
+
         <div class="col-xs-12 col-lg-6">
-
           <asset-input :allowed="allowed_currencies" :label="$t('newworkerproposal.pay_amount')" v-model="wp_data.pay_amount" />
-
         </div>
+
+        <!-- arbitrator -->
         <div class="col-xs-12 col-lg-6">
           <q-input
                   class="full-width"
@@ -42,6 +45,8 @@
                   color="primary"
                   v-model="wp_data.arbitrator" />
         </div>
+
+        <!-- expected duration -->
         <div class="col-xs-12">
           <seconds-input v-model="wp_data.job_duration" :label="$t('newworkerproposal.expected_duration')" />
         </div>

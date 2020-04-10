@@ -33,6 +33,7 @@
 
           <q-separator spaced inset />
 
+          <!-- requested pay -->
           <q-item v-if="getEnableCustPayments" class="full-width">
             <q-item-section avatar>
               <q-icon name="icon-type-2" />
@@ -40,13 +41,19 @@
 
             <q-item-section>{{$t(`manage_candidateship.requestedpay`)}}</q-item-section>
 
-            <q-item-section style="white-space: nowrap">
+            <q-item-section style="white-space: nowrap" class="text-right">
               {{$helper.assetToLocaleNumber(getIsCandidate.requestedpay)}}
             </q-item-section>
+
+            <q-item-section style="white-space: nowrap">
+              <q-btn label="update" color="secondary" to="/custodian/my-payments" />
+            </q-item-section>
+
           </q-item>
 
           <q-separator spaced inset v-if="getEnableCustPayments" />
 
+          <!-- total votes -->
           <q-item class="full-width">
             <q-item-section avatar>
               <q-icon name="how_to_vote" />
@@ -54,12 +61,16 @@
 
             <q-item-section>{{$t(`manage_candidateship.total_votes`)}}</q-item-section>
 
-            <q-item-section>{{$helper.toLocaleNumber(getIsCandidate.total_votes / 10000)}}</q-item-section>
+            <q-item-section class="text-right">
+              {{$helper.assetSymbolToLocaleNumber(getIsCandidate.total_votes / 10000, $dir.symbol.symbol)}}
+            </q-item-section>
 
+            <!-- noop -->
+            <q-item-section style="white-space: nowrap"></q-item-section>
           </q-item>
-
           <q-separator spaced inset />
 
+          <!-- staked -->
           <q-item class="full-width">
             <q-item-section avatar>
               <q-icon name="icon-dac-balance" />
@@ -67,23 +78,23 @@
 
             <q-item-section>{{$t(`manage_candidateship.current_stake`)}}</q-item-section>
 
-            <q-item-section no-wrap>
-              <div class="row">
-                <div class="col-xs-6">{{$helper.assetSymbolToLocaleNumber(getStakedDacBalance, $dir.symbol.symbol)}}</div>
-                <div class="col-xs-4 q-pl-lg">
-                  <q-btn
-                          icon="add"
-                          round
-                          size="sm"
-                          title="Increase stake"
-                          color="primary"
-                          @click="increase_stake_modal = true"
-                  />
-                </div>
-              </div>
+            <q-item-section  class="text-right" no-wrap>
+              {{$helper.assetSymbolToLocaleNumber(getStakedDacBalance, $dir.symbol.symbol)}}
+            </q-item-section>
+
+            <q-item-section>
+              <q-btn
+                icon="add"
+                round
+                size="sm"
+                title="Increase stake"
+                color="primary"
+                @click="increase_stake_modal = true"
+              />
             </q-item-section>
 
           </q-item>
+
         </q-card-section>
         <!-- <div class="" style="bottom:-50%;right:-80%;"></div> -->
         <q-card-section class="full-width">
@@ -426,7 +437,6 @@ export default {
     },
 
     splitAsset (asset) {
-      console.log(`Split ${asset.quantity}`, asset)
       const [qtyStr, symbolStr] = asset.quantity.split(' ')
       const quantity = parseFloat(qtyStr)
       const [, precisionStr] = qtyStr.split('.')
