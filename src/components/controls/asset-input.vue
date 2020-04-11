@@ -9,6 +9,8 @@
       ref="quantity_input"
       @input="updateValueQuantity"
       :suffix="(allowed.length > 1) ? '': internalValue.symbol"
+      :max="max"
+      min=0
     />
     <q-select
       v-if="allowed.length > 1"
@@ -43,6 +45,9 @@ export default {
     },
     value: {
       type: Object
+    },
+    max: {
+      default: false
     }
   },
   data () {

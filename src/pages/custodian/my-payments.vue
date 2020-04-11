@@ -62,7 +62,7 @@
                 </q-item-section>
 
                 <q-item-section>
-                  <asset-input :allowed="allowed" v-model="newRequestedPay" />
+                  <asset-input :allowed="allowed" v-model="newRequestedPay" :max="maxPaymentAmount" />
                 </q-item-section>
               </q-item>
             </div>
@@ -104,7 +104,8 @@ export default {
       requestedPayInvalid: false,
       dacToken: { symbol, precision, contract: this.$dir.symbol.contract, value: 0 },
       allowed: [],
-      maxPaymentLabel: ''
+      maxPaymentLabel: '',
+      maxPaymentAmount: ''
     }
   },
 
@@ -252,36 +253,30 @@ export default {
   },
 
   /**
-   * Loads the initial values
+   * Loads the initial values.
    *
-   * There is an error, when loading this page as first page, account not found, see issue #33
+   * Even if the DAC handles multiple currencies, my payments can only be
+   * requested in the currency set as max payment.
    *
-   * @todo fix user not detected on page load
+   * @todo fix user not detected on page load, see issue #33
    */
   mounted () {
     this.getClaimPay()
     const maxPay     = this.getCustodianConfig.requested_pay_max // this is an object, with {quantity: the string, contract: the 12 chars contract"}
     let   currentPay = this.getIsCandidate.requestedpay          // this is a string "$value $"
 
-    this.maxPaymentLabel = maxPay.quantity
+    this.maxPaymentLabel  = maxPay.quantity
+    this.maxPaymentAmount = maxPay.quantity.split(' ')[0]
 
     this.newRequestedPay = {
       contract: maxPay.contract,
       quantity: this.getIsCandidate.requestedpay
     }
 
-    /**
-     * Sets the allowed currencies
-     *
-     * Even if the DAC handles multipla currencies, my payments can only be
-     * requested in the currency set as max payment.
-     *
-     * @todo This should be encapsulated.
-     */
     this.allowed = [this.splitAsset(this.getCustodianConfig.requested_pay_max)]
 
-    const [, newRequestedPaySymbol] = this.newRequestedPay.quantity.split(' ')
-    const [, symbol] = currentPay.split(' ')
+    let newRequestedPaySymbol = this.newRequestedPay.quantity.split(' ')[1]
+    let symbol                = currentPay.split(' ')[1]
     if (symbol !== newRequestedPaySymbol) {
       this.requestedPayInvalid = true
       this.newRequestedPay.quantity = `0.0000 ${newRequestedPaySymbol}`
