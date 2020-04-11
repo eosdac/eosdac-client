@@ -49,12 +49,12 @@
 
           <q-card-section>
             <div class="q-pa-md">
-              <div>
+              <p>
                 {{$t('mypayments.your_current_pay', {
                   currentpay: getIsCandidate.requestedpay,
                   max: maxPaymentLabel
                 })}}
-              </div>
+              </p>
               <div class="text-negative" v-if="requestedPayInvalid"><strong>{{$t('mypayments.pay_invalid')}}</strong></div>
               <q-item class="q-pl-none">
                 <q-item-section avatar>

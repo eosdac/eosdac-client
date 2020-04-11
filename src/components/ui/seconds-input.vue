@@ -10,13 +10,10 @@
       @input ="updateValueQuantity"
     />
     <q-select
-      class = ""
       v-model ="internalValue.timeframe"
       label = ""
       ref = "timeframe_input"
-      :options ="allowed.map(c => {
-                    return { label: c, value: c };
-                })"
+      :options ="allowed.map(c => {return { label: c, value: c };})"
       @input="updateValueTimeframe"
     />
   </div>
