@@ -8,18 +8,16 @@
       v-model="internalValue.quantity"
       ref="quantity_input"
       @input="updateValueQuantity"
+      :suffix="(allowed.length > 1) ? '': internalValue.symbol"
     />
     <q-select
+      v-if="allowed.length > 1"
       label = ""
-        v-model="internalValue.symbol"
-        color="primary"
-        ref="symbol_input"
-        :options="
-              allowed.map(c => {
-                return { label: c.symbol, value: c };
-              })
-            "
-        @input="updateValueAsset"
+      v-model="internalValue.symbol"
+      color="primary"
+      ref="symbol_input"
+      :options="allowed.map(c => { return { label: c.symbol, value: c } })"
+      @input="updateValueAsset"
     />
   </div>
 </template>
@@ -31,7 +29,6 @@
  * @todo Should this be in the components/ui as it's very simiar to components/ui/seconds-input.vue?
  * @todo By default it shows EOS, even if it's not an allowed option.
  * @todo Allow a max value.
- * @todo Currency should not be a select if only one option is available
  */
 export default {
   name: 'asset-input',
