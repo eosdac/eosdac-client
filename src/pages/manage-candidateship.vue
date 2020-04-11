@@ -21,6 +21,7 @@
               </q-item-label>
             </q-item-section>
           </q-item>
+
           <q-item class="full-width">
             <q-item-section>
               {{
@@ -30,7 +31,6 @@
               }}
             </q-item-section>
           </q-item>
-
           <q-separator spaced inset />
 
           <!-- requested pay -->
@@ -50,25 +50,7 @@
             </q-item-section>
 
           </q-item>
-
           <q-separator spaced inset v-if="getEnableCustPayments" />
-
-          <!-- total votes -->
-          <q-item class="full-width">
-            <q-item-section avatar>
-              <q-icon name="how_to_vote" />
-            </q-item-section>
-
-            <q-item-section>{{$t(`manage_candidateship.total_votes`)}}</q-item-section>
-
-            <q-item-section class="text-right">
-              {{$helper.assetSymbolToLocaleNumber(getIsCandidate.total_votes / 10000, $dir.symbol.symbol)}}
-            </q-item-section>
-
-            <!-- noop -->
-            <q-item-section style="white-space: nowrap"></q-item-section>
-          </q-item>
-          <q-separator spaced inset />
 
           <!-- staked -->
           <q-item class="full-width">
@@ -94,6 +76,24 @@
             </q-item-section>
 
           </q-item>
+          <q-separator spaced inset v-if="getEnableCustPayments" />
+
+          <!-- total votes -->
+          <q-item class="full-width">
+            <q-item-section avatar>
+              <q-icon name="how_to_vote" />
+            </q-item-section>
+
+            <q-item-section>{{$t(`manage_candidateship.total_votes`)}}</q-item-section>
+
+            <q-item-section class="text-right">
+              {{$helper.assetSymbolToLocaleNumber(getIsCandidate.total_votes / 10000, $dir.symbol.symbol)}}
+            </q-item-section>
+
+            <!-- noop -->
+            <q-item-section style="white-space: nowrap"></q-item-section>
+          </q-item>
+          <q-separator spaced inset />
 
         </q-card-section>
         <!-- <div class="" style="bottom:-50%;right:-80%;"></div> -->
@@ -260,6 +260,11 @@
 </template>
 
 <script>
+/**
+ * Manage my candidateship view
+ *
+ * @todo, this view can be merged with my payments
+ */
 import { mapGetters } from 'vuex'
 import ProfilePic from '../components/ui/profile-pic'
 import AssetInput from '../components/controls/asset-input'

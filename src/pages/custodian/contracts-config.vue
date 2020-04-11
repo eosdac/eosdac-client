@@ -2,26 +2,31 @@
   <q-page class="q-pa-md">
 
     <div class="row q-col-gutter-md">
-      <div class="col-lg-2">
-        <q-tabs vertical v-model="selectedTab" class="text-secondary">
-          <q-tab name="general">{{$t('contracts_config.general')}}</q-tab>
-          <q-tab name="proposals" v-if="wpEnabled">{{$t('contracts_config.proposals')}}</q-tab>
-          <q-tab name="token">{{$t('contracts_config.token')}}</q-tab>
-          <q-tab name="referendum" v-if="referendumEnabled">{{$t('contracts_config.referendum')}}</q-tab>
-          <q-tab name="brand">{{$t('contracts_config.brand')}}</q-tab>
-          <q-tab name="features">{{$t('contracts_config.features')}}</q-tab>
-        </q-tabs>
-      </div>
-      <q-tab-panels class="col-lg-10" v-model="selectedTab">
+      <q-tabs vertical v-model="selectedTab" class="col-2 text-secondary">
+        <h5>&nbsp;</h5> <!-- spacer for tab titles -->
+        <q-tab name="general">{{$t('contracts_config.general')}}</q-tab>
+        <q-tab name="proposals" v-if="wpEnabled">{{$t('contracts_config.proposals')}}</q-tab>
+        <q-tab name="token">{{$t('contracts_config.token')}}</q-tab>
+        <q-tab name="referendum" v-if="referendumEnabled">{{$t('contracts_config.referendum')}}</q-tab>
+        <q-tab name="brand">{{$t('contracts_config.brand')}}</q-tab>
+        <q-tab name="features">{{$t('contracts_config.features')}}</q-tab>
+      </q-tabs>
+
+      <q-tab-panels class="col-10" v-model="selectedTab">
+
         <q-tab-panel name="general">
-          <div class="text-h5 q-mb-md">{{$t('contracts_config.general_title')}}</div>
+          <h5>{{$t('contracts_config.general_title')}}</h5>
+
           <!-- {{custodianConfig}} -->
           <q-card>
             <q-card-section>
               <q-input type="number" v-model="custodianConfig.numelected" :label="$t('contracts_config.general_number_elected')" />
               <q-input type="number" v-model="custodianConfig.maxvotes" :label="$t('contracts_config.general_max_votes')" />
               <asset-input :allowed="[dacToken, systemToken]" v-model="custodianConfig.lockupasset" :label="$t('contracts_config.general_lockup')" />
+
+              <p class="q-mt-md"> {{ $t('contracts_config.general_max_req_pay_desc')}} </p>
               <asset-input :allowed="[dacToken, systemToken]" v-model="custodianConfig.requested_pay_max" :label="$t('contracts_config.general_max_req_pay')" />
+
               <seconds-input v-model="custodianConfig.lockup_release_time_delay" :label="$t('contracts_config.general_lockup_release')" />
               <seconds-input v-model="custodianConfig.periodlength" :label="$t('contracts_config.general_period_length')" />
               <div class="row">
@@ -42,7 +47,7 @@
         </q-tab-panel>
 
         <q-tab-panel name="proposals" v-if="wpEnabled">
-          <div class="text-h5 q-mb-md">{{$t('contracts_config.proposals_title')}}</div>
+          <h5>{{$t('contracts_config.proposals_title')}}</h5>
           <!-- {{wpConfig}} -->
           <q-card v-if="wpConfigLoaded">
             <q-card-section>
@@ -57,7 +62,7 @@
         </q-tab-panel>
 
         <q-tab-panel name="token">
-          <div class="text-h5 q-mb-md">{{$t('contracts_config.token_title')}}</div>
+          <h5>{{$t('contracts_config.token_title')}}</h5>
 
           <!-- {{tokenConfig}} -->
           <q-card v-if="tokenConfigLoaded">
@@ -74,8 +79,8 @@
         </q-tab-panel>
 
         <q-tab-panel name="referendum" v-if="referendumEnabled">
-          <div class="text-h5 q-mb-md">{{$t('contracts_config.referendum_title')}}</div>
-<!--           {{referendumConfig}}-->
+          <h5>{{$t('contracts_config.referendum_title')}}</h5>
+          <!-- {{referendumConfig}} -->
           <q-card v-if="referendumConfigLoaded">
             <q-card-section>
               <seconds-input v-model="referendumConfig.duration" :label="$t('contracts_config.referendum_duration')" />
@@ -95,11 +100,10 @@
               <q-btn color="positive" :label="$t('contracts_config.propose_changes')" @click="startSave('referendum')" />
             </q-card-actions>
           </q-card>
-
         </q-tab-panel>
 
         <q-tab-panel name="brand">
-          <div class="text-h5 q-mb-md">{{$t('contracts_config.branding_title')}}</div>
+          <h5>{{$t('contracts_config.branding_title')}}</h5>
           <div class="row q-col-gutter-md" v-if="brandData">
             <div class="col-md-6">
               <q-card>
@@ -238,11 +242,10 @@
               </q-card>
             </div>
           </div>
-<!--            <div>{{brandData}}</div>-->
-
         </q-tab-panel>
+
         <q-tab-panel name="features">
-          <div class="text-h5 q-mb-md">{{$t('contracts_config.features_title')}}</div>
+          <h5>{{$t('contracts_config.features_title')}}</h5>
           <q-card>
             <q-card-section>
               <div class="row">
@@ -272,8 +275,8 @@
                 </q-card-actions>
             </q-card-section>
           </q-card>
-
         </q-tab-panel>
+
       </q-tab-panels>
     </div>
 
@@ -295,6 +298,17 @@
 </template>
 
 <script>
+/**
+ * DAC configuration stored on chain
+ *
+ * Different configuration stored on chain. The config values are grouped in
+ * tabs. The tab list is a col-3 because "job applications" fits in 2, but
+ * without space.
+ *
+ * @todo The tabs texts are centered, and they look weird. We need to left align them.
+ * @todo The tabs documentation has a grey border between the tabs and the right panel. I can't find how to set it.
+ * @todo Document what "Service Provider" is.
+ */
 import { mapActions, mapGetters } from 'vuex'
 import { colors } from 'quasar'
 import AssetInput from '../../components/controls/asset-input'
