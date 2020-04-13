@@ -1,29 +1,37 @@
 <template>
-  <div class="row no-wrap">
+  <div class="row no-wrap q-gutter-sm">
     <q-input
-            class="full-width"
-            :label="label"
-            type="number"
-            color="primary"
-            v-model="internalValue.quantity"
-            ref="quantity_input"
-            @input="updateValueQuantity"
+      class="col"
+      :label="label"
+      type="number"
+      input-class = "text-right"
+      v-model="internalValue.quantity"
+      ref="quantity_input"
+      @input="updateValueQuantity"
+      :suffix="(allowed.length > 1) ? '': internalValue.symbol"
+      :max="max"
+      min=0
     />
     <q-select
-            v-model="internalValue.symbol"
-            color="primary"
-            ref="symbol_input"
-            :options="
-                  allowed.map(c => {
-                    return { label: c.symbol, value: c };
-                  })
-                "
-            @input="updateValueAsset"
+      v-if="allowed.length > 1"
+      label = ""
+      v-model="internalValue.symbol"
+      color="primary"
+      ref="symbol_input"
+      :options="allowed.map(c => { return { label: c.symbol, value: c } })"
+      @input="updateValueAsset"
     />
   </div>
 </template>
 
 <script>
+/**
+ * Asset input shows an amount+token fields
+ *
+ * @todo Should this be in the components/ui as it's very simiar to components/ui/seconds-input.vue?
+ * @todo By default it shows EOS, even if it's not an allowed option.
+ * @todo Allow a max value.
+ */
 export default {
   name: 'asset-input',
   props: {
@@ -37,6 +45,9 @@ export default {
     },
     value: {
       type: Object
+    },
+    max: {
+      default: false
     }
   },
   data () {
@@ -83,9 +94,6 @@ export default {
       quantity = `${quantity.toFixed(symbol.precision)} ${symbol.symbol}`
 
       const value = { quantity, contract: symbol.contract }
-      console.log(`updating value`, value)
-      // this.value = value
-
       this.$emit('input', value)
     },
     parse (val) {

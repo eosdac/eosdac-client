@@ -49,7 +49,19 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'prefer-promise-reject-errors': 'off',
 
+    /**
+     * Allow spaces for variable declarations
+     *
+     * @link https://eslint.org/docs/2.0.0/rules/no-multi-spaces
+     */
+    //'no-multi-spaces': [2, { exceptions: { "VariableDeclarator": true } }],
+
+    // allow all multi spaces
+    'no-multi-spaces': 'off',
+
     // allow debugger during development only
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+    'no-debugger':              process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-multiple-empty-lines':  process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'vue/no-unused-components': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   }
 }

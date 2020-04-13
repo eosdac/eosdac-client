@@ -49,7 +49,12 @@
 
           <q-card-section>
             <div class="q-pa-md">
-              <div>{{$t('mypayments.your_current_pay', { currentpay: getIsCandidate.requestedpay })}}</div>
+              <p>
+                {{$t('mypayments.your_current_pay', {
+                  currentpay: getIsCandidate.requestedpay,
+                  max: maxPaymentLabel
+                })}}
+              </p>
               <div class="text-negative" v-if="requestedPayInvalid"><strong>{{$t('mypayments.pay_invalid')}}</strong></div>
               <q-item class="q-pl-none">
                 <q-item-section avatar>
@@ -57,7 +62,7 @@
                 </q-item-section>
 
                 <q-item-section>
-                  <asset-input :allowed="allowed" v-model="newRequestedPay" />
+                  <asset-input :allowed="allowed" v-model="newRequestedPay" :max="maxPaymentAmount" />
                 </q-item-section>
               </q-item>
             </div>
@@ -98,9 +103,12 @@ export default {
       newRequestedPay: null,
       requestedPayInvalid: false,
       dacToken: { symbol, precision, contract: this.$dir.symbol.contract, value: 0 },
-      allowed: []
+      allowed: [],
+      maxPaymentLabel: '',
+      maxPaymentAmount: ''
     }
   },
+
   computed: {
     ...mapGetters({
       getCustodianConfig: 'dac/getCustodianConfig',
@@ -125,6 +133,7 @@ export default {
       )
     }
   },
+
   methods: {
     DueDateExpired (dueDate) {
       if (dueDate === undefined) {
@@ -228,12 +237,10 @@ export default {
     async getClaimPay () {
       this.loading = true
       this.pendingpay = await this.$store.dispatch('user/fetchPendingPay', this.getAccountName)
-      console.log('pendingpay', this.pendingpay)
       this.loading = false
     },
 
     splitAsset (asset) {
-      console.log(`Split ${asset.quantity}`, asset)
       const [qtyStr, symbolStr] = asset.quantity.split(' ')
       const [, precisionStr] = qtyStr.split('.')
       return {
@@ -244,19 +251,36 @@ export default {
       }
     }
   },
+
+  /**
+   * Loads the initial values.
+   *
+   * Even if the DAC handles multiple currencies, my payments can only be
+   * requested in the currency set as max payment.
+   *
+   * @todo fix user not detected on page load, see issue #33
+   */
   mounted () {
     this.getClaimPay()
-    this.newRequestedPay = this.getCustodianConfig.requested_pay_max
+    const maxPay     = this.getCustodianConfig.requested_pay_max // this is an object, with {quantity: the string, contract: the 12 chars contract"}
+    let   currentPay = this.getIsCandidate.requestedpay          // this is a string "$value $"
+
+    this.maxPaymentLabel  = maxPay.quantity
+    this.maxPaymentAmount = maxPay.quantity.split(' ')[0]
+
+    this.newRequestedPay = {
+      contract: maxPay.contract,
+      quantity: this.getIsCandidate.requestedpay
+    }
+
     this.allowed = [this.splitAsset(this.getCustodianConfig.requested_pay_max)]
-    const [, newRequestedPaySymbol] = this.newRequestedPay.quantity.split(' ')
-    const currentPay = this.getIsCandidate.requestedpay
-    const [amountStr, symbol] = currentPay.split(' ')
+
+    let newRequestedPaySymbol = this.newRequestedPay.quantity.split(' ')[1]
+    let symbol                = currentPay.split(' ')[1]
     if (symbol !== newRequestedPaySymbol) {
-      console.log(`${symbol} !== ${newRequestedPaySymbol} `, amountStr)
       this.requestedPayInvalid = true
       this.newRequestedPay.quantity = `0.0000 ${newRequestedPaySymbol}`
     }
-    console.log(currentPay, this.newRequestedPay)
   },
 
   validations () {
