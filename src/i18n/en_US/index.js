@@ -488,7 +488,7 @@ export default {
     'no_payments': 'No payments due',
     'claim': 'claim',
     'update_requested_pay': 'Update Requested Pay',
-    'your_current_pay': 'Your current pay amount is set to {currentpay}',
+    'your_current_pay': 'Your current pay amount is set to {currentpay}. The max amount allowed is {max}.',
     'pay_invalid': 'Your current requested pay is invalid, you MUST update it before proceeding'
   },
 
@@ -515,6 +515,7 @@ export default {
     'general_max_votes': 'Max Votes',
     'general_lockup': 'Custodian Lockup',
     'general_max_req_pay': 'Maximum Requested Pay',
+    'general_max_req_pay_desc': 'Custodians can request payments every period. You can set a maximum payment amount and currency. By setting the currencty, all payments, including the ones for worker proposals) will be forced to be in this currency.',
     'general_lockup_release': 'Lockup Release Delay',
     'general_period_length': 'Period Length',
     'general_auth_high': 'High Threshold',

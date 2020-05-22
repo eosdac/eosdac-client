@@ -1,6 +1,7 @@
 <template>
   <q-page class="q-pa-md">
-    <div class="text-h4">Manage DAC</div>
+    <h4>Manage DAC</h4>
+
     <q-tabs align="justify">
       <q-route-tab
         default
