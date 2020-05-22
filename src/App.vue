@@ -33,6 +33,12 @@ import { Ledger } from 'ual-ledger'
 import { Lynx } from 'ual-lynx'
 import { Wax } from 'ual-wax'
 import { TokenPocket } from 'ual-token-pocket'
+// import { SimplEOS } from '@eosdacio/ual-simpleos'
+import { Anchor } from 'ual-anchor'
+
+import Vue from 'vue'
+import * as Sentry from '@sentry/browser'
+import * as Integrations from '@sentry/integrations'
 
 export default {
   name: 'App',
@@ -80,7 +86,9 @@ export default {
       new Scatter(chains, { appName }),
       new Ledger(chains),
       new Lynx(chains, { appName: appName }),
-      new TokenPocket(chains)/* ,
+      new TokenPocket(chains),
+      // new SimplEOS(chains),
+      new Anchor(chains, { appName: appName })/* ,
       new Wax(chains, { appName: appName }),
         new EOSIOAuth(chains, { appName, protocol: 'eosio' }) */
     ]
@@ -229,6 +237,11 @@ export default {
   },
 
   async created () {
+    Sentry.init({
+      dsn: 'https://f4601392c9e449a29558cbbbfe16f39f@sentry.io/4817038',
+      integrations: [ new Integrations.Vue({ Vue, attachProps: true, logErrors: true }) ]
+    })
+
     this.$store.dispatch('ui/loadTheme', { theme, q: this.$q })
 
     let test = await this.$store.dispatch('global/testEndpoint', false)
