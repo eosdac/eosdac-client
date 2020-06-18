@@ -253,7 +253,7 @@ export default {
         },
         authorization: [
           {
-            actor: this.$dir.symbol.contract,
+            actor: this.$dir.getAccount(this.$dir.ACCOUNT_AUTH),
             permission: 'active'
           }
         ]
