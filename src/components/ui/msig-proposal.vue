@@ -163,7 +163,7 @@
                         :label="$t('proposal.unapprove')"
                         @click="unapproveProposal(msig.proposer, msig.proposal_name)"
                 />
-                <q-btn
+                <!--<q-btn
                         v-if="!isDenied"
                         color="negative"
                         :label="$t('proposal.deny')"
@@ -174,7 +174,7 @@
                         color="negative"
                         :label="$t('proposal.undeny')"
                         @click="undenyProposal(msig.proposer, msig.proposal_name)"
-                />
+                />-->
                 <q-btn
                         v-if="isCreator"
                         color="negative"
