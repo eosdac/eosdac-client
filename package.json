@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@chenfengyuan/vue-countdown": "^1.1.4",
+    "@eosdacio/ual-wax": "^1.2.0",
     "@formatjs/intl-relativetimeformat": "^4.5.1",
     "@formatjs/intl-utils": "^1.6.0",
     "@jafri/eosjs2": "^20.0.1-e34c16e.179",
@@ -41,7 +42,6 @@
     "ual-lynx": "^0.2.2",
     "ual-scatter": "^0.1.6",
     "ual-token-pocket": "^0.1.2",
-    "@eosdacio/ual-wax": "^1.2.0",
     "universal-authenticator-library": "^0.3.0",
     "v-markdown-editor": "^1.2.5",
     "vue-chartjs": "^3.5.0",
