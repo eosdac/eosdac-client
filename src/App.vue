@@ -23,24 +23,24 @@
 </template>
 
 <script>
-import { Notify } from 'quasar'
-import { mapGetters } from 'vuex'
-import theme from './extensions/branding/theme'
-import ual from 'components/ual/ual'
-import dacEvents from 'components/dacevents/dac-events'
-import { Scatter } from 'ual-scatter'
-import { Ledger } from 'ual-ledger'
-import { Lynx } from 'ual-lynx'
-import { Wax } from 'ual-wax'
-import { TokenPocket } from 'ual-token-pocket'
-// import { SimplEOS } from '@eosdacio/ual-simpleos'
-import { Anchor } from 'ual-anchor'
+  import { Notify } from 'quasar'
+  import { mapGetters } from 'vuex'
+  import theme from './extensions/branding/theme'
+  import ual from 'components/ual/ual'
+  import dacEvents from 'components/dacevents/dac-events'
+  import { Scatter } from 'ual-scatter'
+  import { Ledger } from 'ual-ledger'
+  import { Lynx } from 'ual-lynx'
+  import { Wax } from '@eosdacio/ual-wax'
+  import { TokenPocket } from 'ual-token-pocket'
+  // import { SimplEOS } from '@eosdacio/ual-simpleos'
+  import { Anchor } from 'ual-anchor'
 
-import Vue from 'vue'
-import * as Sentry from '@sentry/browser'
-import * as Integrations from '@sentry/integrations'
+  import Vue from 'vue'
+  import * as Sentry from '@sentry/browser'
+  import * as Integrations from '@sentry/integrations'
 
-export default {
+  export default {
   name: 'App',
   components: {
     ual,
