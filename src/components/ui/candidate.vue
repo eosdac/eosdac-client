@@ -52,7 +52,7 @@
               <br />
               <span>
                 <span>{{ $t("candidate.votes") }}:</span>
-                {{ $helper.toLocaleNumber(data.total_votes / 10000) }}
+                {{ $helper.toLocaleNumber(data.total_votes / Math.pow(10, this.dacSymbolPrecision()), this.dacSymbolPrecision()) }}
               </span>
               <span>
                 <span class="q-pl-md">{{ $t("candidate.staked") }}:</span>
@@ -161,8 +161,14 @@ export default {
         return false
       }
     }
+
   },
-  methods: {},
+  methods: {
+    dacSymbolPrecision () {
+      const [precision] = this.$dir.symbol.symbol.split(',')
+      return parseInt(precision)
+    }
+  },
   watch: {
     'data.total_votes': function (newVal, oldVal) {
       this.vote_delta = parseInt(newVal) - parseInt(oldVal)
