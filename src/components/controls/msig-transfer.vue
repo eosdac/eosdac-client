@@ -122,11 +122,6 @@ export default {
           symbol: this.$configFile.get('systemtokensymbol'),
           precision: 4,
           contract: this.$configFile.get('systemtokencontract')
-        },
-        {
-          symbol: this.$dir.symbolCode,
-          precision: this.$dir.symbolPrecision,
-          contract: this.$dir.symbol.contract
         }
       ]
     }
@@ -209,6 +204,10 @@ export default {
 
       if (!tokens.length) {
         tokens = JSON.parse(JSON.stringify(this.default_assets))
+      }
+
+      if (tokens.length === 1 && tokens[0].symbol !== 'EOS') {
+        tokens.push(this.default_assets[0])
       }
 
       this.tokens = tokens
