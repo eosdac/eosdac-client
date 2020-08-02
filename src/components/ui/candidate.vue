@@ -54,10 +54,10 @@
                 <span>{{ $t("candidate.votes") }}:</span>
                 {{ $helper.toLocaleNumber(data.total_votes / Math.pow(10, this.dacSymbolPrecision()), this.dacSymbolPrecision()) }}
               </span>
-              <span>
+              <!--<span>
                 <span class="q-pl-md">{{ $t("candidate.staked") }}:</span>
                 {{ $helper.assetToLocaleNumber(data.locked_tokens) }}
-              </span>
+              </span>-->
             </div>
           </q-item-section>
         </template>
