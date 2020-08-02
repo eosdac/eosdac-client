@@ -83,9 +83,10 @@
               </div>
             </div>
             <div class="row q-mt-sm">
-              <div class="col-6">{{ $t("display_custodians.voting_progress") }}</div>
-              <div class="col-6">{{ (getActivationStats.votePercentage * 100).toFixed(2) }}% of
+              <div class="col-6" v-if="getVotingProgress < 100">{{ $t("display_custodians.voting_progress") }}</div>
+              <div class="col-6" v-if="getVotingProgress < 100">{{ (getActivationStats.votePercentage * 100).toFixed(2) }}% of
                 {{ getActivationStats.voteQuorum }}%</div>
+              <div class="col-6" v-if="getVotingProgress >= 100">{{ $t("display_custodians.voting_threshold_met") }}</div>
               </div>
           </div>
           <div class="col-md-6">

@@ -344,6 +344,7 @@ export default {
     'run_now': 'Run Now',
     'activation_progress': 'DAC Activation Progress',
     'voting_progress': 'Voting Progress',
+    'voting_threshold_met': 'Voting Threshold Met',
     'candidates_votes': 'Number of Candidates with Votes'
   },
   'votingprogress': {
