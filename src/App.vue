@@ -33,6 +33,7 @@ import { Ledger } from 'ual-ledger'
 import { Lynx } from 'ual-lynx'
 import { Wax } from '@eosdacio/ual-wax'
 import { TokenPocket } from 'ual-token-pocket'
+import { KeycatAuthenticator } from '@smontero/ual-keycat'
 // import { SimplEOS } from '@eosdacio/ual-simpleos'
 import { Anchor } from 'ual-anchor'
 
@@ -88,7 +89,8 @@ export default {
       new Lynx(chains, { appName: appName }),
       new TokenPocket(chains),
       // new SimplEOS(chains),
-      new Anchor(chains, { appName: appName })/* ,
+      new Anchor(chains, { appName: appName }),
+      new KeycatAuthenticator(chains, { appName: appName })/* ,
       new Wax(chains, { appName: appName }),
         new EOSIOAuth(chains, { appName, protocol: 'eosio' }) */
     ]
