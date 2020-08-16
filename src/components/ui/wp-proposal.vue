@@ -26,7 +26,7 @@
           </q-item-label>
         </q-item-section>
 
-        <q-item-section>{{ wp.pay_amount.quantity }}</q-item-section>
+        <q-item-section>{{ wp.proposal_pay.quantity }}</q-item-section>
         <q-item-section>
           <q-item-label>
             <q-badge v-if="wp.status == wpEnums.PENDING_APPROVAL" color="warning" class="q-pa-xs">
@@ -157,7 +157,7 @@
               <q-item>
                 <q-item-section>
                   <q-item-label>{{$t('workerproposal.requested_pay')}}</q-item-label>
-                  <q-item-label caption>{{ wp.pay_amount.quantity }}</q-item-label>
+                  <q-item-label caption>{{ wp.proposal_pay.quantity }}</q-item-label>
                 </q-item-section>
               </q-item>
             </q-card-section>
@@ -167,6 +167,15 @@
                 <q-item-section>
                   <q-item-label label>{{$t('workerproposal.validator')}}</q-item-label>
                   <q-item-label caption>{{ wp.arbitrator }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-card-section>
+
+            <q-card-section>
+              <q-item>
+                <q-item-section>
+                  <q-item-label>{{$t('workerproposal.validator_pay')}}</q-item-label>
+                  <q-item-label caption>{{ wp.arbitrator_pay.quantity }}</q-item-label>
                 </q-item-section>
               </q-item>
             </q-card-section>

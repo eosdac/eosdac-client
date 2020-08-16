@@ -416,6 +416,7 @@ export default {
     'proposer': 'Proposer',
     'requested_pay': 'Requested Pay',
     'validator': 'Validator',
+    'validator_pay': 'Validator Payment',
     'submitted': 'Submitted',
     'status': 'Status',
     'time_left': 'Time Left',
