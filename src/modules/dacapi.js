@@ -74,6 +74,7 @@ export class DacApi {
         code: this.dir.symbol.contract,
         scope: this.dir.dacId,
         lower_bound: accountname,
+        key_type: 'name',
         table: 'members',
         limit: 1
       })
@@ -190,6 +191,7 @@ export class DacApi {
         code: this.dir.getAccount(this.dir.ACCOUNT_CUSTODIAN),
         scope: this.dir.dacId,
         lower_bound: accountname,
+        key_type: 'name',
         table: 'votes',
         limit: 1
       })
