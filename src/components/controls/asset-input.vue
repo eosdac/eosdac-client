@@ -1,36 +1,8 @@
-<template>
-  <div class="row no-wrap q-gutter-sm">
-    <q-input
-      class="col"
-      :label="label"
-      type="number"
-      input-class = "text-right"
-      v-model="internalValue.quantity"
-      ref="quantity_input"
-      @input="updateValueQuantity"
-      :suffix="(allowed.length > 1) ? '': internalValue.symbol"
-      :max="max"
-      min=0
-    />
-    <q-select
-      v-if="allowed.length > 1"
-      label = ""
-      v-model="internalValue.symbol"
-      color="primary"
-      ref="symbol_input"
-      :options="allowed.map(c => { return { label: c.symbol, value: c } })"
-      @input="updateValueAsset"
-    />
-  </div>
-</template>
-
 <script>
 /**
  * Asset input shows an amount+token fields
  *
  * @todo Should this be in the components/ui as it's very simiar to components/ui/seconds-input.vue?
- * @todo By default it shows EOS, even if it's not an allowed option.
- * @todo Allow a max value.
  */
 export default {
   name: 'asset-input',
@@ -50,65 +22,73 @@ export default {
       default: false
     }
   },
+
   data () {
     return {
-      selected_symbol: '',
-      parsed: {}
+      precision: 0,
+      selectedValue: 0, // use computed
+      selectedSymbol: ''
     }
   },
+
   computed: {
-    internalValue () {
-      let extAsset = this.value
-      if (!extAsset) {
-        extAsset = { quantity: '0.0000 EOS', contract: 'eosio.token' }
+    amount: {
+      get: function () {
+        let newValue = parseFloat(this.selectedValue)
+        newValue = newValue.toFixed(this.precision)
+        return newValue
+      },
+      set: function (newValue) {
+        newValue = parseFloat(newValue)
+        newValue = newValue.toFixed(this.precision)
+        this.selectedValue = newValue
       }
-      return this.parse(extAsset)
     }
   },
+
+  mounted () {
+    let parsed          = this.value.quantity.split(' ')
+    this.selectedSymbol = parsed[1]
+    Array.from(this.allowed).forEach(currency => {
+      if (currency.symbol === this.selectedSymbol) {
+        this.precision = currency.precision
+      }
+    })
+    this.amount = parsed[0]
+  },
+
   methods: {
-    updateValueQuantity (val) {
-      let symbolOpt = this.$refs.symbol_input.value
-      let symbol
-      if (typeof symbolOpt === 'string') {
-        symbolOpt = this.$refs.symbol_input.options.filter(o => o.label === this.$refs.symbol_input.value)[0]
-      }
-      symbol = symbolOpt.value
-
-      let quantity = parseFloat(val)
-
-      this.updateValue(quantity, symbol)
-    },
-    updateValueAsset (val) {
-      const symbol = val.value
-      let quantity = parseFloat(this.$refs.quantity_input.value)
-
-      this.updateValue(quantity, symbol)
-    },
-    updateValue (quantity, symbol) {
-      if (!symbol) {
-        return
-      }
-      if (isNaN(quantity)) {
-        quantity = 0
-      }
-      quantity = `${quantity.toFixed(symbol.precision)} ${symbol.symbol}`
-
-      const value = { quantity, contract: symbol.contract }
-      this.$emit('input', value)
-    },
-    parse (val) {
-      if (val) {
-        val = JSON.parse(JSON.stringify(val))
-        // console.log('parse', val)
-        const contract = val.contract
-        const [quantity, symbol] = val.quantity.split(' ')
-        const [, decimals] = quantity.split('.')
-        const precision = decimals ? decimals.length : 0
-        // console.log({ contract, quantity, symbol, precision })
-        return JSON.parse(JSON.stringify({ contract, quantity, symbol, precision }))
-      }
-      return null
+    onChange () {
+      this.$forceUpdate()
+      let value = this.amount + ' ' + this.selectedSymbol
+      let selectedContract = null
+      Array.from(this.allowed).forEach(currency => {
+        if (currency.symbol === this.selectedSymbol) {
+          selectedContract = currency.contract
+        }
+      })
+      this.$emit('input', { quantity: value, contract: selectedContract })
     }
   }
 }
 </script>
+<template>
+  <div class="row no-wrap q-gutter-sm">
+    <q-input
+      :label="label"
+      type="number" v-model.number="amount"
+      class="col" input-class = "text-right"
+      :suffix="(allowed.length > 1) ? '': selectedSymbol"
+      :max="max" min=0
+      @change="onChange" @blur="onChange"
+      :step="1/Math.pow(10,precision)"
+    />
+    <q-select
+      v-if="allowed.length > 1"
+      v-model="selectedSymbol"
+      color="primary"
+      label=""
+      :options="allowed.map(c => { return { label: c.symbol, value: c } })"
+    />
+  </div>
+</template>
