@@ -34,7 +34,7 @@
     "json-pretty-html": "^1.1.6",
     "marked": "^0.8.0",
     "quasar": "^1.0.0",
-    "sanitize-html": "^1.20.1",
+    "sanitize-html": "^2.3.2",
     "simplemde": "^1.11.2",
     "text-encoding": "^0.7.0",
     "turndown": "^5.0.3",
