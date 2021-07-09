@@ -12,18 +12,17 @@
                 {{$t('mypayments.pending_payments')}} ({{ pendingpay.length }})
               </q-item-section>
             </q-item>
-
           </q-card-section>
+          <q-separator />
 
-          <q-card-section v-if="pendingpay.length">
-            <div class="q-pa-md">
-              <span class="text-bold">{{$t('mypayments.total')}} {{ totalPayAmount }}</span>
-            </div>
-          </q-card-section>
-          <q-card-section v-else>
-            <div class="q-pa-md">
+          <q-card-section>
+            <p>{{$t('mypayments.description')}}</p>
+            <p v-if="pendingpay.length" class="text-bold">
+              {{$t('mypayments.total')}} {{ totalPayAmount }}
+            </p>
+            <p v-else>
               {{$t('mypayments.no_payments')}}
-            </div>
+            </p>
           </q-card-section>
 
           <q-card-actions align="right" v-if="pendingpay.length">
@@ -46,26 +45,27 @@
             </q-item>
 
           </q-card-section>
+          <q-separator />
 
           <q-card-section>
-            <div class="q-pa-md">
-              <p>
-                {{$t('mypayments.your_current_pay', {
-                  currentpay: getIsCandidate.requestedpay,
-                  max: maxPaymentLabel
-                })}}
-              </p>
-              <div class="text-negative" v-if="requestedPayInvalid"><strong>{{$t('mypayments.pay_invalid')}}</strong></div>
-              <q-item class="q-pl-none">
-                <q-item-section avatar>
-                  <q-icon name="icon-type-2"/>
-                </q-item-section>
-
-                <q-item-section>
-                  <asset-input :allowed="allowed" v-model="newRequestedPay" :max="maxPaymentAmount" />
-                </q-item-section>
-              </q-item>
+            <p>
+              {{$t('mypayments.your_current_pay', {
+                currentpay: getIsCandidate.requestedpay,
+                max: maxPaymentLabel
+              })}}
+            </p>
+            <div class="text-negative" v-if="requestedPayInvalid">
+              <strong>{{$t('mypayments.pay_invalid')}}</strong>
             </div>
+            <q-item class="q-pl-none">
+              <q-item-section avatar>
+                <q-icon name="icon-type-2"/>
+              </q-item-section>
+
+              <q-item-section>
+                <asset-input :allowed="allowed" v-model="newRequestedPay" :max="maxPaymentAmount" />
+              </q-item-section>
+            </q-item>
           </q-card-section>
 
           <q-card-actions align="right">

@@ -485,9 +485,10 @@ export default {
   },
 
   'mypayments': {
+    description: 'Emoluments of each Custodian during a term shall be the mean of the Candidate Emoluments Declaration of Custodians appointed for such term divided by the total of custodians, and shall be paid to each Custodian automatically and at the expiration of each term held by such Custodian or as otherwise provided by Nomination Directive.',
     'pending_payments': 'Pending Payments',
     'total': 'Total',
-    'no_payments': 'No payments due',
+    'no_payments': 'No payments due.',
     'claim': 'claim',
     'update_requested_pay': 'Update Requested Pay',
     'your_current_pay': 'Your current pay amount is set to {currentpay}. The max amount allowed is {max}.',
