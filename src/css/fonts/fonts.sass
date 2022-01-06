@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;400;500;600;700;900&display=swap');
+
+.fade-wait-leave 
+    opacity: 1
+
+.fade-wait-leave.fade-wait-leave-active 
+    opacity: 0
+    transition: opacity 400ms ease-in
+
+.fade-wait-enter
+    opacity: 0
+
+.fade-wait-enter.fade-wait-enter-active 
+    opacity: 1
+    /* Delay the enter animation until the leave completes */
+    transition: opacity 400ms ease-in 600ms
+
+
+.fade-wait-height 
+    transition: height 600ms ease-in-out

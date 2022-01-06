@@ -1,10 +1,31 @@
 // app global css in Sass form
-
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;400;500;600;700;900&display=swap');
 @import components/_MarkdownBody
 
 a
   text-decoration: none
   color: $secondary
+  font-family: Orbitron
+  fill: $secondary
+  border-width: 1.8px
+  letter-spacing: 0.1em
+
+div
+  color: #ffffff
+  font-family: Orbitron
+  fill: #afafaf
+  border-width: 1.8px
+  border-color: #c8c8c8
+  letter-spacing: 0.1em
+
+p
+  color: #afafaf
+  font-family: Orbitron
+  fill: #afafaf
+  border-width: 1.8px
+  border-color: #c8c8c8
+  letter-spacing: 0.1em
 
 // number inputs right aligned
 input[type="number"]
@@ -42,10 +63,39 @@ input[type="number"]
   background-position: bottom -130px right -125px
   min-height: 125px
 
+.q-page-container
+  background-image: url('../assets/alienworlds-bg.jpg')
+
+.q-drawer
+  background-color: #141414 !important
+  margin: 1rem
+
+.layout-header
+  background-color: #0f0f0f
+
 .q-drawer-container
   .q-router-link--active
     color: inherit !important
-    background-color: var(--q-color-primary)
+    background-color: #ffffff
 
 .gradient-bg
   background: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(255,255,255,0.1) 50%)
+
+.fade-wait-leave 
+    opacity: 1
+
+.fade-wait-leave.fade-wait-leave-active 
+    opacity: 0
+    transition: opacity 400ms ease-in
+
+.fade-wait-enter
+    opacity: 0
+
+.fade-wait-enter.fade-wait-enter-active 
+    opacity: 1
+    /* Delay the enter animation until the leave completes */
+    transition: opacity 400ms ease-in 600ms
+
+
+.fade-wait-height 
+    transition: height 600ms ease-in-out

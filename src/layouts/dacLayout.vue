@@ -136,7 +136,7 @@ export default {
 
 <style lang="stylus">
 .layout-header
-    border-bottom: 4px solid var(--q-color-secondary);
+    border-bottom: 0px solid var(--q-color-secondary);
 </style>
 
 <!--
