@@ -42,7 +42,7 @@
                 />
             </div>
             <div
-              class="q-pa-md q-mb-md rounded-borders shadow-4"
+              class="q-box q-pa-md q-mb-md rounded-borders shadow-4"
               v-if="!custodians.length"
             >
               {{ $t("vote_custodians.no_candidates") }}
