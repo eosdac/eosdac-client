@@ -2,7 +2,7 @@
   <div v-if="tokenStats">
     <div class="row q-col-gutter-sm">
       <div class="col-xs-12 col-md-4">
-        <div class="bg-secondary rounded-borders shadow-4 q-pa-md full-height">
+        <div class=" rounded-borders shadow-4 q-pa-md full-height">
           <div v-if="marketData">
             <q-item>
               <q-item-section class="text-h5">
@@ -31,13 +31,13 @@
         </div>
       </div>
       <div class="col-xs-12 col-md-4">
-        <div class="bg-secondary rounded-borders shadow-4 q-pa-md full-height">
+        <div class=" rounded-borders shadow-4 q-pa-md full-height">
           <pre>{{ $dir.symbol.contract }}</pre>
           <pre>{{ $dir.symbolCode }}</pre>
         </div>
       </div>
       <div class="col-xs-12 col-md-4">
-        <div class="bg-secondary rounded-borders shadow-4 q-pa-md full-height bg-logo">
+        <div class=" rounded-borders shadow-4 q-pa-md full-height bg-logo">
             <q-item>
               <q-item-section>
                 <q-item-label>Supply</q-item-label>

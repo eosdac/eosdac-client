@@ -2,7 +2,7 @@
   <div>
     <q-dialog v-model="getShouldRenderLoginModal" persistent transition-show="flip-down" transition-hide="flip-up">
       <q-card class="text-white" style="width:350px">
-        <q-bar class="bg-secondary">
+        <q-bar class="">
           <div>{{ bar_msg }}</div>
           <q-space />
           <q-btn
@@ -11,7 +11,7 @@
             icon="close"
             @click="closeModal"
           >
-            <q-tooltip content-class="bg-secondary text-white">{{$t('ual.close')}}</q-tooltip>
+            <q-tooltip content-class=" text-white">{{$t('ual.close')}}</q-tooltip>
           </q-btn>
         </q-bar>
         <q-card-section>

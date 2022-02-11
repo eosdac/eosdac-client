@@ -141,7 +141,7 @@
               </q-item>
             </q-card-section>
 
-            <q-card-section class="bg-secondary">
+            <q-card-section class="">
               <Actionparser
                       @seenAllActions="disable_approve = false"
                       :actions="msig.trx.actions"
